@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-import { createPost } from "../redux/actions";
+import { createPost } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 
 export default function CreatePost() {
