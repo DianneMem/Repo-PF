@@ -1,4 +1,8 @@
 import axios from "axios";
+export const GET_ALL_BOOKS="GET_ALL_BOOKS"
+export const GET_ALL_USERS="GET_ALL_USERS"
+export const GET_BOOKS_BY_NAME="GET_BOOKS_BY_NAME"
+export const GET_BOOK_DETAILS="GET_BOOK_DETAILS"
 
 const url = 'http://localhost:3001'
 
@@ -8,9 +12,8 @@ export function  getAllBooks(){
             const res = await axios.get(`${url}/products`, {
 
             })
-           
             return dispatch({
-                type: 'GET_ALL_BOOKS',
+                type: GET_ALL_BOOKS,
                 payload: res.data
             })
         }catch(error){
@@ -19,12 +22,13 @@ export function  getAllBooks(){
     }
 }
 
+
 export function getAllUsers(){
     return async function(dispatch){
         try{
             const user= await axios.get(`${url}/users`)
             return dispatch({
-                type: 'GET_ALL_USERS',
+                type: GET_ALL_USERS,
                 payload: user.data
             })
         } catch(error){
@@ -38,7 +42,7 @@ export function getBooksByName(name){
         try{
             const searchName= await axios.get(`${url}/products?name=${name}`)
             return dispatch({
-                type: 'GET_BOOKS_BY_NAME',
+                type: GET_BOOKS_BY_NAME,
                 payload: searchName.data
             })
         }
@@ -54,7 +58,7 @@ export function getBooksDetails(id){
         try{
             let detailsBook = await axios.get (`${url}/products/${id}`)
             return dispatch({
-                type: 'GET_BOOK_DETAILS',
+                type: GET_BOOK_DETAILS,
                 payload: detailsBook.data
 
             })
