@@ -24,9 +24,9 @@ console.log(allbooks)
 return(
 <>
 <h1>HOME</h1>
-<div>
+<div className={s.cards}>
 {allbooks.map(b=>{return(
-  <Card key={b._id} id={b._id} title={b.title} image={b.image} typebook={b.typebook}/>
+  <Card key={b._id} id={b._id} title={b.title} image={b.image} typebook={b.typebook} price={b.price}/>
 )})}
 </div>
 </>
