@@ -3,6 +3,8 @@ export const GET_ALL_BOOKS="GET_ALL_BOOKS"
 export const GET_ALL_USERS="GET_ALL_USERS"
 export const GET_BOOKS_BY_NAME="GET_BOOKS_BY_NAME"
 export const GET_BOOK_DETAILS="GET_BOOK_DETAILS"
+export const GET_CATEGORIES="GET_CATEGORIES"
+export const GET_LANGUAGES="GET_LANGUAGES"
 
 const url = 'http://localhost:3001'
 
@@ -37,10 +39,38 @@ export function getAllUsers(){
 }
 }
 
-export function getBooksByName(name){
+export function getCategories(){
     return async function(dispatch){
         try{
-            const searchName= await axios.get(`${url}/products?name=${name}`)
+            const res= await axios.get(`${url}/categories`)
+            return dispatch({
+                type: GET_CATEGORIES,
+                payload: res.data
+            })
+        } catch(error){
+            console.log(error);
+    }
+}
+}
+
+export function getLanguages(){
+    return async function(dispatch){
+        try{
+            const res= await axios.get(`${url}/languages`)
+            return dispatch({
+                type: GET_LANGUAGES,
+                payload: res.data
+            })
+        } catch(error){
+            console.log(error);
+    }
+}
+}
+
+export function getBooksByName(title){
+    return async function(dispatch){
+        try{
+            const searchName= await axios.get(`${url}/products?title=${title}`)
             return dispatch({
                 type: GET_BOOKS_BY_NAME,
                 payload: searchName.data

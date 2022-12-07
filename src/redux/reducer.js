@@ -1,11 +1,15 @@
-import { GET_ALL_BOOKS, GET_ALL_USERS, GET_BOOKS_BY_NAME, GET_BOOK_DETAILS } from "./actions";
+import { Action } from "@remix-run/router";
+import { GET_ALL_BOOKS, GET_ALL_USERS, GET_BOOKS_BY_NAME, GET_BOOK_DETAILS, GET_CATEGORIES, GET_LANGUAGES } from "./actions";
 
 
 const initialState = {
   users: [],
   allbooks: [],
   books: [],
-  detailsBook:{}
+  detailsBook:{},
+  categories:[],
+  languages:[]
+
 };
 
 const rootReducer = (state = initialState, {
@@ -18,7 +22,16 @@ const rootReducer = (state = initialState, {
       books: payload,
       allbooks: payload
     }
-
+    case GET_CATEGORIES:
+      return{
+        ...state,
+        categories:payload
+      }
+      case GET_LANGUAGES:
+        return{
+          ...state,
+          languages:payload
+        }
     case GET_ALL_USERS:
     return {
       ...state,

@@ -1,28 +1,33 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-import { createPost } from "../../redux/actions";
-import { useDispatch } from "react-redux";
+import { createPost, getCategories, getLanguages } from "../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function CreatePost() {
   const dispatch = useDispatch();
-
+  const categorie = useSelector((state) => state.categories);
+  const language = useSelector((state) => state.languages);
   const [err, setErr] = useState({});
   const [input, setInput] = useState({
     title: "",
     author: "",
-    categorie: [],
+    categorie: "",
     editorial: "",
     saga: "",
-    language: [],
+    language:"",
     image: "",
     price: 0,
     year: 0,
     state: "",
     typebook: "",
   });
+  console.log(input);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getLanguages());
+  }, []);
 
   function handlerChange(e) {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -38,7 +43,7 @@ export default function CreatePost() {
     e.preventDefault();
     setInput({
       ...input,
-      categorie: [...input.categorie, e.target.value],
+      categorie: e.target.value,
     });
     console.log(input.categorie);
   }
@@ -47,7 +52,7 @@ export default function CreatePost() {
     e.preventDefault();
     setInput({
       ...input,
-      language: [...input.language, e.target.value],
+      language: e.target.value,
     });
     console.log(input.language);
   }
@@ -55,7 +60,7 @@ export default function CreatePost() {
     e.preventDefault();
     setInput({
       ...input,
-      typebook: [...input.typebook, e.target.value],
+      typebook: e.target.value,
     });
     console.log(input.typebook);
   }
@@ -64,7 +69,7 @@ export default function CreatePost() {
     e.preventDefault();
     setInput({
       ...input,
-      state: [...input.state, e.target.value],
+      state:  e.target.value
     });
     console.log(input.state);
   }
@@ -77,10 +82,10 @@ export default function CreatePost() {
     setInput({
       title: "",
       author: "",
-      categorie: [],
+      categorie: "",
       editorial: "",
       saga: "",
-      language: [],
+      language:"",
       image: "",
       price: 0,
       year: 0,
@@ -118,6 +123,13 @@ export default function CreatePost() {
     setInput({
       ...input,
       categorie: input.categorie.filter((e) => e !== el),
+    });
+  }
+
+  function handleDeleteState(el) {
+    setInput({
+      ...input,
+      state: input.state.filter((e) => e !== el),
     });
   }
 
@@ -207,17 +219,28 @@ export default function CreatePost() {
 
               <div>
                 <label>Type Book </label>
-                <select   defaultValue="type" onChange={(e) => handlerSelectTypeBook(e)}>
-                <option disabled value="type">Type Book</option>
+                <select
+                  defaultValue="type"
+                  onChange={(e) => handlerSelectTypeBook(e)}
+                >
+                  <option disabled value="type">
+                    Type Book
+                  </option>
+
                   <option value="physical">Physical</option>
-                  <option value="virtual">Virtual</option>
+                  <option value="virtual"> Virtual</option>
                 </select>
               </div>
 
               <div>
                 <label>State </label>
-                <select  defaultValue="state" onChange={(e) => handlerSelectState(e)}>
-                <option disabled value="state">State</option>
+                <select
+                  defaultValue="state"
+                  onChange={(e) => handlerSelectState(e)}
+                >
+                  <option disabled value="state">
+                    State
+                  </option>
                   <option value="new">New</option>
                   <option value="used">Used</option>
                 </select>
@@ -225,16 +248,25 @@ export default function CreatePost() {
 
               <div>
                 <label>Languages </label>
-                <select  defaultValue="language" onChange={(e) => handlerSelectLanguage(e)}>
-                <option disabled value="language">Language</option>
-                  <option value="spanish">Spanish</option>
-                  <option value="english">English</option>
-                  <option value="portuguese">Portuguese</option>
-                  <option value="german">German</option>
-                  <option value="polish">Polish</option>
-                  <option value="french">French</option>
-                  <option value="italian">Italian</option>
-                  <option value="manual">Manual</option>
+                <select
+                  defaultValue="languages"
+                  onChange={(e) => handlerSelectLanguage(e)}
+                >
+                  <option disabled value="languages">
+                    Languages
+                  </option>
+                  {language.map((e) => (
+                    <option
+                      disabled={
+                        input.language.includes(e.name) === false
+                          ? false
+                          : true
+                      }
+                      value={e.name}
+                    >
+                      {e.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -268,107 +300,27 @@ export default function CreatePost() {
               </div>
               <div>
                 <label>Categories </label>
-                <select defaultValue="choose" onChange={(e) => handlerSelectCategorie(e)}>
-                  <option disabled value="choose">Choose categories </option>
-                  <option
-                    disabled={
-                      input.categorie.includes("terror") === false
-                        ? false
-                        : true
-                    }
-                    value="terror"
-                  >
-                    Terror
+                <select
+                  defaultValue="choose"
+                  onChange={(e) => handlerSelectCategorie(e)}
+                >
+                  <option disabled value="choose">
+                    choose categories
                   </option>
-                  <option
-                    disabled={
-                      input.categorie.includes("novel") === false ? false : true
-                    }
-                    value="novel"
-                  >
-                    Novel
-                  </option>
-                  <option
-                    disabled={
-                      input.categorie.includes("bestseller") === false
-                        ? false
-                        : true
-                    }
-                    value="bestseller"
-                  >
-                    Best Seller
-                  </option>
-                  <option
-                    disabled={
-                      input.categorie.includes("biography") === false
-                        ? false
-                        : true
-                    }
-                    value="biography"
-                  >
-                    Biography
-                  </option>
-                  <option
-                    disabled={
-                      input.categorie.includes("comic") === false ? false : true
-                    }
-                    value="comic"
-                  >
-                    Comic
-                  </option>
-                  <option
-                    disabled={
-                      input.categorie.includes("manga") === false ? false : true
-                    }
-                    value="manga"
-                  >
-                    Manga
-                  </option>
-                  <option
-                    disabled={
-                      input.categorie.includes("police") === false
-                        ? false
-                        : true
-                    }
-                    value="police"
-                  >
-                    Police
-                  </option>
-                  <option
-                    disabled={
-                      input.categorie.includes("manual") === false
-                        ? false
-                        : true
-                    }
-                    value="manual"
-                  >
-                    Manual
-                  </option>
+                  {categorie.map((e) => (
+                    <option
+                      disabled={
+                        input.categorie.includes(e.name) === false
+                          ? false
+                          : true
+                      }
+                      value={e.name}
+                    >
+                      {e.name}
+                    </option>
+                  ))}
                 </select>
               </div>
-
-              {/* 
-
-              {/* <div className="divSelect">
-                <label className="label">Diets Types </label>
-                <section>
-                  <select
-                    className="selectClass"
-                    onChange={(e) => handlerSelect(e)}
-                  >
-                    {diets.map((e) => (
-                      <option
-                        disabled={
-                          input.diets.includes(e.name) === false ? false : true
-                        }
-                        value={e.name}
-                      >
-                        {e.name}
-                      </option>
-                    ))}
-                  </select>
-                </section>
-              </div> */}
 
               <section>
                 <button
@@ -378,8 +330,9 @@ export default function CreatePost() {
                     err.title ||
                     err.author ||
                     err.editorial ||
-                    err.saga||err.year
-                    ||err.price
+                    err.saga ||
+                    err.year ||
+                    err.price
                       ? true
                       : false
                   }
@@ -389,22 +342,6 @@ export default function CreatePost() {
               </section>
             </div>
           </form>
-          <div>
-            <br></br>
-            <h3>Choosen categories</h3>
-            {input.categorie.map((e) => (
-              <div>
-                <p>{e}</p>{" "}
-                <button
-                  className="deleteButton"
-                  type="button"
-                  onClick={() => handleDelete(e)}
-                >
-                  X
-                </button>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </div>
