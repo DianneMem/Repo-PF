@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+
 import defaultImage from '../../assets/bookDefault.png';
 import s from './card.module.css';
 
-export default function Card({id, title, image, typebook}){
+export default function Card({id, title, image, typebook, price}){
 
 return(
   id === 'NO LINK' ?
@@ -19,7 +20,7 @@ return(
       <img src={image? (image) : (defaultImage)} alt='Book' className={s.image}/>
       <h4>{title}</h4>
       <p>{typebook}</p>
-    
+      <p>{price}</p>
     </div>
   </Link>)
 )};

@@ -1,20 +1,28 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import defaultImage from '../../assets/bookDefault.png';
+import { useParams } from 'react-router-dom';
+
 import { getBooksDetails } from '../../redux/actions';
+import defaultImage from '../../assets/bookDefault.png';
+import s from './detail.module.css';
 
-export default function Detail(props){
+export default function Detail(){
 
-const detail = useSelector(state => state.detailsBook);
+let detail = useSelector(state => state.detailsBook);
+let {id} = useParams();
+
+console.log(id);
+
 const dispatch = useDispatch();
 useEffect(()=>{
-  dispatch(getBooksDetails(props.match.params.id));
-},[dispatch, props.match.params.id]);
+  dispatch(getBooksDetails(id));
+},[dispatch, id]);
 
 return(
 <div>
-  <img src={detail.image? (detail.image) : (defaultImage)} alt='Book'/>
+  <img src={detail.image? (detail.image) : (defaultImage)} alt='Book' className={s.image}/>
   <h4>{detail.title}</h4>
   <p>{detail.typebook}</p>
+  <p>{detail.price}</p>
 </div>
 )};
