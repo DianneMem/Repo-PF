@@ -8,6 +8,7 @@ export function  getAllBooks(){
             const res = await axios.get(`${url}/products`, {
 
             })
+           
             return dispatch({
                 type: 'GET_ALL_BOOKS',
                 payload: res.data
@@ -48,10 +49,10 @@ export function getBooksByName(name){
     }
 }
 
-export function getBooksDetails(idBook){
+export function getBooksDetails(id){
     return async function(dispatch){
         try{
-            let detailsBook = await axios.get (`${url}/products/${idBook}`)
+            let detailsBook = await axios.get (`${url}/products/${id}`)
             return dispatch({
                 type: 'GET_BOOK_DETAILS',
                 payload: detailsBook.data
