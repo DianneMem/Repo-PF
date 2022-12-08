@@ -11,8 +11,6 @@ export default function Detail(){
 let detail = useSelector(state => state.detailsBook);
 let {id} = useParams();
 
-console.log(id);
-
 const dispatch = useDispatch();
 useEffect(()=>{
   dispatch(getBooksDetails(id));
