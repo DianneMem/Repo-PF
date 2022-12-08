@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FiHeart } from "react-icons/fi";
-import { Link } from "react-router-dom";
-
 import { getAllBooks, setPage } from "../../redux/actions";
-import Card from "../card/card";
 
-import s from "./home.module.css";
+import Card from "../card/card";
 import Paginated from "../paginado/Paginated";
 import SearchBar from "../searchBar/SearchBar";
 import Loader from "../loader/Loader";
+import Header from "../header/Header";
+import s from "./home.module.css";
+
 
 export default function Home() {
+
   const dispatch = useDispatch();
   const allBooks = useSelector((state) => state.books);
   const [currentPage, setCurrentPage] = useState(1);
@@ -52,37 +53,32 @@ export default function Home() {
   }
 
   return (
-    <>
-      <SearchBar />
-      <h1>HOME</h1>
-      <Link to={`/createproduct`} className={s.det}>
-        Create
-      </Link>
+    <React.Fragment>
+      <Header/>
+      <SearchBar/>
+      <Paginated
+        booksPerPage={booksPerPage}
+        allBooks={allBooks.length}
+        paginate={paginate}
+      />
       <div className={s.cards}>
-        {currentBooks?.map((b) => {
-          return (
-            <div key={b._id} className={s.card}>
-              <button className={s.favorite}>
-                <FiHeart />
-              </button>
-              <Card
-                id={b._id}
-                title={b.title}
-                image={b.image}
-                typebook={b.typebook}
-                price={b.price}
-                author={b.author}
-                type={b.typebook}
-              />
-            </div>
-          );
-        })}
-        <Paginated
-          booksPerPage={booksPerPage}
-          allBooks={allBooks.length}
-          paginate={paginate}
-        />
+        {currentBooks?.map((b) => {return (
+          <div key={b._id} className={s.card}>
+          <button className={s.favorite}>
+            <FiHeart />
+          </button>
+          <Card
+            id={b._id}
+            title={b.title}
+            image={b.image}
+            typebook={b.typebook}
+            price={b.price}
+            author={b.author}
+            type={b.typebook}
+          />
+          </div>
+        )})}
       </div>
-    </>
+    </React.Fragment>
   );
 }

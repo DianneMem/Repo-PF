@@ -3,6 +3,67 @@ import s from './Sidebar.module.css'
 
 
 
+
+
+
+export default function SideBar() {
+	
+	
+	
+	
+	
+	
+	
+	return(
+	<React.Fragment>
+	</React.Fragment>
+)};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
 const [ books, setBooks ] = useState([]);
 const [ auth, setAuth] = useState();
 
@@ -112,3 +173,4 @@ export default function Sidebar() {
     </div>
   )
 }
+ */

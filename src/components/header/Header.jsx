@@ -5,13 +5,10 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <head className={s.Header}>
-        <h1>eBooks</h1>
-        <ul>
-            <Link to='/login'><li>Login</li></Link>
-            <Link to='/createproduct'></Link>
-        </ul>
-    
-    </head>
+    <header className={s.Header}>
+        <h1>eBooks Home</h1>
+        <Link to='/login'><p>Login</p></Link>
+        <Link to='/createproduct'><p>Create</p></Link>
+    </header>
   )
-}
+};

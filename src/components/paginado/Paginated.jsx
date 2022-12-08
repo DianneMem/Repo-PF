@@ -1,4 +1,5 @@
 import React from "react";
+import s from './paginated.module.css';
 
 export default function Paginated({ booksPerPage, allBooks, paginate }) {
   const pageNumbers = [];
@@ -8,15 +9,14 @@ export default function Paginated({ booksPerPage, allBooks, paginate }) {
   }
 
   return (
-    <nav>
-      {pageNumbers &&
-        pageNumbers.map((number) => (
-          <div  key={number}>
-            <h5  onClick={() => paginate(number)}>
-              {number}
-            </h5>
-          </div>
-        ))}
+    <nav className={s.nav}>
+      {pageNumbers && pageNumbers.map((number) => (
+        <div key={number}>
+          <button onClick={() => paginate(number)}>
+            {number}
+          </button>
+        </div>
+      ))}
     </nav>
   );
 }
