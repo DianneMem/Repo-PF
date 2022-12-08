@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
-import Home from "./Components/home/home";
-import Detail from "./Components/detail/detail";
+import Home from "./components/home/home";
+import Detail from "./components/detail/detail";
 import CreateProduct from './components/createProduct/CreateProduct';
 
 import './App.css';
@@ -20,3 +20,4 @@ export default function App() {
   </div>
   )
 };
+
