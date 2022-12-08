@@ -8,6 +8,7 @@ import {
   getGenders,
 } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+import Loader from "../loader/Loader";
 
 export default function CreatePost() {
   const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function CreatePost() {
   const language = useSelector((state) => state.languages);
   const gender = useSelector((state) => state.genders);
   const [err, setErr] = useState({});
+  const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
     title: "",
     author: "",
@@ -141,6 +143,16 @@ export default function CreatePost() {
       ...input,
       gender: input.gender.filter((e) => e !== el),
     });
+  }
+
+  const changeState = () => {
+    setTimeout(() => {
+      setLoading(true);
+    }, 5000);
+  };
+  if (!loading) {
+    changeState();
+    return <Loader />;
   }
 
   return (

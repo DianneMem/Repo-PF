@@ -9,6 +9,7 @@ import Card from "../card/card";
 import s from "./home.module.css";
 import Paginated from "../paginado/Paginated";
 import SearchBar from "../searchBar/SearchBar";
+import Loader from "../loader/Loader";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function Home() {
   const indexOfLastBooks = currentPage * booksPerPage;
   const IndexOfFirstBooks = indexOfLastBooks - booksPerPage;
   const currentBooks = allBooks.slice(IndexOfFirstBooks, indexOfLastBooks);
+  const [loading, setLoading] = useState(false);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -32,6 +34,22 @@ export default function Home() {
     setCurrentPage(1);
     dispatch(setPage(1));
   }, [dispatch]);
+
+  const changeState = () => {
+    setTimeout(() => {
+      setLoading(true);
+    }, 4000);
+  };
+  if (loading === false) {
+    changeState();
+    return <Loader />;
+  } else {
+    if (allBooks.length === 0) {
+      dispatch(getAllBooks());
+      setLoading(false);
+      alert("No recipes found");
+    }
+  }
 
   return (
     <>
