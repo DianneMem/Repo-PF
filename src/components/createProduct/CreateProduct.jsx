@@ -1,32 +1,40 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-import { createPost, getCategories, getLanguages } from "../../redux/actions";
+import {
+  createPost,
+  getCategories,
+  getLanguages,
+  getGenders,
+} from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function CreatePost() {
   const dispatch = useDispatch();
   const categorie = useSelector((state) => state.categories);
   const language = useSelector((state) => state.languages);
+  const gender = useSelector((state) => state.genders);
   const [err, setErr] = useState({});
   const [input, setInput] = useState({
     title: "",
     author: "",
-    categorie: "",
     editorial: "",
     saga: "",
-    language:"",
     image: "",
-    price: 0,
     year: 0,
-    state: "",
+    price: 0,
     typebook: "",
+    state: "",
+    language: "",
+    categorie: "",
+    gender: [],
   });
   console.log(input);
 
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getLanguages());
+    dispatch(getGenders());
   }, []);
 
   function handlerChange(e) {
@@ -45,7 +53,13 @@ export default function CreatePost() {
       ...input,
       categorie: e.target.value,
     });
-    console.log(input.categorie);
+  }
+  function handlerSelectGenders(e) {
+    e.preventDefault();
+    setInput({
+      ...input,
+      gender: [...input.gender, e.target.value],
+    });
   }
 
   function handlerSelectLanguage(e) {
@@ -54,7 +68,6 @@ export default function CreatePost() {
       ...input,
       language: e.target.value,
     });
-    console.log(input.language);
   }
   function handlerSelectTypeBook(e) {
     e.preventDefault();
@@ -62,21 +75,19 @@ export default function CreatePost() {
       ...input,
       typebook: e.target.value,
     });
-    console.log(input.typebook);
   }
 
   function handlerSelectState(e) {
     e.preventDefault();
     setInput({
       ...input,
-      state:  e.target.value
+      state: e.target.value,
     });
-    console.log(input.state);
   }
 
   function handlerSubmit(e) {
     e.preventDefault();
-    console.log(input);
+
     dispatch(createPost(input));
     alert("Post Created!");
     setInput({
@@ -85,12 +96,13 @@ export default function CreatePost() {
       categorie: "",
       editorial: "",
       saga: "",
-      language:"",
+      language: "",
       image: "",
       price: 0,
       year: 0,
       state: "",
       typebook: "",
+      gender: [],
     });
   }
   function validate(input) {
@@ -112,24 +124,22 @@ export default function CreatePost() {
       err.saga = "· Saga is required";
     } else if (RegEXP.test(input.saga)) {
       err.saga = "· Special characters are not accepted";
+    } else if (!input.image) {
+      err.image = "· Image is required";
+    } else if (!input.year) {
+      err.year = "· Year input is required";
+    } else if (input.year < 0) {
+      err.year = "· Year input Error";
     } else if (!input.price || input.price < 0) {
       err.price = "· Price input Error";
-    } else if (!input.year || input.year < 0) {
-      err.year = "· Year input Error";
     }
+    err.input = "· Input required";
     return err;
   }
   function handleDelete(el) {
     setInput({
       ...input,
-      categorie: input.categorie.filter((e) => e !== el),
-    });
-  }
-
-  function handleDeleteState(el) {
-    setInput({
-      ...input,
-      state: input.state.filter((e) => e !== el),
+      gender: input.gender.filter((e) => e !== el),
     });
   }
 
@@ -216,60 +226,6 @@ export default function CreatePost() {
                   {err.image && <h5>{err.image}</h5>}
                 </section>
               </div>
-
-              <div>
-                <label>Type Book </label>
-                <select
-                  defaultValue="type"
-                  onChange={(e) => handlerSelectTypeBook(e)}
-                >
-                  <option disabled value="type">
-                    Type Book
-                  </option>
-
-                  <option value="physical">Physical</option>
-                  <option value="virtual"> Virtual</option>
-                </select>
-              </div>
-
-              <div>
-                <label>State </label>
-                <select
-                  defaultValue="state"
-                  onChange={(e) => handlerSelectState(e)}
-                >
-                  <option disabled value="state">
-                    State
-                  </option>
-                  <option value="new">New</option>
-                  <option value="used">Used</option>
-                </select>
-              </div>
-
-              <div>
-                <label>Languages </label>
-                <select
-                  defaultValue="languages"
-                  onChange={(e) => handlerSelectLanguage(e)}
-                >
-                  <option disabled value="languages">
-                    Languages
-                  </option>
-                  {language.map((e) => (
-                    <option
-                      disabled={
-                        input.language.includes(e.name) === false
-                          ? false
-                          : true
-                      }
-                      value={e.name}
-                    >
-                      {e.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
               <div>
                 <label>Year </label>
                 <section>
@@ -298,6 +254,62 @@ export default function CreatePost() {
                   {err.price && <h5>{err.price}</h5>}
                 </section>
               </div>
+              <br />
+              <br />
+              <div>
+                <label>State </label>
+                <select
+                  defaultValue="state"
+                  onChange={(e) => handlerSelectState(e)}
+                >
+                  <option disabled value="state">
+                    State
+                  </option>
+                  <option value="new">New</option>
+                  <option value="used">Used</option>
+                </select>
+                {!input.state && <h5>{err.input}</h5>}
+              </div>
+              <div>
+                <label>Type Book </label>
+                <select
+                  name="typebook"
+                  defaultValue="type"
+                  onChange={(e) => handlerSelectTypeBook(e)}
+                >
+                  <option disabled value="type">
+                    Type Book
+                  </option>
+
+                  <option value="physical">Physical</option>
+                  <option value="virtual"> Virtual</option>
+                </select>
+                {!input.typebook && <h5>{err.input}</h5>}
+              </div>
+
+              <div>
+                <label>Languages </label>
+                <select
+                  defaultValue="languages"
+                  onChange={(e) => handlerSelectLanguage(e)}
+                >
+                  <option disabled value="languages">
+                    Languages
+                  </option>
+                  {language.map((e) => (
+                    <option
+                      disabled={
+                        input.language.includes(e.name) === false ? false : true
+                      }
+                      value={e.name}
+                    >
+                      {e.name}
+                    </option>
+                  ))}
+                </select>
+                {!input.language && <h5>{err.input}</h5>}
+              </div>
+
               <div>
                 <label>Categories </label>
                 <select
@@ -320,6 +332,29 @@ export default function CreatePost() {
                     </option>
                   ))}
                 </select>
+                {!input.categorie && <h5>{err.input}</h5>}
+              </div>
+              <div>
+                <label>Genders </label>
+                <select
+                  defaultValue="choose"
+                  onChange={(e) => handlerSelectGenders(e)}
+                >
+                  <option disabled value="choose">
+                    Genders
+                  </option>
+                  {gender.map((e) => (
+                    <option
+                      disabled={
+                        input.gender.includes(e.name) === false ? false : true
+                      }
+                      value={e.name}
+                    >
+                      {e.name}
+                    </option>
+                  ))}
+                </select>
+                {!input.gender.length && <h5>{err.input}</h5>}
               </div>
 
               <section>
@@ -331,8 +366,13 @@ export default function CreatePost() {
                     err.author ||
                     err.editorial ||
                     err.saga ||
+                    err.image ||
                     err.year ||
-                    err.price
+                    err.price ||
+                    !input.typebook ||
+                    !input.state ||
+                    !input.language ||
+                    !input.categorie
                       ? true
                       : false
                   }
@@ -342,6 +382,18 @@ export default function CreatePost() {
               </section>
             </div>
           </form>
+          <div>
+            <br></br>
+            <h3 className="choosenDiets">Choosen Genders</h3>
+            {input.gender.map((e) => (
+              <div>
+                <p>{e}</p>{" "}
+                <button type="button" onClick={() => handleDelete(e)}>
+                  X
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
