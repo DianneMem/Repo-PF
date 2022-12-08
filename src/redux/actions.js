@@ -6,6 +6,7 @@ export const GET_BOOK_DETAILS = "GET_BOOK_DETAILS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_LANGUAGES = "GET_LANGUAGES";
 export const GET_GENDERS = "GET_GENDERS";
+export const CHANGE_PAGE="CHANGE_PAGE"
 
 const url = "http://localhost:3001";
 
@@ -21,6 +22,19 @@ export function getAllBooks() {
       console.log(error);
     }
   };
+}
+export function setPage(payload){
+  return async function(dispatch){
+    try {
+      return dispatch({
+        type: CHANGE_PAGE,
+        payload
+      })
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export function getAllUsers() {

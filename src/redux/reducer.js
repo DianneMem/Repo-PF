@@ -1,5 +1,6 @@
-import { Action } from "@remix-run/router";
+
 import {
+  CHANGE_PAGE,
   GET_ALL_BOOKS,
   GET_ALL_USERS,
   GET_BOOKS_BY_NAME,
@@ -17,6 +18,7 @@ const initialState = {
   categories: [],
   languages: [],
   genders: [],
+  currentPage:1
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -59,6 +61,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         detailsBook: payload,
       };
+      case CHANGE_PAGE:
+        return{
+          ...state,
+          currentPage:payload
+        }
 
     default:
       return state;
