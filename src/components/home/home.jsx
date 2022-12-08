@@ -8,13 +8,14 @@ import Card from "../card/card";
 
 import s from "./home.module.css";
 import Paginated from "../paginado/Paginated";
+import SearchBar from "../searchBar/SearchBar";
 
 export default function Home() {
   const dispatch = useDispatch();
   const allBooks = useSelector((state) => state.books);
   const [currentPage,setCurrentPage]=useState(1)
   // let currentPageGlobal = useSelector((state) => state.currentPage);
-  const [booksPerPage, setBooksPerPage] = useState(2);
+  const [booksPerPage, setBooksPerPage] = useState(12);
   const [order, setOrder] = useState("");
   const indexOfLastBooks = currentPage * booksPerPage;
   const IndexOfFirstBooks = indexOfLastBooks - booksPerPage;
@@ -36,6 +37,7 @@ export default function Home() {
 
   return (
     <>
+    <SearchBar/>
       <h1>HOME</h1>
       <Link to={`/createproduct`} className={s.det}>
         Create
