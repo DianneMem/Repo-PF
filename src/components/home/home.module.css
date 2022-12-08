@@ -1,3 +1,24 @@
 .cards{
-display: grid
-}
+  display: grid
+  }
+  
+  .favorite{
+  background-color: rgba(187, 0, 0, 0);
+  border-radius: 3rem;
+  transition: 0.3s;
+  }
+  
+  .favorite:hover {
+    background-color: rgba(170, 170, 170, 0.247);
+    border-color: rgba(255, 255, 255, 0);
+    
+  }
+  
+  .card{
+    transition-duration: 0.5s;
+  }
+  
+  .card:hover{
+    transform: scale(1.04);
+  }
+  
