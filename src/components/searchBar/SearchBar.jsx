@@ -11,8 +11,8 @@ export default function SearchBar() {
   function handlerInput(e) {
     e.preventDefault();
     setName(e.target.value);
-    //  dispatch(getBooksByName(name))
-    //  setReset("")
+     dispatch(getBooksByName(name))
+     setReset("")
   }
   function handlerSumbit(e) {
     e.preventDefault();

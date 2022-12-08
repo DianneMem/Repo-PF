@@ -108,7 +108,7 @@ export default function CreatePost() {
     });
   }
   function validate(input) {
-    let RegEXP = /[`ª!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    let RegEXP = /[`ª!@#$%^*_+\=\[\]{};"\\|,.<>\/~]/;
     let err = {};
     if (!input.title) {
       err.title = "· Title is required";
@@ -122,11 +122,7 @@ export default function CreatePost() {
       err.editorial = "· Editorial is required";
     } else if (RegEXP.test(input.editorial)) {
       err.editorial = "· Special characters are not accepted";
-    } else if (!input.saga) {
-      err.saga = "· Saga is required";
-    } else if (RegEXP.test(input.saga)) {
-      err.saga = "· Special characters are not accepted";
-    } else if (!input.image) {
+    }  else if (!input.image) {
       err.image = "· Image is required";
     } else if (!input.year) {
       err.year = "· Year input is required";
@@ -220,7 +216,7 @@ export default function CreatePost() {
                     name="saga"
                     onChange={handlerChange}
                   />
-                  {err.saga && <h5>{err.saga}</h5>}
+                  
                 </section>
               </div>
 
@@ -277,8 +273,8 @@ export default function CreatePost() {
                   <option disabled value="state">
                     State
                   </option>
-                  <option value="new">New</option>
-                  <option value="used">Used</option>
+                  <option value="New">New</option>
+                  <option value="Used">Used</option>
                 </select>
                 {!input.state && <h5>{err.input}</h5>}
               </div>
@@ -377,7 +373,6 @@ export default function CreatePost() {
                     err.title ||
                     err.author ||
                     err.editorial ||
-                    err.saga ||
                     err.image ||
                     err.year ||
                     err.price ||
