@@ -1,4 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial } from "../../redux/actions";
 import s from './Sidebar.module.css'
 
 
@@ -8,14 +11,87 @@ import s from './Sidebar.module.css'
 
 export default function SideBar() {
 	
+	//Category popular sagas - autores - editorial - Language
 	
 	
 	
+	const dispatch = useDispatch();
+	useEffect(() => {
+    dispatch(getCategories());
+    dispatch(getGenders());
+    dispatch(getLanguages());
+    dispatch(getAllAuthor());
+    dispatch(getAllSaga());
+    dispatch(getAllEditorial());
+  }, [dispatch]);
 	
+	
+	
+	const categories = useSelector(state => state.categories);
+	const genders = useSelector(state => state.genders);
+	const author = useSelector(state => state.allAuthor);
+	const editorials = useSelector(state => state.allEditorial);
+	const sagas = useSelector(state => state.allSaga);
+	const languages = useSelector(state => state.languages);
+
+		
+
+	function select(e){
+	console.log(e.target)
+	
+	}
 	
 	
 	return(
 	<React.Fragment>
+		<select id='SelectCategory' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+      <option key={'default1'} value='DEFAULT' disabled>Category</option>
+      {categories.map((a)=> {return(
+			<option id='Category'>{a}</option>
+			)})}
+    </select>
+    <select id='SelectGender' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+      <option key={'default2'} value='DEFAULT' disabled>Gender</option>
+      {genders.map((a)=> {return(
+			<option name='Gender'>{a}</option>
+			)})}
+    </select>
+    <select id='SelectAuthor' name='Author' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+      <option key={'default3'} value='DEFAULT' disabled>Author</option>
+      {author.map((a)=> {return(
+			<option>{a}</option>
+			)})}
+    </select>
+		<select id='SelectEditorial' name='Editorial' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+      <option key={'default4'} value='DEFAULT' disabled>Editorial</option>
+      {editorials.map((a)=> {return(
+			<option>{a}</option>
+			)})}
+    </select>
+    <select id='SelectSaga' name='Saga' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+      <option key={'default5'} value='DEFAULT' disabled>Popular Saga</option> 
+      {sagas.map((a)=> {return(
+			<option>{a}</option>
+			)})}
+    </select>
+		<select id='SelectLanguage' name='Language' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+      <option key={'default6'} value='DEFAULT' disabled>Language</option>   
+      {languages.map((a)=> {return(
+			<option>{a}</option>
+			)})}
+    </select>
+    <form>
+      <input placeholder='Min'/>
+      <input placeholder='Max'/>
+    </form>
+    <button>-$</button>
+    <button>+$</button>
+    <button>A-Z</button>
+    <button>Z-A</button>
+    <button>New</button>
+    <button>Used</button>
+    <button>Digital</button>
+    
 	</React.Fragment>
 )};
 
