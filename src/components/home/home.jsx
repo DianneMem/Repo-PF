@@ -36,9 +36,10 @@ export default function Home() {
     dispatch(getAllBooks());
     setCurrentPage(1);
     dispatch(setPage(1));
+    
   }, [dispatch]);
 
- /*  const changeState = () => {
+   const changeState = () => {
     setTimeout(() => {
       setLoading(true);
     }, 4000);
@@ -52,7 +53,7 @@ export default function Home() {
       setLoading(false);
       alert("No recipes found");
     }
-  } */
+  } 
 
   return (
     <React.Fragment>
