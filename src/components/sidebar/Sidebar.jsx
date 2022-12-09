@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks } from "../../redux/actions";
+import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice } from "../../redux/actions";
 import s from './Sidebar.module.css'
 
 
@@ -24,6 +24,8 @@ export default function SideBar() {
     dispatch(getAllSaga());
     dispatch(getAllEditorial());
   }, [dispatch]);
+    
+ 
 	
 	
 	
@@ -37,12 +39,20 @@ export default function SideBar() {
 		
 
 	function select(e){
-        console.log(e.target.name);
-        console.log(e.target.value);
-        //console.log(e.currentTarget.name);
-	let filter = {name: e.target.name, value: e.target.value};
-	dispatch(filterBooks(filter))
-	}
+    console.log(e.target.name);
+    console.log(e.target.value);
+    //console.log(e.currentTarget.name);
+	  let filter = {name: e.target.name, value: e.target.value};
+	  //dispatch(filterBooks(filter))
+	};
+	
+	function price(e){
+    console.log(e.target.name);
+    console.log(e.target.value);
+    //console.log(e.currentTarget.name);
+	  let filter = {name: e.target.name, value: e.target.value};
+	  dispatch(filterBooks(filter))
+	};
 	
 	
 	return(
@@ -84,8 +94,24 @@ export default function SideBar() {
 			)})}
     </select>
     <form>
-      <input placeholder='Min'/>
-      <input placeholder='Max'/>
+      <input 
+      type='number'
+      name='Min'
+      placeholder='Min'
+      min='0'
+      max='1000000'
+      step='0.01'
+      onChange={e=> price(e)}
+      />
+      <input 
+      type='number'
+      name='Max'
+      placeholder='Max'
+      min='0'
+      max='1000000'
+      step='0.01'
+      onChange={e=> price(e)}
+      />
     </form>
     <button>-$</button>
     <button>+$</button>
