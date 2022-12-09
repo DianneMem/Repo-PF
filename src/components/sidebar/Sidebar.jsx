@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial } from "../../redux/actions";
+import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks } from "../../redux/actions";
 import s from './Sidebar.module.css'
 
 
@@ -37,47 +37,50 @@ export default function SideBar() {
 		
 
 	function select(e){
-	console.log(e.target)
-	
+        console.log(e.target.name);
+        console.log(e.target.value);
+        //console.log(e.currentTarget.name);
+	let filter = {name: e.target.name, value: e.target.value};
+	dispatch(filterBooks(filter))
 	}
 	
 	
 	return(
 	<React.Fragment>
-		<select id='SelectCategory' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+		<select id='SelectCategory' name='categorie' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
       <option key={'default1'} value='DEFAULT' disabled>Category</option>
       {categories.map((a)=> {return(
-			<option id='Category'>{a}</option>
+			<option key={a} value={a}>{a}</option>
 			)})}
     </select>
-    <select id='SelectGender' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+    <select id='SelectGender' name='gender' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
       <option key={'default2'} value='DEFAULT' disabled>Gender</option>
       {genders.map((a)=> {return(
-			<option name='Gender'>{a}</option>
+			<option key={a} value={a}>{a}</option>
 			)})}
     </select>
-    <select id='SelectAuthor' name='Author' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+    <select id='SelectAuthor' name='author' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
       <option key={'default3'} value='DEFAULT' disabled>Author</option>
       {author.map((a)=> {return(
-			<option>{a}</option>
+			<option key={a} value={a}>{a}</option>
 			)})}
     </select>
-		<select id='SelectEditorial' name='Editorial' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+		<select id='SelectEditorial' name='editorial' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
       <option key={'default4'} value='DEFAULT' disabled>Editorial</option>
       {editorials.map((a)=> {return(
-			<option>{a}</option>
+			<option key={a} value={a}>{a}</option>
 			)})}
     </select>
-    <select id='SelectSaga' name='Saga' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+    <select id='SelectSaga' name='saga' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
       <option key={'default5'} value='DEFAULT' disabled>Popular Saga</option> 
       {sagas.map((a)=> {return(
-			<option>{a}</option>
+			<option key={a} value={a}>{a}</option>
 			)})}
     </select>
-		<select id='SelectLanguage' name='Language' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+		<select id='SelectLanguage' name='language' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
       <option key={'default6'} value='DEFAULT' disabled>Language</option>   
       {languages.map((a)=> {return(
-			<option>{a}</option>
+			<option key={a} value={a}>{a}</option>
 			)})}
     </select>
     <form>
