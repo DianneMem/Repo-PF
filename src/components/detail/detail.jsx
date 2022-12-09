@@ -26,7 +26,7 @@ return(
   <p>Author:{detail.author}</p>
   <p>Categoty:{detail.categorie}</p>
   <p>Editorial:{detail.editorial}</p>
-  <p>Saga:{detail.saga}</p>
+  {detail.saga && <p>Saga: {detail.saga}</p>}
   <p>Lenguage{detail.language}</p>
   <p>Gender: {detail.gender?.map((e)=>{return(<span>{e}</span>)})}</p>
   <p>Year: {detail.year}</p>
