@@ -36,6 +36,7 @@ export default function Home() {
     dispatch(getAllBooks());
     setCurrentPage(1);
     dispatch(setPage(1));
+    
   }, [dispatch]);
   
 
@@ -53,6 +54,8 @@ export default function Home() {
       setLoading(false);
       alert("No recipes found");
     }
+  } 
+=======
   }
   console.log(allBooks)
 

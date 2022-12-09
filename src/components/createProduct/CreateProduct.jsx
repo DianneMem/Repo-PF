@@ -12,9 +12,9 @@ import Loader from "../loader/Loader";
 
 export default function CreatePost() {
   const dispatch = useDispatch();
-  const categorie = useSelector((state) => state.categories);
-  const language = useSelector((state) => state.languages);
-  const gender = useSelector((state) => state.genders);
+  const categories = useSelector((state) => state.categories);
+  const languages = useSelector((state) => state.languages);
+  const genders = useSelector((state) => state.genders);
   const [err, setErr] = useState({});
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
@@ -31,7 +31,10 @@ export default function CreatePost() {
     categorie: "",
     gender: [],
   });
-  console.log(input);
+  console.log(input);  
+  console.log(categories);
+  console.log(languages);
+  console.log(genders);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -304,14 +307,14 @@ export default function CreatePost() {
                   <option disabled value="languages">
                     Languages
                   </option>
-                  {language.map((e) => (
+                  {languages.map((e) => (
                     <option
                       disabled={
-                        input.language.includes(e.name) === false ? false : true
+                        input.language.includes(e) === false ? false : true
                       }
-                      value={e.name}
+                      value={e}
                     >
-                      {e.name}
+                      {e}
                     </option>
                   ))}
                 </select>
@@ -327,16 +330,16 @@ export default function CreatePost() {
                   <option disabled value="choose">
                     choose categories
                   </option>
-                  {categorie.map((e) => (
+                  {categories.map((e) => (
                     <option
                       disabled={
-                        input.categorie.includes(e.name) === false
+                        input.categorie.includes(e) === false
                           ? false
                           : true
                       }
-                      value={e.name}
+                      value={e}
                     >
-                      {e.name}
+                      {e}
                     </option>
                   ))}
                 </select>
@@ -351,14 +354,14 @@ export default function CreatePost() {
                   <option disabled value="choose">
                     Genders
                   </option>
-                  {gender.map((e) => (
+                  {genders.map((e) => (
                     <option
                       disabled={
-                        input.gender.includes(e.name) === false ? false : true
+                        input.gender.includes(e) === false ? false : true
                       }
-                      value={e.name}
+                      value={e}
                     >
-                      {e.name}
+                      {e}
                     </option>
                   ))}
                 </select>
