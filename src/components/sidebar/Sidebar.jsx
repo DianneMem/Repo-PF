@@ -11,10 +11,7 @@ import s from './Sidebar.module.css'
 
 export default function SideBar() {
 	
-	//Category popular sagas - autores - editorial - Language
-	
-	
-	
+
 	const dispatch = useDispatch();
 	useEffect(() => {
     dispatch(getCategories());
@@ -27,8 +24,6 @@ export default function SideBar() {
     
  
 	
-	
-	
 	const categories = useSelector(state => state.categories);
 	const genders = useSelector(state => state.genders);
 	const author = useSelector(state => state.allAuthor);
@@ -36,17 +31,8 @@ export default function SideBar() {
 	const sagas = useSelector(state => state.allSaga);
 	const languages = useSelector(state => state.languages);
 
-		
 
 	function select(e){
-    console.log(e.target.name);
-    console.log(e.target.value);
-    //console.log(e.currentTarget.name);
-	  let filter = {name: e.target.name, value: e.target.value};
-	  //dispatch(filterBooks(filter))
-	};
-	
-	function price(e){
     console.log(e.target.name);
     console.log(e.target.value);
     //console.log(e.currentTarget.name);
@@ -54,7 +40,17 @@ export default function SideBar() {
 	  dispatch(filterBooks(filter))
 	};
 	
-	
+  
+	function price(e){
+    e.preventDefault()
+    console.log(e.target.name);
+    console.log(e.target.value);
+    
+	  let filter = {name: e.target.name, value: e.target.value};
+	  dispatch(filterPrice(filter))
+	};
+
+
 	return(
 	<React.Fragment>
 		<select id='SelectCategory' name='categorie' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
@@ -93,26 +89,27 @@ export default function SideBar() {
 			<option key={a} value={a}>{a}</option>
 			)})}
     </select>
-    <form>
-      <input 
+    
+    <input 
       type='number'
       name='Min'
       placeholder='Min'
       min='0'
       max='1000000'
       step='0.01'
-      onChange={e=> price(e)}
-      />
-      <input 
+      onChange={(e)=> price(e)}
+    />
+   
+    <input 
       type='number'
       name='Max'
       placeholder='Max'
       min='0'
       max='1000000'
       step='0.01'
-      onChange={e=> price(e)}
-      />
-    </form>
+      onChange={(e)=> price(e)}
+    />
+ 
     <button>-$</button>
     <button>+$</button>
     <button>A-Z</button>

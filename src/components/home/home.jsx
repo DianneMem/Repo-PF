@@ -40,7 +40,7 @@ export default function Home() {
   }, [dispatch]);
   
 
-  const changeState = () => {
+  /* const changeState = () => {
     setTimeout(() => {
       setLoading(true);
     }, 4000);
@@ -52,9 +52,9 @@ export default function Home() {
     if (allBooks.length === 0) {
       dispatch(getAllBooks());
       setLoading(false);
-      alert("No recipes found");
+      alert("No books found");
     }
-  } 
+  }  */
   
   console.log(allBooks)
 
@@ -73,7 +73,7 @@ export default function Home() {
       <br/>
       <div className={s.cards}>
         {currentBooks?.map((b) => {return (
-          <div key={b._id} className={s.card}>
+        <div key={b._id} className={s.card}>
           <button className={s.favorite}>
             <FiHeart />
           </button>
@@ -86,7 +86,7 @@ export default function Home() {
             author={b.author}
             type={b.typebook}
           />
-          </div>
+        </div>
         )})}
       </div>
     </React.Fragment>

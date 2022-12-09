@@ -131,17 +131,19 @@ const rootReducer = (state = initialState, { type, payload }) => {
       }
       
       case FILTER_PRICE:
-        let filterPrice = payload.name;
-        let max_or_min =  payload.value;
-        let booksFiltered1 = '';
-        if (filterPrice === 'Min') {
-          booksFiltered1 = state.books.slice().filter(el => parseInt(el.price) >= parseInt(max_or_min));
+        let max_or_min = payload.name;
+        let filterPrice = payload.value;
+        let booksFiltered1 = state.books.slice();
+        
+        if (max_or_min === 'Min') {
+          let booksFiltered2 = state.books.slice().filter(el => parseInt(el.price) >= parseInt(filterPrice));
+          if(booksFiltered2.length > 0) booksFiltered1 = booksFiltered2;
         }
-        else if (filterPrice === 'Max'){
-          booksFiltered1 = state.books.slice().filter(el => parseInt(el.price) <= parseInt(max_or_min));
-        }else {
-          booksFiltered1 = state.allbooks
+        else if (max_or_min === 'Max'){
+          let booksFiltered2 = state.books.slice().filter(el => parseInt(el.price) <= parseInt(filterPrice));
+          if(booksFiltered2.length > 0) booksFiltered1 = booksFiltered2;
         }
+        
         return{
         ...state,
         books: booksFiltered1
