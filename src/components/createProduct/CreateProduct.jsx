@@ -32,9 +32,8 @@ export default function CreatePost() {
     gender: [],
   });
   console.log(input);  
-  console.log(categories);
-  console.log(languages);
-  console.log(genders);
+
+ 
 
   useEffect(() => {
     dispatch(getCategories());
@@ -111,6 +110,9 @@ export default function CreatePost() {
     });
   }
   function validate(input) {
+    let fecha = new Date();
+    let añoActual = fecha.getFullYear();
+    console.log(añoActual);
     let RegEXP = /[`ª!@#$%^*_+\=\[\]{};"\\|,.<>\/~]/;
     let err = {};
     if (!input.title) {
@@ -129,7 +131,7 @@ export default function CreatePost() {
       err.image = "· Image is required";
     } else if (!input.year) {
       err.year = "· Year input is required";
-    } else if (input.year < 0) {
+    } else if (input.year < 0||input.year>añoActual) {
       err.year = "· Year input Error";
     } else if (!input.price || input.price < 0) {
       err.price = "· Price input Error";
