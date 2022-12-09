@@ -8,7 +8,9 @@ import Paginated from "../paginado/Paginated";
 import SearchBar from "../searchBar/SearchBar";
 import Loader from "../loader/Loader";
 import Header from "../header/Header";
+import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
+
 
 
 export default function Home() {
@@ -36,7 +38,7 @@ export default function Home() {
     dispatch(setPage(1));
   }, [dispatch]);
 
-  const changeState = () => {
+ /*  const changeState = () => {
     setTimeout(() => {
       setLoading(true);
     }, 4000);
@@ -50,17 +52,21 @@ export default function Home() {
       setLoading(false);
       alert("No recipes found");
     }
-  }
+  } */
 
   return (
     <React.Fragment>
       <Header/>
       <SearchBar/>
+      <br/>
+      <SideBar/>
+      <br/>
       <Paginated
         booksPerPage={booksPerPage}
         allBooks={allBooks.length}
         paginate={paginate}
       />
+      <br/>
       <div className={s.cards}>
         {currentBooks?.map((b) => {return (
           <div key={b._id} className={s.card}>

@@ -6,14 +6,47 @@ export const GET_BOOK_DETAILS = "GET_BOOK_DETAILS";
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_LANGUAGES = "GET_LANGUAGES";
 export const GET_GENDERS = "GET_GENDERS";
-export const CHANGE_PAGE="CHANGE_PAGE"
+export const GET_ALL_AUTHOR = "GET_ALL_AUTHOR";
+export const GET_ALL_SAGA = "GET_ALL_SAGA";
+export const GET_ALL_EDITORIAL = "GET_ALL_EDITORIAL";
+export const CHANGE_PAGE="CHANGE_PAGE";
+export const FILTER_BOOKS = "FILTER_BOOKS";
+export const ORDER_BOOKS = "ORDER_BOOKS";
+
+
+export function filterBooks(){
+  return async function(dispatch){
+    try{
+      return dispatch({
+        type: FILTER_BOOKS
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+
+export function orderBooks(){
+  return async function(dispatch){
+    try{
+      return dispatch({
+        type: ORDER_BOOKS
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+
 
 const url = "http://localhost:3001";
 
 export function getAllBooks() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${url}/products`, {});
+      const res = await axios.get(`${url}/products`);
       return dispatch({
         type: GET_ALL_BOOKS,
         payload: res.data,
@@ -90,6 +123,42 @@ export function getGenders() {
       console.log(error);
     }
   };
+}
+
+export function getAllAuthor(){
+  return async function(dispatch){
+    try{
+      return dispatch({
+        type: GET_ALL_AUTHOR
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export function getAllSaga(){
+  return async function(dispatch){
+    try{
+      return dispatch({
+        type: GET_ALL_SAGA
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export function getAllEditorial(){
+  return async function(dispatch){
+    try{
+      return dispatch({
+        type: GET_ALL_EDITORIAL
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export function getBooksByName(title) {
