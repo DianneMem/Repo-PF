@@ -147,6 +147,62 @@ const rootReducer = (state = initialState, { type, payload }) => {
         return{
         ...state,
         books: booksFiltered1
+      }
+      
+      case ORDER_BOOKS:
+        const order = payload;
+        let booksOrdered = state.books
+        
+        if(order === 'AZ'){
+          booksOrdered = booksOrdered.sort(function (a, b) {
+          if (a.title.toLowerCase() > b.title.toLowerCase()) {
+            return 1;
+          }
+          if (a.title.toLowerCase() < b.title.toLowerCase()) {
+            return -1;
+          }
+          return 0;
+        })}
+         
+        else if(order === 'ZA'){
+          booksOrdered = booksOrdered.sort(function (a, b) {
+          if (a.title.toLowerCase() < b.title.toLowerCase()) {
+            return 1;
+          }
+          if (a.title.toLowerCase() > b.title.toLowerCase()) {
+            return -1;
+          }
+          return 0;
+          });
+        }
+        
+        else if(order === 'LP'){
+          booksOrdered = booksOrdered.sort(function (a, b) {
+            if (a.price > b.price) {
+              return 1;
+            }
+            if (a.price < b.price) {
+              return -1;
+            }
+            return 0;
+          });
+        }
+        
+        else if(order === 'HP'){
+          booksOrdered = booksOrdered.sort(function (a, b) {
+            if (a.price < b.price) {
+              return 1;
+            }
+            if (a.price > b.price) {
+              return -1;
+            }
+            return 0;
+          });
+        } 
+          
+        return {
+        ...state,
+        books: booksOrdered
         }
 
     default:

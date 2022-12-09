@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice } from "../../redux/actions";
+import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice, orderBooks } from "../../redux/actions";
 import s from './Sidebar.module.css'
 
 
@@ -22,7 +22,7 @@ export default function SideBar() {
     dispatch(getAllEditorial());
   }, [dispatch]);
     
- 
+  let [orderB, setOrderB] = useState('');
 	
 	const categories = useSelector(state => state.categories);
 	const genders = useSelector(state => state.genders);
@@ -33,23 +33,23 @@ export default function SideBar() {
 
 
 	function select(e){
-    console.log(e.target.name);
-    console.log(e.target.value);
-    //console.log(e.currentTarget.name);
 	  let filter = {name: e.target.name, value: e.target.value};
 	  dispatch(filterBooks(filter))
 	};
 	
   
 	function price(e){
-    e.preventDefault()
-    console.log(e.target.name);
-    console.log(e.target.value);
-    
+    e.preventDefault()    
 	  let filter = {name: e.target.name, value: e.target.value};
 	  dispatch(filterPrice(filter))
 	};
 
+  
+  function order(e) {
+    e.preventDefault();
+    dispatch(orderBooks(e.target.value));
+    setOrderB(e.target.value);
+  };
 
 	return(
 	<React.Fragment>
@@ -110,10 +110,10 @@ export default function SideBar() {
       onChange={(e)=> price(e)}
     />
  
-    <button>-$</button>
-    <button>+$</button>
-    <button>A-Z</button>
-    <button>Z-A</button>
+    <button onClick={e => order(e)} value='LP'>Lower Price</button>
+    <button onClick={e => order(e)} value='HP'>Higher Price</button>
+    <button onClick={e => order(e)} value='AZ'>A-Z</button>
+    <button onClick={e => order(e)} value='ZA'>Z-A</button>
     <button>New</button>
     <button>Used</button>
     <button>Digital</button>
