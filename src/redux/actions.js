@@ -12,6 +12,8 @@ export const GET_ALL_EDITORIAL = "GET_ALL_EDITORIAL";
 export const CHANGE_PAGE="CHANGE_PAGE";
 export const FILTER_BOOKS = "FILTER_BOOKS";
 export const ORDER_BOOKS = "ORDER_BOOKS";
+export const FILTER_PRICE = "FILTER_PRICE";
+
 
 
 export function filterBooks(payload){
@@ -19,6 +21,19 @@ export function filterBooks(payload){
     try{
       return dispatch({
         type: FILTER_BOOKS,
+        payload
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+export function filterPrice(payload){
+  return async function(dispatch){
+    try{
+      return dispatch({
+        type: FILTER_PRICE,
         payload
       })
     } catch (error) {
