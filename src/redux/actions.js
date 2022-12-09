@@ -43,11 +43,12 @@ export function filterPrice(payload){
 };
 
 
-export function orderBooks(){
+export function orderBooks(payload){
   return async function(dispatch){
     try{
       return dispatch({
-        type: ORDER_BOOKS
+        type: ORDER_BOOKS,
+        payload
       })
     } catch (error) {
       console.log(error);
