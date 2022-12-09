@@ -14,11 +14,12 @@ export const FILTER_BOOKS = "FILTER_BOOKS";
 export const ORDER_BOOKS = "ORDER_BOOKS";
 
 
-export function filterBooks(){
+export function filterBooks(payload){
   return async function(dispatch){
     try{
       return dispatch({
-        type: FILTER_BOOKS
+        type: FILTER_BOOKS,
+        payload
       })
     } catch (error) {
       console.log(error);

@@ -115,12 +115,20 @@ const rootReducer = (state = initialState, { type, payload }) => {
           currentPage:payload
         }
       case FILTER_BOOKS:
-        let filter = payload;
+        let filterType = payload.name;
+        let filterElement =  payload.value;
+        let booksFiltered = '';
         
+        if (filterType === 'gender') {
+          booksFiltered = state.books.filter(el => el.gender.some(el => el === filterElement));
+        }
+        else {
+          booksFiltered = state.books.filter(el => el.filterType === filterElement);
+        }
         
         return{
         ...state,
-        books: payload
+        books: booksFiltered
         }
 
     default:
