@@ -37,7 +37,7 @@ export default function CreatePost() {
     dispatch(getCategories());
     dispatch(getLanguages());
     dispatch(getGenders());
-  }, []);
+  }, [dispatch]);
 
   function handlerChange(e) {
     setInput({ ...input, [e.target.name]: e.target.value });

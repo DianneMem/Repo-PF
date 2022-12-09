@@ -12,6 +12,7 @@ import {
   GET_ALL_SAGA,
   GET_ALL_EDITORIAL,
   FILTER_BOOKS,
+  FILTER_PRICE,
   ORDER_BOOKS
 } from "./actions";
 
@@ -118,17 +119,32 @@ const rootReducer = (state = initialState, { type, payload }) => {
         let filterType = payload.name;
         let filterElement =  payload.value;
         let booksFiltered = '';
-        
         if (filterType === 'gender') {
           booksFiltered = state.books.filter(el => el.gender.some(el => el === filterElement));
         }
         else {
-          booksFiltered = state.books.filter(el => el.filterType === filterElement);
+          booksFiltered = state.books.filter(el => el[filterType] === filterElement);
         }
-        
         return{
         ...state,
         books: booksFiltered
+      }
+      
+      case FILTER_PRICE:
+        let filterPrice = payload.name;
+        let max_or_min =  payload.value;
+        let booksFiltered1 = '';
+        if (filterPrice === 'Min') {
+          booksFiltered1 = state.books.slice().filter(el => parseInt(el.price) >= parseInt(max_or_min));
+        }
+        else if (filterPrice === 'Max'){
+          booksFiltered1 = state.books.slice().filter(el => parseInt(el.price) <= parseInt(max_or_min));
+        }else {
+          booksFiltered1 = state.allbooks
+        }
+        return{
+        ...state,
+        books: booksFiltered1
         }
 
     default:
