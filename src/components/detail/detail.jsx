@@ -18,8 +18,6 @@ useEffect(()=>{
 
 return(
 <div className={s.container}>
-<Link to="/"><button >Back</button></Link>
-  <div className={s.containerImage}>
 
   <img src={detail.image? (detail.image) : (defaultImage)} alt='Book' className={s.image}/>
   
@@ -36,6 +34,6 @@ return(
 
   <h3>{detail.price}</h3>
 
-  </div>
+  
 </div>
 )};

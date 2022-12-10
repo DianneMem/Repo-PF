@@ -9,6 +9,7 @@ export default function Header() {
         <h1>eBooks Home</h1>
         <Link to='/login'><p>Login</p></Link>
         <Link to='/createproduct'><p>Create</p></Link>
+        <Link to='/products'><p>Details</p></Link>
     </header>
   )
 };
