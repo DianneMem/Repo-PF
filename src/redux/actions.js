@@ -13,7 +13,11 @@ export const CHANGE_PAGE="CHANGE_PAGE";
 export const FILTER_BOOKS = "FILTER_BOOKS";
 export const ORDER_BOOKS = "ORDER_BOOKS";
 export const FILTER_PRICE = "FILTER_PRICE";
+export const GET_SAGA="GET_SAGA"
+export const GET_EDITORIAL="GET_EDITORIAL"
+export const GET_AUTHOR="GET_AUTHOR"
 
+const url = "http://localhost:3001";
 
 
 export function filterBooks(payload){
@@ -58,7 +62,7 @@ export function orderBooks(payload){
 
 
 
-const url = "http://localhost:3001";
+
 
 export function getAllBooks() {
   return async function (dispatch) {
@@ -187,7 +191,6 @@ export function getBooksByName(title) {
         payload: searchName.data,
       });
     } catch (error) {
-      alert("Book not found!!");
       console.log(error);
     }
   };
@@ -200,6 +203,48 @@ export function getBooksDetails(id) {
       return dispatch({
         type: GET_BOOK_DETAILS,
         payload: detailsBook.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function authorByName(name) {
+  return async function (dispatch) {
+    try {
+      let res = await axios.get(`${url}/filters/author/${name}`);
+      return dispatch({
+        type: GET_AUTHOR,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function editorialByName(name) {
+  return async function (dispatch) {
+    try {
+      let res = await axios.get(`${url}/filters/editorial/${name}`);
+      return dispatch({
+        type: GET_EDITORIAL,
+        payload: res.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function sagaByName(name) {
+  return async function (dispatch) {
+    try {
+      let res = await axios.get(`${url}/filters/saga/${name}`);
+      return dispatch({
+        type: GET_SAGA,
+        payload: res.data,
       });
     } catch (error) {
       console.log(error);

@@ -40,7 +40,7 @@ export default function Home() {
   }, [dispatch]);
   
 
-  /* const changeState = () => {
+const changeState = () => {
     setTimeout(() => {
       setLoading(true);
     }, 4000);
@@ -52,9 +52,14 @@ export default function Home() {
     if (allBooks.length === 0) {
       dispatch(getAllBooks());
       setLoading(false);
-      alert("No books found");
+      // alert("No books found");
     }
-  }  */
+  }  
+  
+  function refreshButton(e) {
+    e.preventDefault();
+    dispatch(getAllBooks());
+  }
   
   console.log(allBooks)
 
@@ -62,6 +67,7 @@ export default function Home() {
     <React.Fragment>
       <Header/>
       <SearchBar/>
+      <button onClick={e=>refreshButton(e)}>reset all filters</button>
       <br/>
       <SideBar/>
       <br/>
