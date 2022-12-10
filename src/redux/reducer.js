@@ -123,13 +123,12 @@ const rootReducer = (state = initialState, { type, payload }) => {
       case FILTER_BOOKS:
         let filterType = payload.name;
         let filterElement =  payload.value;
-        let booksFiltered = '';
+        let booksFiltered =  state.allbooks[0];
         if (filterType === 'gender') {
           booksFiltered = state.books.filter(el => el.gender.some(el => el === filterElement));
         }
-        else {
+        else if (filterType) {
           booksFiltered = state.books.filter(el => el[filterType] === filterElement);
-          
         }
         return{
         ...state,

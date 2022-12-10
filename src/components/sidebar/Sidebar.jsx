@@ -11,7 +11,6 @@ import s from './Sidebar.module.css'
 
 export default function SideBar() {
 	
-
 	const dispatch = useDispatch();
 	useEffect(() => {
     dispatch(getCategories());
@@ -22,22 +21,25 @@ export default function SideBar() {
     dispatch(getAllEditorial());
   }, [dispatch]);
     
-  let [orderB, setOrderB] = useState('');
-	
+  
+	// Global States
 	const categories = useSelector(state => state.categories);
 	const genders = useSelector(state => state.genders);
 	const author = useSelector(state => state.allAuthor);
 	const editorials = useSelector(state => state.allEditorial);
 	const sagas = useSelector(state => state.allSaga);
 	const languages = useSelector(state => state.languages);
-  const [minState,setMinState]=useState("")
-  console.log(minState);
+  
+  // Local States
+  const [minState,setMinState]=useState("");
+  let [orderB, setOrderB] = useState('');
+  
+  
+  // Button Functions
 	function select(e){
 	  let filter = {name: e.target.name, value: e.target.value};
 	  dispatch(filterBooks(filter))
 	};
-	
-  
 	function priceMin(e){
     e.preventDefault()    
 	  let filter = {name: "Min", value:minState};
@@ -51,23 +53,26 @@ export default function SideBar() {
   function inputMin(e){
     e.preventDefault()  
     setMinState(e.target.value)
-
-  }
+  };
     function inputMax(e){
     e.preventDefault()  
     setMinState(e.target.value)
-
-  }
-
-  
+  };
   function order(e) {
     e.preventDefault();
     dispatch(orderBooks(e.target.value));
     setOrderB(e.target.value);
   };
 
+
 	return(
 	<React.Fragment>
+	  <p>Filter By</p>
+    <button onClick={e => select(e)} name='state' value='New'>New</button>
+    <button onClick={e => select(e)} name='state' value='Used'>Used</button>
+    <button onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
+    <br/>
+	
 		<select id='SelectCategory' name='categorie' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
       <option key={'default1'} value='DEFAULT' disabled>Category</option>
       {categories.map((a)=> {return(
@@ -104,8 +109,9 @@ export default function SideBar() {
 			<option key={a} value={a}>{a}</option>
 			)})}
     </select>
+    
     <form onSubmit={e=>{priceMin(e)}}>
-    <input 
+      <input 
       type='number'
       name='Min'
       placeholder='Min'
@@ -113,10 +119,10 @@ export default function SideBar() {
       max='1000000'
       step='0.01'
       onChange={(e)=> inputMin(e)}
-    />
-    <button type="submit">+</button>
-     </form>
-   <form onSubmit={e=>{priceMax(e)}}>
+      />
+      <button type="submit">+</button>
+    </form>
+      <form onSubmit={e=>{priceMax(e)}}>
       <input 
       type='number'
       name='Max'
@@ -125,18 +131,15 @@ export default function SideBar() {
       max='1000000'
       step='0.01'
       onChange={(e)=> inputMax(e)}
-    />
-    <button type="submit">+</button>
-   </form>
-  
+      />
+      <button type="submit">+</button>
+    </form>
 
+    <p>Order By</p>
     <button onClick={e => order(e)} value='LP'>Lower Price</button>
     <button onClick={e => order(e)} value='HP'>Higher Price</button>
     <button onClick={e => order(e)} value='AZ'>A-Z</button>
     <button onClick={e => order(e)} value='ZA'>Z-A</button>
-    <button>New</button>
-    <button>Used</button>
-    <button>Digital</button>
     
 	</React.Fragment>
 )};
