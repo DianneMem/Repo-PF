@@ -13,7 +13,10 @@ import {
   GET_ALL_EDITORIAL,
   FILTER_BOOKS,
   FILTER_PRICE,
-  ORDER_BOOKS
+  ORDER_BOOKS,
+  GET_SAGA,
+  GET_EDITORIAL,
+  GET_AUTHOR
 } from "./actions";
 
 const initialState = {
@@ -100,6 +103,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
        };
 
     case GET_BOOKS_BY_NAME:
+       state.books=state.allbooks
+      
       return {
         ...state,
         books: payload,
@@ -124,6 +129,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         }
         else {
           booksFiltered = state.books.filter(el => el[filterType] === filterElement);
+          
         }
         return{
         ...state,
@@ -148,7 +154,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         books: booksFiltered1
       }
-      
+       
       case ORDER_BOOKS:
         const order = payload;
         let booksOrdered = state.books
@@ -204,7 +210,24 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         books: booksOrdered
         }
-
+        case GET_SAGA:
+          return{
+            ...state,
+            books:payload
+          
+        }
+        case GET_EDITORIAL:
+          return{
+            ...state,
+            books:payload
+          
+        }
+        case GET_AUTHOR:
+          return{
+            ...state,
+            books:payload
+          
+        }
     default:
       return state;
   }

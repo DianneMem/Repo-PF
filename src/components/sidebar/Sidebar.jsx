@@ -30,19 +30,34 @@ export default function SideBar() {
 	const editorials = useSelector(state => state.allEditorial);
 	const sagas = useSelector(state => state.allSaga);
 	const languages = useSelector(state => state.languages);
-
-
+  const [minState,setMinState]=useState("")
+  console.log(minState);
 	function select(e){
 	  let filter = {name: e.target.name, value: e.target.value};
 	  dispatch(filterBooks(filter))
 	};
 	
   
-	function price(e){
+	function priceMin(e){
     e.preventDefault()    
-	  let filter = {name: e.target.name, value: e.target.value};
+	  let filter = {name: "Min", value:minState};
 	  dispatch(filterPrice(filter))
 	};
+  function priceMax(e){
+    e.preventDefault()    
+	  let filter = {name: "Max", value:minState};
+	  dispatch(filterPrice(filter))
+	};
+  function inputMin(e){
+    e.preventDefault()  
+    setMinState(e.target.value)
+
+  }
+    function inputMax(e){
+    e.preventDefault()  
+    setMinState(e.target.value)
+
+  }
 
   
   function order(e) {
@@ -89,7 +104,7 @@ export default function SideBar() {
 			<option key={a} value={a}>{a}</option>
 			)})}
     </select>
-    
+    <form onSubmit={e=>{priceMin(e)}}>
     <input 
       type='number'
       name='Min'
@@ -97,19 +112,24 @@ export default function SideBar() {
       min='0'
       max='1000000'
       step='0.01'
-      onChange={(e)=> price(e)}
+      onChange={(e)=> inputMin(e)}
     />
-   
-    <input 
+    <button type="submit">+</button>
+     </form>
+   <form onSubmit={e=>{priceMax(e)}}>
+      <input 
       type='number'
       name='Max'
       placeholder='Max'
       min='0'
       max='1000000'
       step='0.01'
-      onChange={(e)=> price(e)}
+      onChange={(e)=> inputMax(e)}
     />
- 
+    <button type="submit">+</button>
+   </form>
+  
+
     <button onClick={e => order(e)} value='LP'>Lower Price</button>
     <button onClick={e => order(e)} value='HP'>Higher Price</button>
     <button onClick={e => order(e)} value='AZ'>A-Z</button>
