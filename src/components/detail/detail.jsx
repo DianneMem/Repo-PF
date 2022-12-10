@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { getBooksDetails } from '../../redux/actions';
 import defaultImage from '../../assets/bookDefault.png';
@@ -17,7 +17,8 @@ useEffect(()=>{
 },[dispatch, id]);
 
 return(
-<div className={s.container}>
+<div className={s.container}> 
+<Link to="/"><button >Back</button></Link>
   <div className={s.containerImage}>
   <img src={detail.image? (detail.image) : (defaultImage)} alt='Book' className={s.image}/>
   
