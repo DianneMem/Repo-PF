@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { authorByName, editorialByName, getBooksByName, sagaByName } from "../../redux/actions";
+import { useDispatch } from "react-redux";
+import {  getBooksByName  } from "../../redux/actions";
 export default function SearchBar() {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
@@ -14,9 +14,6 @@ export default function SearchBar() {
   function handlerSumbit(e) {
     e.preventDefault();
     dispatch(getBooksByName(name));
-    // dispatch(authorByName(name))
-    // dispatch(editorialByName(name))
-    // dispatch(sagaByName(name))
     setReset("")
     setName("");
   }

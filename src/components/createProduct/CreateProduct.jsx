@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-
+import { Link, useNavigate } from 'react-router-dom';
 import {
   createPost,
   getCategories,
@@ -32,7 +32,7 @@ export default function CreatePost() {
     gender: [],
   });
   console.log(input);  
-
+  const navigate = useNavigate();
  
 
   useEffect(() => {
@@ -108,12 +108,13 @@ export default function CreatePost() {
       typebook: "",
       gender: [],
     });
+    navigate('/');
   }
   function validate(input) {
     let fecha = new Date();
     let añoActual = fecha.getFullYear();
     console.log(añoActual);
-    let RegEXP = /[`ª!@#$%^*_+\=\[\]{};"\\|,.<>\/~]/;
+    let RegEXP = /[`ª!@#$%^*_+\=\[\]{};"\\|,<>\/~]/;
     let err = {};
     if (!input.title) {
       err.title = "· Title is required";
@@ -159,6 +160,7 @@ export default function CreatePost() {
   return (
     <div>
       <div>
+      <Link to="/"><button >Back</button></Link>
         <div>
           <h1>Create Publication:</h1>
         </div>
