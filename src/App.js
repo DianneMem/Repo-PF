@@ -8,11 +8,10 @@ import Detail from "./components/detail/detail";
 import CreateProduct from './components/createProduct/CreateProduct';
 import Login from "./components/login/Login"
 
-import './App.css';
 
 export default function App() {
   return (
-  <div className="App">
+  <div className="container">
     <Router>
       <Routes>
       <Route exact path="/login" element={<Login/>}/>
