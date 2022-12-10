@@ -185,7 +185,7 @@ export function getAllEditorial(){
 export function getBooksByName(title) {
   return async function (dispatch) {
     try {
-      const searchName = await axios.get(`${url}/products?title=${title}`);
+      const searchName = await axios.get(`${url}/products?search=${title}`);
       return dispatch({
         type: GET_BOOKS_BY_NAME,
         payload: searchName.data,
