@@ -1,4 +1,3 @@
-
 import {
   CHANGE_PAGE,
   GET_ALL_BOOKS,
@@ -17,6 +16,7 @@ import {
   GET_SAGA,
   GET_EDITORIAL,
   GET_AUTHOR
+
 } from "./actions";
 
 const initialState = {
@@ -32,7 +32,6 @@ const initialState = {
   allEditorial: [],
   currentPage:1,
   images: []
-  
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -229,8 +228,16 @@ const rootReducer = (state = initialState, { type, payload }) => {
             books:payload
           
         }
+        case "IMAGE":
+          return {
+            ...state,
+            images: payload
+
+          }
     default:
       return state;
+      
   }
 };
 export default rootReducer;
+                    
