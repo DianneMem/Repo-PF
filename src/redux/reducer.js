@@ -30,7 +30,7 @@ const initialState = {
   allAuthor: [],
   allSaga: [],
   allEditorial: [],
-  currentPage:1
+  currentPage: 1
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -38,8 +38,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case GET_ALL_BOOKS:
       return {
         ...state,
-        books: payload,
         allbooks: payload,
+        books: payload,
       };
     case GET_GENDERS:
       return {

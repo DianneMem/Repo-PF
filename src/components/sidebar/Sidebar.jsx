@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice, orderBooks } from "../../redux/actions";
+import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice, orderBooks, getAllBooks } from "../../redux/actions";
 import s from './Sidebar.module.css'
-
-
-
-
 
 
 export default function SideBar() {
@@ -54,7 +50,7 @@ export default function SideBar() {
     e.preventDefault()  
     setMinState(e.target.value)
   };
-    function inputMax(e){
+  function inputMax(e){
     e.preventDefault()  
     setMinState(e.target.value)
   };
@@ -63,15 +59,20 @@ export default function SideBar() {
     dispatch(orderBooks(e.target.value));
     setOrderB(e.target.value);
   };
-
-
+  function refreshButton(e) {
+    e.preventDefault();
+    dispatch(getAllBooks());
+  };
+  
 	return(
-	<React.Fragment>
-	  <p>Filter By</p>
-    <button onClick={e => select(e)} name='state' value='New'>New</button>
-    <button onClick={e => select(e)} name='state' value='Used'>Used</button>
-    <button onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
-    <br/>
+	<div className={s.nav}>
+	  <button className={s.btn0} onClick={e=>refreshButton(e)}>clear</button>
+
+	  <div className={s.state}>
+      <button className={s.btn1} onClick={e => select(e)} name='state' value='New'>New</button>
+      <button className={s.btn1} onClick={e => select(e)} name='state' value='Used'>Used</button>
+      <button className={s.btn1} onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
+	  </div>
 	
 		<select id='SelectCategory' name='categorie' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
       <option key={'default1'} value='DEFAULT' disabled>Category</option>
@@ -120,7 +121,7 @@ export default function SideBar() {
       step='0.01'
       onChange={(e)=> inputMin(e)}
       />
-      <button type="submit">+</button>
+      <button className={s.btn} type="submit">+</button>
     </form>
       <form onSubmit={e=>{priceMax(e)}}>
       <input 
@@ -132,16 +133,17 @@ export default function SideBar() {
       step='0.01'
       onChange={(e)=> inputMax(e)}
       />
-      <button type="submit">+</button>
+      <button className={s.btn} type="submit">+</button>
     </form>
 
-    <p>Order By</p>
-    <button onClick={e => order(e)} value='LP'>Lower Price</button>
-    <button onClick={e => order(e)} value='HP'>Higher Price</button>
-    <button onClick={e => order(e)} value='AZ'>A-Z</button>
-    <button onClick={e => order(e)} value='ZA'>Z-A</button>
+    <div className={s.state}>
+      <button className={s.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
+      <button className={s.btn2} onClick={e => order(e)} value='HP'>Higher Price</button>
+      <button className={s.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
+      <button className={s.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
+    </div>
     
-	</React.Fragment>
+	</div>
 )};
 
 

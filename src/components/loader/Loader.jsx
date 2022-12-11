@@ -1,17 +1,18 @@
 import React from "react";
-import gif from "./loader.gif"
+import defaultImage from "../../assets/loader4.gif"
+import s from './loader.module.css';
 
 
 
-
-const Loader=()=>{
+const Loader=({loadImg})=>{
     
-    return(
-        <div >
-            <img alt="loader" src={gif} />
-        </div>
-    )
-}
+  return(
+    <div className={s.loader}>
+      <img src={loadImg? (loadImg) : (defaultImage)} alt="Load" className={s.loadIMG}/>
+      <p>Please Wait ...</p>
+    </div>
+  )
+};
 
 
 
