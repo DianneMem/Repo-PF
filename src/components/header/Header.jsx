@@ -11,7 +11,21 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 export default function Header() {
   return (
+    <React.Fragment>
+    
+    <header className={s.header}>
+      <div>
+        <h2>flybooks</h2>
+        <p>Fast Travel documents</p>
+      </div>
+      <SearchBar/>
+      <div className={s.container}>
+        <Link to="/createProduct"><button>Login</button></Link>
+        <Link to='/products'><button>Register</button></Link>
+      </div>
     </header>
+    
+    
     
     
     <Navbar bg="dark" variant="dark">
@@ -24,6 +38,9 @@ export default function Header() {
           </Nav>
       </Container>
     </Navbar>
+    
+    
+    
     
   
   {/* 
