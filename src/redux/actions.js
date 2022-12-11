@@ -262,3 +262,28 @@ export function createPost(payload) {
     }
   };
 }
+
+export const startUploadingFile=(file=[]) => {
+return async function (dispatch) {
+  const cloudUrl = "https://api.cloudinary.com/v1_1/deudiau9e/upload";
+  const formData = new FormData();
+  formData.append("file", file[0]);
+  formData.append("upload_preset", "henrypf");
+
+  try {
+    let response = await fetch(cloudUrl, {
+      method: "POST",
+      body: formData
+    });
+    if(!response.ok)  throw new Error("can't upload image")
+    let cloudResponse = await response.json();
+    return dispatch({
+      type: "IMAGE",
+      payload:  cloudResponse.secure_url
+    })
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+}

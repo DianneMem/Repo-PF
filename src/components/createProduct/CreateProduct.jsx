@@ -6,15 +6,22 @@ import {
   getCategories,
   getLanguages,
   getGenders,
+  startUploadingFile,
 } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../loader/Loader";
+import { IconButton } from '@mui/material';
+import { UploadOutlined } from '@mui/icons-material';
+import { useRef } from "react";
+
+
 
 export default function CreatePost() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories);
   const languages = useSelector((state) => state.languages);
   const genders = useSelector((state) => state.genders);
+  const image_c = useSelector((state) => state.images);
   const [err, setErr] = useState({});
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
@@ -31,15 +38,17 @@ export default function CreatePost() {
     categorie: "",
     gender: [],
   });
-  console.log(input);  
+  console.log(input);
   const navigate = useNavigate();
- 
+
 
   useEffect(() => {
     dispatch(getCategories());
     dispatch(getLanguages());
     dispatch(getGenders());
   }, [dispatch]);
+
+  const fileInputRef = useRef();
 
   function handlerChange(e) {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -91,7 +100,7 @@ export default function CreatePost() {
 
   function handlerSubmit(e) {
     e.preventDefault();
-
+    input.image = image_c;
     dispatch(createPost(input));
     alert("Post Created!");
     setInput({
@@ -128,11 +137,11 @@ export default function CreatePost() {
       err.editorial = "· Editorial is required";
     } else if (RegEXP.test(input.editorial)) {
       err.editorial = "· Special characters are not accepted";
-    }  else if (!input.image) {
+    } else if (!input.image) {
       err.image = "· Image is required";
     } else if (!input.year) {
       err.year = "· Year input is required";
-    } else if (input.year < 0||input.year>añoActual) {
+    } else if (input.year < 0 || input.year > añoActual) {
       err.year = "· Year input Error";
     } else if (!input.price || input.price < 0) {
       err.price = "· Price input Error";
@@ -156,11 +165,20 @@ export default function CreatePost() {
     changeState();
     return <Loader />;
   }
+ 
+
+  
+const onFileInputChange =({target})=>{
+  if (target.files === 0 ) return;
+  dispatch(startUploadingFile(target.files))
+  }
+  
+
 
   return (
     <div>
       <div>
-      <Link to="/"><button >Back</button></Link>
+        <Link to="/"><button >Back</button></Link>
         <div>
           <h1>Create Publication:</h1>
         </div>
@@ -223,7 +241,7 @@ export default function CreatePost() {
                     name="saga"
                     onChange={handlerChange}
                   />
-                  
+
                 </section>
               </div>
 
@@ -232,13 +250,16 @@ export default function CreatePost() {
                 <section>
                   {" "}
                   <input
-                    placeholder="image"
-                    type="text"
-                    value={input.image}
-                    name="image"
-                    onChange={handlerChange}
+                    style={{ display: "none" }}
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={onFileInputChange}
                   />
-                  {err.image && <h5>{err.image}</h5>}
+                  <IconButton
+                    onClick={() => fileInputRef.current.click()}>
+                    <UploadOutlined />
+                  </IconButton>
+
                 </section>
               </div>
               <div>
@@ -377,16 +398,15 @@ export default function CreatePost() {
                   type="submit"
                   disabled={
                     !input.title ||
-                    err.title ||
-                    err.author ||
-                    err.editorial ||
-                    err.image ||
-                    err.year ||
-                    err.price ||
-                    !input.typebook ||
-                    !input.state ||
-                    !input.language ||
-                    !input.categorie
+                      err.title ||
+                      err.author ||
+                      err.editorial ||
+                      err.year ||
+                      err.price ||
+                      !input.typebook ||
+                      !input.state ||
+                      !input.language ||
+                      !input.categorie
                       ? true
                       : false
                   }
