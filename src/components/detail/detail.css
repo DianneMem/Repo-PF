@@ -1,0 +1,83 @@
+.contain {
+    background-color: #fefae0;
+    width: 100%;
+    padding: 0 !important;
+    margin: 0;
+    position: absolute;
+    left: 0;
+}
+
+.top {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    width: 100%;
+    padding-right: 20px;
+}
+
+.icon {
+    width: 40px;
+    
+}
+
+.image {
+    width: 450px;
+}
+
+h1{
+padding-bottom: 1rem;
+}
+.details {
+    display: flex;
+    flex-direction: row;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+
+}
+
+.left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.right {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.comprar {
+    display: flex;
+    flex-direction: row;
+
+
+}
+
+.comprar-left {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.comprar-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
+}
+.button{
+    background-color: #f5ebe0;
+    border-radius: 5px;
+    width: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid black;
+    color: black;
+
+}
