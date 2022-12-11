@@ -30,7 +30,9 @@ const initialState = {
   allAuthor: [],
   allSaga: [],
   allEditorial: [],
-  currentPage: 1
+  currentPage:1,
+  images: []
+  
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
