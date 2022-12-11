@@ -11,11 +11,9 @@ export default function Paginated({ booksPerPage, allBooks, paginate }) {
   return (
     <nav className={s.nav}>
       {pageNumbers && pageNumbers.map((number) => (
-        <div key={number}>
-          <button onClick={() => paginate(number)}>
-            {number}
-          </button>
-        </div>
+        <button key={number} onClick={() => paginate(number)} className={s.btn}>
+          {number}
+        </button>
       ))}
     </nav>
   );

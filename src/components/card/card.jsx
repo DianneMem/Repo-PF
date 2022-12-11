@@ -13,7 +13,7 @@ return(
   id === 'NO LINK' ?
   (<div key={id} className={s.cardStatic}>
     <img src={image? (image) : (defaultImage)} alt='Book' className={s.image}/>
-    <h4>{title}</h4>
+    <h5>{title}</h5>
     <p>{author}</p>
     <span>{type}</span>
     <span>$ {price}</span>
@@ -23,7 +23,7 @@ return(
     <div key={id} className={s.card}>
       <img src={image? (image) : (defaultImage)} alt='Book' className={s.image}/>
       <div className={s.data}>
-        <h4>{title}</h4>
+        <h5>{title}</h5>
         <p>{author}</p>
       </div>
       <div className={s.foot}>

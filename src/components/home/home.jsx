@@ -5,7 +5,6 @@ import { getAllBooks, setPage } from "../../redux/actions";
 
 import Card from "../card/card";
 import Paginated from "../paginado/Paginated";
-import SearchBar from "../searchBar/SearchBar";
 import Loader from "../loader/Loader";
 import Header from "../header/Header";
 import SideBar from "../sidebar/Sidebar";
@@ -14,69 +13,90 @@ import s from "./home.module.css";
 
 
 export default function Home() {
-
+  
+  // Call Global States
   const dispatch = useDispatch();
-  const allBooks = useSelector((state) => state.books);
-  const [currentPage, setCurrentPage] = useState(1);
-  // let currentPageGlobal = useSelector((state) => state.currentPage);
-  const [booksPerPage, setBooksPerPage] = useState(12);
-  const [order, setOrder] = useState("");
-  const indexOfLastBooks = currentPage * booksPerPage;
-  const IndexOfFirstBooks = indexOfLastBooks - booksPerPage;
-  const currentBooks = allBooks.slice(IndexOfFirstBooks, indexOfLastBooks);
-  const [loading, setLoading] = useState(false);
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    dispatch(setPage(pageNumber));
-    // setOrder("")
-  };
-
   useEffect(() => {
     dispatch(getAllBooks());
     setCurrentPage(1);
     dispatch(setPage(1));
-    
   }, [dispatch]);
   
-
-const changeState = () => {
-    setTimeout(() => {
-      setLoading(true);
-    }, 4000);
+  // Global States
+  const allBooks = useSelector((state) => state.allbooks);
+  const loadBooks = useSelector((state) => state.books);
+  let currentPageGlobal = useSelector((state) => state.currentPage);
+  
+  // Local States
+  const [currentPage, setCurrentPage] = useState(1);
+  const [booksPerPage, setBooksPerPage] = useState(12);
+  const indexOfLastBooks = currentPage * booksPerPage;
+  const IndexOfFirstBooks = indexOfLastBooks - booksPerPage;
+  const currentBooks = loadBooks.slice(IndexOfFirstBooks, indexOfLastBooks);
+  let pages = Math.ceil(loadBooks.length / booksPerPage);
+  
+  // Functions
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    dispatch(setPage(pageNumber));
   };
-  if (loading === false) {
-    changeState();
-    return <Loader />;
-  } else {
-    if (allBooks.length === 0) {
-      dispatch(getAllBooks());
-      setLoading(false);
-      // alert("No books found");
-    }
-  }  
   
-  function refreshButton(e) {
+  function changePage(e){
     e.preventDefault();
-    dispatch(getAllBooks());
-  }
+    if(e.target.value === 'less' && currentPage !==1){
+      setCurrentPage(currentPage - 1);
+    }
+    else if(e.target.value === 'more' && currentPage !== pages){
+      setCurrentPage(currentPage + 1);
+    }
+  };
   
-  console.log(allBooks)
+  console.log(currentPage)
+  
+  
+  // Loading SetTimeOut
+  /*
+  const [loading, setLoading] = useState(false);
+  const changeState = () => {
+      setTimeout(() => {
+        setLoading(true);
+      }, 4000);
+    };
+    if (loading === false) {
+      changeState();
+      return <Loader />;
+    } else {
+      if (allBooks.length === 0) {
+        dispatch(getAllBooks());
+        setLoading(false);
+        // alert("No books found");
+      }
+  } 
+  */
+  console.log(allBooks);
+
 
   return (
     <React.Fragment>
-      <Header/>
-      <SearchBar/>
-      <button onClick={e=>refreshButton(e)}>reset all filters</button>
+      <Header/>   
       <br/>
       <SideBar/>
       <br/>
-      <Paginated
-        booksPerPage={booksPerPage}
-        allBooks={allBooks.length}
-        paginate={paginate}
-      />
-      <br/>
+      <div className={s.paginated}>
+        <Paginated
+          booksPerPage={booksPerPage}
+          allBooks={loadBooks.length}
+          paginate={paginate}
+        />
+      </div>
+      
+      
+      {allBooks.length ?
+      (
+      <div className={s.container}>
+      {currentPage !==1 ? (<button className={s.pageBtn} value='less' onClick={(e)=> changePage(e)}>{'<'}</button>)
+      : (<button className={s.noBtn} disabled>{'<'}</button>)}
+      
       <div className={s.cards}>
         {currentBooks?.map((b) => {return (
         <div key={b._id} className={s.card}>
@@ -93,8 +113,17 @@ const changeState = () => {
             type={b.typebook}
           />
         </div>
-        )})}
+        )})} 
       </div>
+      
+      {currentPage !== pages ? (<button className={s.pageBtn} value='more'onClick={(e)=> changePage(e)}>{'>'}</button>)
+      : (<button className={s.noBtn} disabled>{'>'}</button>)}
+      
+      </div>
+      )
+      :
+      (<Loader/>)}
+      
     </React.Fragment>
   );
 }

@@ -1,23 +1,63 @@
 .cards{
-  display: grid
-  }
+  display: grid;
+  grid-template-areas:
+    'card card card card card';
+  gap: 1rem;
+  padding: 1rem;
+}
   
-  .favorite{
-    background-color: rgba(187, 0, 0, 0);
-    border-radius: 3rem;
-    transition: 0.3s;
-  }
+.favorite{
+  background-color: rgba(187, 0, 0, 0);
+  border-radius: 3rem;
+  border: 0.1px solid rgb(117, 117, 117);
+  transition: 0.3s;
+  color: red;
+} 
+.favorite:hover {
+  background-color: rgba(170, 170, 170, 0.247);
+  border-color: rgba(255, 255, 255, 0);
+}
   
-  .favorite:hover {
-    background-color: rgba(170, 170, 170, 0.247);
-    border-color: rgba(255, 255, 255, 0);
-  }
+.card{
+ /*  transform: scale(0.9); */
+  transition-duration: 0.5s;
+}
+.card:hover{
+  transform: scale(1.04);
+}
   
-  .card{
-    transition-duration: 0.5s;
-  }
-  
-  .card:hover{
-    transform: scale(1.04);
-  }
-  
+.paginated{
+display: flex;
+justify-content: center;
+}
+
+.pageBtn{
+  width: 2rem;
+  height: 2.2rem;
+  font-size: 0.9rem;
+  color:rgb(0, 0, 0);
+  background-color:rgb(255, 255, 255);
+  border: solid 2px wheat;
+  border-radius: 3px;
+  margin: 0.2rem;
+  padding: 0.4rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.pageBtn:hover{
+  color:rgb(0, 0, 0);
+  background-color:rgb(242, 191, 252);
+}
+.pageBtn:active{
+  background-color:rgb(207, 110, 226);
+}
+
+.noBtn{
+  color:rgb(255, 255, 255);
+  background-color:rgb(255, 255, 255);
+  border: none;
+}
+
+.container{
+display: flex;
+}
