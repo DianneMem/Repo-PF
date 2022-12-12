@@ -1,19 +1,23 @@
 .nav{
 display: flex;
+
 }
 
 .btn{
+  display: flex;
+  justify-content: center;
   width: 2rem;
-  height: 2.2rem;
+  height: 2rem;
   font-size: 0.9rem;
   color:rgb(0, 0, 0);
   background-color:rgb(255, 255, 255);
   border: solid 2px wheat;
   border-radius: 3px;
   margin: 0.2rem;
-  padding: 0.4rem;
+  padding: 0.2rem;
   cursor: pointer;
   transition: 0.3s;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .btn:hover{
   color:rgb(0, 0, 0);

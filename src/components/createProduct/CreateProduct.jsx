@@ -139,11 +139,12 @@ export default function CreatePost() {
     } else if (RegEXP.test(input.author)) {
       err.author = "· Special characters are not accepted";
     }
+    else if (!input.editorial) {
+      err.editorial = "· Editorial is required";
+    }
     else if (image_c.length<1) {
       err.image = "· Image required";
-    } else if (!input.editorial) {
-      err.editorial = "· Editorial is required";
-    } else if (RegEXP.test(input.editorial)) {
+    }  else if (RegEXP.test(input.editorial)) {
       err.editorial = "· Special characters are not accepted";
     }  else if (!input.year) {
       err.year = "· Year input is required";
@@ -301,26 +302,6 @@ console.log(Header);
                 </div>
                 <div class="form-group col-sm-6 flex-column d-flex">
                   <label class="form-control-label px-3" className="label">
-                    State <span class="text-danger"> *</span>{" "}
-                  </label>
-                  <select 
-                  className="select"
-                    defaultValue="state"
-                    onChange={(e) => handlerSelectState(e)}
-                  >
-                    <option disabled value="state">
-                      State
-                    </option>
-                    <option value="New">New</option>
-                    <option value="Used">Used</option>
-                  </select>
-                  {!input.state && <h5 className="errForm">{err.input}</h5>}
-                </div>
-              </div>
-           
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
                     Type Book <span class="text-danger"> *</span>{" "}
                   </label>
 
@@ -339,6 +320,27 @@ console.log(Header);
                   </select>
                   {!input.typebook && <h5 className="errForm">{err.input}</h5>}
                 </div>
+              </div>
+           
+              <div class="row justify-content-between text-left">
+              <div class="form-group col-sm-6 flex-column d-flex">
+                  <label class="form-control-label px-3" className="label">
+                    State <span class="text-danger"> *</span>{" "}
+                  </label>
+                  <select 
+                  className="select"
+                    defaultValue="state"
+                    onChange={(e) => handlerSelectState(e)}
+                  >
+                    <option disabled value="state">
+                      State
+                    </option>
+                    <option  value="New">New</option>
+                    <option disabled={input.typebook==="virtual" ?true:false}  value="Used">Used</option>
+                  </select>
+                  {!input.state && <h5 className="errForm">{err.input}</h5>}
+                </div>
+
                 <div class="form-group col-sm-6 flex-column d-flex">
                   <label class="form-control-label px-3" className="label">
                     Languages <span class="text-danger"> *</span>{" "}
