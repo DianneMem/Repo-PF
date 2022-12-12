@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice, orderBooks, getAllBooks } from "../../redux/actions";
+import Loader from "../loader/Loader";
 import s from './Sidebar.module.css'
 
 
@@ -29,40 +30,52 @@ export default function SideBar() {
   // Local States
   const [minState,setMinState]=useState("");
   let [orderB, setOrderB] = useState('');
+  let [aux,setAux]=useState("")
   
-  
+  useEffect(() => {
+
+  }, [dispatch]);
+
   // Button Functions
 	function select(e){
 	  let filter = {name: e.target.name, value: e.target.value};
 	  dispatch(filterBooks(filter))
+    setAux("")
 	};
 	function priceMin(e){
     e.preventDefault()    
 	  let filter = {name: "Min", value:minState};
 	  dispatch(filterPrice(filter))
+    setAux("")
 	};
   function priceMax(e){
     e.preventDefault()    
 	  let filter = {name: "Max", value:minState};
 	  dispatch(filterPrice(filter))
+    setAux("")
 	};
   function inputMin(e){
     e.preventDefault()  
     setMinState(e.target.value)
+    setAux("")
   };
   function inputMax(e){
     e.preventDefault()  
     setMinState(e.target.value)
+    setAux("")
   };
   function order(e) {
     e.preventDefault();
     dispatch(orderBooks(e.target.value));
     setOrderB(e.target.value);
+    setAux("")
   };
   function refreshButton(e) {
     e.preventDefault();
     dispatch(getAllBooks());
+    setAux("")
   };
+
   
 	return(
 	<div className={s.nav}>

@@ -1,4 +1,11 @@
-.body{color: #000;overflow-x: hidden;background:bisque;background-repeat: no-repeat;}
+.body{    
+  background-color: bisque;
+  width: 100%;
+  padding: 0 !important;
+  margin: 0;
+  position: absolute;
+  left: 0;
+}
 
 .card{padding: 30px 40px;margin-top: 30px;margin-bottom: 30px;border: none !important;box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2);}
 
@@ -27,7 +34,7 @@ backBtn:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !importa
   padding: 8px 30px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300
 }
 
-.button{padding: 8px 30px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300}
+.buttonForm{padding: 8px 30px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300}
 
 .select{padding: 8px 15px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300}
 
@@ -39,11 +46,18 @@ backBtn:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !importa
 
 .input:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;border: 1px solid #00BCD4;outline-width: 0;font-weight: 400}
 
-.button{font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer}
+.buttonForm{font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer}
 
-.button:hover{color: rgb(135, 133, 133) !important}
+.buttonForm:hover{color: rgb(135, 133, 133) !important}
 
-.button:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;outline-width: 0;}
+.buttonForm:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;outline-width: 0;}
 
 .btn-block{text-transform: uppercase;font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer}
 .btn-block:hover{color: #fff !important}
+
+.errForm{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 0.5rem;
+  color: rgb(250, 67, 67);
+  font-size: 12px;
+}
