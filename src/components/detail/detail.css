@@ -1,12 +1,20 @@
 .contain {
     background-color: #fefae0;
     width: 100%;
-    padding: 0 !important;
+    padding: 0 ;
     margin: 0;
     position: absolute;
     left: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.cardDetail{
+    background: #f5ebe0;
+    width: 500px;
+    padding: 30px 40px;margin-top: 55px;margin-bottom: 30px;border-radius:3px rgb(114, 114, 114);box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2);
+    border-radius: 24px;
+    margin-top: 9rem;
+}
 .top {
     display: flex;
     flex-direction: row;
@@ -17,15 +25,39 @@
 
 .icon {
     width: 40px;
-    
+    margin:0.5rem
 }
 
 .image {
+
+    border-radius: 24px ;
     width: 450px;
+    height: 650px;
+    
+    
+}
+.detailSpan{
+    font-size: 16px;
+    color:rgb(34, 34, 34)
+}
+.imgCard{
+    background: #ffffff;
+    width: 520px;
+    padding: 30px 40px;margin-bottom: 30px;border-radius:3px rgb(114, 114, 114);box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2);
+    border-radius: 24px;
+    margin-top: 6rem;
 }
 
-h1{
-padding-bottom: 1rem;
+.labelDetail{
+    background: #ffffff;
+    width: 420px;
+    padding: 30px 40px;margin-top: 55px;margin-bottom: 30px;border-radius:3px rgb(114, 114, 114);box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2);
+    border-radius: 24px;
+    
+}
+
+.titleDetail{
+margin-left: 2rem;
 }
 .details {
     display: flex;
@@ -40,6 +72,7 @@ padding-bottom: 1rem;
     justify-content: center;
     align-items: center;
     flex: 1;
+    
 }
 
 .right {
@@ -67,7 +100,26 @@ padding-bottom: 1rem;
     flex: 1;
     display: flex;
     flex-direction: column;
+    padding-left: 3rem;
     
+}
+.buttonBack{
+    background-color: #f5ebe0;
+    border-radius: 5px;
+    width: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #8d8883;
+    color: rgb(23, 23, 23);
+    cursor: pointer;
+    transition-duration: 0.4s;
+
+}
+.buttonBack:hover{
+    color: rgb(46, 46, 46);
+    border: 2px solid #d2b28f;
 }
 .button{
     background-color: #f5ebe0;
@@ -79,5 +131,6 @@ padding-bottom: 1rem;
     text-decoration: none;
     border: 1px solid black;
     color: black;
+    cursor: pointer;
 
 }

@@ -25,8 +25,8 @@ export default function CreatePost() {
   const genders = useSelector((state) => state.genders);
   const image_c = useSelector((state) => state.images);
   const [err, setErr] = useState({});
-
   const MySwal = withReactContent(Swal)
+  const [order,SetOrder]=useState("")
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
     title: "",
@@ -138,6 +138,9 @@ export default function CreatePost() {
       err.author = "· Author is required";
     } else if (RegEXP.test(input.author)) {
       err.author = "· Special characters are not accepted";
+    }
+    else if (image_c.length<1) {
+      err.image = "· Image required";
     } else if (!input.editorial) {
       err.editorial = "· Editorial is required";
     } else if (RegEXP.test(input.editorial)) {
@@ -150,6 +153,7 @@ export default function CreatePost() {
       err.price = "· Price input Error";
     }
     console.log(err);
+    SetOrder("")
     err.input = "· Input required";
     return err;
   }
@@ -168,7 +172,7 @@ export default function CreatePost() {
   const changeState = () => {
     setTimeout(() => {
       setLoading(true);
-    }, 5000);
+    }, 3000);
   };
   if (!loading) {
     changeState();
@@ -225,7 +229,7 @@ console.log(Header);
               <div class="row justify-content-between text-left">
                 <div class="form-group col-sm-6 flex-column d-flex">
                   <label class="form-control-label px-3" className="label">
-                    Editorial <span class="text-danger"> *</span>{" "}
+                    Editorial <span class="text-danger"> </span>{" "}
                   </label>{" "}
                   <input className="input"
                     placeholder="Editorial"
@@ -260,13 +264,12 @@ console.log(Header);
                     onChange={onFileInputChange}
 
                   />
-                  <IconButton   className="buttonForm" onClick={() => fileInputRef.current.click()}>
+                  <IconButton   className={image_c.length>0? "buttonFormImg":"buttonFormImgErr" } onClick={() => fileInputRef.current.click()}>
                     <UploadOutlined />
                   </IconButton>
-                  {/* {err.image && <h5>{err.image}</h5>} */}
                 </div>
                 <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
+                  <label class="form-control-label px-3" className="labelImg">
                     Year <span class="text-danger"> *</span>
                   </label>{" "}
                   <input 
