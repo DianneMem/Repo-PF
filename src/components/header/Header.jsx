@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import SearchBar from "../searchBar/SearchBar";
+import favIcon from "../../assets/favs.png";
+import buyIcon from "../../assets/buy.png"
 import s from './Header.module.css';
 
 import Container from 'react-bootstrap/Container';
@@ -9,41 +11,60 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
-export default function Header() {
+export default function Header({noSearch=false}) {
   return (
     <React.Fragment>
-    
-    <header className={s.header}>
+  
+    {noSearch ? 
+    (<header className={s.header}>
+      <div>
+        <h2>flybooks</h2>
+        <p>Fast Travel documents</p>
+      </div>
+ 
+      <div className={s.container}>
+        <button className={s.link}>Favorites</button>
+        <button className={s.link}>shopping</button>
+      </div>
+      <div className={s.container}>
+        <Link to="/login"><button className={s.link}>Login</button></Link>
+        <Link to='/createProduct'><button className={s.link}>Register</button></Link>
+      </div>
+    </header>)
+    : 
+    (<header className={s.header}>
       <div>
         <h2>flybooks</h2>
         <p>Fast Travel documents</p>
       </div>
       <SearchBar/>
       <div className={s.container}>
-        <Link to="/createProduct"><button>Login</button></Link>
-        <Link to='/products'><button>Register</button></Link>
+        <button className={s.link}>Favorites</button>
+        <button className={s.link}>shopping</button>
       </div>
-    </header>
+      <div className={s.container}>
+        <Link to="/login"><button className={s.link}>Login</button></Link>
+        <Link to='/createProduct'><button className={s.link}>Register</button></Link>
+      </div>
+    </header>)}
     
-    
-    
-    
-    <Navbar bg="dark" variant="dark">
+    {/*   
+    <Navbar bg="dark" expand="lg" variant="dark">
       <Container>
         <Navbar.Brand href="/">flybooks</Navbar.Brand>
         <SearchBar/>
+        <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/createProduct">Login</Nav.Link>
-            <Nav.Link href="/products">Register</Nav.Link>
+            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link href="/createProduct">Register</Nav.Link>
           </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
-    
-    
-    
+    */}
     
   
-  {/* 
+    {/* 
     <Navbar bg="dark" expand="lg" className='navbar-dark'>
       <Container>
         <Navbar.Brand href="/">flybooks</Navbar.Brand>
@@ -51,8 +72,8 @@ export default function Header() {
             <SearchBar/>
             <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="/">Login</Nav.Link>
-              <Nav.Link href="/">Register</Nav.Link>
+              <Nav.Link href="/login">Login</Nav.Link>
+              <Nav.Link href="/createProduct">Register</Nav.Link>
             </Nav>
         </Navbar.Collapse>
       </Container>
