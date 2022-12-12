@@ -15,7 +15,8 @@ import { UploadOutlined } from "@mui/icons-material";
 import { useRef } from "react";
 import "./CreateProduct.css";
 import Header from "../header/Header"
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 export default function CreatePost() {
   const dispatch = useDispatch();
@@ -24,6 +25,8 @@ export default function CreatePost() {
   const genders = useSelector((state) => state.genders);
   const image_c = useSelector((state) => state.images);
   const [err, setErr] = useState({});
+
+  const MySwal = withReactContent(Swal)
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
     title: "",
@@ -98,11 +101,11 @@ export default function CreatePost() {
     });
   }
 
-  function handlerSubmit(e) {
+  function handlerSubmit(e,message) {
     e.preventDefault();
     input.image = image_c;
     dispatch(createPost(input));
-    alert("Post Created!");
+   
     setInput({
       title: "",
       author: "",
@@ -117,7 +120,9 @@ export default function CreatePost() {
       typebook: "",
       gender: [],
     });
+
     navigate("/");
+    return MySwal.fire('¡The post has been created successfully!', message, 'success')
   }
   function validate(input) {
     let fecha = new Date();
@@ -174,10 +179,11 @@ export default function CreatePost() {
     if (target.files === 0) return;
     dispatch(startUploadingFile(target.files));
   };
-
-  return (<div><Header noSearch={true}/>
+console.log(Header);
+  return (<div>
+   
     <div className="body">
-     
+    <Header noSearch={true}/>
     <div class="container-fluid px-1 py-5 mx-auto">
       <div class="row d-flex justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
