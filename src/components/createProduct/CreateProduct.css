@@ -1,0 +1,49 @@
+.body{color: #000;overflow-x: hidden;background:bisque;background-repeat: no-repeat;}
+
+.card{padding: 30px 40px;margin-top: 30px;margin-bottom: 30px;border: none !important;box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2);}
+
+
+.form-control-label{margin-bottom: 0}
+.label{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 0.5rem;
+}
+.choosenGenders{padding: 8px 30px;border-radius: 5px !important;margin:6px;box-sizing: border-box;border: 1px solid #ccc;font-size: 16px !important;font-weight: 300;cursor: pointer; transition-duration: 0.4s;}
+
+.choosenGenders:hover{
+  border: 1px solid rgb(228, 69, 69);
+}
+
+.backBtn{
+  padding: 8px 30px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300;
+  font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer;width: 8rem;
+}
+backBtn:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;outline-width: 0;}
+
+.backBtn:hover{color: rgb(135, 133, 133) !important}
+
+
+.input{
+  padding: 8px 30px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300
+}
+
+.button{padding: 8px 30px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300}
+
+.select{padding: 8px 15px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300}
+
+.publication{
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 0.5rem;
+  color:rgb(92, 92, 92)
+}
+
+.input:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;border: 1px solid #00BCD4;outline-width: 0;font-weight: 400}
+
+.button{font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer}
+
+.button:hover{color: rgb(135, 133, 133) !important}
+
+.button:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;outline-width: 0;}
+
+.btn-block{text-transform: uppercase;font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer}
+.btn-block:hover{color: #fff !important}

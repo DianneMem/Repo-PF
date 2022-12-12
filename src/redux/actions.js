@@ -17,7 +17,7 @@ export const GET_SAGA="GET_SAGA"
 export const GET_EDITORIAL="GET_EDITORIAL"
 export const GET_AUTHOR="GET_AUTHOR"
 
-const url = "http://localhost:3001";
+const url = "https://pfback-production.up.railway.app";
 
 
 export function filterBooks(payload){
