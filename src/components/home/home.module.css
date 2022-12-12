@@ -4,6 +4,7 @@
     'card card card card card';
   gap: 1rem;
   padding: 1rem;
+  margin-right: 10rem;
 }
   
 .favorite{
@@ -29,6 +30,7 @@
 .paginated{
 display: flex;
 justify-content: center;
+margin-top: 5.5rem;
 }
 
 .pageBtn{

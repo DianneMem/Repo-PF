@@ -81,7 +81,7 @@ export default function Home() {
       <Header/>   
       <br/>
       <SideBar/>
-      <br/>
+    
       <div className={s.paginated}>
         <Paginated
           booksPerPage={booksPerPage}

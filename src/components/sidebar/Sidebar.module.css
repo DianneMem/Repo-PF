@@ -10,7 +10,8 @@
   border-radius: 3px;
   position: fixed;
   right:0%;
-  margin-top: 6.6rem;
+  margin-top: 12.6rem;
+  border-radius: 3rem;
 }
 .nav select{
   border: solid 2px wheat;
