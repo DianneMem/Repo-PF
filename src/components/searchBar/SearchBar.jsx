@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {  getBooksByName  } from "../../redux/actions";
+import {AiOutlineSearch} from "react-icons/ai"
+import "./SearchBar.css"
 export default function SearchBar() {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
@@ -22,20 +24,21 @@ export default function SearchBar() {
 
   return (
     <div>
-      <div>
+      <div className="searchBarBody">
         <input
+        className="searchBarInput"
           type="text"
           onChange={(e) => handlerInput(e)}
           placeholder="Buscar..."
           value={name}
         />
-        <button
+        <button className="buttonSearchBar"
           onClick={(e) => {
             handlerSumbit(e);
           }}
           type="submit"
         >
-          Buscar
+          <AiOutlineSearch/>
         </button>
       </div>
     </div>

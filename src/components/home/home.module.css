@@ -4,8 +4,9 @@
     'card card card card card';
   gap: 1rem;
   padding: 1rem;
-  margin-right: 10rem;
+  margin-left: 10.5rem;
 }
+
   
 .favorite{
   background-color: rgba(187, 0, 0, 0);
@@ -30,19 +31,21 @@
 .paginated{
 display: flex;
 justify-content: center;
-margin-top: 5.5rem;
+margin-top: 5.8rem;
 }
 
 .pageBtn{
+  display: flex;
+  justify-content: center;
   width: 2rem;
-  height: 2.2rem;
+  height: 2rem;
   font-size: 0.9rem;
   color:rgb(0, 0, 0);
   background-color:rgb(255, 255, 255);
-  border: solid 2px wheat;
+  border: solid 2px rgb(245, 210, 146);
   border-radius: 3px;
   margin: 0.2rem;
-  padding: 0.4rem;
+  padding-top: 0.1rem;
   cursor: pointer;
   transition: 0.3s;
 }
@@ -61,5 +64,12 @@ margin-top: 5.5rem;
 }
 
 .container{
-display: flex;
+/* display: flex; */
+
 }
+.paginateContainer{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  }
