@@ -14,6 +14,8 @@ import { IconButton } from "@mui/material";
 import { UploadOutlined } from "@mui/icons-material";
 import { useRef } from "react";
 import "./CreateProduct.css";
+import Header from "../header/Header"
+
 
 export default function CreatePost() {
   const dispatch = useDispatch();
@@ -135,15 +137,14 @@ export default function CreatePost() {
       err.editorial = "· Editorial is required";
     } else if (RegEXP.test(input.editorial)) {
       err.editorial = "· Special characters are not accepted";
-    } else if (!input.image) {
-      err.image = "· Image is required";
-    } else if (!input.year) {
+    }  else if (!input.year) {
       err.year = "· Year input is required";
     } else if (input.year < 0 || input.year > añoActual) {
       err.year = "· Year input Error";
     } else if (!input.price || input.price < 0) {
       err.price = "· Price input Error";
     }
+    console.log(err);
     err.input = "· Input required";
     return err;
   }
@@ -159,23 +160,24 @@ export default function CreatePost() {
     navigate("/")
   }
 
-  // const changeState = () => {
-  //   setTimeout(() => {
-  //     setLoading(true);
-  //   }, 5000);
-  // };
-  // if (!loading) {
-  //   changeState();
-  //   return <Loader />;
-  // }
+  const changeState = () => {
+    setTimeout(() => {
+      setLoading(true);
+    }, 5000);
+  };
+  if (!loading) {
+    changeState();
+    return <Loader />;
+  }
 
   const onFileInputChange = ({ target }) => {
     if (target.files === 0) return;
     dispatch(startUploadingFile(target.files));
   };
 
-  return (
+  return (<div><Header noSearch={true}/>
     <div className="body">
+     
     <div class="container-fluid px-1 py-5 mx-auto">
       <div class="row d-flex justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
@@ -196,7 +198,7 @@ export default function CreatePost() {
                     name="title"
                     onChange={handlerChange}
                   />
-                  {err.title && <h5>{err.title}</h5>}
+                  {err.title && <h5 className="errForm">{err.title}</h5>}
                 </div>
                 <div class="form-group col-sm-6 flex-column d-flex">
                   <label class="form-control-label px-3" className="label">
@@ -210,7 +212,7 @@ export default function CreatePost() {
                     name="author"
                     onChange={handlerChange}
                   />
-                  {err.author && <h5>{err.author}</h5>}
+                  {err.author && <h5 className="errForm">{err.author}</h5>}
                 </div>
               </div>
 
@@ -226,7 +228,7 @@ export default function CreatePost() {
                     name="editorial"
                     onChange={handlerChange}
                   />
-                  {err.editorial && <h5>{err.editorial}</h5>}
+                  {err.editorial && <h5 className="errForm">{err.editorial}</h5>}
                 </div>
                 <div class="form-group col-sm-6 flex-column d-flex">
                   <label class="form-control-label px-3" className="label">Saga </label>{" "}
@@ -252,9 +254,10 @@ export default function CreatePost() {
                     onChange={onFileInputChange}
 
                   />
-                  <IconButton   className="button" onClick={() => fileInputRef.current.click()}>
+                  <IconButton   className="buttonForm" onClick={() => fileInputRef.current.click()}>
                     <UploadOutlined />
                   </IconButton>
+                  {/* {err.image && <h5>{err.image}</h5>} */}
                 </div>
                 <div class="form-group col-sm-6 flex-column d-flex">
                   <label class="form-control-label px-3" className="label">
@@ -268,7 +271,7 @@ export default function CreatePost() {
                     name="year"
                     onChange={handlerChange}
                   />
-                  {err.year && <h5>{err.year}</h5>}
+                  {err.year && <h5 className="errForm">{err.year}</h5>}
                 </div>
               </div>
 
@@ -285,7 +288,7 @@ export default function CreatePost() {
                     name="price"
                     onChange={handlerChange}
                   />
-                  {err.price && <h5>{err.price}</h5>}
+                  {err.price && <h5 className="errForm">{err.price}</h5>}
                 </div>
                 <div class="form-group col-sm-6 flex-column d-flex">
                   <label class="form-control-label px-3" className="label">
@@ -302,7 +305,7 @@ export default function CreatePost() {
                     <option value="New">New</option>
                     <option value="Used">Used</option>
                   </select>
-                  {!input.state && <h5>{err.input}</h5>}
+                  {!input.state && <h5 className="errForm">{err.input}</h5>}
                 </div>
               </div>
            
@@ -325,7 +328,7 @@ export default function CreatePost() {
                     <option value="physical">Physical</option>
                     <option value="virtual"> Virtual</option>
                   </select>
-                  {!input.typebook && <h5>{err.input}</h5>}
+                  {!input.typebook && <h5 className="errForm">{err.input}</h5>}
                 </div>
                 <div class="form-group col-sm-6 flex-column d-flex">
                   <label class="form-control-label px-3" className="label">
@@ -350,7 +353,7 @@ export default function CreatePost() {
                       </option>
                     ))}
                   </select>
-                  {!input.language && <h5>{err.input}</h5>}
+                  {!input.language && <h5 className="errForm">{err.input}</h5>}
                 </div>
               </div>
 
@@ -378,7 +381,7 @@ export default function CreatePost() {
                       </option>
                     ))}
                   </select >
-                  {!input.categorie && <h5>{err.input}</h5>}
+                  {!input.categorie && <h5 className="errForm">{err.input}</h5>}
                 </div>
                 <div class="form-group col-sm-6 flex-column d-flex">
                   <label class="form-control-label px-3" className="label">
@@ -403,7 +406,7 @@ export default function CreatePost() {
                       </option>
                     ))}
                   </select >
-                  {!input.gender.length && <h5>{err.input}</h5>}
+                  {!input.gender.length && <h5 className="errForm"> {err.input}</h5>}
                 </div>
               </div>
 
@@ -424,7 +427,7 @@ export default function CreatePost() {
               <button
              
                 class="btn-block btn-primary"
-                className="button"
+                className="buttonForm"
                 type="submit"
                 disabled={
                   !input.title ||
@@ -447,6 +450,7 @@ export default function CreatePost() {
           </div>
         </div>
       </div>
+    </div>
     </div>
     </div>
     

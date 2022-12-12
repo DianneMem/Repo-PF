@@ -55,7 +55,7 @@ export default function Home() {
   
   
   // Loading SetTimeOut
-  /*
+  
   const [loading, setLoading] = useState(false);
   const changeState = () => {
       setTimeout(() => {
@@ -72,7 +72,7 @@ export default function Home() {
         // alert("No books found");
       }
   } 
-  */
+  
   console.log(allBooks);
 
 
