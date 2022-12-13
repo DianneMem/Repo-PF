@@ -117,6 +117,7 @@ export default function Home() {
           <div className={s.cards}>
             {currentBooks?.map((b) => {
               return (
+               
                 <div key={b._id} className={s.card}>
                   <button className={s.favorite}>
                     <FiHeart />

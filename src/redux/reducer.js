@@ -37,10 +37,12 @@ const initialState = {
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_ALL_BOOKS:
+      const auxBooks= payload.filter(e=> e.available===true )
+     
       return {
         ...state,
-        allbooks: payload,
-        books: payload,
+        allbooks: auxBooks,
+        books: auxBooks,
       };
     case GET_GENDERS:
       return {
