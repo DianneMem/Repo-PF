@@ -11,21 +11,28 @@ import ebook from '../../assets/ebook.png';
 import physical from '../../assets/physical.png';
 import Header from '../header/Header';
 import Loader from '../loader/Loader';
+import Stripe from '../stripe/Stripe';
 
 export default function Detail() {
 
   let detail = useSelector(state => state.detailsBook);
-  let { id } = useParams();
+  let { _id } = useParams();
   const nagivate=useNavigate()
   const dispatch = useDispatch();
+  
   useEffect(() => {
-    dispatch(getBooksDetails(id));
-  }, [dispatch, id]);
+    dispatch(getBooksDetails(_id));
+  }, [dispatch, _id]);
 
   function backHandler(e){
     e.preventDefault()
     nagivate("/")
   }
+  function paymentHandler(e){
+    e.preventDefault()
+    nagivate(`/payment/${_id}`)
+  }
+
   const [loading, setLoading] = useState(false);
   const changeState = () => {
     setTimeout(() => {
@@ -79,7 +86,7 @@ export default function Detail() {
         <div class='comprar-right'>
           <h3 >{detail.price}</h3>
           
-          <a className='button'>Buy</a></div>
+          <button onClick={e=>paymentHandler(e)} className='button' >Buy</button></div>
       </div>
 
         </div>
