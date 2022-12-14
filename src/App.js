@@ -7,6 +7,7 @@ import CreateProduct from "./components/createProduct/CreateProduct";
 import Stripe from "./components/stripe/Stripe.jsx";
 import { Login } from "./components/login/Login";
 import { Register } from "./components/register/Register";
+import DashboardAdmin from "./components/dashboardAdmin/dashboardAdmin"
 
 export default function App() {
   return (
