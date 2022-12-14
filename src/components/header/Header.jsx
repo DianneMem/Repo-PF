@@ -35,7 +35,7 @@ export default function Header({noSearch=false}) {
       </div>
       <div className={s.container}>
         <Link to="/login"><button className={s.link}>Login</button></Link>
-        <Link to='/createProduct'><button className={s.link}>Register</button></Link>
+        <Link to='/createProduct'><button className={s.link}>Create Post</button></Link>
       </div>
     </header>)
     : 
@@ -51,7 +51,7 @@ export default function Header({noSearch=false}) {
       </div>
       <div className={s.container}>
         <Link to="/login"><button className={s.link}>Login</button></Link>
-        <Link to='/createProduct'><button className={s.link}>Register</button></Link>
+        <Link to='/createProduct'><button className={s.link}>Create Post</button></Link>
       </div>
     </header>)}
     
