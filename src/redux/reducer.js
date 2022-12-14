@@ -31,7 +31,8 @@ const initialState = {
   allSaga: [],
   allEditorial: [],
   currentPage:1,
-  images: []
+  images: [],
+  auxState:[]
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -41,6 +42,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
      
       return {
         ...state,
+        auxState:payload,
         allbooks: auxBooks,
         books: auxBooks,
       };
