@@ -11,6 +11,10 @@ import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
 
 export default function Home() {
+  if(!localStorage.getItem("cart")){
+    localStorage.setItem("cart","[]")
+   
+  }
   // Call Global States
   const dispatch = useDispatch();
   useEffect(() => {
@@ -20,6 +24,8 @@ export default function Home() {
   }, [dispatch]);
 
   // Global States
+  let getCart = JSON.parse(localStorage.getItem("cart"));
+  console.log(getCart);
   const allBooks = useSelector((state) => state.allbooks);
   const loadBooks = useSelector((state) => state.books);
   let currentPageGlobal = useSelector((state) => state.currentPage);
@@ -47,8 +53,6 @@ export default function Home() {
     }
   }
 
-  console.log(currentPage);
-
   // Loading SetTimeOut
 
   const [loading, setLoading] = useState(false);
@@ -68,8 +72,6 @@ export default function Home() {
     }
   }
 
-  console.log(allBooks);
-
   return (
     <React.Fragment>
       <Header />
@@ -78,46 +80,45 @@ export default function Home() {
 
       {allBooks.length ? (
         <div className={s.container}>
-           <div className={s.paginated}>
-          {currentPage !== 1 ? (
-            <button
-              className={s.pageBtn}
-              value="less"
-              onClick={(e) => changePage(e)}
-            >
-              {"<"}
-            </button>
-          ) : (
-            <button className={s.noBtn} disabled>
-              {"<"}
-            </button>
-          )}
-         
+          <div className={s.paginated}>
+            {currentPage !== 1 ? (
+              <button
+                className={s.pageBtn}
+                value="less"
+                onClick={(e) => changePage(e)}
+              >
+                {"<"}
+              </button>
+            ) : (
+              <button className={s.noBtn} disabled>
+                {"<"}
+              </button>
+            )}
+
             <Paginated
               booksPerPage={booksPerPage}
               allBooks={loadBooks.length}
               paginate={paginate}
             />
-        
-          {currentPage !== pages ? (
-            <button
-              className={s.pageBtn}
-              value="more"
-              onClick={(e) => changePage(e)}
-            >
-              {">"}
-            </button>
-          ) : (
-            <button className={s.noBtn} disabled>
-              {">"}
-            </button>
-          )}
-            </div>
+
+            {currentPage !== pages ? (
+              <button
+                className={s.pageBtn}
+                value="more"
+                onClick={(e) => changePage(e)}
+              >
+                {">"}
+              </button>
+            ) : (
+              <button className={s.noBtn} disabled>
+                {">"}
+              </button>
+            )}
+          </div>
 
           <div className={s.cards}>
             {currentBooks?.map((b) => {
               return (
-               
                 <div key={b._id} className={s.card}>
                   <button className={s.favorite}>
                     <FiHeart />

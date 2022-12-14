@@ -7,7 +7,9 @@ import CreateProduct from "./components/createProduct/CreateProduct";
 import Stripe from "./components/stripe/Stripe.jsx";
 import { Login } from "./components/login/Login";
 import { Register } from "./components/register/Register";
+import Cart from "./components/cart/Cart.jsx"
 import DashboardAdmin from "./components/dashboardAdmin/dashboardAdmin"
+
 
 export default function App() {
   return (
@@ -20,7 +22,9 @@ export default function App() {
           <Route exact path="/createproduct" element={<CreateProduct />} />
           <Route exact path="/detail/:_id" element={<Detail />} />
           <Route exact path="/payment/:_id" element={<Stripe />} />
+          <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/admin" element={<DashboardAdmin/>} />
+
         </Routes>
       </Router>
     </div>
