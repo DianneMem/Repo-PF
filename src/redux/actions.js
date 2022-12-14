@@ -13,9 +13,9 @@ export const CHANGE_PAGE="CHANGE_PAGE";
 export const FILTER_BOOKS = "FILTER_BOOKS";
 export const ORDER_BOOKS = "ORDER_BOOKS";
 export const FILTER_PRICE = "FILTER_PRICE";
-export const GET_SAGA="GET_SAGA"
-export const GET_EDITORIAL="GET_EDITORIAL"
-export const GET_AUTHOR="GET_AUTHOR"
+export const GET_SAGA="GET_SAGA";
+export const GET_EDITORIAL="GET_EDITORIAL";
+export const GET_AUTHOR="GET_AUTHOR";
 
 const url = "https://pfback-production.up.railway.app";
 
@@ -298,3 +298,62 @@ return async function (dispatch) {
   }
 }
 }
+
+
+
+export function disablePost(id) {
+  return async function () {
+    try {
+      let post = await axios.put(`${url}/products/deletelogic/${id}`);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function deletePost(id) {
+  return async function () {
+    try {
+      let post = await axios.delete(`${url}/products/${id}`);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+
+export function disableUser(id) {
+  return async function () {
+    try {
+      let post = await axios.put(`${url}/users/deletelogic/${id}`);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function deleteUser(id) {
+  return async function () {
+    try {
+      let post = await axios.delete(`${url}/users/${id}`);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function modifyUser(id, payload) {
+  return async function () {
+    try {
+      let post = await axios.put(`${url}/users/${id}`, payload);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
