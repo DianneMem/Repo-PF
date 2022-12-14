@@ -2,6 +2,25 @@ import React from 'react'
 
 export const Register = () => {
   
+	const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!newUser.username || !newUser.email || !newUser.password) {
+
+            alert("Cannot have empty elements!!")
+
+        } else {
+            dispatch(actions.createUser(newUser))
+
+            setNewUser({
+                username: '',
+                email: '',
+                password: '',
+              
+            });
+        }
+    };
+
+	
   return (
 
     <section className="ftco-section">
