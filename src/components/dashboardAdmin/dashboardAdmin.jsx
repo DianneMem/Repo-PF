@@ -21,7 +21,7 @@ export default function Home() {
   }, [dispatch]);
 
   // Global States
-  const allBooks = useSelector((state) => state.allbooks);
+  const allBooks = useSelector((state) => state.auxState);
   const allUsers = useSelector((state) => state.users);
   
   
