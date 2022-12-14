@@ -227,7 +227,7 @@ export function authorByName(name) {
 export function editorialByName(name) {
   return async function (dispatch) {
     try {
-      let res = await axios.get(`${url}/filters/editorial/${name}`);
+      let res = await axios.get(`${url}/userController/editorial/${name}`);
       return dispatch({
         type: GET_EDITORIAL,
         payload: res.data,
@@ -256,6 +256,17 @@ export function createPost(payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${url}/products`, payload);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function createUser(payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${url}/users`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
