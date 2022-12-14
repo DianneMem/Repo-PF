@@ -19,7 +19,6 @@ export default function App() {
           <Route exact path="/createproduct" element={<CreateProduct />} />
           <Route exact path="/detail/:_id" element={<Detail />} />
           <Route exact path="/payment/:_id" element={<Stripe />} />
-          <Route exact path="/admin" element={<DashboardAdmin/>} />
         </Routes>
       </Router>
     </div>
