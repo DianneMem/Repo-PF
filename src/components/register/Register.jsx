@@ -80,16 +80,15 @@ console.log(input);
 
 	return (
 
-		<section className="section-log ">
+		<section className="section-reg ">
 			<div className="container">
-
-				<div className="row justify-content-center mg-2" >
-					<div className="col-md-6 text-center mt-5">
+				<div className="row justify-content-center  fixed-top" >
+					<div className="col-md-6 text-center mt-4">
 						<h2 className="heading-section">Register</h2>
 					</div>
 				</div>
 
-				<div className="row justify-content-center ">
+				<div className="row justify-content-center  ">
 					<div className="col-md-12 col-lg-10">
 						<div className="wrap d-flex justify-content-center">
 
@@ -138,8 +137,8 @@ console.log(input);
 
 
 									{/* enlace para google */}
-									<div className="mt-1  text-center">
-										<a  href='http://localhost:3001/google/signup' className="order-md-last btnl btnl-primary col-lg-10">
+									<div className="mt-1  text-center ">
+										<a  href='http://localhost:3001/google/signup' className="order-md-last btn btn-outline-danger col-lg-10">
 										<Google />
                   <Typography sx={{ml: 1}}>Google</Typography>
 										</a>
