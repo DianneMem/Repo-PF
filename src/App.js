@@ -13,7 +13,7 @@ import DashboardAdmin from "./components/dashboardAdmin/dashboardAdmin"
 
 export default function App() {
   return (
-    <div className="container">
+    <div >
       <Router>
         <Routes>
           <Route exact path="/login" element={<Login />} />
