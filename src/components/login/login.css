@@ -84,8 +84,17 @@
   box-sizing: border-box;
   margin: 0;
   border: none;
-
-
+}
+.section-reg {
+  display: block;
+  background-color: rgb(244, 231, 227);
+  padding-top: 5em;
+  padding-right: 0px;
+  padding-bottom: 7em;
+  padding-left: 0px;
+  box-sizing: border-box;
+  margin: 0;
+  border: none;
 }
 .div-log {
   background-color: #fff;
