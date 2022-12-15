@@ -5,7 +5,7 @@ import { FiHeart } from "react-icons/fi";
 import defaultImage from '../../assets/bookDefault.png';
 import s from './dashCard.module.css';
 
-export default function DashCard({id, title, image, type, price, author}){
+export default function DashCard({id, title, image, typebook, price, author, categorie, editorial, saga, language, gender, year, state, available, deletes, disable }){
 
   // Only First Mayus
   let titlemod = title.toLowerCase().split(' ').join(' ');
@@ -30,22 +30,36 @@ export default function DashCard({id, title, image, type, price, author}){
 return(<>
 
     <div key={id} className={s.card}>
-      <div className={s.containerImage}>
-        <img src={image? (image) : (defaultImage)} alt='Book' className={s.image}/>
-        <div className={s.aux}>
+      <img src={image? (image) : (defaultImage)} alt='Book' className={s.image}/>
+      <div className={s.info}>
+        <p className={s.title}>{title}</p>
+        <div>
+          <p>Category: {categorie}</p>
+          <span>Genders:</span>
+          <span>{gender?.join(', ')}</span>
         </div>
-      </div>
-        
-      <div className={s.data}>
-        <div className={s.containerTitle}>
-          <p>{title}</p>
+        <div className={s.infoContainer}>
+          <p>Author: {author}</p>
+          <p>|</p>
+          <p>Editorial: {editorial}</p>
+          <p>|</p>
+          <p>Language: {language}</p>
+          <p>|</p>
+          <p>Year: {year}</p>
+          <p>|</p>
+          <p>State: {state}</p>
+          <p>|</p>
+          <p>Type: {typebook}</p>
+          <p>|</p>
+          {available? (<p>Available: Yes</p>) : (<p>Available: No</p>)}
+          <p>|</p>
+          <p>${price}</p>
         </div>
-        <p>{author}</p>
-      </div>
-      
-      <div className={s.foot}>
-        <span>{type}</span>
-        <span>$ {price}</span>
+        <div className={s.infoContainer}>
+          {available? (<button value={id} onClick={e => disable(e)} className="btn btn-outline-warning">Disable</button>) : 
+          (<button value={id} onClick={e => disable(e)} className="btn btn-outline-warning">Enable</button>)}
+          <button value={id} onClick={e => deletes(e)} className="btn btn-outline-danger">Delete</button>
+        </div>
       </div>
     </div>
     

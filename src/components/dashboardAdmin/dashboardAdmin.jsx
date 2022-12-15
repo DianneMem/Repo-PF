@@ -22,21 +22,28 @@ export default function Home() {
 
   // Global States
   const allBooks = useSelector((state) => state.auxState);
+  const loadBooks = useSelector((state) => state.auxState);
   const allUsers = useSelector((state) => state.users);
   
-  
-  const loadBooks = useSelector((state) => state.books);
 
   // Local States
   const [currentPage, setCurrentPage] = useState(1);
-  const [booksPerPage, setBooksPerPage] = useState(10);
+  const [booksPerPage, setBooksPerPage] = useState(6);
   const indexOfLastBooks = currentPage * booksPerPage;
   const IndexOfFirstBooks = indexOfLastBooks - booksPerPage;
   const currentBooks = loadBooks.slice(IndexOfFirstBooks, indexOfLastBooks);
   let pages = Math.ceil(loadBooks.length / booksPerPage);
   
   let [userInput, setUserInput] = useState({});
-  console.log(userInput)
+  let [productInput, setProductInput] = useState({});
+
+  const [advice, setAdvice] = useState('');
+  console.log(productInput)
+  console.log(allBooks);
+  console.log('users&admins', allUsers)
+  
+  
+  
   // Functions
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -86,6 +93,7 @@ export default function Home() {
     ...userInput,
     [e.target.name]: e.target.value
     })
+    setAdvice('Press Modify to change authorization');
   }
 
   async function modifyUserById(e, user){
@@ -100,29 +108,8 @@ export default function Home() {
     
     await dispatch(modifyUser(user._id, inputSend));
     dispatch(getAllUsers());
+    setAdvice('');
   }
-
-  // Loading SetTimeOut
-  /* 
-  const [loading, setLoading] = useState(false);
-  const changeState = () => {
-    setTimeout(() => {
-      setLoading(true);
-    }, 4000);
-  };
-  if (loading === false) {
-    changeState();
-    return <Loader />;
-  } else {
-    if (allBooks.length === 0) {
-      dispatch(getAllBooks());
-      setLoading(false);
-      // alert("No books found");
-    }
-  } */
-  console.log(allBooks);
-  console.log('users-admin', allUsers)
-  
   
   
   
@@ -168,7 +155,7 @@ export default function Home() {
           <div className={s.cards}>
             {currentBooks?.map((b) => {
               return (
-                <div key={b._id} className={s.card}>
+                <div key={b._id}>
                   <DashCard
                     id={b._id}
                     title={b.title}
@@ -176,19 +163,17 @@ export default function Home() {
                     typebook={b.typebook}
                     price={b.price}
                     author={b.author}
-                    type={b.typebook}
+                    categorie={b.categorie}
+                    editorial={b.editorial}
+                    saga={b.saga}
+                    language={b.language}
+                    gender={b.gender}
+                    year={b.year}
+                    state={b.state}
+                    available={b.available}
+                    disable={disableItem}
+                    deletes={deleteItem}
                   />
-                  {b.available ? 
-                  (<button value={b._id} className={s} onClick={e => disableItem(e)}>
-                    Disable
-                  </button>) : 
-                  (<button value={b._id} className={s} onClick={e => disableItem(e)}>
-                    Enable
-                  </button>)}
-                  
-                  <button value={b._id} className={s} onClick={e => deleteItem(e)}>
-                    Delete
-                  </button>
                 </div>
               );
             })}
@@ -211,24 +196,25 @@ export default function Home() {
         <h3>Users</h3>
         
         {allUsers?.map((u)=>{return(
-        <form className={s.user} onSubmit={(e) => modifyUserById(e, u)}>
+        <form className={s.user} onSubmit={(e) => modifyUserById(e,u)}>
           <p>id: {u._id}</p>
           <p>role: {u.role}</p>
           {u.role === 'user' ? 
-          (<button name='role' value='admin' onClick={(e)=>handleInputs(e)}>admin</button>) : 
-          (<button name='role' value='user' onClick={(e)=>handleInputs(e)}>user</button>)}
+          (<button name='role' value='admin' onClick={(e)=>handleInputs(e,u)}>admin</button>) : 
+          (<button name='role' value='user' onClick={(e)=>handleInputs(e,u)}>user</button>)}
+          <span>{advice}</span>
           <p>username: {u.username}</p>
           <input type='text' name='username' onChange={(e)=>handleInputs(e)} placeholder={'New username'}/>
-          <p>firstname: {u.firstname}</p>
+          {/* <p>firstname: {u.firstname}</p>
           <input type='text' name='firstname' onChange={(e)=>handleInputs(e)} placeholder={'New firstname'}/>
           <p>lastname: {u.lastname}</p> 
           <input type='text' name='lastname' onChange={(e)=>handleInputs(e)} placeholder={'New lastname'}/>     
           <p>adress: {u.adress}</p>
           <input type='text' name='adress' onChange={(e)=>handleInputs(e)} placeholder={'New adress'}/>
+          <p>phone: {u.phone}</p>
+          <input type='tel' name='phone' onChange={(e)=>handleInputs(e)} placeholder={'New phone'}/> */}
           <p>email: {u.email}</p>
           <input type='email' name='email' onChange={(e)=>handleInputs(e)} placeholder={'New email'}/>
-          <p>phone: {u.phone}</p>
-          <input type='tel' name='phone' onChange={(e)=>handleInputs(e)} placeholder={'New phone'}/>
           
           <button type='submit'>Modify</button>
           <hr/>

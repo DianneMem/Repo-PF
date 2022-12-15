@@ -1,10 +1,8 @@
 .cards{
-  display: grid;
-  grid-template-areas:
-    'card card card card card';
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   padding: 1rem;
-  margin-left: 10.5rem;
 }
 
   
@@ -19,17 +17,11 @@
   background-color: rgba(170, 170, 170, 0.247);
   border-color: rgba(255, 255, 255, 0);
 }
-  
-.card{
- /*  transform: scale(0.9); */
-  transition-duration: 0.5s;
-}
-.card:hover{
-  transform: scale(1.04);
-}
-  
+
+
 .paginated{
 display: flex;
+flex-wrap: wrap;
 justify-content: center;
 margin-top: 5.8rem;
 }
