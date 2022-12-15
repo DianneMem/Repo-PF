@@ -18,7 +18,7 @@ export const GET_EDITORIAL="GET_EDITORIAL";
 export const GET_AUTHOR="GET_AUTHOR";
 
 const url = "https://pfback-production.up.railway.app";
-
+const localhost = 'http://localhost:3001'
 
 export function filterBooks(payload){
   return async function(dispatch){
@@ -266,7 +266,7 @@ export function createPost(payload) {
 export function createUser(payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${url}/users`, payload);
+      let post = await axios.post(`${localhost}/users`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
