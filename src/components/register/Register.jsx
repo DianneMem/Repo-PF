@@ -139,10 +139,10 @@ console.log(input);
 
 									{/* enlace para google */}
 									<div className="mt-1  text-center">
-										<button type="submit" className="order-md-last btnl btnl-primary col-lg-10">
+										<a  href='http://localhost:3001/google/signup' className="order-md-last btnl btnl-primary col-lg-10">
 										<Google />
                   <Typography sx={{ml: 1}}>Google</Typography>
-										</button>
+										</a>
 									</div>
 									</div>
 								</form>
