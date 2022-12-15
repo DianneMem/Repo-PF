@@ -3,6 +3,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { createUser } from '../../redux/actions'
+import { Google } from '@mui/icons-material';
+import { Typography } from '@mui/material';
 
 export const Register = () => {
 
@@ -78,7 +80,7 @@ console.log(input);
 
 	return (
 
-		<section className="ftco-section">
+		<section className="section-log ">
 			<div className="container">
 
 				<div className="row justify-content-center mg-2" >
@@ -91,7 +93,8 @@ console.log(input);
 					<div className="col-md-12 col-lg-10">
 						<div className="wrap d-flex justify-content-center">
 
-							<div className="login-wrap p-4 p-lg-5 border border-dark">
+							<div className="login-wrap p-4 p-lg-5 div-log col-lg-5
+							">
 								<div className="d-flex">
 									<div className="w-100">
 										<h3 className="mb-4">Sign In</h3>
@@ -127,14 +130,20 @@ console.log(input);
 
 									</div>
 
-									<div className="form-group">
-										<button onSubmit={(e) => handleSubmit(e)} type="submit" className="form-control btn btn-primary submit px-3">Sign In</button>
+
+									<div className='row justify-content-center '>
+									<div className="form-group text-center">
+										<button onSubmit={(e) => handleSubmit(e)} type="submit" className="btnl btnl-primary col-lg-10">Sign In</button>
 									</div>
 
 
 									{/* enlace para google */}
-									<div className="mt-1">
-										<button type="submit" className="form-control btn btn-primary submit px-3">Google</button>
+									<div className="mt-1  text-center">
+										<button type="submit" className="order-md-last btnl btnl-primary col-lg-10">
+										<Google />
+                  <Typography sx={{ml: 1}}>Google</Typography>
+										</button>
+									</div>
 									</div>
 								</form>
 							</div>
