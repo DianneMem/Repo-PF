@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, {useEffect, useState } from 'react';
+
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -7,25 +7,30 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { useParams } from "react-router-dom";
 import axios from "axios";
-import { getBooksDetails } from "../../redux/actions";
-import "./Stripe.css";
 import Header from "../header/Header";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { useNavigate } from 'react-router-dom';
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
 );
 
 const CheckoutForm = () => {
-  const detailState = useSelector((state) => state.detailsBook);
-  let { _id } = useParams();
+
   const stripe = useStripe();
   const elements = useElements();
-  const dispatch = useDispatch();
-
+  const MySwal = withReactContent(Swal)
+  const navigate= useNavigate()
+  let getCart=JSON.parse(localStorage.getItem("cart"))
+let totalAmount={
+  amount:getCart? ( getCart.map(e=>e.price)).reduce((sum,item)=> sum +item, 0) :0,
+  description:getCart? (getCart.map(e=>e._id).join(" ")):" "
+}
+console.log(totalAmount);
   useEffect(() => {
-    dispatch(getBooksDetails(_id));
-  }, [dispatch, _id]);
+
+  }, []);
 
   const [loading, setLoading] = useState(false);
 
@@ -45,8 +50,8 @@ const CheckoutForm = () => {
           "http://localhost:3001/api/checkout",
           {
             id,
-            amount: Math.ceil(detailState.price) * 100,
-            created: detailState._id,
+            amount: Math.ceil(totalAmount.amount) * 100,
+            created: totalAmount.description,
           }
         );
 
@@ -59,24 +64,39 @@ const CheckoutForm = () => {
     }
   };
 
+  function handlerDeleteAll(e,message){
+    e.preventDefault()
+    localStorage.clear()
+    MySwal.fire('You delete all Cart Items!', message, 'info');
+    navigate("/")
+  }
+
+  function successBuy(e,message){
+
+    MySwal.fire('Thank You for your purchase!', message, 'success');
+    localStorage.clear()
+  }
+  
+
+
   return (
   <div >
-      <Header noSearch={true} />
-    <form className="stripeContainer" onSubmit={handleSubmit}>
+      {/* <Header noSearch={true} /> */}
+    <form onSubmit={handleSubmit}>
   
-      <div className="productCard">
-      <div>{detailState.title}</div>
-        <img className="paymentImg" src={detailState.image} alt="img" />
-        <div>{detailState._id}</div>
-        <div>{detailState.author}</div>
-        <div>{detailState.editorial}</div>
-        <div>{detailState.language}</div>
-        <div>{detailState.year}</div>
-        <div>{detailState.state}</div>
+      <div >
+        <button onClick={e=>handlerDeleteAll(e)}>Delete all Cart Items</button>
+      {getCart? getCart.map(e=> <div><img src={e.image} alt="imgcart" />
+<h1>{e.title}</h1>
+<h1>{e.price}</h1>
+<h1>{e.author}</h1>
+<h1>{e.state}</h1>
+<h1>{e.Editorial}</h1></div>
+):<h1>Your Cart is Empty</h1> }
       </div>
-     <div className="productCard">
+      {totalAmount.amount!==0?      <div >
      <CardElement />
-        <button disabled={!stripe}>
+        <button onClick={e=>successBuy(e)} disabled={!stripe}>
           {loading ? (
             <div role="status">
               <span>Loading...</span>
@@ -86,14 +106,15 @@ const CheckoutForm = () => {
           )}
         </button>
  
-     </div>
+     </div>:<div> </div>}
+
   
     </form>
     </div>
   );
 };
 
-function Stripe() {
+function Cart() {
   return (
     <Elements stripe={stripePromise}>
       <div>
@@ -107,4 +128,4 @@ function Stripe() {
   );
 }
 
-export default Stripe;
+export default Cart;
