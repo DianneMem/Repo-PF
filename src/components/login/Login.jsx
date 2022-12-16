@@ -1,8 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../redux/actions";
+
 
 export const Login = () => {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [input, setInputs] = useState({
+		password: "",
+		username: "",
+	});
+
+  console.log(input)
+
+
+  const handleSubmit = (e) => {
+		e.preventDefault();
+    dispatch(loginUser({username: input.username, password: input.password}))
+    navigate("/")
+  }
+
+  const handleUser = (e) => {
+		setInputs({ ...input, [e.target.name]: e.target.value })
+		console.log(input);
+	};
+
+
   return (
     <div>
       <section className="section-log">
@@ -35,26 +64,28 @@ export const Login = () => {
                       <h3 className="mb-4">Login</h3>
                     </div>
                   </div>
-                  <form action="#" className="signin-form">
+                  <form action="#" className="signin-form" onSubmit={(e) => handleSubmit(e)} >
                     {/* correo */}
                     <div className="form-group mb-3">
-                      <label className="label" for="email">
-                        E-mail
+                      <label className="label">
+                        username
                       </label>
                       <input
+                        onChange={(e) => handleUser(e)}
                         type="text"
                         className="form-control"
-                        name="email"
-                        placeholder="E-mail"
+                        name="username"
+                        placeholder="username"
                         required
                       />
                     </div>
                     {/* contraseña */}
                     <div className="form-group mb-3">
-                      <label className="label" for="password">
+                      <label className="label">
                         Password
                       </label>
                       <input
+                        onChange={(e) => handleUser(e)}
                         type="password"
                         className="form-control"
                         name="password"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FiHeart } from "react-icons/fi";
 import { getAllBooks, setPage } from "../../redux/actions";
-
+import jwt from "jwt-decode"
 import Card from "../card/card";
 import Paginated from "../paginado/Paginated";
 import Loader from "../loader/Loader";
@@ -29,7 +29,11 @@ export default function Home() {
   const allBooks = useSelector((state) => state.allbooks);
   const loadBooks = useSelector((state) => state.books);
   let currentPageGlobal = useSelector((state) => state.currentPage);
-
+  const token = useSelector((state) => state.sessionState)
+  if(token.length !== 0){
+    let currentToken = jwt(token)
+      console.log(currentToken)
+  }
   // Local States
   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage, setBooksPerPage] = useState(12);
