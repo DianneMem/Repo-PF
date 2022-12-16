@@ -15,7 +15,8 @@ import {
   ORDER_BOOKS,
   GET_SAGA,
   GET_EDITORIAL,
-  GET_AUTHOR, 
+  GET_AUTHOR,
+  GET_USER_STRIPE, 
   
 
 } from "./actions";
@@ -33,7 +34,8 @@ const initialState = {
   allEditorial: [],
   currentPage:1,
   images: [],
-  auxState:[]
+  auxState:[],
+  sessionState:[]
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -54,6 +56,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
           return elm.name
         }),
       };
+      case GET_USER_STRIPE:
+        return{
+          ...state,
+          sessionState:payload
+        }
     case GET_CATEGORIES:
       let categories = payload.map(el => el.name)
       return {
