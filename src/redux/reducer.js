@@ -16,7 +16,8 @@ import {
   GET_SAGA,
   GET_EDITORIAL,
   GET_AUTHOR,
-  GET_USER_STRIPE, 
+  GET_USER_STRIPE,
+  GET_TOKEN, 
   
 
 } from "./actions";
@@ -56,6 +57,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
           return elm.name
         }),
       };
+      case GET_TOKEN:
+        return{
+          ...state,
+          sessionState:payload
+        }
       case GET_USER_STRIPE:
         return{
           ...state,

@@ -17,6 +17,8 @@ export const GET_SAGA="GET_SAGA";
 export const GET_EDITORIAL="GET_EDITORIAL";
 export const GET_AUTHOR="GET_AUTHOR";
 export const  GET_USER_STRIPE="GET_USER_STRIPE"
+export const GET_TOKEN="GET_TOKEN";
+
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
 
@@ -32,6 +34,21 @@ export function filterBooks(payload){
     }
   }
 };
+
+export function loginUser(payload) {
+  return async function (dispatch) {
+    try {
+      let token = await axios.post(`${localhost}/local/signin`, payload);
+      console.log("prueba",token.data);
+      return dispatch({
+        type: GET_TOKEN,
+        payload: token.data
+      })
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+}
 
 export function filterPrice(payload){
   return async function(dispatch){
@@ -301,7 +318,7 @@ export function createCustomer(payload) {
 export function createUser(payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/users`, payload);
+      let post = await axios.post(`${localhost}/local/singup`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
