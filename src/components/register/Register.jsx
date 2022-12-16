@@ -2,7 +2,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { createUser } from '../../redux/actions'
+import { createCustomer, createUser } from '../../redux/actions'
 import { Google } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 
@@ -29,12 +29,12 @@ console.log(input);
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (!input.username || !input.email || !input.password) {
-
+			
 			alert("Cannot have empty elements!!")
 
 		} else {
 			dispatch(createUser(input))
-
+dispatch(createCustomer({username:input.username,email:input.email}))
 			setInputs({
 				username: '',
 				email: '',
@@ -105,7 +105,7 @@ console.log(input);
 										</p>
 									</div>
 								</div>
-								<form action="#" className="signin-form">
+								<form onSubmit={e=>handleSubmit(e)} action="#" className="signin-form">
 									{/* username */}
 									<div className="form-group mb-3">
 										<label className="label" for="email">User Name</label>
@@ -132,7 +132,7 @@ console.log(input);
 
 									<div className='row justify-content-center '>
 									<div className="form-group text-center">
-										<button onSubmit={(e) => handleSubmit(e)} type="submit" className="btnl btnl-primary col-lg-10">Sign In</button>
+										<button type="submit" className="btnl btnl-primary col-lg-10">Sign In</button>
 									</div>
 
 

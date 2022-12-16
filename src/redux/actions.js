@@ -16,7 +16,7 @@ export const FILTER_PRICE = "FILTER_PRICE";
 export const GET_SAGA="GET_SAGA";
 export const GET_EDITORIAL="GET_EDITORIAL";
 export const GET_AUTHOR="GET_AUTHOR";
-
+export const  GET_USER_STRIPE="GET_USER_STRIPE"
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
 
@@ -203,6 +203,19 @@ export function getBooksDetails(id) {
       return dispatch({
         type: GET_BOOK_DETAILS,
         payload: detailsBook.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function findUserStripe(username) {
+  return async function (dispatch) {
+    try {
+      let res = await axios.get(`${url}/api/checkout?username=${username}`);
+      return dispatch({
+        type: GET_USER_STRIPE,
+        payload: res.data,
       });
     } catch (error) {
       console.log(error);

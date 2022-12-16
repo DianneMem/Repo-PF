@@ -38,7 +38,7 @@ export default function Detail() {
 
   function cartHandler(e,message) {
     e.preventDefault();
-    let id="639b93a3dfabf9993fb8e3e0"
+    let id="639be7018c0b5f56b400a9d7"
     console.log(detail);
       getCart.filter(e=>e._id===detail._id).length<1 ? getCart.push(detail):MySwal.fire('You already have this product in the cart!', message, 'error');
       localStorage.setItem("cart", JSON.stringify(getCart))
