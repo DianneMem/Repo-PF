@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { addToCart, getBooksDetails } from "../../redux/actions";
+import { addStorage, addToCart, getBooksDetails } from "../../redux/actions";
 import defaultImage from "../../assets/bookDefault.png";
 import "./detail.css";
 import favs from "../../assets/favs.png";
@@ -21,6 +21,7 @@ export default function Detail() {
   const nagivate = useNavigate();
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal)
+  console.log(localStorage);
   let getCart = JSON.parse(localStorage.getItem("cart"));
   useEffect(() => {
     dispatch(getBooksDetails(_id));
@@ -37,10 +38,13 @@ export default function Detail() {
 
   function cartHandler(e,message) {
     e.preventDefault();
+    let id="115720200709754345001"
+    console.log(detail);
       getCart.filter(e=>e._id===detail._id).length<1 ? getCart.push(detail):MySwal.fire('You already have this product in the cart!', message, 'error');
       localStorage.setItem("cart", JSON.stringify(getCart))
+      dispatch(addStorage(id,detail))
     console.log(getCart);
-    console.log(detail);
+   
   }
 
   const [loading, setLoading] = useState(false);

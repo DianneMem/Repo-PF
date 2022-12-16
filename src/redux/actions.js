@@ -263,6 +263,28 @@ export function createPost(payload) {
   };
 }
 
+export function addStorage(id,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/users/${id}/storage`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+export function createCustomer(payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+
 export function createUser(payload) {
   return async function (dispatch) {
     try {
