@@ -45,7 +45,6 @@ console.log(totalAmount);
     if (!error) {
       console.log(paymentMethod);
       const { id } = paymentMethod;
-      // let id="639b92871defe7d3895d923a"
       try {
         const { data } = await axios.post(
           "http://localhost:3001/api/checkout",
@@ -53,7 +52,7 @@ console.log(totalAmount);
             id,
             amount: Math.ceil(totalAmount.amount) * 100,
             created: totalAmount.description,
-            customer:"juanmoreno@gmail.com"
+            customer:"a@gmail.com"
           }
         );
 

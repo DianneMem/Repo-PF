@@ -70,6 +70,7 @@ export const Login = () => {
                       >
                         Login
                       </button>
+                      <a  href='http://localhost:3001/google/signin' className="order-md-last btn btn-outline-danger col-lg-10">Google</a>
                     </div>
                     <div className="form-group d-md-flex"></div>
                   </form>
