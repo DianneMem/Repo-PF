@@ -17,7 +17,6 @@ const stripePromise = loadStripe(
 );
 
 const CheckoutForm = () => {
-
   const stripe = useStripe();
   const elements = useElements();
   const MySwal = withReactContent(Swal)
@@ -36,15 +35,17 @@ console.log(totalAmount);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
-      card: elements.getElement(CardElement),
+      card: elements.getElement(CardElement)  
     });
     setLoading(true);
 
     if (!error) {
       console.log(paymentMethod);
       const { id } = paymentMethod;
+      // let id="639b92871defe7d3895d923a"
       try {
         const { data } = await axios.post(
           "http://localhost:3001/api/checkout",
@@ -52,6 +53,7 @@ console.log(totalAmount);
             id,
             amount: Math.ceil(totalAmount.amount) * 100,
             created: totalAmount.description,
+            customer:"juanmoreno@gmail.com"
           }
         );
 
@@ -91,7 +93,9 @@ console.log(totalAmount);
 <h1>{e.price}</h1>
 <h1>{e.author}</h1>
 <h1>{e.state}</h1>
-<h1>{e.Editorial}</h1></div>
+<h1>{e.Editorial}</h1>
+<h1>{totalAmount.amount}</h1></div>
+
 ):<h1>Your Cart is Empty</h1> }
       </div>
       {totalAmount.amount!==0?      <div >
