@@ -198,13 +198,17 @@ export default function Home() {
         {allUsers?.map((u)=>{return(
         <form className={s.user} onSubmit={(e) => modifyUserById(e,u)}>
           <p>id: {u._id}</p>
-          <p>role: {u.role}</p>
-          {u.role === 'user' ? 
-          (<button name='role' value='admin' onClick={(e)=>handleInputs(e,u)}>admin</button>) : 
-          (<button name='role' value='user' onClick={(e)=>handleInputs(e,u)}>user</button>)}
-          <span>{advice}</span>
-          <p>username: {u.username}</p>
-          <input type='text' name='username' onChange={(e)=>handleInputs(e)} placeholder={'New username'}/>
+          <div>
+            <p>role: {u.role}</p>
+            {u.role === 'user' ? 
+            (<button name='role' value='admin' className="btn btn-outline-warning" onClick={(e)=>handleInputs(e,u)}>admin</button>) : 
+            (<button name='role' value='user' className="btn btn-outline-warning" onClick={(e)=>handleInputs(e,u)}>user</button>)}
+            <span>{advice}</span>
+          </div>
+          <div>
+            <p>username: {u.username}</p>
+            <input type='text' name='username' onChange={(e)=>handleInputs(e)} placeholder={'New username'}/>
+          </div>
           {/* <p>firstname: {u.firstname}</p>
           <input type='text' name='firstname' onChange={(e)=>handleInputs(e)} placeholder={'New firstname'}/>
           <p>lastname: {u.lastname}</p> 
@@ -213,20 +217,21 @@ export default function Home() {
           <input type='text' name='adress' onChange={(e)=>handleInputs(e)} placeholder={'New adress'}/>
           <p>phone: {u.phone}</p>
           <input type='tel' name='phone' onChange={(e)=>handleInputs(e)} placeholder={'New phone'}/> */}
-          <p>email: {u.email}</p>
-          <input type='email' name='email' onChange={(e)=>handleInputs(e)} placeholder={'New email'}/>
-          
-          <button type='submit'>Modify</button>
+          <div>
+            <p>email: {u.email}</p>
+            <input type='email' name='email' onChange={(e)=>handleInputs(e)} placeholder={'New email'}/>
+          </div>
+          <button type='submit' className="btn btn-outline-primary">Modify</button>
           <hr/>
           {u.available? (<p>Available: Yes</p>) : (<p>Available: No</p>)}
           {u.available ? 
-          (<button value={u._id} className={s} onClick={e => disableUserById(e)}>
+          (<button value={u._id} className="btn btn-outline-warning" onClick={e => disableUserById(e)}>
             Disable
           </button>) : 
-          (<button value={u._id} className={s} onClick={e => disableUserById(e)}>
+          (<button value={u._id}className="btn btn-outline-warning" onClick={e => disableUserById(e)}>
             Enable
           </button>)}
-          <button value={u._id} className={s} onClick={e => deleteUserById(e)}>
+          <button value={u._id} className="btn btn-outline-danger" onClick={e => deleteUserById(e)}>
             Delete
           </button>
         </form>
@@ -240,7 +245,11 @@ export default function Home() {
       </>)
       }
       
-      <p>Create User</p>
+      <br/>
+        <Link to={"/register"}><button>Create User</button></Link>
+      <br/>
+      
+     {/*  <p>Create User</p>
       <form>
           <label>role</label>
           <button>user</button>
@@ -262,7 +271,7 @@ export default function Home() {
           <label>Repite password</label>
           <input type='text'/>
           <button type='submit'>Send</button>
-      </form>
+      </form> */}
       
     </React.Fragment>
   );

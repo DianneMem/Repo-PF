@@ -379,3 +379,14 @@ export function modifyUser(id, payload) {
   };
 }
 
+export function modifyPost(id, payload) {
+  return async function () {
+    try {
+      let post = await axios.put(`${url}/products/${id}`, payload);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+

@@ -56,7 +56,10 @@ margin-top: 5.8rem;
 }
 
 .container{
-/* display: flex; */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
 
 }
 .paginateContainer{
@@ -67,16 +70,20 @@ margin-top: 5.8rem;
   }
   
 .users{
-  display: grid;
-  grid-template-areas: 'user user';
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   padding: 1rem;
   
 }
 
 .user{
   background-color: bisque;
-  border:rgb(0, 0, 0) 2px solid;
-  border-radius: 10px;
-  width: 30rem;
+  padding-top: 1.5rem;
+  color: rgb(63, 56, 44);
+  border:1px solid wheat;
+  border-radius: 5px;
+  display: flex;
+  transition-duration: 0.5s;
+  gap: 1rem;
 }
