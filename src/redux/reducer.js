@@ -39,13 +39,15 @@ const initialState = {
   images: [],
   auxState:[],
   sessionState:[],
+  stripeState:[]
+
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_ALL_BOOKS:
       const auxBooks= payload.filter(e=> e.available===true )
-     
+      console.log(state.stripeState);
       return {
         ...state,
         auxState:payload,
@@ -72,7 +74,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
       case GET_USER_STRIPE:
         return{
           ...state,
-          sessionState:payload
+          stripeState:payload
         }
     case GET_CATEGORIES:
       let categories = payload.map(el => el.name)
@@ -142,6 +144,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         detailsBook: payload,
       };
       case CHANGE_PAGE:
+      
         return{
           ...state,
           currentPage:payload
