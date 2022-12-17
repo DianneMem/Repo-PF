@@ -229,7 +229,7 @@ export function getBooksDetails(id) {
 export function findUserStripe(username) {
   return async function (dispatch) {
     try {
-      let res = await axios.get(`${url}/api/checkout?username=${username}`);
+      let res = await axios.get(`${localhost}/api/checkout?username=${username}`);
       return dispatch({
         type: GET_USER_STRIPE,
         payload: res.data,

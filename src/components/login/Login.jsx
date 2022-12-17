@@ -1,17 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../redux/actions";
+import { createCustomer, findUserStripe, loginUser } from "../../redux/actions";
 
 
 export const Login = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-
+  const stripe = useSelector((state) => state.stripeState)
   const [input, setInputs] = useState({
 		password: "",
 		username: "",
@@ -20,9 +20,17 @@ export const Login = () => {
   console.log(input)
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
 		e.preventDefault();
+    dispatch(createCustomer({username:input.username,email:input.email}))
     dispatch(loginUser({username: input.username, password: input.password}))
+    dispatch(findUserStripe(input.username))
+    localStorage.setItem("stripe","[]")
+    let stripeSession =await JSON.parse(localStorage.getItem("stripe"));
+    await stripeSession.push(stripe)
+    console.log("hola");
+    await localStorage.setItem("session", JSON.stringify(stripeSession))
+
     navigate("/")
   }
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FiHeart } from "react-icons/fi";
-import { getAllBooks, setPage } from "../../redux/actions";
+import { findUserStripe, getAllBooks, setPage } from "../../redux/actions";
 import jwt from "jwt-decode"
 import Card from "../card/card";
 import Paginated from "../paginado/Paginated";
@@ -17,23 +17,45 @@ export default function Home() {
   }
   // Call Global States
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllBooks());
-    setCurrentPage(1);
-    dispatch(setPage(1));
-  }, [dispatch]);
+
+
+
 
   // Global States
-  let getCart = JSON.parse(localStorage.getItem("cart"));
-  console.log(getCart);
   const allBooks = useSelector((state) => state.allbooks);
   const loadBooks = useSelector((state) => state.books);
   let currentPageGlobal = useSelector((state) => state.currentPage);
   const token = useSelector((state) => state.sessionState)
+  const stripeId=  useSelector((state) => state.stripeState)
+ 
+
+
+  useEffect(() => {
+
+
+    dispatch(getAllBooks());
+    setCurrentPage(1);
+    dispatch(setPage(1));
+  }, [dispatch]);
   if(token.length !== 0){
     let currentToken = jwt(token)
-      console.log(currentToken)
+
+    localStorage.setItem("session","[]")
+    let session = JSON.parse(localStorage.getItem("session"));
+    session.push(currentToken)
+    localStorage.setItem("session", JSON.stringify(session))
+
+
+    localStorage.setItem("stripe","[]")
+    let stripe = JSON.parse(localStorage.getItem("stripe"));
+    stripe.push(stripeId)
+    localStorage.setItem("stripe", JSON.stringify(stripe))
+    
   }
+
+
+
+
   // Local States
   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage, setBooksPerPage] = useState(12);

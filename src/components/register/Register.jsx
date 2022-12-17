@@ -33,8 +33,9 @@ console.log(input);
 			alert("Cannot have empty elements!!")
 
 		} else {
+			dispatch(createCustomer({username:input.username,email:input.email}))
 			dispatch(createUser(input))
-dispatch(createCustomer({username:input.username,email:input.email}))
+
 			setInputs({
 				username: '',
 				email: '',
