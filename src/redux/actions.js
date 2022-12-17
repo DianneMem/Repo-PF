@@ -18,6 +18,7 @@ export const GET_EDITORIAL="GET_EDITORIAL";
 export const GET_AUTHOR="GET_AUTHOR";
 export const  GET_USER_STRIPE="GET_USER_STRIPE"
 export const GET_TOKEN="GET_TOKEN";
+export const CLEAR_STORAGE="CLEAR_STORAGE"
 
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
@@ -229,7 +230,7 @@ export function getBooksDetails(id) {
 export function findUserStripe(username) {
   return async function (dispatch) {
     try {
-      let res = await axios.get(`${url}/api/checkout?username=${username}`);
+      let res = await axios.get(`${localhost}/api/checkout?username=${username}`);
       return dispatch({
         type: GET_USER_STRIPE,
         payload: res.data,
@@ -313,6 +314,20 @@ export function createCustomer(payload) {
     }
   };
 }
+
+
+
+
+export const clearStorage = (id) => {
+  return async (dispatch) => {
+    try {
+      const pay = await axios.put(`${localhost}/users/storage/${id}`)
+      console.log(pay)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
 
 
 export function createUser(payload) {
