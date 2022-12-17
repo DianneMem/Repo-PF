@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FiHeart } from "react-icons/fi";
-import { getAllBooks, setPage } from "../../redux/actions";
-import jwt from "jwt-decode"
+import { findUserStripe, getAllBooks, setPage } from "../../redux/actions";
+import jwt from "jwt-decode";
 import Card from "../card/card";
 import Paginated from "../paginado/Paginated";
 import Loader from "../loader/Loader";
@@ -11,12 +11,10 @@ import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
 
 export default function Home() {
-  if(!localStorage.getItem("cart")){
-    localStorage.setItem("cart","[]")
-   
-  }
-  // Call Global States
   const dispatch = useDispatch();
+ 
+  // Call Global States
+
   useEffect(() => {
     dispatch(getAllBooks());
     setCurrentPage(1);
@@ -24,16 +22,27 @@ export default function Home() {
   }, [dispatch]);
 
   // Global States
-  let getCart = JSON.parse(localStorage.getItem("cart"));
-  console.log(getCart);
+  if (!localStorage.getItem("cart")) {
+    localStorage.setItem("cart", "[]");
+  }
+
   const allBooks = useSelector((state) => state.allbooks);
   const loadBooks = useSelector((state) => state.books);
   let currentPageGlobal = useSelector((state) => state.currentPage);
-  const token = useSelector((state) => state.sessionState)
-  if(token.length !== 0){
-    let currentToken = jwt(token)
-      console.log(currentToken)
+  const token = useSelector((state) => state.sessionState);
+  if (token.length !== 0) {
+   
+
+
+    localStorage.setItem("session", "[]");
+    let session = JSON.parse(localStorage.getItem("session"));
+
+    session.push(token);
+    localStorage.setItem("session", JSON.stringify(session));
+    
+
   }
+
   // Local States
   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage, setBooksPerPage] = useState(12);
