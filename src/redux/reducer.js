@@ -1,3 +1,4 @@
+import jwt from "jwt-decode";
 import {
   CHANGE_PAGE,
   GET_ALL_BOOKS,
@@ -17,7 +18,8 @@ import {
   GET_EDITORIAL,
   GET_AUTHOR,
   GET_USER_STRIPE,
-  GET_TOKEN, 
+  GET_TOKEN,
+  CLEAR_STORAGE, 
   
 
 } from "./actions";
@@ -38,6 +40,7 @@ const initialState = {
   auxState:[],
   sessionState:[],
   stripeState:[]
+
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -51,6 +54,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
         allbooks: auxBooks,
         books: auxBooks,
       };
+      case CLEAR_STORAGE:
+        return{
+          ...state
+        }
     case GET_GENDERS:
       return {
         ...state,
@@ -59,9 +66,10 @@ const rootReducer = (state = initialState, { type, payload }) => {
         }),
       };
       case GET_TOKEN:
+        let currentToken = jwt(payload)
         return{
           ...state,
-          sessionState:payload
+          sessionState:currentToken
         }
       case GET_USER_STRIPE:
         return{

@@ -11,11 +11,6 @@ import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
 
 export default function Home() {
-  if(!localStorage.getItem("cart")){
-    localStorage.setItem("cart","[]")
-   
-  }
-  // Call Global States
   const dispatch = useDispatch();
 
 
@@ -52,8 +47,6 @@ export default function Home() {
     localStorage.setItem("stripe", JSON.stringify(stripe))
     
   }
-
-
 
 
   // Local States

@@ -17,6 +17,7 @@ import "./CreateProduct.css";
 import Header from "../header/Header"
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import CreateProductPreview from "../createProductPreview/CreateProductPreview";
 
 export default function CreatePost() {
   const dispatch = useDispatch();
@@ -193,7 +194,7 @@ console.log(Header);
       <div class="row d-flex justify-content-center">
         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
           <div class="card">
-            
+            <CreateProductPreview input={input}/>
               <button onClick={e=>backBtn(e)} className="backBtn">Back</button>
             <h1  class="text-center mb-4" className="publication">Create Publication</h1>
             <form class="form-card" onSubmit={(e) => handlerSubmit(e)}>
