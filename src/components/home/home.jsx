@@ -38,12 +38,12 @@ export default function Home() {
     dispatch(setPage(1));
   }, [dispatch]);
   if(token.length !== 0){
-    let currentToken = jwt(token)
+    // let currentToken = jwt(token)
 
-    localStorage.setItem("session","[]")
-    let session = JSON.parse(localStorage.getItem("session"));
-    session.push(currentToken)
-    localStorage.setItem("session", JSON.stringify(session))
+    // localStorage.setItem("session","[]")
+    // let session = JSON.parse(localStorage.getItem("session"));
+    // session.push(currentToken)
+    // localStorage.setItem("session", JSON.stringify(session))
 
 
     localStorage.setItem("stripe","[]")
@@ -64,6 +64,7 @@ export default function Home() {
   const currentBooks = loadBooks.slice(IndexOfFirstBooks, indexOfLastBooks);
   let pages = Math.ceil(loadBooks.length / booksPerPage);
 
+  
   // Functions
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);

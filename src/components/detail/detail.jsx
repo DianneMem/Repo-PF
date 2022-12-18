@@ -38,12 +38,26 @@ export default function Detail() {
 
   function cartHandler(e,message) {
     e.preventDefault();
-    let id="639be7018c0b5f56b400a9d7"
-    console.log(detail);
+    let userId = JSON.parse(localStorage.getItem("session"));
+    if(userId){
+      let id=userId[0].id
+      console.log(detail);
       getCart.filter(e=>e._id===detail._id).length<1 ? getCart.push(detail):MySwal.fire('You already have this product in the cart!', message, 'error');
       localStorage.setItem("cart", JSON.stringify(getCart))
       dispatch(addStorage(id,detail))
     console.log(getCart);
+    
+  }else{
+    if(!localStorage.getItem("cart")){
+      localStorage.setItem("cart","[]")
+     
+    }
+    let getCart = JSON.parse(localStorage.getItem("cart"));
+    getCart.filter(e=>e._id===detail._id).length<1 ? getCart.push(detail):MySwal.fire('You already have this product in the cart!', message, 'error');
+    localStorage.setItem("cart", JSON.stringify(getCart))
+  }
+    
+
    
   }
 

@@ -318,7 +318,7 @@ export function createCustomer(payload) {
 export function createUser(payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/local/singup`, payload);
+      let post = await axios.post(`${localhost}/local/signup`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);

@@ -5,15 +5,16 @@ import { useState, useEffect } from 'react';
 import { createCustomer, createUser } from '../../redux/actions'
 import { Google } from '@mui/icons-material';
 import { Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = () => {
 
 	const [errors, setError] = useState({});
 	const dispatch = useDispatch();
+	const navigate= useNavigate()
 	const users = useSelector((state) => state.users);
 
 	useEffect(() => {
-		dispatch(createUser());
 	}, [dispatch]);
 
 
@@ -34,7 +35,7 @@ console.log(input);
 
 		} else {
 			dispatch(createCustomer({username:input.username,email:input.email}))
-			dispatch(createUser(input))
+			dispatch(createUser({username:input.username,password:input.password,email:input.email}))
 
 			setInputs({
 				username: '',
@@ -43,6 +44,7 @@ console.log(input);
 				confirmation: '',
 
 			});
+			navigate("/login")
 		}
 	};
 
