@@ -12,7 +12,7 @@ import Header from "../header/Header";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { findUserStripe } from "../../redux/actions";
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
@@ -33,6 +33,9 @@ const CheckoutForm = () => {
   };
   console.log(totalAmount);
 
+
+
+
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,18 +49,21 @@ const CheckoutForm = () => {
     if (!error) {
       console.log(paymentMethod);
       const { id } = paymentMethod;
+      let stripeId = JSON.parse(localStorage.getItem("stripe"));
+      console.log(stripeId[0]);
       try {
+        
         const { data } = await axios.post(
           "http://localhost:3001/api/checkout",
           {
             id,
             amount: Math.ceil(totalAmount.amount) * 100,
             created: totalAmount.description,
-            customer: "cus_Mzem8fVC0R349f",
+            customer:stripeId[0]
           }
         );
 
-        console.log(data);
+        console.log(data.customer);
         elements.getElement(CardElement).clear();
       } catch (error) {
         console.log(error);

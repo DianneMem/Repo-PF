@@ -7,11 +7,13 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { getBooksDetails } from "../../redux/actions";
 import "./Stripe.css";
 import Header from "../header/Header";
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
 );
@@ -19,27 +21,34 @@ const stripePromise = loadStripe(
 const CheckoutForm = () => {
   const detailState = useSelector((state) => state.detailsBook);
   let { _id } = useParams();
+  console.log(_id);
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const MySwal = withReactContent(Swal)
   useEffect(() => {
     dispatch(getBooksDetails(_id));
   }, [dispatch, _id]);
 
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e,message) => {
     e.preventDefault();
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement),
     });
     setLoading(true);
-
+    let userId = JSON.parse(localStorage.getItem("session"));
+    if(userId){
     if (!error) {
       console.log(paymentMethod);
       const { id } = paymentMethod;
+      
+      let stripeId = JSON.parse(localStorage.getItem("stripe"));
+      console.log(stripeId[0]);
+    
       try {
         const { data } = await axios.post(
           "http://localhost:3001/api/checkout",
@@ -47,16 +56,26 @@ const CheckoutForm = () => {
             id,
             amount: Math.ceil(detailState.price) * 100,
             created: detailState._id,
+            customer:stripeId[0]
           }
         );
-
+        
+        let cartCurrent = JSON.parse(localStorage.getItem("cart"));
+        let result=cartCurrent.filter(e=>e._id!==_id )
+        localStorage.setItem("cart", JSON.stringify(result))
         console.log(data);
         elements.getElement(CardElement).clear();
+        MySwal.fire("Thank You for your purchase!", message, "success");
+        navigate("/")
       } catch (error) {
         console.log(error);
       }
       setLoading(false);
     }
+  } else{
+    MySwal.fire('Please register to be able to buy products!', message, 'info')
+    navigate("/register");
+  }
   };
 
   return (

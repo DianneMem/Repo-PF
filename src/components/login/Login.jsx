@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { createCustomer, findUserStripe, loginUser } from "../../redux/actions";
-
+import jwt from "jwt-decode"
 
 export const Login = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const stripe = useSelector((state) => state.stripeState)
+  const token = useSelector((state) => state.sessionState)
   const [input, setInputs] = useState({
 		password: "",
 		username: "",
@@ -25,13 +25,20 @@ export const Login = () => {
     dispatch(createCustomer({username:input.username,email:input.email}))
     dispatch(loginUser({username: input.username, password: input.password}))
     dispatch(findUserStripe(input.username))
-    localStorage.setItem("stripe","[]")
-    let stripeSession =await JSON.parse(localStorage.getItem("stripe"));
-    await stripeSession.push(stripe)
-    console.log("hola");
-    await localStorage.setItem("session", JSON.stringify(stripeSession))
+    if(!localStorage.getItem("cart")){
+      localStorage.setItem("cart","[]")
+     
+    }
+    if(token.length !== 0){
+    let currentToken = jwt(token)
+
+    localStorage.setItem("session","[]")
+    let session = JSON.parse(localStorage.getItem("session"));
+    session.push(currentToken)
+    localStorage.setItem("session", JSON.stringify(session))
 
     navigate("/")
+    }
   }
 
   const handleUser = (e) => {
