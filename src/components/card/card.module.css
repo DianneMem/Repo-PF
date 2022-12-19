@@ -27,6 +27,7 @@ display: flex
   color: red;
   padding-top: 0px;
   margin-top: 0px;
+  margin-left: 0px;
 } 
 .favorite:hover {
   background-color: rgba(170, 170, 170, 0.247);
@@ -38,12 +39,9 @@ display: flex
   border-radius: 5px;
   background-color: #e9e7e1;
   color: rgb(63, 56, 44);
-/*   width: 11rem;
+  width: 11rem;
   height: 23rem;
-  padding-top: 1rem; */
-  width: 12rem;
-  height: 25rem;
-  padding-top: 1.5rem;
+  padding-top: 0.5rem;
 }
 
 
@@ -85,13 +83,14 @@ display: flex
 
 
 .image{
-  height:12.5rem;
-  /* object-fit: cover; */
-  border-radius: 3px;
-/*   width:9rem;
-  margin-left: 1rem; */
-  width:12rem;
-  padding: 0.8rem;
+ /*width:12rem;*/
+ width:8rem;
+ height:12.5rem;
+ object-fit: cover;
+ border-radius: 3px;
+ margin-left: 1rem;
+ padding: 0.8rem;
+ padding-right: 0rem;
 }
 
 .data{

@@ -148,10 +148,10 @@ export default function SideBar() {
     </form>
 
     <div className={s.state}>
-      {/* <button className={s.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
+      <button className={s.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
       <button className={s.btn2} onClick={e => order(e)} value='HP'>Higher Price</button>
       <button className={s.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
-      <button className={s.btn2} onClick={e => order(e)} value='ZA'>Z-A</button> */}
+      <button className={s.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
     </div>
     
 	</div>

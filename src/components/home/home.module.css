@@ -1,10 +1,10 @@
 .cards{
   display: grid;
   grid-template-areas:
-    'card card card card card';
-  gap: 1rem;
+    'card card card card';
+  gap: 1.5rem;
   padding: 1rem;
-  margin-left: 10.5rem;
+  margin-left: 5rem;
 }
 
   
@@ -72,4 +72,9 @@ margin-top: 5.8rem;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.components{
+  display: flex;
+  justify-content: space-between;
   }

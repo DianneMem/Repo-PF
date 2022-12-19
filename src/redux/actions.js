@@ -165,40 +165,47 @@ export function getGenders() {
 }
 
 export function getAllAuthor(){
-  return async function(dispatch){
-    try{
+  return async function (dispatch) {
+    try {
+      const res = await axios.get(`${url}/authors`);
       return dispatch({
-        type: GET_ALL_AUTHOR
-      })
+        type: GET_ALL_AUTHOR,
+        payload: res.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 
 export function getAllSaga(){
-  return async function(dispatch){
-    try{
+  return async function (dispatch) {
+    try {
+      const res = await axios.get(`${url}/sagas`);
       return dispatch({
-        type: GET_ALL_SAGA
-      })
+        type: GET_ALL_SAGA,
+        payload: res.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 
 export function getAllEditorial(){
-  return async function(dispatch){
-    try{
+  return async function (dispatch) {
+    try {
+      const res = await axios.get(`${url}/editorials`);
       return dispatch({
-        type: GET_ALL_EDITORIAL
-      })
+        type: GET_ALL_EDITORIAL,
+        payload: res.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
+
 
 export function getBooksByName(title) {
   return async function (dispatch) {

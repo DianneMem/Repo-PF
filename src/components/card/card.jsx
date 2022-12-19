@@ -42,9 +42,9 @@ return(
       <div className={s.containerImage}>
         <img src={image? (image) : (defaultImage)} alt='Book' className={s.image}/>
         <div className={s.aux}>
-       {/*  <button className={s.favorite}>
+        <button className={s.favorite}>
           <FiHeart />
-        </button> */}
+        </button>
         </div>
       </div>
         
