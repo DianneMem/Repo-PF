@@ -23,22 +23,15 @@ export const Login = () => {
   const handleSubmit =async (e) => {
 		e.preventDefault();
     dispatch(createCustomer({username:input.username,email:input.email}))
-    dispatch(loginUser({username: input.username, password: input.password}))
-    dispatch(findUserStripe(input.username))
+     dispatch(findUserStripe(input.username))
+    dispatch(loginUser({password: input.password,username: input.username, }))
+   
     if(!localStorage.getItem("cart")){
       localStorage.setItem("cart","[]")
      
     }
-    if(token.length !== 0){
-    let currentToken = jwt(token)
-
-    localStorage.setItem("session","[]")
-    let session = JSON.parse(localStorage.getItem("session"));
-    session.push(currentToken)
-    localStorage.setItem("session", JSON.stringify(session))
 
     navigate("/")
-    }
   }
 
   const handleUser = (e) => {

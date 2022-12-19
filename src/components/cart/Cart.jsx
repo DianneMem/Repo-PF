@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { findUserStripe } from "../../redux/actions";
+import { clearStorage, findUserStripe } from "../../redux/actions";
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
 );
@@ -37,20 +37,21 @@ const CheckoutForm = () => {
 
 
   const [loading, setLoading] = useState(false);
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e,message) => {
     e.preventDefault();
-    dispatch(findUserStripe())
+    let userId = JSON.parse(localStorage.getItem("session"));
+    if(userId){
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement),
     });
     setLoading(true);
-
+   
     if (!error) {
       console.log(paymentMethod);
       const { id } = paymentMethod;
       let stripeId = JSON.parse(localStorage.getItem("stripe"));
-      console.log(stripeId[0]);
+      console.log(stripeId[0].id);
       try {
         
         const { data } = await axios.post(
@@ -59,30 +60,38 @@ const CheckoutForm = () => {
             id,
             amount: Math.ceil(totalAmount.amount) * 100,
             created: totalAmount.description,
-            customer:stripeId[0]
+            customer:stripeId[0].id
           }
         );
 
         console.log(data.customer);
         elements.getElement(CardElement).clear();
+        MySwal.fire("Thank You for your purchase!", message, "success");
+        localStorage.setItem("cart","[]")
+        let session = JSON.parse(localStorage.getItem("session"));
+        dispatch(clearStorage(session[0].id))
       } catch (error) {
         console.log(error);
       }
       setLoading(false);
+      
     }
-  };
+  } else{
+    MySwal.fire('Please register to be able to buy products!', message, 'info')
+    navigate("/login");
+  }
+  
+}
 
   function handlerDeleteAll(e, message) {
     e.preventDefault();
-    localStorage.clear();
+    let session = JSON.parse(localStorage.getItem("session"));
+    dispatch(clearStorage(session[0].id))
+    localStorage.setItem("cart","[]")
     MySwal.fire("You delete all Cart Items!", message, "info");
     navigate("/");
   }
 
-  function successBuy(e, message) {
-    MySwal.fire("Thank You for your purchase!", message, "success");
-    localStorage.clear();
-  }
 
   return (
     <div>
@@ -111,7 +120,7 @@ const CheckoutForm = () => {
         {totalAmount.amount !== 0 ? (
           <div>
             <CardElement />
-            <button onClick={(e) => successBuy(e)} disabled={!stripe}>
+            <button disabled={!stripe}>
               {loading ? (
                 <div role="status">
                   <span>Loading...</span>

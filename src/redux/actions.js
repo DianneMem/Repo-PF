@@ -304,6 +304,9 @@ export function addStorage(id,payload) {
     }
   };
 }
+
+
+
 export function createCustomer(payload) {
   return async function (dispatch) {
     try {
@@ -318,10 +321,21 @@ export function createCustomer(payload) {
 
 
 
+export const deleteStorageItemById = (id,item) => {
+  return async (dispatch) => {
+    try {
+      const pay = await axios.put(`${localhost}/users/${id}/storage?item=${item}`)
+      console.log(pay)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 export const clearStorage = (id) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.put(`${localhost}/users/storage/${id}`)
+      const pay = await axios.get(`${localhost}/users/${id}/storage`)
       console.log(pay)
     } catch (e) {
       console.log(e);

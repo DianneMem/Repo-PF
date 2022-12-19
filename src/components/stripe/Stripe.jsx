@@ -9,7 +9,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { getBooksDetails } from "../../redux/actions";
+import { deleteStorageItemById, getBooksDetails } from "../../redux/actions";
 import "./Stripe.css";
 import Header from "../header/Header";
 import Swal from 'sweetalert2'
@@ -35,13 +35,14 @@ const CheckoutForm = () => {
 
   const handleSubmit = async (e,message) => {
     e.preventDefault();
+    let userId = JSON.parse(localStorage.getItem("session"));
+    if(userId){
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement),
     });
     setLoading(true);
-    let userId = JSON.parse(localStorage.getItem("session"));
-    if(userId){
+
     if (!error) {
       console.log(paymentMethod);
       const { id } = paymentMethod;
@@ -56,12 +57,14 @@ const CheckoutForm = () => {
             id,
             amount: Math.ceil(detailState.price) * 100,
             created: detailState._id,
-            customer:stripeId[0]
+            customer:stripeId[0].id
           }
         );
         
         let cartCurrent = JSON.parse(localStorage.getItem("cart"));
         let result=cartCurrent.filter(e=>e._id!==_id )
+        let session = JSON.parse(localStorage.getItem("session"));
+        dispatch(deleteStorageItemById(session[0].id,_id))
         localStorage.setItem("cart", JSON.stringify(result))
         console.log(data);
         elements.getElement(CardElement).clear();
@@ -74,7 +77,7 @@ const CheckoutForm = () => {
     }
   } else{
     MySwal.fire('Please register to be able to buy products!', message, 'info')
-    navigate("/register");
+    navigate("/login");
   }
   };
 

@@ -38,6 +38,9 @@ export default function Detail() {
 
   function cartHandler(e,message) {
     e.preventDefault();
+    if(!localStorage.getItem("cart")){
+      localStorage.setItem("cart","[]")
+    }
     let userId = JSON.parse(localStorage.getItem("session"));
     if(userId){
       let id=userId[0].id
