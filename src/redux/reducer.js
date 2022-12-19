@@ -95,39 +95,21 @@ const rootReducer = (state = initialState, { type, payload }) => {
         users: payload,
       };
     case GET_ALL_AUTHOR:
-      let authors = state.allbooks.map((elm) => {
-        return elm.author
-      })
-      let noRepeat = new Set(authors)
-      let author = [...noRepeat]
       return {
         ...state,
-        allAuthor: author
+        allAuthor: payload
       };
 
     case GET_ALL_SAGA:
-      let arraySagas = state.allbooks.filter((elm) => {
-        return elm.saga !== ""});
-      let arraySagas1 = arraySagas.map((elm)=>{
-        return elm.saga
-      })
-      let arraySagas2 = new Set(arraySagas1)
-      let arraySagas3 = [...arraySagas2]
-    
       return {
         ...state,
-        allSaga: arraySagas3
+        allSaga: payload
        };
 
     case GET_ALL_EDITORIAL:
-      let arrayEditorial = state.allbooks.map((elm) => {
-        return elm.editorial
-      })
-      let arrayEditorial2 = new Set(arrayEditorial)
-      let arrayEditorial3 = [...arrayEditorial2]
       return {
         ...state,
-       allEditorial: arrayEditorial3
+       allEditorial: payload
        };
 
     case GET_BOOKS_BY_NAME:
@@ -185,7 +167,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
        
       case ORDER_BOOKS:
         const order = payload;
-        let booksOrdered = state.books
+        let booksOrdered = state.books.slice()
         
         if(order === 'AZ'){
           booksOrdered = booksOrdered.sort(function (a, b) {
