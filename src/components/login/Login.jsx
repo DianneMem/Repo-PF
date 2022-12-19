@@ -76,7 +76,7 @@ export const Login = () => {
                     {/* correo */}
                     <div className="form-group mb-3">
                       <label className="label">
-                        username
+                        Username
                       </label>
                       <input
                         onChange={(e) => handleUser(e)}
@@ -100,6 +100,8 @@ export const Login = () => {
                         placeholder="Password"
                         required
                       />
+                      <Link to={"/recoverpassword"} >Did you forget your password?</Link>
+
                     </div>
                     <div className="form-group">
                       {/* boton para iniciar sesion */}
