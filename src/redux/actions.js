@@ -414,7 +414,7 @@ export function disableUser(id) {
       console.log(error);
     }
   };
-}
+} 
 
 export function deleteUser(id) {
   return async function () {

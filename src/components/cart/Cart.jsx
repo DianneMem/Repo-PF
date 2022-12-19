@@ -74,7 +74,7 @@ const CheckoutForm = () => {
         console.log(error);
       }
       setLoading(false);
-      
+       
     }
   } else{
     MySwal.fire('Please register to be able to buy products!', message, 'info')

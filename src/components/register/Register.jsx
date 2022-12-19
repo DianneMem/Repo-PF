@@ -36,7 +36,7 @@ console.log(input);
 		} else {
 			dispatch(createCustomer({username:input.username,email:input.email}))
 			dispatch(createUser({username:input.username,password:input.password,email:input.email}))
-
+ 
 			setInputs({
 				username: '',
 				email: '',

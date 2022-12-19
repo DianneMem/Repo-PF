@@ -34,7 +34,7 @@ export default function Home() {
   }, [dispatch]);
   if(token.length !== 0){
     let currentToken = token
-
+ 
     localStorage.setItem("session","[]")
     let session = JSON.parse(localStorage.getItem("session"));
     session.push(currentToken)

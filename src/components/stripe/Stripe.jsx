@@ -42,7 +42,7 @@ const CheckoutForm = () => {
       card: elements.getElement(CardElement),
     });
     setLoading(true);
-
+ 
     if (!error) {
       console.log(paymentMethod);
       const { id } = paymentMethod;

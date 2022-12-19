@@ -69,7 +69,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         let currentToken = jwt(payload)
         return{
           ...state,
-          sessionState:currentToken
+          sessionState:currentToken 
         }
       case GET_USER_STRIPE:
         return{
