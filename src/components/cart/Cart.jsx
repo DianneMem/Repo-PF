@@ -13,7 +13,8 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearStorage, findUserStripe } from "../../redux/actions";
+import { clearStorage, deleteStorageItemById, findUserStripe } from "../../redux/actions";
+import Loader from "../loader/Loader";
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
 );
@@ -92,6 +93,18 @@ const CheckoutForm = () => {
     navigate("/");
   }
 
+  function deleteItem(el) {
+    
+    let cartCurrent = JSON.parse(localStorage.getItem("cart"));
+    let result=cartCurrent.filter(e=>e._id!==el )
+    let session = JSON.parse(localStorage.getItem("session"));
+    dispatch(deleteStorageItemById(session[0].id,el))
+    localStorage.setItem("cart", JSON.stringify(result))
+    navigate("/cart")
+
+  }
+
+
 
   return (
     <div>
@@ -104,6 +117,7 @@ const CheckoutForm = () => {
           {getCart ? (
             getCart.map((e) => (
               <div>
+                <button type="button" onClick={()=>deleteItem(e._id)}>x</button>
                 <img src={e.image} alt="imgcart" />
                 <h1>{e.title}</h1>
                 <h1>{e.price}</h1>
