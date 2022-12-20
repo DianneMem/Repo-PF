@@ -1,4 +1,6 @@
 import axios from "axios";
+import jwt from "jwt-decode";
+
 export const GET_ALL_BOOKS = "GET_ALL_BOOKS";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const GET_BOOKS_BY_NAME = "GET_BOOKS_BY_NAME";
@@ -37,19 +39,33 @@ export function filterBooks(payload){
 };
 
 export function loginUser(payload) {
-  return async function (dispatch) {
-    try {
-      let token = await axios.post(`${localhost}/local/signin`, payload);
-      console.log("prueba",token.data);
+  if(payload){
+    return async function (dispatch) {
+      try {
+        let token = await axios.post(`${localhost}/local/signin`, payload);
+        console.log("prueba",token.data);
+        return dispatch({
+          type: GET_TOKEN,
+          payload: token.data 
+        })
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+  } else {
+    return async function (dispatch){
+      await axios.get("http://localhost:3001/google/signin")
+      const token = document.cookie
+      console.log("aaaa",token)
       return dispatch({
         type: GET_TOKEN,
-        payload: token.data
+        payload: token
       })
-    } catch (error) {
-      console.log(error.message);
+
     }
-  };
+  }
 }
+
 
 export function filterPrice(payload){
   return async function(dispatch){
@@ -235,17 +251,33 @@ export function getBooksDetails(id) {
   };
 }
 export function findUserStripe(username) {
-  return async function (dispatch) {
-    try {
-      let res = await axios.get(`${localhost}/api/checkout?username=${username}`);
-      return dispatch({
-        type: GET_USER_STRIPE,
-        payload: res.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  if(username){
+    return async function (dispatch) {
+      try {
+        let res = await axios.get(`${localhost}/api/checkout?username=${username}`);
+        return dispatch({
+          type: GET_USER_STRIPE,
+          payload: res.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  } else {
+    return async function (dispatch) {
+      try {
+        const userNameGoogle = jwt(document.cookie)
+        const result = userNameGoogle.username 
+        let res = await axios.get(`${localhost}/api/checkout?username=${result}`);
+        return dispatch({
+          type: GET_USER_STRIPE,
+          payload: res.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }
 }
 
 export function authorByName(name) {
@@ -315,14 +347,30 @@ export function addStorage(id,payload) {
 
 
 export function createCustomer(payload) {
-  return async function (dispatch) {
-    try {
-      let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
-      console.log(post);
-    } catch (error) {
-      console.log(error);
+  if(payload){
+    return async function (dispatch) {
+      try {
+        let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
+        console.log(post);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  } else {
+    return async function (dispatch){
+      try {
+        const token = jwt(document.cookie)
+        const payload = {
+          username: token.username,
+          email: token.email
+        }
+        let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
+        console.log("customer",post)
+      } catch (error) {
+        console.log(error);
+      }
     }
-  };
+  }
 }
 
 

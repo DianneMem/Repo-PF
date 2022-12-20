@@ -67,11 +67,13 @@ const rootReducer = (state = initialState, { type, payload }) => {
       };
       case GET_TOKEN:
         let currentToken = jwt(payload)
+        console.log("token", currentToken)
         return{
           ...state,
           sessionState:currentToken
         }
       case GET_USER_STRIPE:
+        console.log("payload",payload)
         return{
           ...state,
           stripeState:payload

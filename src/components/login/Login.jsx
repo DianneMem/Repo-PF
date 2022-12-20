@@ -34,10 +34,33 @@ export const Login = () => {
     navigate("/")
   }
 
+  // const handleSubmit = (e) => {
+	// 	e.preventDefault();
+  //   dispatch(loginUser({password: input.password,username: input.username, }))
+  //   // let session = JSON.parse(localStorage.getItem("session"))
+  //   dispatch(createCustomer({username:input.username,email:input.email}))
+  //   // dispatch(createCustomer({username:session[0].username,email:session[0].email}))
+  //    dispatch(findUserStripe(input.username))
+   
+  //   if(!localStorage.getItem("cart")){
+  //     localStorage.setItem("cart","[]")
+     
+  //   }
+
+  //   navigate("/")
+  // }
+
   const handleUser = (e) => {
 		setInputs({ ...input, [e.target.name]: e.target.value })
 		console.log(input);
 	};
+
+  const handleGoogle = () => {
+    dispatch(createCustomer())
+    dispatch(findUserStripe())
+    dispatch(loginUser())
+    navigate("/")
+  }
 
 
   return (
@@ -111,7 +134,8 @@ export const Login = () => {
                       >
                         Login
                       </button>
-                      <a  href='http://localhost:3001/google/signin' className="order-md-last btn btn-outline-danger col-lg-10">Google</a>
+                      {/* <a  href='http://localhost:3001/google/signin' className="order-md-last btn btn-outline-danger col-lg-10">Google</a> */}
+                      <a  onClick={e => handleGoogle(e)} className="order-md-last btn btn-outline-danger col-lg-10">Google</a>
                     </div>
                     <div className="form-group d-md-flex"></div>
                   </form>

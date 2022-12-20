@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import jwt from "jwt-decode";
+
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -86,10 +88,16 @@ const CheckoutForm = () => {
   function handlerDeleteAll(e, message) {
     e.preventDefault();
     let session = JSON.parse(localStorage.getItem("session"));
-    dispatch(clearStorage(session[0].id))
-    localStorage.setItem("cart","[]")
-    MySwal.fire("You delete all Cart Items!", message, "info");
-    navigate("/");
+    if(session){
+      dispatch(clearStorage(session[0].id))
+      localStorage.setItem("cart","[]")
+      MySwal.fire("You delete all Cart Items!", message, "info");
+      navigate("/");
+    } else {
+      localStorage.setItem("cart","[]")
+      MySwal.fire("You delete all Cart Items!", message, "info");
+      navigate("/");
+    }
   }
 
 
