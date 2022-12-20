@@ -13,6 +13,7 @@ import { deleteStorageItemById, getBooksDetails } from "../../redux/actions";
 import "./Stripe.css";
 import Header from "../header/Header";
 import Swal from 'sweetalert2'
+import jwt from "jwt-decode";
 import withReactContent from 'sweetalert2-react-content'
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
