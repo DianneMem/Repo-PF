@@ -385,7 +385,7 @@ export function addFavorites(id,payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/profile/favorites/${id}`, payload);
-      console.log(post);
+      console.log("hola",post.data);
     } catch (error) {
       console.log(error);
     }
@@ -446,10 +446,33 @@ export const deleteStorageItemById = (id,item) => {
   };
 };
 
+
+export const deleteFavoriteItemById = (id,item) => {
+  return async (dispatch) => {
+    try {
+      const pay = await axios.put(`${localhost}/users/${id}/favorites?item=${item}`)
+      console.log(pay)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 export const clearStorage = (id) => {
   return async (dispatch) => {
     try {
       const pay = await axios.get(`${localhost}/users/${id}/storage`)
+      console.log(pay)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const clearFavorites = (id) => {
+  return async (dispatch) => {
+    try {
+      const pay = await axios.get(`${localhost}/users/${id}/favorites`)
       console.log(pay)
     } catch (e) {
       console.log(e);

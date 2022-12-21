@@ -24,6 +24,10 @@ export default function Header({noSearch=false}) {
     navigate("/cart")
   }
 
+  function favsNavigate(e){
+    e.preventDefault()
+    navigate("/favorites")
+  }
 
   return (
     <React.Fragment>
@@ -36,7 +40,7 @@ export default function Header({noSearch=false}) {
         </button>
  
       <div className={s.container}>
-        <button className={s.link}>Favorites</button>
+        <button  onClick={e=>favsNavigate(e)} className={s.link}>Favorites</button>
         <button onClick={e=>cartNavigate(e)} className={s.link}>shopping</button>
       </div>
       <div className={s.container}>
@@ -52,8 +56,8 @@ export default function Header({noSearch=false}) {
         </button>
       <SearchBar/>
       <div className={s.container}>
-        <button className={s.link}>Favorites</button>
-        <button  className={s.link}>shopping</button>
+        <button  onClick={e=>favsNavigate(e)}className={s.link}>Favorites</button>
+        <button  onClick={e=>cartNavigate(e)} className={s.link}>shopping</button>
       </div>
       <div className={s.container}>
         <Link to="/login"><button className={s.link}>Login</button></Link>
