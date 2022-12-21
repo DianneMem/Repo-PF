@@ -128,7 +128,7 @@ export function setPage(payload){
 export function getAllUsers() {
   return async function (dispatch) {
     try {
-      const user = await axios.get(`${url}/users`);
+      const user = await axios.get(`${localhost}/users`);
       return dispatch({
         type: GET_ALL_USERS,
         payload: user.data,
@@ -325,7 +325,7 @@ export function sagaByName(name) {
 export function createPost(payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${url}/products`, payload);
+      let post = await axios.post(`${localhost}/products`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -337,6 +337,39 @@ export function addStorage(id,payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/users/${id}/storage`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function addPurchases(id,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/purchases/${id}`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function addFavorites(id,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/favorites/${id}`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function addMyProducts(id,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/myproducts/${id}`, payload);
       console.log(post);
     } catch (error) {
       console.log(error);

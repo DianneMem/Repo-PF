@@ -96,6 +96,7 @@ const CheckoutForm = () => {
         <div>{detailState.language}</div>
         <div>{detailState.year}</div>
         <div>{detailState.state}</div>
+        <div>seller: {detailState.seller}</div>
       </div>
      <div className="productCard">
      <CardElement />
