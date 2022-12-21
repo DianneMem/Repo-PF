@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FiHeart } from "react-icons/fi";
-import { findUserStripe, getAllBooks, setPage } from "../../redux/actions";
+import { findUserStripe, getAllBooks, getUsersDetail, setPage } from "../../redux/actions";
 import jwt from "jwt-decode"
 import Card from "../card/card";
 import Paginated from "../paginado/Paginated";
@@ -22,7 +22,7 @@ export default function Home() {
   let currentPageGlobal = useSelector((state) => state.currentPage);
   const token = useSelector((state) => state.sessionState)
   const stripeId=  useSelector((state) => state.stripeState)
- 
+  
 
 
   useEffect(() => {
