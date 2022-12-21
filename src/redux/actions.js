@@ -347,8 +347,8 @@ export const clearStorage = (id) => {
 export function createUser(payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/local/signup`, payload);
-      console.log(post.data);
+      let user = await axios.post(`${localhost}/local/register`, payload);
+      console.log("------",user.data);
     } catch (error) {
       console.log(error);
     }
@@ -443,6 +443,16 @@ export function modifyPost(id, payload) {
     try {
       let post = await axios.put(`${url}/products/${id}`, payload);
       console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function recoverPassword(payload) {
+  return async function () {
+    try {
+      let user = await axios.post(`${localhost}/local/recover-password`, payload);
     } catch (error) {
       console.log(error);
     }

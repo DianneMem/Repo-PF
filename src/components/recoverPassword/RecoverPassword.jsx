@@ -1,22 +1,37 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { recoverPassword } from "../../redux/actions";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 export const RecoverPassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [input, setInputs] = useState({
-    password: "",
-    username: "",
+  const MySwal = withReactContent(Swal);
+  const [form, setForm] = useState({
+    email: "",
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e, message) => {
     e.preventDefault();
+    dispatch(recoverPassword(form));
+
+    navigate("/login");
+    return MySwal.fire(
+      "¡Check your email to get your new password!",
+      message,
+      "success"
+    );
   };
 
-  const handleUser = (e) => {};
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <div>
@@ -39,6 +54,7 @@ export const RecoverPassword = () => {
                   </div>
                   <form
                     action="#"
+                    id="form"
                     className="signin-form"
                     onSubmit={(e) => handleSubmit(e)}
                   >
@@ -46,7 +62,7 @@ export const RecoverPassword = () => {
                     <div className="form-group mb-3">
                       <label className="label">E-mail</label>
                       <input
-                        onChange={(e) => handleUser(e)}
+                        onChange={(e) => handleChange(e)}
                         type="text"
                         className="form-control"
                         name="email"

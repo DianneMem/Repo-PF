@@ -99,3 +99,7 @@
 .div-log {
   background-color: #fff;
 }
+.danger-p {
+  color: red;
+  font-size: 10px;
+}

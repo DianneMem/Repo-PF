@@ -10,6 +10,7 @@ import { Register } from "./components/register/Register";
 import Cart from "./components/cart/Cart.jsx"
 import DashboardAdmin from "./components/dashboardAdmin/dashboardAdmin"
 import { RecoverPassword } from "./components/recoverPassword/RecoverPassword";
+import { ConfirmAcount } from "./components/confirmAcount/ConfirmAcount";
 
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/recoverpassword" element={<RecoverPassword/>} />
+          <Route exact path="/confirmacount" element={<ConfirmAcount/>} />
           <Route exact path="/" element={<Home />} />
           <Route exact path="/createproduct" element={<CreateProduct />} />
           <Route exact path="/detail/:_id" element={<Detail />} />
