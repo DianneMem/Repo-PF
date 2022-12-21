@@ -18,7 +18,7 @@ export default function Home() {
 
   // Global States
   const allBooks = useSelector((state) => state.allbooks);
-  const loadBooks = useSelector((state) => state.books);
+  const loadBooks = useSelector((state) => state.books.filter(e=> e.available===true ));
   let currentPageGlobal = useSelector((state) => state.currentPage);
   const token = useSelector((state) => state.sessionState)
   const stripeId=  useSelector((state) => state.stripeState)
@@ -26,8 +26,6 @@ export default function Home() {
 
 
   useEffect(() => {
-
-
     dispatch(getAllBooks());
     setCurrentPage(1);
     dispatch(setPage(1));
@@ -74,7 +72,7 @@ export default function Home() {
   }
 
   // Loading SetTimeOut
-/* 
+  /* 
   const [loading, setLoading] = useState(false);
   const changeState = () => {
     setTimeout(() => {
@@ -90,7 +88,8 @@ export default function Home() {
       setLoading(false);
       // alert("No books found");
     }
-  } */
+  }
+  */
 
   return (
     <React.Fragment>
@@ -157,7 +156,6 @@ export default function Home() {
           
           <SideBar />          
           </div>
-          
           
         </div>
       ) : (

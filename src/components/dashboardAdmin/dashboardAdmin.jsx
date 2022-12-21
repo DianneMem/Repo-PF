@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllBooks, getAllUsers , disablePost, deletePost, disableUser, deleteUser, modifyUser } from "../../redux/actions";
+import { getAllBooks, getAllUsers , disablePost, deletePost, disableUser, deleteUser, modifyUser, getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice, orderBooks } from "../../redux/actions";
 
 import DashCard from "../dashCard/dashCard";
 import Paginated from "../paginado/Paginated";
@@ -9,24 +9,32 @@ import Header from "../header/Header";
 import SideBar from "../sidebar/Sidebar";
 import s from "./dashboardAdmin.module.css";
 import { Link } from "react-router-dom";
+import CreatePost from "../createProduct/CreateProduct";
 
 
-export default function Home() {
+export default function DashAdmin() {
   // Call Global States
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllBooks());
     dispatch(getAllUsers());
+    dispatch(getCategories());
+    dispatch(getGenders());
+    dispatch(getLanguages());
+    dispatch(getAllAuthor());
+    dispatch(getAllSaga());
+    dispatch(getAllEditorial());
     setCurrentPage(1);
   }, [dispatch]);
 
   // Global States
-  const allBooks = useSelector((state) => state.auxState);
-  const loadBooks = useSelector((state) => state.auxState);
+  const allBooks = useSelector((state) => state.allbooks);
+  const loadBooks = useSelector((state) => state.books);
   const allUsers = useSelector((state) => state.users);
   
 
   // Local States
+  const [section, setSection] = useState('Products');
   const [currentPage, setCurrentPage] = useState(1);
   const [booksPerPage, setBooksPerPage] = useState(6);
   const indexOfLastBooks = currentPage * booksPerPage;
@@ -36,13 +44,14 @@ export default function Home() {
   
   let [userInput, setUserInput] = useState({});
   let [productInput, setProductInput] = useState({});
+  let [createProduct, setCreateProduct] = useState(false);
+  
 
   const [advice, setAdvice] = useState('');
   console.log(productInput)
-  console.log(allBooks);
+  console.log(loadBooks);
   console.log('users&admins', allUsers)
-  
-  
+
   
   // Functions
   const paginate = (pageNumber) => {
@@ -109,11 +118,23 @@ export default function Home() {
     await dispatch(modifyUser(user._id, inputSend));
     dispatch(getAllUsers());
     setAdvice('');
-  }
+  };
   
   
+  function handleSections(e){
+    e.preventDefault();
+    setSection(e.target.value);
+  };
+  
+  function handleCreate(e){
+    e.preventDefault();
+    if(createProduct) {setCreateProduct(false);}
+    else {setCreateProduct(true);}
+  };
   
 
+ 
+ 
   return (
     <React.Fragment>
       <Header noSearch={true}/>
@@ -122,7 +143,13 @@ export default function Home() {
       <br />
       <br />
       <br />
-      
+    
+      <button onClick={(e) => handleSections(e)} value='Products'>Products</button>
+      <button onClick={(e) => handleSections(e)} value='Users'>Users</button>
+      <button onClick={(e) => handleSections(e)} value='Orders'>Orders</button>
+      <button onClick={(e) => handleSections(e)} value='Reviews'>Reviews</button>
+    
+      {section === 'Products' && <>
       <h3>Products</h3>
 
       {allBooks.length ? (
@@ -152,48 +179,66 @@ export default function Home() {
             </button>)}
           </div>
 
-          <div className={s.cards}>
-            {currentBooks?.map((b) => {
-              return (
-                <div key={b._id}>
-                  <DashCard
-                    id={b._id}
-                    title={b.title}
-                    image={b.image}
-                    typebook={b.typebook}
-                    price={b.price}
-                    author={b.author}
-                    categorie={b.categorie}
-                    editorial={b.editorial}
-                    saga={b.saga}
-                    language={b.language}
-                    gender={b.gender}
-                    year={b.year}
-                    state={b.state}
-                    available={b.available}
-                    disable={disableItem}
-                    deletes={deleteItem}
-                  />
-                </div>
-              );
-            })}
+          <div className={s.cardsContainer}>
+            
+            <div className={s.cards}>
+              {currentBooks?.map((b) => {
+                return (
+                  <div key={b._id}>
+                    <DashCard
+                      id={b._id}
+                      title={b.title}
+                      image={b.image}
+                      typebook={b.typebook}
+                      price={b.price}
+                      author={b.author}
+                      categorie={b.categorie}
+                      editorial={b.editorial}
+                      saga={b.saga}
+                      language={b.language}
+                      gender={b.gender}
+                      year={b.year}
+                      state={b.state}
+                      available={b.available}
+                      disable={disableItem}
+                      deletes={deleteItem}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+            <SideBar/>
           </div>
           
+          
           <br/>
-          <Link to={"/createproduct"}><button>Create Product</button></Link>
+          <hr/>
+      
           <br/>
+              
+              {createProduct ? 
+              (<div className={s.createPost}>
+                <button onClick={e => handleCreate(e)}>Close Form</button>
+                <CreatePost/>
+              </div>) : 
+              (<button onClick={e => handleCreate(e)}>Create Product</button>)}
+          <br/>
+      
         </div>) :
         (<>
           <p>Loading Products</p>
           <Loader />
       </>)}
       
-      <br/>
-      <hr/>
+      </>}
+      
+      
+      {section === 'Users' && <>
+      <h3>Users</h3>
       
       {allUsers.length ? (
         <div className={s.container}>    
-        <h3>Users</h3>
+        
         
         {allUsers?.map((u)=>{return(
         <form className={s.user} onSubmit={(e) => modifyUserById(e,u)}>
@@ -273,6 +318,26 @@ export default function Home() {
           <button type='submit'>Send</button>
       </form> */}
       
+      </>}
+      
+      
+      {section === 'Orders' && (<>
+      <h3>Orders</h3>
+      <p>Empty for now</p>
+      </>)}
+      
+      
+      {section === 'Reviews' && (<>
+      <h3>Reviews</h3>
+      <p>Empty for now</p>
+      </>)}
+      
+      
+      
+     
+      
+      <br/>
+      <hr/>
     </React.Fragment>
   );
 }
