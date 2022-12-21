@@ -77,7 +77,7 @@ export const Login = () => {
             <div className="col-md-12 col-lg-10">
               <div className="  d-flex justify-content-center">
                 {/* ---- */}
-                <div class=" texts-login p-4 p-lg-7 text-center d-flex align-items-center order-md-last   ">
+                <div className=" texts-login p-4 p-lg-7 text-center d-flex align-items-center order-md-last   ">
                   <div className="text">
                     <h2>Don't have an account?</h2>
                     <Link
