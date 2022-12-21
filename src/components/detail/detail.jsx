@@ -94,6 +94,7 @@ export default function Detail() {
               alt="Book"
               className="image"
             />
+            <a>Seller: {detail.seller}</a> 
           </div>
         </div>
         <div class="right">

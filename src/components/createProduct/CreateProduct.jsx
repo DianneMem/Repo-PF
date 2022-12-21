@@ -29,6 +29,9 @@ export default function CreatePost() {
   const MySwal = withReactContent(Swal)
   const [order,SetOrder]=useState("")
   const [loading, setLoading] = useState(false);
+
+  let username = JSON.parse(localStorage.getItem("session"));
+
   const [input, setInput] = useState({
     title: "",
     author: "",
@@ -42,6 +45,7 @@ export default function CreatePost() {
     language: "",
     categorie: "",
     gender: [],
+    seller: username[0].username
   });
   console.log(input);
   const navigate = useNavigate();
@@ -120,6 +124,7 @@ export default function CreatePost() {
       state: "",
       typebook: "",
       gender: [],
+      seller: username[0].username
     });
 
     navigate("/");
