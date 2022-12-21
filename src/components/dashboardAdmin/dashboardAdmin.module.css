@@ -74,7 +74,6 @@ margin-top: 5.8rem;
   flex-direction: column;
   gap: 2rem;
   padding: 1rem;
-  
 }
 
 .user{
@@ -86,4 +85,16 @@ margin-top: 5.8rem;
   display: flex;
   transition-duration: 0.5s;
   gap: 1rem;
+}
+
+.cardsContainer{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+
+.createPost{
+width: 
+80%;
 }

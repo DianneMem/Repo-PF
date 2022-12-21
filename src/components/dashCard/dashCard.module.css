@@ -3,7 +3,8 @@
 }
 
 .card{
-  padding-top: 1.5rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
   background-color: #e9e7e1;
   color: rgb(63, 56, 44);
   border:1px solid wheat;

@@ -46,13 +46,11 @@ const initialState = {
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_ALL_BOOKS:
-      const auxBooks= payload.filter(e=> e.available===true )
       console.log(state.stripeState);
       return {
         ...state,
-        auxState:payload,
-        allbooks: auxBooks,
-        books: auxBooks,
+        allbooks: payload,
+        books: payload,
       };
       case CLEAR_STORAGE:
         return{

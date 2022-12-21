@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { FiHeart } from "react-icons/fi";
 import { getAllBooks, modifyPost } from "../../redux/actions";
 
 import defaultImage from '../../assets/bookDefault.png';
@@ -33,6 +32,7 @@ export default function DashCard({id, title, image, typebook, price, author, cat
   //Global States
   const allCategories = useSelector(state => state.categories);
   const allGenders = useSelector(state => state.genders);
+  const allLanguages = useSelector(state => state.languages);
   
   const dispatch = useDispatch();
   
@@ -53,7 +53,7 @@ export default function DashCard({id, title, image, typebook, price, author, cat
   });
   const [error, setError] = useState({});
   if(isForm) console.log(input);
-  if(isForm) console.log('ERROR', error);
+  if(isForm) console.log('formError', error);
   
   function switchForm(e){
     e.preventDefault();
@@ -72,10 +72,7 @@ export default function DashCard({id, title, image, typebook, price, author, cat
     // document.getElementById('title').value = title;
     // document.getElementById('author').value = author;
     // document.getElementById('editorial').value = editorial;
-    // document.getElementById('language').value = language;
     // document.getElementById('year').value = year;
-    // document.getElementById('state').value = state;
-    // document.getElementById('typebook').value = typebook;
     // document.getElementById('price').value = price;
     isForm ? setIsForm(false) : setIsForm(true);
   };
@@ -85,30 +82,28 @@ export default function DashCard({id, title, image, typebook, price, author, cat
     let actualYear = new Date().getFullYear();
     let RegEXP = /[`ª!@#$%^*_+\=\[\]{};"\\|,<>\/~]/;
     let err = {};
-    if (!input.title) {
-      err.title = "· Title is required";
-    } else if (RegEXP.test(input.title)) {
-      err.title = "· Special characters are not accepted";
-    } else if (!input.author) {
-      err.author = "· Author is required";
-    } else if (RegEXP.test(input.author)) {
-      err.author = "· Special characters are not accepted";
-    }
-    else if (!input.editorial) {
-      err.editorial = "· Editorial is required";
-    }
-    /* else if (image_c.length<1) {
-      err.image = "· Image required";
-    }  */ else if (RegEXP.test(input.editorial)) {
-      err.editorial = "· Special characters are not accepted";
-    }  else if (!input.year) {
-      err.year = "· Year input is required";
-    } else if (input.year < 0 || input.year > actualYear) {
-      err.year = "· Year input Error";
-    } else if (!input.price || input.price < 0) {
-      err.price = "· Price input Error";
-    }
-    return err;
+    
+    if (!input.title) {err.title = "· Title is required"} 
+    else if (RegEXP.test(input.title)) {err.title = "· Special characters are not accepted"}
+    else if(input.title.length > 200) {err.title = "· Title too long"}
+    
+    else if (!input.author) {err.author = "· Author is required"}
+    else if (RegEXP.test(input.author)) {err.author = "· Special characters are not accepted"}
+    else if(input.author.length > 200) {err.author = "· Author name too long"}
+    
+    
+    else if (!input.editorial) {err.editorial = "· Editorial is required"}
+    else if (RegEXP.test(input.editorial)) {err.editorial = "· Special characters are not accepted"}
+    else if(input.editorial.length > 200) {err.editorial = "· Editorial name too long"}
+    
+    else if (!input.gender.length) {err.gender = "· Select at least one gender"}
+    
+    else if (!input.year) {err.year = "· Year input is required"}
+    else if (input.year < 0 || input.year > actualYear) {err.year = "· Year input Error"}
+    
+    else if (!input.price || input.price < 0) {err.price = "· Price input Error"}
+    
+    return (err);
   };
   
   function inputChange(e){
@@ -122,29 +117,73 @@ export default function DashCard({id, title, image, typebook, price, author, cat
       [e.target.name]: e.target.value
     }));
   };
-  function selectCategorie(e) {
+  function selectCategorie(e){
     e.preventDefault();
     setInput({
       ...input,
       categorie: e.target.value
     });
   };
-  function selectGenders(e) {
+  function selectGenders(e){
     e.preventDefault();
     if(!input.gender.includes(e.target.value)){
       setInput({
         ...input,
         gender: [...input.gender, e.target.value]
       });
+      setError(validate({
+        ...input,
+        gender:[...input.gender, e.target.value]
+      }));
     }
+    document.getElementById('GenderSelector').selectedIndex = 'DEFAULT';
   };
-  function unselectGenders(e) {
+  function unselectGenders(e){
     e.preventDefault();
     if(input.gender.includes(e.target.value)){
       setInput({
         ...input,
         gender: input.gender.filter(gen => gen !== e.target.value)
       });
+      setError(validate({
+        ...input,
+        gender: input.gender.filter(gen => gen !== e.target.value)
+      }));
+    };
+  };
+  function SelectLanguage(e){
+    e.preventDefault();
+    setInput({
+      ...input,
+      language: e.target.value
+    });
+  };
+  function changeState(e){
+    e.preventDefault();
+    if(input.state === 'New'){
+      setInput({
+        ...input,
+        state: 'Used'
+      })
+    }else{
+      setInput({
+        ...input,
+        state: 'New'
+      })
+    };
+  };
+  function changeType(e){
+    e.preventDefault();
+    if(input.typebook === 'physical'){
+      setInput({
+        ...input,
+        typebook: 'virtual'
+      })
+    }else{
+      setInput({
+        ...input,
+        typebook: 'physical'
+      })
     };
   };
   async function modify(e){
@@ -167,8 +206,7 @@ return(
         <p>Title: </p>
         <input id='title' type='text' className={s.inputTransparent} name='title' onChange={(e)=>inputChange(e)} placeholder={title} />
         <div>
-          <p>Category: {input.categorie}</p>
-          <span>Select Category: </span>
+          <span>Category: </span>
           <select onChange={(e) => selectCategorie(e)} defaultValue={categorie}>
             <option value='DEFAULT' disabled>Categories</option>
             {allCategories?.map(cat => {return(
@@ -182,14 +220,10 @@ return(
           {input.gender?.map(gen => {return(
           <button value={gen} onClick={e => unselectGenders(e)}>{gen}</button>
           )})}
-          
-          <br/>
           <span>Select Genders: </span>
-          <select onChange={(e) => selectGenders(e)} defaultValue='DEFAULT'>
+          <select id='GenderSelector' onChange={(e) => selectGenders(e)} defaultValue='DEFAULT'>
             <option value='DEFAULT' disabled>Genders</option>
-            {allGenders?.map(gen => {return(
-            <option value={gen}>{gen}</option>
-            )})}
+            {allGenders?.map(gen => {return(<option value={gen}>{gen}</option>)})}
           </select>
         </div>
         <div className={s.infoContainer}> 
@@ -205,27 +239,48 @@ return(
           <p>|</p>
           <div>
             <p>Language: </p>
-            <input  id='language' type='text' className={s.inputTransparent} name='language' onChange={(e)=>inputChange(e)} placeholder={language} />
+            <select onChange={e => SelectLanguage(e)} defaultValue={language}>
+              <option value='DEFAULT' disabled>Languages</option>
+              {allLanguages?.map(lan => {return(<option value={lan}>{lan}</option>)})}
+            </select>
           </div>
           <p>|</p>
           <div>
             <p>Year: </p>          
-            <input id='year'  type='number' className={s.inputTransparent} name='year' onChange={(e)=>inputChange(e)}  placeholder={year}/>
+            <input id='year' type='number' className={s.inputTransparent} name='year' onChange={(e)=>inputChange(e)}  placeholder={year} step='1'/>
           </div>
           <p>|</p>
           <div>
             <p>State: </p>
-            <input  id='state' type='text' className={s.inputTransparent} name='state' onChange={(e)=>inputChange(e)}  placeholder={state}/>
+            <p>{input.state}</p>
+            {input.state === 'New' ? 
+            (<>
+              <button disabled>New</button>
+              <button onClick={(e)=>changeState(e)}>Used</button>
+            </>) : 
+            (<>
+              <button onClick={(e)=>changeState(e)}>New</button>
+              <button disabled>Used</button>
+            </>)} 
           </div>
           <p>|</p>
           <div>
             <p>Type: </p>
-            <input id='typebook'  type='text' className={s.inputTransparent} name='typebook' onChange={(e)=>inputChange(e)}  placeholder={typebook}/>
+            <p>{input.typebook}</p>
+            {input.typebook === 'physical' ? 
+            (<>
+              <button disabled>Physical</button>
+              <button onClick={(e)=>changeType(e)}>Virtual</button>
+            </>) : 
+            (<>
+              <button onClick={(e)=>changeType(e)}>Physical</button>
+              <button disabled>Virtual</button>
+            </>)}
           </div>
           <p>|</p>
           <div>
             <p>$</p>
-            <input id='price'  type='number' className={s.inputTransparent} name='price' onChange={(e)=>inputChange(e)}  placeholder={price}/>
+            <input id='price' type='number' step='0.01' className={s.inputTransparent} name='price' onChange={(e)=>inputChange(e)}  placeholder={price}/>
           </div>
           <p>|</p>
           {available? (<p>Available: Yes</p>) : (<p>Available: No</p>)}
@@ -236,7 +291,6 @@ return(
           <button value={id} onClick={e => deletes(e)} className="btn btn-outline-danger">Delete</button>
           <button value={id} onClick={e => switchForm(e)} className="btn btn-outline-primary">Cancel</button>
           {Object.values(error).length? (<span>{Object.values(error)[0]}</span>) : (<button value={id} onClick={e => modify(e)} className="btn btn-outline-success">Confirm</button>)}
-          
         </div>
       </div>
     </div>) 
