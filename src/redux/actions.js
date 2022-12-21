@@ -21,6 +21,7 @@ export const GET_AUTHOR="GET_AUTHOR";
 export const  GET_USER_STRIPE="GET_USER_STRIPE"
 export const GET_TOKEN="GET_TOKEN";
 export const CLEAR_STORAGE="CLEAR_STORAGE"
+export const GET_USER_DETAIL = "GET_USER_DETAIL";
 
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
@@ -131,6 +132,20 @@ export function getAllUsers() {
       const user = await axios.get(`${localhost}/users`);
       return dispatch({
         type: GET_ALL_USERS,
+        payload: user.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getUsersDetail(id) {
+  return async function (dispatch) {
+    try {
+      const user = await axios.get(`${localhost}/users/${id}`);
+      return dispatch({
+        type: GET_USER_DETAIL,
         payload: user.data,
       });
     } catch (error) {
@@ -348,6 +363,17 @@ export function addPurchases(id,payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/profile/purchases/${id}`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function addReview(id,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/reviews/${id}`, payload);
       console.log(post);
     } catch (error) {
       console.log(error);
