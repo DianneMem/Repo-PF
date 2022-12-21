@@ -60,10 +60,11 @@ export default function Detail() {
     localStorage.setItem("cart", JSON.stringify(getCart))
   }
     
-
-   
   }
 
+
+  // Loading SetTimeOut
+  /* 
   const [loading, setLoading] = useState(false);
   const changeState = () => {
     setTimeout(() => {
@@ -73,7 +74,11 @@ export default function Detail() {
   if (!loading) {
     changeState();
     return <Loader />;
-  }
+  } 
+  */
+  
+  
+  
   return (
     <div className="contain">
       <Header noSearch={true} />
@@ -89,6 +94,7 @@ export default function Detail() {
               alt="Book"
               className="image"
             />
+            <a>Seller: {detail.seller}</a> 
           </div>
         </div>
         <div class="right">

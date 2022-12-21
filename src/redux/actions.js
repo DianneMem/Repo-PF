@@ -1,4 +1,6 @@
 import axios from "axios";
+import jwt from "jwt-decode";
+
 export const GET_ALL_BOOKS = "GET_ALL_BOOKS";
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const GET_BOOKS_BY_NAME = "GET_BOOKS_BY_NAME";
@@ -19,6 +21,7 @@ export const GET_AUTHOR="GET_AUTHOR";
 export const  GET_USER_STRIPE="GET_USER_STRIPE"
 export const GET_TOKEN="GET_TOKEN";
 export const CLEAR_STORAGE="CLEAR_STORAGE"
+export const GET_USER_DETAIL = "GET_USER_DETAIL";
 
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
@@ -37,19 +40,33 @@ export function filterBooks(payload){
 };
 
 export function loginUser(payload) {
-  return async function (dispatch) {
-    try {
-      let token = await axios.post(`${localhost}/local/signin`, payload);
-      console.log("prueba",token.data);
+  if(payload){
+    return async function (dispatch) {
+      try {
+        let token = await axios.post(`${localhost}/local/signin`, payload);
+        console.log("prueba",token.data);
+        return dispatch({
+          type: GET_TOKEN,
+          payload: token.data 
+        })
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+  } else {
+    return async function (dispatch){
+      await axios.get("http://localhost:3001/google/signin")
+      const token = document.cookie
+      console.log("aaaa",token)
       return dispatch({
         type: GET_TOKEN,
-        payload: token.data
+        payload: token
       })
-    } catch (error) {
-      console.log(error.message);
+
     }
-  };
+  }
 }
+
 
 export function filterPrice(payload){
   return async function(dispatch){
@@ -112,9 +129,23 @@ export function setPage(payload){
 export function getAllUsers() {
   return async function (dispatch) {
     try {
-      const user = await axios.get(`${url}/users`);
+      const user = await axios.get(`${localhost}/users`);
       return dispatch({
         type: GET_ALL_USERS,
+        payload: user.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getUsersDetail(id) {
+  return async function (dispatch) {
+    try {
+      const user = await axios.get(`${localhost}/users/${id}`);
+      return dispatch({
+        type: GET_USER_DETAIL,
         payload: user.data,
       });
     } catch (error) {
@@ -165,40 +196,47 @@ export function getGenders() {
 }
 
 export function getAllAuthor(){
-  return async function(dispatch){
-    try{
+  return async function (dispatch) {
+    try {
+      const res = await axios.get(`${url}/authors`);
       return dispatch({
-        type: GET_ALL_AUTHOR
-      })
+        type: GET_ALL_AUTHOR,
+        payload: res.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 
 export function getAllSaga(){
-  return async function(dispatch){
-    try{
+  return async function (dispatch) {
+    try {
+      const res = await axios.get(`${url}/sagas`);
       return dispatch({
-        type: GET_ALL_SAGA
-      })
+        type: GET_ALL_SAGA,
+        payload: res.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
 
 export function getAllEditorial(){
-  return async function(dispatch){
-    try{
+  return async function (dispatch) {
+    try {
+      const res = await axios.get(`${url}/editorials`);
       return dispatch({
-        type: GET_ALL_EDITORIAL
-      })
+        type: GET_ALL_EDITORIAL,
+        payload: res.data,
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 }
+
 
 export function getBooksByName(title) {
   return async function (dispatch) {
@@ -228,17 +266,33 @@ export function getBooksDetails(id) {
   };
 }
 export function findUserStripe(username) {
-  return async function (dispatch) {
-    try {
-      let res = await axios.get(`${localhost}/api/checkout?username=${username}`);
-      return dispatch({
-        type: GET_USER_STRIPE,
-        payload: res.data,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  if(username){
+    return async function (dispatch) {
+      try {
+        let res = await axios.get(`${localhost}/api/checkout?username=${username}`);
+        return dispatch({
+          type: GET_USER_STRIPE,
+          payload: res.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  } else {
+    return async function (dispatch) {
+      try {
+        const userNameGoogle = jwt(document.cookie)
+        const result = userNameGoogle.username 
+        let res = await axios.get(`${localhost}/api/checkout?username=${result}`);
+        return dispatch({
+          type: GET_USER_STRIPE,
+          payload: res.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }
 }
 
 export function authorByName(name) {
@@ -286,7 +340,7 @@ export function sagaByName(name) {
 export function createPost(payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${url}/products`, payload);
+      let post = await axios.post(`${localhost}/products`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -305,17 +359,77 @@ export function addStorage(id,payload) {
   };
 }
 
-
-
-export function createCustomer(payload) {
+export function addPurchases(id,payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
+      let post = await axios.post(`${localhost}/profile/purchases/${id}`, payload);
       console.log(post);
     } catch (error) {
       console.log(error);
     }
   };
+}
+
+export function addReview(id,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/reviews/${id}`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function addFavorites(id,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/favorites/${id}`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function addMyProducts(id,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/myproducts/${id}`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+
+
+export function createCustomer(payload) {
+  if(payload){
+    return async function (dispatch) {
+      try {
+        let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
+        console.log(post);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  } else {
+    return async function (dispatch){
+      try {
+        const token = jwt(document.cookie)
+        const payload = {
+          username: token.username,
+          email: token.email
+        }
+        let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
+        console.log("customer",post)
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
 }
 
 

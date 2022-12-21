@@ -9,10 +9,11 @@ import {
 } from "@stripe/react-stripe-js";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { deleteStorageItemById, getBooksDetails } from "../../redux/actions";
+import { addPurchases, deleteStorageItemById, getBooksDetails } from "../../redux/actions";
 import "./Stripe.css";
 import Header from "../header/Header";
 import Swal from 'sweetalert2'
+import jwt from "jwt-decode";
 import withReactContent from 'sweetalert2-react-content'
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
@@ -26,6 +27,7 @@ const CheckoutForm = () => {
   const elements = useElements();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const detailsBooks = useSelector((state) => state.detailsBook)
   const MySwal = withReactContent(Swal)
   useEffect(() => {
     dispatch(getBooksDetails(_id));
@@ -62,10 +64,14 @@ const CheckoutForm = () => {
         );
         
         let cartCurrent = JSON.parse(localStorage.getItem("cart"));
-        let result=cartCurrent.filter(e=>e._id!==_id )
+        if(cartCurrent){
+          let result=cartCurrent.filter(e=>e._id!==_id )
+          localStorage.setItem("cart", JSON.stringify(result))
+        }
         let session = JSON.parse(localStorage.getItem("session"));
         dispatch(deleteStorageItemById(session[0].id,_id))
-        localStorage.setItem("cart", JSON.stringify(result))
+        console.log("sessionId",session[0].id)
+        dispatch(addPurchases(session[0].id,{username: detailsBooks.seller, productId: _id, sellerId: detailsBooks.sellerId}))
         console.log(data);
         elements.getElement(CardElement).clear();
         MySwal.fire("Thank You for your purchase!", message, "success");
@@ -95,6 +101,7 @@ const CheckoutForm = () => {
         <div>{detailState.language}</div>
         <div>{detailState.year}</div>
         <div>{detailState.state}</div>
+        <div>seller: {detailState.seller}</div>
       </div>
      <div className="productCard">
      <CardElement />

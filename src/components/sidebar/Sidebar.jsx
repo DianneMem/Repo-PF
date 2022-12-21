@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import { Link } from "react-router-dom";
 import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice, orderBooks, getAllBooks } from "../../redux/actions";
 import Loader from "../loader/Loader";
 import s from './Sidebar.module.css'
@@ -148,10 +148,14 @@ export default function SideBar() {
     </form>
 
     <div className={s.state}>
-      {/* <button className={s.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
+      <button className={s.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
       <button className={s.btn2} onClick={e => order(e)} value='HP'>Higher Price</button>
       <button className={s.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
-      <button className={s.btn2} onClick={e => order(e)} value='ZA'>Z-A</button> */}
+      <button className={s.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
+    </div>
+
+    <div>
+     <Link to="/sellers" ><button>Add your reviews</button></Link>
     </div>
     
 	</div>

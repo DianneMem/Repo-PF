@@ -8,11 +8,9 @@
   gap: 0.5rem;
   background-color: rgb(252, 232, 207);
   border-radius: 3px;
-  position: fixed;
   right:0%;
   margin-top: 6.6rem;
   border-radius: 3rem;
-  margin-right: 67rem;
 }
 .nav select{
   border: solid 2px wheat;

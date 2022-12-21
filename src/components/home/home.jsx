@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FiHeart } from "react-icons/fi";
-import { findUserStripe, getAllBooks, setPage } from "../../redux/actions";
+import { findUserStripe, getAllBooks, getUsersDetail, setPage } from "../../redux/actions";
 import jwt from "jwt-decode"
 import Card from "../card/card";
 import Paginated from "../paginado/Paginated";
@@ -18,16 +18,14 @@ export default function Home() {
 
   // Global States
   const allBooks = useSelector((state) => state.allbooks);
-  const loadBooks = useSelector((state) => state.books);
+  const loadBooks = useSelector((state) => state.books.filter(e=> e.available===true ));
   let currentPageGlobal = useSelector((state) => state.currentPage);
   const token = useSelector((state) => state.sessionState)
   const stripeId=  useSelector((state) => state.stripeState)
- 
+  
 
 
   useEffect(() => {
-
-
     dispatch(getAllBooks());
     setCurrentPage(1);
     dispatch(setPage(1));
@@ -74,7 +72,7 @@ export default function Home() {
   }
 
   // Loading SetTimeOut
-
+  /* 
   const [loading, setLoading] = useState(false);
   const changeState = () => {
     setTimeout(() => {
@@ -91,12 +89,12 @@ export default function Home() {
       // alert("No books found");
     }
   }
+  */
 
   return (
     <React.Fragment>
       <Header />
       <br />
-      <SideBar />
 
       {allBooks.length ? (
         <div className={s.container}>
@@ -136,13 +134,12 @@ export default function Home() {
             )}
           </div>
 
+          <div className={s.components}>
+          
           <div className={s.cards}>
             {currentBooks?.map((b) => {
               return (
                 <div key={b._id} className={s.card}>
-                  <button className={s.favorite}>
-                    <FiHeart />
-                  </button>
                   <Card
                     id={b._id}
                     title={b.title}
@@ -156,6 +153,10 @@ export default function Home() {
               );
             })}
           </div>
+          
+          <SideBar />          
+          </div>
+          
         </div>
       ) : (
         <Loader />
