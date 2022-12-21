@@ -11,6 +11,7 @@ import Cart from "./components/cart/Cart.jsx"
 import DashboardAdmin from "./components/dashboardAdmin/dashboardAdmin"
 import { RecoverPassword } from "./components/recoverPassword/RecoverPassword";
 import Sellers from "./components/sellers/Sellers";
+import Favorites from "./components/favorites/Favorites";
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/admin" element={<DashboardAdmin/>} />
           <Route exact path="/sellers" element={<Sellers/>} />
+          <Route exact path="/favorites" element={<Favorites/>} />
         </Routes>
       </Router>
     </div>

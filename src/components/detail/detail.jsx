@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { addStorage, addToCart, getBooksDetails } from "../../redux/actions";
+import { addFavorites, addStorage, addToCart, getBooksDetails } from "../../redux/actions";
 import defaultImage from "../../assets/bookDefault.png";
 import "./detail.css";
 import favs from "../../assets/favs.png";
@@ -18,7 +18,7 @@ export default function Detail() {
   let detail = useSelector((state) => state.detailsBook);
   let allbooks = useSelector((state) => state.books);
   let { _id } = useParams();
-  const nagivate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal)
   console.log(localStorage);
@@ -29,11 +29,11 @@ export default function Detail() {
 
   function backHandler(e) {
     e.preventDefault();
-    nagivate("/");
+    navigate("/");
   }
   function paymentHandler(e) {
     e.preventDefault();
-    nagivate(`/payment/${_id}`);
+    navigate(`/payment/${_id}`);
   }
 
   function cartHandler(e,message) {
@@ -44,16 +44,19 @@ export default function Detail() {
     let userId = JSON.parse(localStorage.getItem("session"));
     if(userId){
       let id=userId[0].id
-      console.log(detail);
-      getCart.filter(e=>e._id===detail._id).length<1 ? getCart.push(detail):MySwal.fire('You already have this product in the cart!', message, 'error');
-      localStorage.setItem("cart", JSON.stringify(getCart))
-      dispatch(addStorage(id,detail))
+      if( getCart.filter(e=>e._id===detail._id).length<1){
+        getCart.push(detail)
+        localStorage.setItem("cart", JSON.stringify(getCart))
+        dispatch(addStorage(id,detail))}
+        else{
+          MySwal.fire('You already have this product in the cart!', message, 'error');
+        }
+      
     console.log(getCart);
     
   }else{
     if(!localStorage.getItem("cart")){
       localStorage.setItem("cart","[]")
-     
     }
     let getCart = JSON.parse(localStorage.getItem("cart"));
     getCart.filter(e=>e._id===detail._id).length<1 ? getCart.push(detail):MySwal.fire('You already have this product in the cart!', message, 'error');
@@ -62,6 +65,35 @@ export default function Detail() {
     
   }
 
+  function favsHandler(e,message){
+    e.preventDefault();
+    if(!localStorage.getItem("favs")){
+      localStorage.setItem("favs","[]")
+    }
+    let favs = JSON.parse(localStorage.getItem("favs"));
+    let userId = JSON.parse(localStorage.getItem("session"));
+    if(userId){
+      let id=userId[0].id
+    if(favs.filter(e=>e._id===detail._id).length<1){
+      favs.push(detail)
+      localStorage.setItem("favs", JSON.stringify(favs))
+dispatch(addFavorites(id,detail))}
+else{
+  MySwal.fire('You already have this product in the cart!', message, 'error')
+}
+    
+  }else{
+    if(!localStorage.getItem("favs")){
+      localStorage.setItem("favs","[]")
+     
+    }
+
+    MySwal.fire('Please register to be able to add products to Favorites!', message, 'info')
+    navigate("/login");
+  }
+
+
+  }
 
   // Loading SetTimeOut
   /* 
@@ -137,7 +169,10 @@ export default function Detail() {
               <div class="top">
                 <div>
                   <a href="#">
-                    <img className="icon" src={favs} alt="" />
+                    <button onClick={(e) => favsHandler(e)}>    
+                       <img className="icon" src={favs} alt="" />
+                    </button>
+               
                   </a>
                   <a href="#">
                   <button onClick={(e) => cartHandler(e)} className="button">
