@@ -7,6 +7,7 @@ import {
   getLanguages,
   getGenders,
   startUploadingFile,
+  clearImage,
 } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../loader/Loader";
@@ -24,7 +25,7 @@ export default function CreatePost() {
   const categories = useSelector((state) => state.categories);
   const languages = useSelector((state) => state.languages);
   const genders = useSelector((state) => state.genders);
-  const image_c = useSelector((state) => state.images);
+  let image_c = useSelector((state) => state.images);
   const [err, setErr] = useState({});
   const MySwal = withReactContent(Swal)
   const [order,SetOrder]=useState("")
@@ -108,9 +109,10 @@ export default function CreatePost() {
 
   function handlerSubmit(e,message) {
     e.preventDefault();
+    let session= JSON.parse(localStorage.getItem("session"))
     input.image = image_c;
-    dispatch(createPost(input));
-   
+    dispatch(createPost(session[0].id,input));
+dispatch(clearImage())
     setInput({
       title: "",
       author: "",

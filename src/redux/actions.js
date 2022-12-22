@@ -22,6 +22,8 @@ export const  GET_USER_STRIPE="GET_USER_STRIPE"
 export const GET_TOKEN="GET_TOKEN";
 export const CLEAR_STORAGE="CLEAR_STORAGE"
 export const GET_USER_DETAIL = "GET_USER_DETAIL";
+export const CLEAR_IMAGE="CLEAR_IMAGE"
+export const GET_MY_PRODUCTS="GET_MY_PRODUCTS"
 
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
@@ -73,6 +75,19 @@ export function filterPrice(payload){
       return dispatch({
         type: FILTER_PRICE,
         payload
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+};
+
+
+export function clearImage(){
+  return async function(dispatch){
+    try{
+      return dispatch({
+        type: CLEAR_IMAGE
       })
     } catch (error) {
       console.log(error);
@@ -336,10 +351,10 @@ export function sagaByName(name) {
   };
 }
 
-export function createPost(payload) {
+export function createPost(id,payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/products`, payload);
+      let post = await axios.post(`${localhost}/products/${id}`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -479,6 +494,20 @@ export const clearFavorites = (id) => {
   };
 };
 
+export const getMyProducts = (id) => {
+  return async (dispatch) => {
+    try {
+      const pay = await axios.get(`${localhost}/profile/user/${id}/`)
+      return dispatch({
+        type:GET_MY_PRODUCTS
+      })
+      console.log(pay)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 
 export function createUser(payload) {
   return async function (dispatch) {
@@ -528,6 +557,8 @@ export function disablePost(id) {
     }
   };
 }
+
+
 
 export function deletePost(id) {
   return async function () {

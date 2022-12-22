@@ -21,6 +21,8 @@ import {
   GET_TOKEN,
   CLEAR_STORAGE,
   GET_USER_DETAIL,
+  CLEAR_IMAGE,
+  GET_MY_PRODUCTS,
 } from "./actions";
 
 const initialState = {
@@ -244,6 +246,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         images: payload,
       };
+      case CLEAR_IMAGE:
+        return{
+          ...state,
+          images:[]
+        }
+        case GET_MY_PRODUCTS:
+          return{
+            ...state
+          }
     default:
       return state;
   }

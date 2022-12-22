@@ -13,6 +13,7 @@ import { RecoverPassword } from "./components/recoverPassword/RecoverPassword";
 import { ConfirmAcount } from "./components/confirmAcount/ConfirmAcount";
 import Sellers from "./components/sellers/Sellers";
 import Favorites from "./components/favorites/Favorites";
+import MyProducts from "./components/myProducts/MyProducts";
 
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
           <Route exact path="/admin" element={<DashboardAdmin/>} />
           <Route exact path="/sellers" element={<Sellers/>} />
           <Route exact path="/favorites" element={<Favorites/>} />
+          <Route exact path="/myproducts" element={<MyProducts/>} />
         </Routes>
       </Router>
     </div>

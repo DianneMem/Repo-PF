@@ -122,7 +122,7 @@ const CheckoutForm = () => {
           <button onClick={(e) => handlerDeleteAll(e)}>
             Delete all Cart Items
           </button>
-          {getCart ? (
+          {getCart.length ? (
             getCart.map((e) => (
               <div>
                 <button type="button" onClick={()=>deleteItem(e._id)}>x</button>
@@ -135,9 +135,9 @@ const CheckoutForm = () => {
                 <h1>{totalAmount.amount}</h1>
               </div>
             ))
-          ) : (
+          ) : 
             <h1>Your Cart is Empty</h1>
-          )}
+          }
         </div>
         {totalAmount.amount !== 0 ? (
           <div>
