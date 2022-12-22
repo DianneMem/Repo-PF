@@ -43,8 +43,7 @@ export function loginUser(payload) {
   if(payload){
     return async function (dispatch) {
       try {
-        let token = await axios.post(`${localhost}/local/signin`, payload);
-        console.log("prueba",token.data);
+        let token = await axios.post(`${localhost}/local/login`, payload);
         return dispatch({
           type: GET_TOKEN,
           payload: token.data 

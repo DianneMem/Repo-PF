@@ -65,7 +65,6 @@ const rootReducer = (state = initialState, { type, payload }) => {
       };
     case GET_TOKEN:
       let currentToken = jwt(payload);
-      console.log("token", currentToken);
       return {
         ...state,
         sessionState: currentToken,
