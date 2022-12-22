@@ -5,24 +5,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { createCustomer, findUserStripe, loginUser } from "../../redux/actions";
-import jwt from "jwt-decode"
 
 export const Login = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const token = useSelector((state) => state.sessionState)
   const [input, setInputs] = useState({
 		password: "",
 		username: "",
 	});
 
-  console.log(input)
 
 
   const handleSubmit =async (e) => {
 		e.preventDefault();
-    dispatch(createCustomer({username:input.username,email:input.email}))
      dispatch(findUserStripe(input.username))
     dispatch(loginUser({password: input.password,username: input.username, }))
    
@@ -34,21 +30,7 @@ export const Login = () => {
     navigate("/")
   }
 
-  // const handleSubmit = (e) => {
-	// 	e.preventDefault();
-  //   dispatch(loginUser({password: input.password,username: input.username, }))
-  //   // let session = JSON.parse(localStorage.getItem("session"))
-  //   dispatch(createCustomer({username:input.username,email:input.email}))
-  //   // dispatch(createCustomer({username:session[0].username,email:session[0].email}))
-  //    dispatch(findUserStripe(input.username))
-   
-  //   if(!localStorage.getItem("cart")){
-  //     localStorage.setItem("cart","[]")
-     
-  //   }
-
-  //   navigate("/")
-  // }
+  
 
   const handleUser = (e) => {
 		setInputs({ ...input, [e.target.name]: e.target.value })
