@@ -76,16 +76,6 @@ margin-top: 5.8rem;
   padding: 1rem;
 }
 
-.user{
-  background-color: bisque;
-  padding-top: 1.5rem;
-  color: rgb(63, 56, 44);
-  border:1px solid wheat;
-  border-radius: 5px;
-  display: flex;
-  transition-duration: 0.5s;
-  gap: 1rem;
-}
 
 .cardsContainer{
   display: flex;
