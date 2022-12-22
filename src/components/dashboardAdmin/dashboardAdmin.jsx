@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllBooks, getAllUsers , disablePost, deletePost, disableUser, deleteUser, modifyUser, getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice, orderBooks } from "../../redux/actions";
-
+import { getAllBooks, getAllUsers , disablePost, deletePost, getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial } from "../../redux/actions";
 import DashCard from "../dashCard/dashCard";
 import Paginated from "../paginado/Paginated";
 import Loader from "../loader/Loader";
@@ -10,6 +9,7 @@ import SideBar from "../sidebar/Sidebar";
 import s from "./dashboardAdmin.module.css";
 import { Link } from "react-router-dom";
 import CreatePost from "../createProduct/CreateProduct";
+import DashUser from "../dashUser/dashUser";
 
 
 export default function DashAdmin() {
@@ -80,46 +80,6 @@ export default function DashAdmin() {
     await dispatch(deletePost(itemId));
     dispatch(getAllBooks());
   }
-  
-
-  async function disableUserById(e){
-    e.preventDefault();
-    let itemId = e.target.value;
-    await dispatch(disableUser(itemId));
-    dispatch(getAllUsers());
-  }
-  
-  async function deleteUserById(e){
-    e.preventDefault();
-    let itemId = e.target.value;
-    await dispatch(deleteUser(itemId));
-    dispatch(getAllUsers());
-  }
-  
-  function handleInputs(e){
-    e.preventDefault();
-    setUserInput({
-    ...userInput,
-    [e.target.name]: e.target.value
-    })
-    setAdvice('Press Modify to change authorization');
-  }
-
-  async function modifyUserById(e, user){
-    e.preventDefault();
-    let inputSend = userInput;
-    
-    for (const property in inputSend) {
-      if(inputSend[property] === ''){
-        inputSend[property] = user[property]
-      };
-    }
-    
-    await dispatch(modifyUser(user._id, inputSend));
-    dispatch(getAllUsers());
-    setAdvice('');
-  };
-  
   
   function handleSections(e){
     e.preventDefault();
@@ -209,19 +169,16 @@ export default function DashAdmin() {
             </div>
             <SideBar/>
           </div>
-          
-          
           <br/>
           <hr/>
-      
           <br/>
               
-              {createProduct ? 
-              (<div className={s.createPost}>
-                <button onClick={e => handleCreate(e)}>Close Form</button>
-                <CreatePost/>
-              </div>) : 
-              (<button onClick={e => handleCreate(e)}>Create Product</button>)}
+          {createProduct ? 
+          (<div className={s.createPost}>
+            <button onClick={e => handleCreate(e)}>Close Form</button>
+            <CreatePost/>
+          </div>) : 
+          (<button onClick={e => handleCreate(e)}>Create Product</button>)}
           <br/>
       
         </div>) :
@@ -237,52 +194,10 @@ export default function DashAdmin() {
       <h3>Users</h3>
       
       {allUsers.length ? (
-        <div className={s.container}>    
-        
-        
+      <div className={s.container}>    
         {allUsers?.map((u)=>{return(
-        <form className={s.user} onSubmit={(e) => modifyUserById(e,u)}>
-          <p>id: {u._id}</p>
-          <div>
-            <p>role: {u.role}</p>
-            {u.role === 'user' ? 
-            (<button name='role' value='admin' className="btn btn-outline-warning" onClick={(e)=>handleInputs(e,u)}>admin</button>) : 
-            (<button name='role' value='user' className="btn btn-outline-warning" onClick={(e)=>handleInputs(e,u)}>user</button>)}
-            <span>{advice}</span>
-          </div>
-          <div>
-            <p>username: {u.username}</p>
-            <input type='text' name='username' onChange={(e)=>handleInputs(e)} placeholder={'New username'}/>
-          </div>
-          {/* <p>firstname: {u.firstname}</p>
-          <input type='text' name='firstname' onChange={(e)=>handleInputs(e)} placeholder={'New firstname'}/>
-          <p>lastname: {u.lastname}</p> 
-          <input type='text' name='lastname' onChange={(e)=>handleInputs(e)} placeholder={'New lastname'}/>     
-          <p>adress: {u.adress}</p>
-          <input type='text' name='adress' onChange={(e)=>handleInputs(e)} placeholder={'New adress'}/>
-          <p>phone: {u.phone}</p>
-          <input type='tel' name='phone' onChange={(e)=>handleInputs(e)} placeholder={'New phone'}/> */}
-          <div>
-            <p>email: {u.email}</p>
-            <input type='email' name='email' onChange={(e)=>handleInputs(e)} placeholder={'New email'}/>
-          </div>
-          <button type='submit' className="btn btn-outline-primary">Modify</button>
-          <hr/>
-          {u.available? (<p>Available: Yes</p>) : (<p>Available: No</p>)}
-          {u.available ? 
-          (<button value={u._id} className="btn btn-outline-warning" onClick={e => disableUserById(e)}>
-            Disable
-          </button>) : 
-          (<button value={u._id}className="btn btn-outline-warning" onClick={e => disableUserById(e)}>
-            Enable
-          </button>)}
-          <button value={u._id} className="btn btn-outline-danger" onClick={e => deleteUserById(e)}>
-            Delete
-          </button>
-        </form>
-        )})}
-    
-              
+        <DashUser user={u}/>
+        )})}      
       </div>) : 
       (<>
       <p>Loading Users</p>
@@ -293,30 +208,6 @@ export default function DashAdmin() {
       <br/>
         <Link to={"/register"}><button>Create User</button></Link>
       <br/>
-      
-     {/*  <p>Create User</p>
-      <form>
-          <label>role</label>
-          <button>user</button>
-          <button>admin</button>
-          <label>username:</label>
-          <input type='text'/>
-          <label>firstname:</label>
-          <input type='text'/>
-          <label>lastname: </label>         
-          <input type='text'/>
-          <label>adress:</label>
-          <input type='text'/>
-          <label>email:</label>
-          <input type='email'/>
-          <label>phone:</label>
-          <input type='tel'/>
-          <label>Password</label>
-          <input type='text'/>
-          <label>Repite password</label>
-          <input type='text'/>
-          <button type='submit'>Send</button>
-      </form> */}
       
       </>}
       
