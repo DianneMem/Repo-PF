@@ -15,9 +15,9 @@ import { IconButton } from "@mui/material";
 import { UploadOutlined } from "@mui/icons-material";
 import { useRef } from "react";
 import "./CreateProduct.css";
-import Header from "../header/Header"
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import Header from "../header/Header";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import CreateProductPreview from "../createProductPreview/CreateProductPreview";
 
 export default function CreatePost() {
@@ -27,8 +27,8 @@ export default function CreatePost() {
   const genders = useSelector((state) => state.genders);
   let image_c = useSelector((state) => state.images);
   const [err, setErr] = useState({});
-  const MySwal = withReactContent(Swal)
-  const [order,SetOrder]=useState("")
+  const MySwal = withReactContent(Swal);
+  const [order, SetOrder] = useState("");
   const [loading, setLoading] = useState(false);
 
   let username = JSON.parse(localStorage.getItem("session"));
@@ -46,7 +46,8 @@ export default function CreatePost() {
     language: "",
     categorie: "",
     gender: [],
-    seller: username[0].username
+    seller: username[0].username,
+    sellerId: username[0].id,
   });
   console.log(input);
   const navigate = useNavigate();
@@ -107,12 +108,13 @@ export default function CreatePost() {
     });
   }
 
-  function handlerSubmit(e,message) {
+  function handlerSubmit(e, message) {
     e.preventDefault();
-    let session= JSON.parse(localStorage.getItem("session"))
+    let session = JSON.parse(localStorage.getItem("session"));
     input.image = image_c;
-    dispatch(createPost(session[0].id,input));
-dispatch(clearImage())
+    dispatch(createPost(session[0].id, input));
+    // dispatch(createPost(input));
+    dispatch(clearImage());
     setInput({
       title: "",
       author: "",
@@ -126,11 +128,16 @@ dispatch(clearImage())
       state: "",
       typebook: "",
       gender: [],
-      seller: username[0].username
+      seller: username[0].username,
+      sellerId: username[0].id,
     });
 
     navigate("/");
-    return MySwal.fire('¡The post has been created successfully!', message, 'success')
+    return MySwal.fire(
+      "¡The post has been created successfully!",
+      message,
+      "success"
+    );
   }
   function validate(input) {
     let fecha = new Date();
@@ -146,15 +153,13 @@ dispatch(clearImage())
       err.author = "· Author is required";
     } else if (RegEXP.test(input.author)) {
       err.author = "· Special characters are not accepted";
-    }
-    else if (!input.editorial) {
+    } else if (!input.editorial) {
       err.editorial = "· Editorial is required";
-    }
-    else if (image_c.length<1) {
+    } else if (image_c.length < 1) {
       err.image = "· Image required";
-    }  else if (RegEXP.test(input.editorial)) {
+    } else if (RegEXP.test(input.editorial)) {
       err.editorial = "· Special characters are not accepted";
-    }  else if (!input.year) {
+    } else if (!input.year) {
       err.year = "· Year input is required";
     } else if (input.year < 0 || input.year > añoActual) {
       err.year = "· Year input Error";
@@ -162,7 +167,7 @@ dispatch(clearImage())
       err.price = "· Price input Error";
     }
     console.log(err);
-    SetOrder("")
+    SetOrder("");
     err.input = "· Input required";
     return err;
   }
@@ -172,10 +177,10 @@ dispatch(clearImage())
       gender: input.gender.filter((e) => e !== el),
     });
   }
-  
+
   function backBtn(e) {
-    e.preventDefault()
-    navigate("/")
+    e.preventDefault();
+    navigate("/");
   }
 
   const changeState = () => {
@@ -192,287 +197,325 @@ dispatch(clearImage())
     if (target.files === 0) return;
     dispatch(startUploadingFile(target.files));
   };
-console.log(Header);
-  return (<div>
-   
-    <div className="body">
-    <Header noSearch={true}/>
-    <div class="container-fluid px-1 py-5 mx-auto">
-      <div class="row d-flex justify-content-center">
-        <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-          <div class="card">
-            <CreateProductPreview input={input}/>
-              <button onClick={e=>backBtn(e)} className="backBtn">Back</button>
-            <h1  class="text-center mb-4" className="publication">Create Publication</h1>
-            <form class="form-card" onSubmit={(e) => handlerSubmit(e)}>
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
-                    Title<span class="text-danger"> *</span>{" "}
-                  </label>{" "}
-                  <input className="input"
-                    placeholder="Title"
-                    type="text"
-                    value={input.title}
-                    name="title"
-                    onChange={handlerChange}
-                  />
-                  {err.title && <h5 className="errForm">{err.title}</h5>}
-                </div>
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
-                    Author <span class="text-danger"> *</span>{" "}
-                  </label>{" "}
-                  <input 
-                  className="input"
-                    placeholder="Author"
-                    type="text"
-                    value={input.author}
-                    name="author"
-                    onChange={handlerChange}
-                  />
-                  {err.author && <h5 className="errForm">{err.author}</h5>}
-                </div>
-              </div>
-
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
-                    Editorial <span class="text-danger"> </span>{" "}
-                  </label>{" "}
-                  <input className="input"
-                    placeholder="Editorial"
-                    type="text"
-                    value={input.editorial}
-                    name="editorial"
-                    onChange={handlerChange}
-                  />
-                  {err.editorial && <h5 className="errForm">{err.editorial}</h5>}
-                </div>
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">Saga </label>{" "}
-                  <input 
-                  className="input"
-                    placeholder="saga"
-                    type="text"
-                    value={input.saga}
-                    name="saga"
-                    onChange={handlerChange}
-                  />
-                </div>
-              </div>
-              <div class="row justify-content-between text-left" >
-                <div class="form-group col-sm-6 flex-column d-flex"   >
-                  <label class="form-control-label px-3" className="label">
-                    Image <span class="text-danger"> *</span>{" "}
-                  </label>{" "}
-                  <input 
-                    style={{ display: "none"}}
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={onFileInputChange}
-
-                  />
-                  <IconButton   className={image_c.length>0? "buttonFormImg":"buttonFormImgErr" } onClick={() => fileInputRef.current.click()}>
-                    <UploadOutlined />
-                  </IconButton>
-                </div>
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="labelImg">
-                    Year <span class="text-danger"> *</span>
-                  </label>{" "}
-                  <input 
-                  className="input"
-                    placeholder="year"
-                    type="number"
-                    value={input.year}
-                    name="year"
-                    onChange={handlerChange}
-                  />
-                  {err.year && <h5 className="errForm">{err.year}</h5>}
-                </div>
-              </div>
-
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
-                    Price <span class="text-danger"> *</span>{" "}
-                  </label>{" "}
-                  <input 
-                  className="input"
-                    placeholder="price"
-                    type="number"
-                    value={input.price}
-                    name="price"
-                    onChange={handlerChange}
-                  />
-                  {err.price && <h5 className="errForm">{err.price}</h5>}
-                </div>
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
-                    Type Book <span class="text-danger"> *</span>{" "}
-                  </label>
-
-                  <select 
-                  className="select"
-                    name="typebook"
-                    defaultValue="type"
-                    onChange={(e) => handlerSelectTypeBook(e)}
-                  >
-                    <option disabled value="type">
-                      Type Book
-                    </option>
-
-                    <option value="physical">Physical</option>
-                    <option value="virtual"> Virtual</option>
-                  </select>
-                  {!input.typebook && <h5 className="errForm">{err.input}</h5>}
-                </div>
-              </div>
-           
-              <div class="row justify-content-between text-left">
-              <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
-                    State <span class="text-danger"> *</span>{" "}
-                  </label>
-                  <select 
-                  className="select"
-                    defaultValue="state"
-                    onChange={(e) => handlerSelectState(e)}
-                  >
-                    <option disabled value="state">
-                      State
-                    </option>
-                    <option  value="New">New</option>
-                    <option disabled={input.typebook==="virtual" ?true:false}  value="Used">Used</option>
-                  </select>
-                  {!input.state && <h5 className="errForm">{err.input}</h5>}
-                </div>
-
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
-                    Languages <span class="text-danger"> *</span>{" "}
-                  </label>
-
-                  <select className="select"
-                    defaultValue="languages"
-                    onChange={(e) => handlerSelectLanguage(e)}
-                  >
-                    <option disabled value="languages">
-                      Languages
-                    </option>
-                    {languages.map((e) => (
-                      <option
-                        disabled={
-                          input.language.includes(e) === false ? false : true
-                        }
-                        value={e}
-                      >
-                        {e}
-                      </option>
-                    ))}
-                  </select>
-                  {!input.language && <h5 className="errForm">{err.input}</h5>}
-                </div>
-              </div>
-
-              <div class="row justify-content-between text-left">
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
-                    Categories <span class="text-danger"> *</span>{" "}
-                  </label>
-
-                  <select className="select"
-                    defaultValue="choose"
-                    onChange={(e) => handlerSelectCategorie(e)}
-                  >
-                    <option disabled value="choose">
-                      choose categories
-                    </option>
-                    {categories.map((e) => (
-                      <option
-                        disabled={
-                          input.categorie.includes(e) === false ? false : true
-                        }
-                        value={e}
-                      >
-                        {e}
-                      </option>
-                    ))}
-                  </select >
-                  {!input.categorie && <h5 className="errForm">{err.input}</h5>}
-                </div>
-                <div class="form-group col-sm-6 flex-column d-flex">
-                  <label class="form-control-label px-3" className="label">
-                    Genders <span class="text-danger"> *</span>{" "}
-                  </label>
-
-                  <select className="select"
-                    defaultValue="choose"
-                    onChange={(e) => handlerSelectGenders(e)}
-                  >
-                    <option disabled value="choose">
-                      Genders
-                    </option>
-                    {genders.map((e) => (
-                      <option
-                        disabled={
-                          input.gender.includes(e) === false ? false : true
-                        }
-                        value={e}
-                      >
-                        {e}
-                      </option>
-                    ))}
-                  </select >
-                  {!input.gender.length && <h5 className="errForm"> {err.input}</h5>}
-                </div>
-              </div>
-
-              <div class="row justify-content-between text-center">
-              <label  className="label">Choosen Genders</label>
-                <div className="genders">
-                  <br></br>
-                 
-                  {input.gender.map((e) => (
-                    <div onClick={() => handleDelete(e)} className="choosenGenders" >
-                      {e}{" "}
-                  
+  console.log(Header);
+  return (
+    <div>
+      <div className="body">
+        <Header noSearch={true} />
+        <div class="container-fluid px-1 py-5 mx-auto">
+          <div class="row d-flex justify-content-center">
+            <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
+              <div class="card">
+                <CreateProductPreview input={input} />
+                <button onClick={(e) => backBtn(e)} className="backBtn">
+                  Back
+                </button>
+                <h1 class="text-center mb-4" className="publication">
+                  Create Publication
+                </h1>
+                <form class="form-card" onSubmit={(e) => handlerSubmit(e)}>
+                  <div class="row justify-content-between text-left">
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Title<span class="text-danger"> *</span>{" "}
+                      </label>{" "}
+                      <input
+                        className="input"
+                        placeholder="Title"
+                        type="text"
+                        value={input.title}
+                        name="title"
+                        onChange={handlerChange}
+                      />
+                      {err.title && <h5 className="errForm">{err.title}</h5>}
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Author <span class="text-danger"> *</span>{" "}
+                      </label>{" "}
+                      <input
+                        className="input"
+                        placeholder="Author"
+                        type="text"
+                        value={input.author}
+                        name="author"
+                        onChange={handlerChange}
+                      />
+                      {err.author && <h5 className="errForm">{err.author}</h5>}
+                    </div>
+                  </div>
 
-              <button
-             
-                class="btn-block btn-primary"
-                className="buttonForm"
-                type="submit"
-                disabled={
-                  !input.title ||
-                  err.title ||
-                  err.author ||
-                  err.editorial ||
-                  err.year ||
-                  err.price ||
-                  !input.typebook ||
-                  !input.state ||
-                  !input.language ||
-                  !input.categorie
-                    ? true
-                    : false
-                }
-              >
-                Create
-              </button>
-            </form>
+                  <div class="row justify-content-between text-left">
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Editorial <span class="text-danger"> </span>{" "}
+                      </label>{" "}
+                      <input
+                        className="input"
+                        placeholder="Editorial"
+                        type="text"
+                        value={input.editorial}
+                        name="editorial"
+                        onChange={handlerChange}
+                      />
+                      {err.editorial && (
+                        <h5 className="errForm">{err.editorial}</h5>
+                      )}
+                    </div>
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Saga{" "}
+                      </label>{" "}
+                      <input
+                        className="input"
+                        placeholder="saga"
+                        type="text"
+                        value={input.saga}
+                        name="saga"
+                        onChange={handlerChange}
+                      />
+                    </div>
+                  </div>
+                  <div class="row justify-content-between text-left">
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Image <span class="text-danger"> *</span>{" "}
+                      </label>{" "}
+                      <input
+                        style={{ display: "none" }}
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={onFileInputChange}
+                      />
+                      <IconButton
+                        className={
+                          image_c.length > 0
+                            ? "buttonFormImg"
+                            : "buttonFormImgErr"
+                        }
+                        onClick={() => fileInputRef.current.click()}
+                      >
+                        <UploadOutlined />
+                      </IconButton>
+                    </div>
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label
+                        class="form-control-label px-3"
+                        className="labelImg"
+                      >
+                        Year <span class="text-danger"> *</span>
+                      </label>{" "}
+                      <input
+                        className="input"
+                        placeholder="year"
+                        type="number"
+                        value={input.year}
+                        name="year"
+                        onChange={handlerChange}
+                      />
+                      {err.year && <h5 className="errForm">{err.year}</h5>}
+                    </div>
+                  </div>
+
+                  <div class="row justify-content-between text-left">
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Price <span class="text-danger"> *</span>{" "}
+                      </label>{" "}
+                      <input
+                        className="input"
+                        placeholder="price"
+                        type="number"
+                        value={input.price}
+                        name="price"
+                        onChange={handlerChange}
+                      />
+                      {err.price && <h5 className="errForm">{err.price}</h5>}
+                    </div>
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Type Book <span class="text-danger"> *</span>{" "}
+                      </label>
+
+                      <select
+                        className="select"
+                        name="typebook"
+                        defaultValue="type"
+                        onChange={(e) => handlerSelectTypeBook(e)}
+                      >
+                        <option disabled value="type">
+                          Type Book
+                        </option>
+
+                        <option value="physical">Physical</option>
+                        <option value="virtual"> Virtual</option>
+                      </select>
+                      {!input.typebook && (
+                        <h5 className="errForm">{err.input}</h5>
+                      )}
+                    </div>
+                  </div>
+
+                  <div class="row justify-content-between text-left">
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        State <span class="text-danger"> *</span>{" "}
+                      </label>
+                      <select
+                        className="select"
+                        defaultValue="state"
+                        onChange={(e) => handlerSelectState(e)}
+                      >
+                        <option disabled value="state">
+                          State
+                        </option>
+                        <option value="New">New</option>
+                        <option
+                          disabled={input.typebook === "virtual" ? true : false}
+                          value="Used"
+                        >
+                          Used
+                        </option>
+                      </select>
+                      {!input.state && <h5 className="errForm">{err.input}</h5>}
+                    </div>
+
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Languages <span class="text-danger"> *</span>{" "}
+                      </label>
+
+                      <select
+                        className="select"
+                        defaultValue="languages"
+                        onChange={(e) => handlerSelectLanguage(e)}
+                      >
+                        <option disabled value="languages">
+                          Languages
+                        </option>
+                        {languages.map((e) => (
+                          <option
+                            disabled={
+                              input.language.includes(e) === false
+                                ? false
+                                : true
+                            }
+                            value={e}
+                          >
+                            {e}
+                          </option>
+                        ))}
+                      </select>
+                      {!input.language && (
+                        <h5 className="errForm">{err.input}</h5>
+                      )}
+                    </div>
+                  </div>
+
+                  <div class="row justify-content-between text-left">
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Categories <span class="text-danger"> *</span>{" "}
+                      </label>
+
+                      <select
+                        className="select"
+                        defaultValue="choose"
+                        onChange={(e) => handlerSelectCategorie(e)}
+                      >
+                        <option disabled value="choose">
+                          choose categories
+                        </option>
+                        {categories.map((e) => (
+                          <option
+                            disabled={
+                              input.categorie.includes(e) === false
+                                ? false
+                                : true
+                            }
+                            value={e}
+                          >
+                            {e}
+                          </option>
+                        ))}
+                      </select>
+                      {!input.categorie && (
+                        <h5 className="errForm">{err.input}</h5>
+                      )}
+                    </div>
+                    <div class="form-group col-sm-6 flex-column d-flex">
+                      <label class="form-control-label px-3" className="label">
+                        Genders <span class="text-danger"> *</span>{" "}
+                      </label>
+
+                      <select
+                        className="select"
+                        defaultValue="choose"
+                        onChange={(e) => handlerSelectGenders(e)}
+                      >
+                        <option disabled value="choose">
+                          Genders
+                        </option>
+                        {genders.map((e) => (
+                          <option
+                            disabled={
+                              input.gender.includes(e) === false ? false : true
+                            }
+                            value={e}
+                          >
+                            {e}
+                          </option>
+                        ))}
+                      </select>
+                      {!input.gender.length && (
+                        <h5 className="errForm"> {err.input}</h5>
+                      )}
+                    </div>
+                  </div>
+
+                  <div class="row justify-content-between text-center">
+                    <label className="label">Choosen Genders</label>
+                    <div className="genders">
+                      <br></br>
+
+                      {input.gender.map((e) => (
+                        <div
+                          onClick={() => handleDelete(e)}
+                          className="choosenGenders"
+                        >
+                          {e}{" "}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <button
+                    class="btn-block btn-primary"
+                    className="buttonForm"
+                    type="submit"
+                    disabled={
+                      !input.title ||
+                      err.title ||
+                      err.author ||
+                      err.editorial ||
+                      err.year ||
+                      err.price ||
+                      !input.typebook ||
+                      !input.state ||
+                      !input.language ||
+                      !input.categorie
+                        ? true
+                        : false
+                    }
+                  >
+                    Create
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
-    </div>
-    
-
   );
 }

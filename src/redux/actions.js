@@ -395,6 +395,17 @@ export function addReview(id,payload) {
   };
 }
 
+export function createReview(id,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/reviews/${id}`, payload);
+      console.log(post);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function addFavorites(id,payload) {
   return async function (dispatch) {
     try {
