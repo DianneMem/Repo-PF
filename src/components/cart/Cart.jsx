@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearStorage, deleteStorageItemById, findUserStripe } from "../../redux/actions";
+import { addPurchases, clearStorage, deleteStorageItemById, findUserStripe } from "../../redux/actions";
 import Loader from "../loader/Loader";
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
@@ -66,12 +66,14 @@ const CheckoutForm = () => {
             customer:stripeId[0].id
           }
         );
-
+        
+        let session = JSON.parse(localStorage.getItem("session"));
         console.log(data.customer);
         elements.getElement(CardElement).clear();
+        console.log("CardElement",CardElement)
         MySwal.fire("Thank You for your purchase!", message, "success");
+        getCart.map((elm) => dispatch(addPurchases(session[0].id,{ username: elm.seller, productId: elm._id, sellerId: elm.sellerId, image: elm.image}))) 
         localStorage.setItem("cart","[]")
-        let session = JSON.parse(localStorage.getItem("session"));
         dispatch(clearStorage(session[0].id))
       } catch (error) {
         console.log(error);
