@@ -118,7 +118,7 @@ export default function Favorites() {
      
         <div>
     
-      {favscurrent.length? favscurrent.map((elm) => (
+       {favscurrent || favscurrent.length? favscurrent.map((elm) => (
         <div>
           <button onClick={() => deleteItem(elm._id)}>
             x
