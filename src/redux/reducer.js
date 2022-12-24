@@ -23,6 +23,7 @@ import {
   GET_USER_DETAIL,
   CLEAR_IMAGE,
   GET_MY_PRODUCTS,
+  DARK_MODE,
 } from "./actions";
 
 const initialState = {
@@ -42,6 +43,7 @@ const initialState = {
   auxState: [],
   sessionState: [],
   stripeState: [],
+  darkMode: false,
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -246,15 +248,20 @@ const rootReducer = (state = initialState, { type, payload }) => {
         ...state,
         images: payload,
       };
-      case CLEAR_IMAGE:
-        return{
-          ...state,
-          images:[]
-        }
-        case GET_MY_PRODUCTS:
-          return{
-            ...state
-          }
+    case CLEAR_IMAGE:
+      return {
+        ...state,
+        images: []
+      };
+    case GET_MY_PRODUCTS:
+      return {
+        ...state
+      }
+    case DARK_MODE:
+      return {
+        ...state,
+        darkMode: !state.darkMode
+      };
     default:
       return state;
   }

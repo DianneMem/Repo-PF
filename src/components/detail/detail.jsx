@@ -17,6 +17,7 @@ import withReactContent from 'sweetalert2-react-content'
 export default function Detail() {
   let detail = useSelector((state) => state.detailsBook);
   let allbooks = useSelector((state) => state.books);
+  const theme = useSelector((state) => state.darkMode)
   let { _id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -112,7 +113,7 @@ else{
   
   
   return (
-    <div className="contain">
+    <div className="contain"  style={{ "background-color": theme && "#212529", "color": theme && "white"}}>
       <Header noSearch={true} />
 
       <div class="details">
