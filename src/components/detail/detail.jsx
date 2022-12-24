@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { addFavorites, addStorage, addToCart, getBooksDetails } from "../../redux/actions";
+import { addFavorites, addStorage, addToCart, getBooksDetails, getAllUsers } from "../../redux/actions";
 import defaultImage from "../../assets/bookDefault.png";
 import "./detail.css";
 import favs from "../../assets/favs.png";
@@ -17,16 +17,29 @@ import withReactContent from 'sweetalert2-react-content'
 export default function Detail() {
   let detail = useSelector((state) => state.detailsBook);
   let allbooks = useSelector((state) => state.books);
+
   const theme = useSelector((state) => state.darkMode)
+  let users = useSelector((state) => state.users);
+
+
   let { _id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal)
   console.log(localStorage);
   let getCart = JSON.parse(localStorage.getItem("cart"));
+
+  const user = users.find((elm) => {
+    return elm._id === detail.sellerId
+  })
+
+  
   useEffect(() => {
     dispatch(getBooksDetails(_id));
+    dispatch(getAllUsers())
   }, [dispatch, _id]);
+  
+
 
   function backHandler(e) {
     e.preventDefault();
@@ -96,8 +109,6 @@ else{
 
   }
 
-  // Loading SetTimeOut
-  /* 
   const [loading, setLoading] = useState(false);
   const changeState = () => {
     setTimeout(() => {
@@ -108,9 +119,11 @@ else{
     changeState();
     return <Loader />;
   } 
-  */
   
-  
+  const score = user.reviews.map((elm) => {
+    return elm.score
+  })
+
   
   return (
     <div className="contain"  style={{ "background-color": theme && "#212529", "color": theme && "white"}}>
@@ -127,7 +140,22 @@ else{
               alt="Book"
               className="image"
             />
-            <a>Seller: {detail.seller}</a> 
+            <h2>Seller: {detail.seller}</h2>
+            {
+              !score.length? 
+              <div></div>:
+            <h3>Score:{score.reduce((acc,curr) => acc + curr)/5}</h3>
+            }
+            <h4>Reviews</h4>
+            {
+              !user.reviews.length?
+              <a>There are no reviews</a>:
+              user.reviews.map((elm) => {
+                return(
+                  <p>{elm.sellerId}: {elm.comment}</p>
+                )
+              })
+            }
           </div>
         </div>
         <div class="right">

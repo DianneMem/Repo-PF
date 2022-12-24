@@ -71,7 +71,7 @@ const CheckoutForm = () => {
         let session = JSON.parse(localStorage.getItem("session"));
         dispatch(deleteStorageItemById(session[0].id,_id))
         console.log("sessionId",session[0].id)
-        dispatch(addPurchases(session[0].id,{username: detailsBooks.seller, productId: _id, sellerId: detailsBooks.sellerId}))
+        dispatch(addPurchases(session[0].id,{ username: detailsBooks.seller, productId: _id, sellerId: detailsBooks.sellerId, image: detailsBooks.image}))
         console.log(data);
         elements.getElement(CardElement).clear();
         MySwal.fire("Thank You for your purchase!", message, "success");
