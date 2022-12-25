@@ -24,6 +24,7 @@ export const CLEAR_STORAGE="CLEAR_STORAGE"
 export const GET_USER_DETAIL = "GET_USER_DETAIL";
 export const CLEAR_IMAGE="CLEAR_IMAGE"
 export const GET_MY_PRODUCTS="GET_MY_PRODUCTS"
+export const GET_MY_BOOKS="GET_MY_BOOKS"
 
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
@@ -116,7 +117,7 @@ export function orderBooks(payload){
 export function getAllBooks() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${url}/products`);
+      const res = await axios.get(`${localhost}/products`);
       return dispatch({
         type: GET_ALL_BOOKS,
         payload: res.data,
@@ -171,7 +172,7 @@ export function getUsersDetail(id) {
 export function getCategories() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${url}/categories`);
+      const res = await axios.get(`${localhost}/categories`);
       return dispatch({
         type: GET_CATEGORIES,
         payload: res.data,
@@ -185,7 +186,7 @@ export function getCategories() {
 export function getLanguages() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${url}/languages`);
+      const res = await axios.get(`${localhost}/languages`);
       return dispatch({
         type: GET_LANGUAGES,
         payload: res.data,
@@ -198,7 +199,7 @@ export function getLanguages() {
 export function getGenders() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${url}/genders`);
+      const res = await axios.get(`${localhost}/genders`);
       return dispatch({
         type: GET_GENDERS,
         payload: res.data,
@@ -212,7 +213,7 @@ export function getGenders() {
 export function getAllAuthor(){
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${url}/authors`);
+      const res = await axios.get(`${localhost}/authors`);
       return dispatch({
         type: GET_ALL_AUTHOR,
         payload: res.data,
@@ -226,7 +227,7 @@ export function getAllAuthor(){
 export function getAllSaga(){
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${url}/sagas`);
+      const res = await axios.get(`${localhost}/sagas`);
       return dispatch({
         type: GET_ALL_SAGA,
         payload: res.data,
@@ -240,7 +241,7 @@ export function getAllSaga(){
 export function getAllEditorial(){
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${url}/editorials`);
+      const res = await axios.get(`${localhost}/editorials`);
       return dispatch({
         type: GET_ALL_EDITORIAL,
         payload: res.data,
@@ -255,7 +256,7 @@ export function getAllEditorial(){
 export function getBooksByName(title) {
   return async function (dispatch) {
     try {
-      const searchName = await axios.get(`${url}/products?search=${title}`);
+      const searchName = await axios.get(`${localhost}/products?search=${title}`);
       return dispatch({
         type: GET_BOOKS_BY_NAME,
         payload: searchName.data,
@@ -269,9 +270,23 @@ export function getBooksByName(title) {
 export function getBooksDetails(id) {
   return async function (dispatch) {
     try {
-      let detailsBook = await axios.get(`${url}/products/${id}`);
+      let detailsBook = await axios.get(`${localhost}/products/${id}`);
       return dispatch({
         type: GET_BOOK_DETAILS,
+        payload: detailsBook.data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function myProductDetail(id) {
+  return async function (dispatch) {
+    try {
+      let detailsBook = await axios.get(`${localhost}/products/${id}`);
+      return dispatch({
+        type: GET_MY_BOOKS,
         payload: detailsBook.data,
       });
     } catch (error) {
@@ -312,7 +327,7 @@ export function findUserStripe(username) {
 export function authorByName(name) {
   return async function (dispatch) {
     try {
-      let res = await axios.get(`${url}/filters/author/${name}`);
+      let res = await axios.get(`${localhost}/filters/author/${name}`);
       return dispatch({
         type: GET_AUTHOR,
         payload: res.data,
@@ -326,7 +341,7 @@ export function authorByName(name) {
 export function editorialByName(name) {
   return async function (dispatch) {
     try {
-      let res = await axios.get(`${url}/userController/editorial/${name}`);
+      let res = await axios.get(`${localhost}/userController/editorial/${name}`);
       return dispatch({
         type: GET_EDITORIAL,
         payload: res.data,
@@ -340,7 +355,7 @@ export function editorialByName(name) {
 export function sagaByName(name) {
   return async function (dispatch) {
     try {
-      let res = await axios.get(`${url}/filters/saga/${name}`);
+      let res = await axios.get(`${localhost}/filters/saga/${name}`);
       return dispatch({
         type: GET_SAGA,
         payload: res.data,
@@ -355,6 +370,18 @@ export function createPost(id,payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/products/${id}`, payload);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+
+export function modificatePostInProfile(id,productId,payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/products/${id}?title=${productId}`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -471,6 +498,17 @@ export const deleteStorageItemById = (id,item) => {
   };
 };
 
+export const modifyMyPosts = (id,item,payload) => {
+  return async (dispatch) => {
+    try {
+      const pay = await axios.put(`${localhost}/profile/myproducts/${id}?item=${item}`,payload)
+      console.log(pay)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 
 export const deleteFavoriteItemById = (id,item) => {
   return async (dispatch) => {
@@ -561,7 +599,7 @@ return async function (dispatch) {
 export function disablePost(id) {
   return async function () {
     try {
-      let post = await axios.put(`${url}/products/deletelogic/${id}`);
+      let post = await axios.put(`${localhost}/products/deletelogic/${id}`);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -574,7 +612,7 @@ export function disablePost(id) {
 export function deletePost(id) {
   return async function () {
     try {
-      let post = await axios.delete(`${url}/products/${id}`);
+      let post = await axios.delete(`${localhost}/products/${id}`);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -586,7 +624,7 @@ export function deletePost(id) {
 export function disableUser(id) {
   return async function () {
     try {
-      let post = await axios.put(`${url}/users/deletelogic/${id}`);
+      let post = await axios.put(`${localhost}/users/deletelogic/${id}`);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -597,7 +635,7 @@ export function disableUser(id) {
 export function deleteUser(id) {
   return async function () {
     try {
-      let post = await axios.delete(`${url}/users/${id}`);
+      let post = await axios.delete(`${localhost}/users/${id}`);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -608,7 +646,7 @@ export function deleteUser(id) {
 export function modifyUser(id, payload) {
   return async function () {
     try {
-      let post = await axios.put(`${url}/users/${id}`, payload);
+      let post = await axios.put(`${localhost}/users/${id}`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -619,7 +657,7 @@ export function modifyUser(id, payload) {
 export function modifyPost(id, payload) {
   return async function () {
     try {
-      let post = await axios.put(`${url}/products/${id}`, payload);
+      let post = await axios.put(`${localhost}/products/${id}`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);

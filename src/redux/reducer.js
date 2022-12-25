@@ -23,6 +23,7 @@ import {
   GET_USER_DETAIL,
   CLEAR_IMAGE,
   GET_MY_PRODUCTS,
+  GET_MY_BOOKS,
 } from "./actions";
 
 const initialState = {
@@ -42,13 +43,14 @@ const initialState = {
   auxState: [],
   sessionState: [],
   stripeState: [],
+  myproductDetail:[],
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_ALL_BOOKS:
 
-      console.log(state.stripeState);
+     
       return {
         ...state,
         allbooks: payload,
@@ -72,7 +74,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         sessionState: currentToken,
       };
     case GET_USER_STRIPE:
-      console.log("payload", payload);
+    
       return {
         ...state,
         stripeState: payload,
@@ -98,7 +100,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
     case GET_USER_DETAIL:
       return {
         ...state,
-        userDetail: [payload],
+        userDetail: [payload]
       };
     case GET_ALL_AUTHOR:
       return {
@@ -130,7 +132,14 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         detailsBook: payload,
+    
       };
+      case GET_MY_BOOKS:
+        console.log(state.myproductDetail);
+        return{
+          ...state,
+          myproductDetail:payload
+        }
     case CHANGE_PAGE:
       return {
         ...state,
