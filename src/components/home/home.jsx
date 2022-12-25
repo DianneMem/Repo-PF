@@ -9,10 +9,13 @@ import Loader from "../loader/Loader";
 import Header from "../header/Header";
 import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
+import DarkMode from "../DarkMode/DarkMode";
+
 
 export default function Home() {
   const dispatch = useDispatch();
 
+  const theme = useSelector((state) => state.darkMode)
 
 
 
@@ -97,7 +100,9 @@ export default function Home() {
       <br />
 
       {allBooks.length ? (
-        <div className={s.container}>
+        <div className={s.container} style={{ "background-color": theme && "#212529", "color": theme && "white"}}>
+
+          
           <div className={s.paginated}>
             {currentPage !== 1 ? (
               <button

@@ -15,14 +15,17 @@ import Sellers from "./components/sellers/Sellers";
 import Favorites from "./components/favorites/Favorites";
 import MyProducts from "./components/myProducts/MyProducts";
 import Profile from "./components/myProducts/Profile";
+import DarkMode from "./components/DarkMode/DarkMode";
 
 
 
 export default function App() {
   return (
     <div >
+      <DarkMode/>
       <Router>
         <Routes>
+          
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/recoverpassword" element={<RecoverPassword/>} />

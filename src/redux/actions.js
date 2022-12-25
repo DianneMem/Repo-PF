@@ -11,27 +11,29 @@ export const GET_GENDERS = "GET_GENDERS";
 export const GET_ALL_AUTHOR = "GET_ALL_AUTHOR";
 export const GET_ALL_SAGA = "GET_ALL_SAGA";
 export const GET_ALL_EDITORIAL = "GET_ALL_EDITORIAL";
-export const CHANGE_PAGE="CHANGE_PAGE";
+export const CHANGE_PAGE = "CHANGE_PAGE";
 export const FILTER_BOOKS = "FILTER_BOOKS";
 export const ORDER_BOOKS = "ORDER_BOOKS";
 export const FILTER_PRICE = "FILTER_PRICE";
-export const GET_SAGA="GET_SAGA";
-export const GET_EDITORIAL="GET_EDITORIAL";
-export const GET_AUTHOR="GET_AUTHOR";
-export const  GET_USER_STRIPE="GET_USER_STRIPE"
-export const GET_TOKEN="GET_TOKEN";
-export const CLEAR_STORAGE="CLEAR_STORAGE"
+export const GET_SAGA = "GET_SAGA";
+export const GET_EDITORIAL = "GET_EDITORIAL";
+export const GET_AUTHOR = "GET_AUTHOR";
+export const GET_USER_STRIPE = "GET_USER_STRIPE"
+export const GET_TOKEN = "GET_TOKEN";
+export const CLEAR_STORAGE = "CLEAR_STORAGE"
 export const GET_USER_DETAIL = "GET_USER_DETAIL";
 export const CLEAR_IMAGE="CLEAR_IMAGE"
 export const GET_MY_PRODUCTS="GET_MY_PRODUCTS"
 export const GET_MY_BOOKS="GET_MY_BOOKS"
+export const DARK_MODE = "DARK_MODE";
+
 
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
 
-export function filterBooks(payload){
-  return async function(dispatch){
-    try{
+export function filterBooks(payload) {
+  return async function (dispatch) {
+    try {
       return dispatch({
         type: FILTER_BOOKS,
         payload
@@ -43,23 +45,23 @@ export function filterBooks(payload){
 };
 
 export function loginUser(payload) {
-  if(payload){
+  if (payload) {
     return async function (dispatch) {
       try {
         let token = await axios.post(`${localhost}/local/login`, payload);
         return dispatch({
           type: GET_TOKEN,
-          payload: token.data 
+          payload: token.data
         })
       } catch (error) {
         console.log(error.message);
       }
     };
   } else {
-    return async function (dispatch){
+    return async function (dispatch) {
       await axios.get("http://localhost:3001/google/signin")
       const token = document.cookie
-      console.log("aaaa",token)
+      console.log("aaaa", token)
       return dispatch({
         type: GET_TOKEN,
         payload: token
@@ -70,9 +72,9 @@ export function loginUser(payload) {
 }
 
 
-export function filterPrice(payload){
-  return async function(dispatch){
-    try{
+export function filterPrice(payload) {
+  return async function (dispatch) {
+    try {
       return dispatch({
         type: FILTER_PRICE,
         payload
@@ -84,9 +86,9 @@ export function filterPrice(payload){
 };
 
 
-export function clearImage(){
-  return async function(dispatch){
-    try{
+export function clearImage() {
+  return async function (dispatch) {
+    try {
       return dispatch({
         type: CLEAR_IMAGE
       })
@@ -97,9 +99,9 @@ export function clearImage(){
 };
 
 
-export function orderBooks(payload){
-  return async function(dispatch){
-    try{
+export function orderBooks(payload) {
+  return async function (dispatch) {
+    try {
       return dispatch({
         type: ORDER_BOOKS,
         payload
@@ -127,14 +129,14 @@ export function getAllBooks() {
     }
   };
 }
-export function setPage(payload){
-  return async function(dispatch){
+export function setPage(payload) {
+  return async function (dispatch) {
     try {
       return dispatch({
         type: CHANGE_PAGE,
         payload
       })
-      
+
     } catch (error) {
       console.log(error);
     }
@@ -210,7 +212,7 @@ export function getGenders() {
   };
 }
 
-export function getAllAuthor(){
+export function getAllAuthor() {
   return async function (dispatch) {
     try {
       const res = await axios.get(`${localhost}/authors`);
@@ -224,7 +226,7 @@ export function getAllAuthor(){
   };
 }
 
-export function getAllSaga(){
+export function getAllSaga() {
   return async function (dispatch) {
     try {
       const res = await axios.get(`${localhost}/sagas`);
@@ -238,7 +240,7 @@ export function getAllSaga(){
   };
 }
 
-export function getAllEditorial(){
+export function getAllEditorial() {
   return async function (dispatch) {
     try {
       const res = await axios.get(`${localhost}/editorials`);
@@ -295,7 +297,7 @@ export function myProductDetail(id) {
   };
 }
 export function findUserStripe(username) {
-  if(username){
+  if (username) {
     return async function (dispatch) {
       try {
         let res = await axios.get(`${localhost}/api/checkout?username=${username}`);
@@ -311,7 +313,7 @@ export function findUserStripe(username) {
     return async function (dispatch) {
       try {
         const userNameGoogle = jwt(document.cookie)
-        const result = userNameGoogle.username 
+        const result = userNameGoogle.username
         let res = await axios.get(`${localhost}/api/checkout?username=${result}`);
         return dispatch({
           type: GET_USER_STRIPE,
@@ -366,7 +368,7 @@ export function sagaByName(name) {
   };
 }
 
-export function createPost(id,payload) {
+export function createPost(id, payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/products/${id}`, payload);
@@ -376,6 +378,7 @@ export function createPost(id,payload) {
     }
   };
 }
+
 
 
 export function modificatePostInProfile(id,productId,payload) {
@@ -389,7 +392,8 @@ export function modificatePostInProfile(id,productId,payload) {
   };
 }
 
-export function addStorage(id,payload) {
+
+export function addStorage(id, payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/users/${id}/storage`, payload);
@@ -400,7 +404,7 @@ export function addStorage(id,payload) {
   };
 }
 
-export function addPurchases(id,payload) {
+export function addPurchases(id, payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/profile/purchases/${id}`, payload);
@@ -411,7 +415,7 @@ export function addPurchases(id,payload) {
   };
 }
 
-export function addReview(id,payload) {
+export function addReview(id, payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/profile/reviews/${id}`, payload);
@@ -421,6 +425,7 @@ export function addReview(id,payload) {
     }
   };
 }
+
 
 export function createReview(id,payload) {
   return async function (dispatch) {
@@ -437,14 +442,14 @@ export function addFavorites(id,payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/profile/favorites/${id}`, payload);
-      console.log("hola",post.data);
+      console.log("hola", post.data);
     } catch (error) {
       console.log(error);
     }
   };
 }
 
-export function addMyProducts(id,payload) {
+export function addMyProducts(id, payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/profile/myproducts/${id}`, payload);
@@ -458,7 +463,7 @@ export function addMyProducts(id,payload) {
 
 
 export function createCustomer(payload) {
-  if(payload){
+  if (payload) {
     return async function (dispatch) {
       try {
         let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
@@ -468,7 +473,7 @@ export function createCustomer(payload) {
       }
     };
   } else {
-    return async function (dispatch){
+    return async function (dispatch) {
       try {
         const token = jwt(document.cookie)
         const payload = {
@@ -476,7 +481,7 @@ export function createCustomer(payload) {
           email: token.email
         }
         let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
-        console.log("customer",post)
+        console.log("customer", post)
       } catch (error) {
         console.log(error);
       }
@@ -487,7 +492,7 @@ export function createCustomer(payload) {
 
 
 
-export const deleteStorageItemById = (id,item) => {
+export const deleteStorageItemById = (id, item) => {
   return async (dispatch) => {
     try {
       const pay = await axios.put(`${localhost}/users/${id}/storage?item=${item}`)
@@ -510,7 +515,7 @@ export const modifyMyPosts = (id,item,payload) => {
 };
 
 
-export const deleteFavoriteItemById = (id,item) => {
+export const deleteFavoriteItemById = (id, item) => {
   return async (dispatch) => {
     try {
       const pay = await axios.put(`${localhost}/users/${id}/favorites?item=${item}`)
@@ -548,7 +553,7 @@ export const getMyProducts = (id) => {
     try {
       const pay = await axios.get(`${localhost}/profile/user/${id}/`)
       return dispatch({
-        type:GET_MY_PRODUCTS
+        type: GET_MY_PRODUCTS
       })
       console.log(pay)
     } catch (e) {
@@ -562,36 +567,36 @@ export function createUser(payload) {
   return async function (dispatch) {
     try {
       let user = await axios.post(`${localhost}/local/register`, payload);
-      console.log("------",user.data);
+      console.log("------", user.data);
     } catch (error) {
       console.log(error);
     }
   };
 }
 
-export const startUploadingFile=(file=[]) => {
-return async function (dispatch) {
-  const cloudUrl = "https://api.cloudinary.com/v1_1/deudiau9e/upload";
-  const formData = new FormData();
-  formData.append("file", file[0]);
-  formData.append("upload_preset", "henrypf");
+export const startUploadingFile = (file = []) => {
+  return async function (dispatch) {
+    const cloudUrl = "https://api.cloudinary.com/v1_1/deudiau9e/upload";
+    const formData = new FormData();
+    formData.append("file", file[0]);
+    formData.append("upload_preset", "henrypf");
 
-  try {
-    let response = await fetch(cloudUrl, {
-      method: "POST",
-      body: formData
-    });
-    if(!response.ok)  throw new Error("can't upload image")
-    let cloudResponse = await response.json();
-    return dispatch({
-      type: "IMAGE",
-      payload:  cloudResponse.secure_url
-    })
-  } catch (error) {
-    console.log(error);
-    
+    try {
+      let response = await fetch(cloudUrl, {
+        method: "POST",
+        body: formData
+      });
+      if (!response.ok) throw new Error("can't upload image")
+      let cloudResponse = await response.json();
+      return dispatch({
+        type: "IMAGE",
+        payload: cloudResponse.secure_url
+      })
+    } catch (error) {
+      console.log(error);
+
+    }
   }
-}
 }
 
 
@@ -675,3 +680,9 @@ export function recoverPassword(payload) {
   };
 }
 
+export function darkMode() {
+  return {
+    type: DARK_MODE,
+
+  }
+}
