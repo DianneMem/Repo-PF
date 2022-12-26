@@ -14,7 +14,9 @@ import { ConfirmAcount } from "./components/confirmAcount/ConfirmAcount";
 import Sellers from "./components/sellers/Sellers";
 import Favorites from "./components/favorites/Favorites";
 import MyProducts from "./components/myProducts/MyProducts";
+import Profile from "./components/myProducts/Profile";
 import DarkMode from "./components/DarkMode/DarkMode";
+
 
 
 export default function App() {
@@ -37,6 +39,7 @@ export default function App() {
           <Route exact path="/sellers" element={<Sellers/>} />
           <Route exact path="/favorites" element={<Favorites/>} />
           <Route exact path="/myproducts" element={<MyProducts/>} />
+          <Route exact path="/profile" element={<Profile/>} />
         </Routes>
       </Router>
     </div>
