@@ -3,10 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice, orderBooks, getAllBooks } from "../../redux/actions";
 import Loader from "../loader/Loader";
-import s from './Sidebar.module.css'
+import s1 from './Sidebar-1.module.css';
+import s2 from './Sidebar-2.module.css';
 
 
-export default function SideBar() {
+
+export default function SideBar({vertical=true}) {
 	
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -75,14 +77,16 @@ export default function SideBar() {
   };
 
   
-	return(
-	<div className={s.nav}>
-	  <button className={s.btn0} onClick={e=>refreshButton(e)}>clear</button>
+	return(<React.Fragment>
+	
+	{vertical? 
+	(<div className={s1.nav}>
+	  <button className={s1.btn0} onClick={e=>refreshButton(e)}>clear</button>
 
-	  <div className={s.state}>
-      <button className={s.btn1} onClick={e => select(e)} name='state' value='New'>New</button>
-      <button className={s.btn1} onClick={e => select(e)} name='state' value='Used'>Used</button>
-      <button className={s.btn1} onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
+	  <div className={s1.state}>
+      <button className={s1.btn1} onClick={e => select(e)} name='state' value='New'>New</button>
+      <button className={s1.btn1} onClick={e => select(e)} name='state' value='Used'>Used</button>
+      <button className={s1.btn1} onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
 	  </div>
 	
 		<select id='SelectCategory' name='categorie' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
@@ -132,7 +136,7 @@ export default function SideBar() {
       step='0.01'
       onChange={(e)=> inputMin(e)}
       />
-      <button className={s.btn} type="submit">+</button>
+      <button className={s1.btn} type="submit">+</button>
     </form>
       <form onSubmit={e=>{priceMax(e)}}>
       <input 
@@ -144,21 +148,114 @@ export default function SideBar() {
       step='0.01'
       onChange={(e)=> inputMax(e)}
       />
-      <button className={s.btn} type="submit">+</button>
+      <button className={s1.btn} type="submit">+</button>
     </form>
 
-    <div className={s.state}>
-      <button className={s.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
-      <button className={s.btn2} onClick={e => order(e)} value='HP'>Higher Price</button>
-      <button className={s.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
-      <button className={s.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
+    <div className={s1.state}>
+      <button className={s1.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
+      <button className={s1.btn2} onClick={e => order(e)} value='HP'>Higher Price</button>
+      <button className={s1.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
+      <button className={s1.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
     </div>
 
     <div>
      <Link to="/sellers" ><button>Add your reviews</button></Link>
     </div>
     
-	</div>
+	</div>) 
+	:
+	(<div className={s2.container} >
+	
+	  <div className={s2.state}>
+      <div>
+        <button className={s2.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
+        <button className={s2.btn2} onClick={e => order(e)} value='HP'>Higher Price</button>
+      </div>
+      <div>
+        <button className={s2.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
+        <button className={s2.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
+      </div>
+    </div>
+	
+  
+  	
+  	<div className={s2.nav}>
+      <div>
+        <button  className={s2.btn1} onClick={e=>refreshButton(e)}>Clear</button>
+    	  <button className={s2.btn1} onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
+        <select id='SelectCategory' name='categorie' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+          <option key={'default1'} value='DEFAULT' disabled>Category</option>
+          {categories.map((a)=> {return(
+    			<option key={a} value={a}>{a}</option>
+    			)})}
+        </select>
+        <select id='SelectGender' name='gender' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+          <option key={'default2'} value='DEFAULT' disabled>Gender</option>
+          {genders.map((a)=> {return(
+    			<option key={a} value={a}>{a}</option>
+    			)})}
+        </select>
+        <select id='SelectAuthor' name='author' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+          <option key={'default3'} value='DEFAULT' disabled>Author</option>
+          {author.map((a)=> {return(
+    			<option key={a} value={a}>{a}</option>
+    			)})}
+        </select>
+  	  </div>
+  	  <div>
+        <button className={s2.btn1} onClick={e => select(e)} name='state' value='New'>New</button>
+        <button className={s2.btn1} onClick={e => select(e)} name='state' value='Used'>Used</button>
+    	  <select id='SelectEditorial' name='editorial' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+          <option key={'default4'} value='DEFAULT' disabled>Editorial</option>
+          {editorials.map((a)=> {return(
+    			<option key={a} value={a}>{a}</option>
+    			)})}
+        </select>
+        <select id='SelectSaga' name='saga' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+          <option key={'default5'} value='DEFAULT' disabled>Popular Saga</option> 
+          {sagas.map((a)=> {return(
+    			<option key={a} value={a}>{a}</option>
+    			)})}
+        </select>
+    		<select id='SelectLanguage' name='language' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
+          <option key={'default6'} value='DEFAULT' disabled>Language</option>   
+          {languages.map((a)=> {return(
+    			<option key={a} value={a}>{a}</option>
+    			)})}
+        </select>
+  	  </div>
+	  </div>
+	
+	  <div className={s2.state}>
+  	  <form onSubmit={e=>{priceMin(e)}}>
+        <input 
+        type='number'
+        name='Min'
+        placeholder='Min'
+        min='0'
+        max='1000000'
+        step='0.01'
+        onChange={(e)=> inputMin(e)}
+        />
+        <button className={s2.btn0} type="submit">+</button>
+      </form>
+        <form onSubmit={e=>{priceMax(e)}}>
+        <input 
+        type='number'
+        name='Max'
+        placeholder='Max'
+        min='0'
+        max='1000000'
+        step='0.01'
+        onChange={(e)=> inputMax(e)}
+        />
+        <button className={s2.btn0} type="submit">+</button>
+      </form>   
+    </div>
+    
+	</div>)}
+	
+</React.Fragment>
 )};
 
 
