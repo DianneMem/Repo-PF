@@ -72,7 +72,7 @@ const CheckoutForm = () => {
         elements.getElement(CardElement).clear();
         console.log("CardElement",CardElement)
         MySwal.fire("Thank You for your purchase!", message, "success");
-        getCart.map((elm) => dispatch(addPurchases(session[0].id,{ username: elm.seller, productId: elm._id, sellerId: elm.sellerId, image: elm.image}))) 
+        getCart.map((elm) => dispatch(addPurchases(session[0].id,{ username: elm.seller, productId: elm._id, sellerId: elm.sellerId, image: elm.image, title: elm.title}))) 
         localStorage.setItem("cart","[]")
         dispatch(clearStorage(session[0].id))
       } catch (error) {
