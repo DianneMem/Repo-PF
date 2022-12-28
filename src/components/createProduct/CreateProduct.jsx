@@ -1,4 +1,5 @@
 import React from "react";
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -9,9 +10,22 @@ import {
   startUploadingFile,
   clearImage,
 } from "../../redux/actions";
+import { spacing } from '@mui/system';
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../loader/Loader";
-import { IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  FormControl,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { UploadOutlined } from "@mui/icons-material";
 import { useRef } from "react";
 import "./CreateProduct.css";
@@ -19,6 +33,20 @@ import Header from "../header/Header";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import CreateProductPreview from "../createProductPreview/CreateProductPreview";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(4),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 export default function CreatePost() {
   const dispatch = useDispatch();
@@ -32,7 +60,7 @@ export default function CreatePost() {
   const [loading, setLoading] = useState(false);
 
   let username = JSON.parse(localStorage.getItem("session"));
-
+  const isActive=useMediaQuery("(max-width:600px)")
   const [input, setInput] = useState({
     title: "",
     author: "",
@@ -72,6 +100,7 @@ export default function CreatePost() {
 
   function handlerSelectCategorie(e) {
     e.preventDefault();
+
     setInput({
       ...input,
       categorie: e.target.value,
@@ -178,11 +207,6 @@ export default function CreatePost() {
     });
   }
 
-  function backBtn(e) {
-    e.preventDefault();
-    navigate("/");
-  }
-
   const changeState = () => {
     setTimeout(() => {
       setLoading(true);
@@ -195,98 +219,177 @@ export default function CreatePost() {
 
   const onFileInputChange = ({ target }) => {
     if (target.files === 0) return;
+
     dispatch(startUploadingFile(target.files));
   };
-  console.log(Header);
-  return (
-    <div>
-      <div className="body">
-        <Header noSearch={true} />
-        <div class="container-fluid px-1 py-5 mx-auto">
-          <div class="row d-flex justify-content-center">
-            <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-              <div class="card">
-                <CreateProductPreview input={input} />
-                <button onClick={(e) => backBtn(e)} className="backBtn">
-                  Back
-                </button>
-                <h1 class="text-center mb-4" className="publication">
-                  Create Publication
-                </h1>
-                <form class="form-card" onSubmit={(e) => handlerSubmit(e)}>
-                  <div class="row justify-content-between text-left">
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Title<span class="text-danger"> *</span>{" "}
-                      </label>{" "}
-                      <input
-                        className="input"
-                        placeholder="Title"
-                        type="text"
-                        value={input.title}
-                        name="title"
-                        onChange={handlerChange}
-                      />
-                      {err.title && <h5 className="errForm">{err.title}</h5>}
-                    </div>
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Author <span class="text-danger"> *</span>{" "}
-                      </label>{" "}
-                      <input
-                        className="input"
-                        placeholder="Author"
-                        type="text"
-                        value={input.author}
-                        name="author"
-                        onChange={handlerChange}
-                      />
-                      {err.author && <h5 className="errForm">{err.author}</h5>}
-                    </div>
-                  </div>
 
-                  <div class="row justify-content-between text-left">
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Editorial <span class="text-danger"> </span>{" "}
-                      </label>{" "}
-                      <input
-                        className="input"
-                        placeholder="Editorial"
-                        type="text"
-                        value={input.editorial}
-                        name="editorial"
-                        onChange={handlerChange}
-                      />
-                      {err.editorial && (
-                        <h5 className="errForm">{err.editorial}</h5>
+
+
+
+
+
+  return (
+   
+    <Box component="main" sx={{bgcolor: '#013a63',height:"100vh"}} >
+       <Header noSearch={true} />
+      {isActive ? <Box sx={{padding:2,bgcolor: '#013a63'}} >
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <Box component="main" sx={{bgcolor: '#013a63'}} >
+        <Grid  spacing={4} >
+          <Grid item xs={5}>
+            <Item  sx={{borderRadius:4}}>
+              <CreateProductPreview input={input} />
+            </Item>
+          </Grid>
+          <br/>
+          
+          <Grid item xs={7}>
+            <Item  sx={{borderRadius:4}}>
+              {" "}
+              <form onSubmit={(e) => handlerSubmit(e)}>
+                <Grid container spacing={3}>
+                  <Grid item xs={5.5}>
+                    <Box>
+                      {err.title ? (
+                        <Box>
+                          <InputLabel>Title</InputLabel>
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Title"
+                            helperText={err.title}
+                            variant="filled"
+                            placeholder="Title"
+                            type="text"
+                            value={input.title}
+                            name="title"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          <InputLabel>Title</InputLabel>
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="Title"
+                            variant="filled"
+                            placeholder="Title"
+                            type="text"
+                            value={input.title}
+                            name="title"
+                            onChange={handlerChange}
+                          />
+                        </Box>
                       )}
-                    </div>
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Saga{" "}
-                      </label>{" "}
-                      <input
-                        className="input"
-                        placeholder="saga"
+                    </Box>
+
+                    <Box>
+                      {" "}
+                      {err.author ? (
+                        <Box>
+                          {" "}
+                          <InputLabel>Author</InputLabel>
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Author"
+                            helperText={err.author}
+                            variant="filled"
+                            placeholder="Author"
+                            type="text"
+                            value={input.author}
+                            name="author"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel>Author</InputLabel>
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="Author"
+                            variant="filled"
+                            placeholder="Author"
+                            type="text"
+                            value={input.author}
+                            name="author"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+
+                    <Box>
+                      {err.editorial ? (
+                        <Box>
+                          {" "}
+                          <InputLabel>Editorial</InputLabel>
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Editorial"
+                            helperText={err.editorial}
+                            variant="filled"
+                            placeholder="Editorial"
+                            type="text"
+                            value={input.editorial}
+                            name="editorial"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          <InputLabel>Editorial</InputLabel>
+
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="Editorial"
+                            variant="filled"
+                            placeholder="Editorial"
+                            type="text"
+                            value={input.editorial}
+                            name="editorial"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      )}
+                      <InputLabel>Saga</InputLabel>
+
+                      <TextField
+                        fullWidth
+                        id="filled-basic"
+                        label="Saga"
+                        variant="filled"
+                        placeholder="Saga"
                         type="text"
                         value={input.saga}
                         name="saga"
                         onChange={handlerChange}
                       />
-                    </div>
-                  </div>
-                  <div class="row justify-content-between text-left">
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Image <span class="text-danger"> *</span>{" "}
-                      </label>{" "}
+                    </Box>
+
+                    <Box>
+                      <InputLabel>Image</InputLabel>
+
                       <input
                         style={{ display: "none" }}
                         type="file"
                         ref={fileInputRef}
                         onChange={onFileInputChange}
                       />
+
                       <IconButton
                         className={
                           image_c.length > 0
@@ -297,225 +400,1082 @@ export default function CreatePost() {
                       >
                         <UploadOutlined />
                       </IconButton>
-                    </div>
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label
-                        class="form-control-label px-3"
-                        className="labelImg"
-                      >
-                        Year <span class="text-danger"> *</span>
-                      </label>{" "}
-                      <input
-                        className="input"
-                        placeholder="year"
-                        type="number"
-                        value={input.year}
-                        name="year"
+                    </Box>
+                    <Box>
+                      {err.year ? (
+                        <Box>
+                          {" "}
+                          <InputLabel>Year</InputLabel>
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Year"
+                            helperText={err.year}
+                            variant="filled"
+                            placeholder="year"
+                            type="number"
+                            value={input.year}
+                            name="year"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          <InputLabel>Year</InputLabel>
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="year"
+                            variant="filled"
+                            placeholder="year"
+                            type="number"
+                            value={input.year}
+                            name="year"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+
+                    <Box>
+                      {err.price ? (
+                        <Box>
+                          <InputLabel>Price</InputLabel>
+
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Price"
+                            helperText={err.price}
+                            variant="filled"
+                            placeholder="price"
+                            type="number"
+                            value={input.price}
+                            name="price"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel>Price</InputLabel>
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="price"
+                            variant="filled"
+                            placeholder="price"
+                            type="number"
+                            value={input.price}
+                            name="price"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+                  </Grid>
+
+                  <Grid item xs={5.5}>
+                    <Box>
+                      {!input.typebook ? (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-filled-label-tb">
+                            Type Book
+                          </InputLabel>
+                          <Select
+                            error
+                            id="outlined-error-helper-text"
+                            helperText={err.input}
+                            labelId="demo-simple-select-filled-label-tb"
+                            variant="filled"
+                            fullWidth
+                            value={input.typebooks}
+                            name="typebook"
+                            defaultValue="type"
+                            onChange={(e) => handlerSelectTypeBook(e)}
+                          >
+                            <MenuItem disabled value="type">
+                              Type Book
+                            </MenuItem>
+
+                            <MenuItem value="physical">Physical</MenuItem>
+                            <MenuItem value="virtual"> Virtual</MenuItem>
+                          </Select>
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-filled-label-tb">
+                            Type Book
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-filled-label-tb"
+                            id="demo-simple-select-filled"
+                            variant="filled"
+                            fullWidth
+                            value={input.typebooks}
+                            name="typebook"
+                            defaultValue="type"
+                            onChange={(e) => handlerSelectTypeBook(e)}
+                          >
+                            <MenuItem disabled value="type">
+                              Type Book
+                            </MenuItem>
+
+                            <MenuItem value="physical">Physical</MenuItem>
+                            <MenuItem value="virtual"> Virtual</MenuItem>
+                          </Select>
+                        </Box>
+                      )}
+                    </Box>
+
+                    <Box>
+                      {!input.state ? (
+                        <Box>
+                          <InputLabel id="demo-simple-select-label-state">
+                            State
+                          </InputLabel>
+                          <Select
+                            error
+                            id="outlined-error-helper-text"
+                            helperText={err.input}
+                            labelId="demo-simple-select-label-state"
+                            variant="filled"
+                            fullWidth
+                            value={input.states}
+                            label="State"
+                            defaultValue="state"
+                            onChange={(e) => handlerSelectState(e)}
+                          >
+                            <MenuItem disabled value="state">
+                              State
+                            </MenuItem>
+                            <MenuItem value="New">New</MenuItem>
+                            <MenuItem
+                              disabled={
+                                input.typebook === "virtual" ? true : false
+                              }
+                              value="Used"
+                            >
+                              Used
+                            </MenuItem>
+                          </Select>
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-label-state">
+                            State
+                          </InputLabel>
+                          <Select
+                            variant="filled"
+                            fullWidth
+                            labelId="demo-simple-select-label-state"
+                            id="demo-simple-select"
+                            value={input.states}
+                            label="languages"
+                            defaultValue="state"
+                            onChange={(e) => handlerSelectState(e)}
+                          >
+                            <MenuItem disabled value="state">
+                              State
+                            </MenuItem>
+                            <MenuItem value="New">New</MenuItem>
+                            <MenuItem
+                              disabled={
+                                input.typebook === "virtual" ? true : false
+                              }
+                              value="Used"
+                            >
+                              Used
+                            </MenuItem>
+                          </Select>
+                        </Box>
+                      )}
+                    </Box>
+
+                    <Box>
+                      {!input.language ? (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-label-languages">
+                            Languages
+                          </InputLabel>
+                          <Select
+                            error
+                            id="outlined-error-helper-text"
+                            helperText={err.input}
+                            labelId="demo-simple-select-label-languages"
+                            variant="filled"
+                            fullWidth
+                            value={input.languages}
+                            label="languages"
+                            defaultValue="languages"
+                            onChange={(e) => handlerSelectLanguage(e)}
+                          >
+                            <MenuItem disabled value="languages">
+                              Languages
+                            </MenuItem>
+                            {languages.map((e) => (
+                              <MenuItem
+                                disabled={
+                                  input.language.includes(e) === false
+                                    ? false
+                                    : true
+                                }
+                                value={e}
+                              >
+                                {e}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-label-languages">
+                            Languages
+                          </InputLabel>
+                          <Select
+                            variant="filled"
+                            fullWidth
+                            labelId="demo-simple-select-label-languages"
+                            id="demo-simple-select"
+                            value={input.languages}
+                            label="languages"
+                            defaultValue="languages"
+                            onChange={(e) => handlerSelectLanguage(e)}
+                          >
+                            <MenuItem disabled value="languages">
+                              Languages
+                            </MenuItem>
+                            {languages.map((e) => (
+                              <MenuItem
+                                disabled={
+                                  input.language.includes(e) === false
+                                    ? false
+                                    : true
+                                }
+                                value={e}
+                              >
+                                {e}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </Box>
+                      )}
+                    </Box>
+                    {!input.categorie ? (
+                      <Box>
+                        <InputLabel id="demo-simple-select-label-cat">
+                          Categories
+                        </InputLabel>
+                        <Select
+                          error
+                          id="demo-simple-select"
+                          helperText={err.input}
+                          labelId="demo-simple-select-label-cat"
+                          variant="filled"
+                          fullWidth
+                          value={input.categories}
+                          label="Categories"
+                          defaultValue="choose"
+                          onChange={(e) => handlerSelectCategorie(e)}
+                        >
+                          <MenuItem disabled value="choose">
+                            Categories
+                          </MenuItem>
+                          {categories.map((e) => (
+                            <MenuItem
+                              disabled={
+                                input.categorie.includes(e) === false
+                                  ? false
+                                  : true
+                              }
+                              value={e}
+                            >
+                              {e}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </Box>
+                    ) : (
+                      <Box>
+                        {" "}
+                        <InputLabel id="demo-simple-select-label-cat">
+                          Categories
+                        </InputLabel>
+                        <Select
+                          variant="filled"
+                          fullWidth
+                          labelId="demo-simple-select-label-cat"
+                          id="demo-simple-select"
+                          value={input.categories}
+                          label="Categories"
+                          defaultValue="choose"
+                          onChange={(e) => handlerSelectCategorie(e)}
+                        >
+                          <MenuItem disabled value="choose">
+                            Categories
+                          </MenuItem>
+                          {categories.map((e) => (
+                            <MenuItem
+                              disabled={
+                                input.categorie.includes(e) === false
+                                  ? false
+                                  : true
+                              }
+                              value={e}
+                            >
+                              {e}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </Box>
+                    )}
+
+                    <Box>
+                      {!input.gender.length ? (
+                        <Box>
+                          <InputLabel id="demo-simple-select-label-genders">
+                            Genders
+                          </InputLabel>
+
+                          <Select
+                            error
+                            fullWidth
+                            id="demo-simple-select"
+                            helperText={err.input}
+                            labelId="demo-simple-select-label-genders"
+                            variant="filled"
+                            defaultValue="choose"
+                            onChange={(e) => handlerSelectGenders(e)}
+                            value={input.genders}
+                            label="Genders"
+                          >
+                            <MenuItem disabled value="choose">
+                              Genders
+                            </MenuItem>
+                            {genders.map((e) => (
+                              <MenuItem
+                                disabled={
+                                  input.gender.includes(e) === false
+                                    ? false
+                                    : true
+                                }
+                                value={e}
+                              >
+                                {e}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </Box>
+                      ) : (
+                        <Box>
+                          <InputLabel id="demo-simple-select-label-genders">
+                            Genders
+                          </InputLabel>
+
+                          <Select
+                            variant="filled"
+                            fullWidth
+                            labelId="demo-simple-select-label-genders"
+                            id="demo-simple-select"
+                            defaultValue="choose"
+                            onChange={(e) => handlerSelectGenders(e)}
+                            value={input.genders}
+                            label="Genders"
+                          >
+                            <MenuItem disabled value="choose">
+                              Genders
+                            </MenuItem>
+                            {genders.map((e) => (
+                              <MenuItem
+                                disabled={
+                                  input.gender.includes(e) === false
+                                    ? false
+                                    : true
+                                }
+                                value={e}
+                              >
+                                {e}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </Box>
+                      )}
+                    </Box>
+                    <br />
+                    <br />
+                    <Box>
+                      <InputLabel>Choosen Genders</InputLabel>
+                      <Box className="genders">
+                        {input.gender.map((e) => (
+                          <Box
+                            className="choosenGenders2"
+                            onClick={() => handleDelete(e)}
+                          >
+                            {e}{" "}
+                          </Box>
+                        ))}
+                      </Box>
+                    </Box>
+                    <br />
+                    <Button
+                      variant="outlined"
+                      type="submit"
+                      disabled={
+                        !input.title ||
+                        err.title ||
+                        err.author ||
+                        err.editorial ||
+                        err.year ||
+                        err.price ||
+                        !input.typebook ||
+                        !input.state ||
+                        !input.language ||
+                        !input.categorie
+                          ? true
+                          : false
+                      }
+                    >
+                      Create
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </Item>
+          </Grid>
+        </Grid>
+      </Box>
+      </Box>
+       : 
+
+      <Box sx={{padding:2,bgcolor: '#013a63'}} >
+       {/* <Header noSearch={true} /> */}
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+
+      <Box component="main" sx={{bgcolor: '#013a63'}} >
+        <Grid container spacing={2} >
+          <Grid item xs={5} >
+            <Item sx={{borderRadius:4}}>
+              <CreateProductPreview input={input} />
+            </Item>
+          </Grid>
+          <Grid item xs={7}>
+            <Item  sx={{borderRadius:4}}>
+              {" "}
+              <form onSubmit={(e) => handlerSubmit(e)}>
+                <Grid container spacing={3}>
+                  <Grid item xs={5.5}>
+                    <Box>
+                      {err.title ? (
+                        <Box>
+                          <InputLabel>Title</InputLabel>
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Title"
+                            helperText={err.title}
+                            variant="filled"
+                            placeholder="Title"
+                            type="text"
+                            value={input.title}
+                            name="title"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          <InputLabel>Title</InputLabel>
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="Title"
+                            variant="filled"
+                            placeholder="Title"
+                            type="text"
+                            value={input.title}
+                            name="title"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+
+                    <Box>
+                      {" "}
+                      {err.author ? (
+                        <Box>
+                          {" "}
+                          <InputLabel>Author</InputLabel>
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Author"
+                            helperText={err.author}
+                            variant="filled"
+                            placeholder="Author"
+                            type="text"
+                            value={input.author}
+                            name="author"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel>Author</InputLabel>
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="Author"
+                            variant="filled"
+                            placeholder="Author"
+                            type="text"
+                            value={input.author}
+                            name="author"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+
+                    <Box>
+                      {err.editorial ? (
+                        <Box>
+                          {" "}
+                          <InputLabel>Editorial</InputLabel>
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Editorial"
+                            helperText={err.editorial}
+                            variant="filled"
+                            placeholder="Editorial"
+                            type="text"
+                            value={input.editorial}
+                            name="editorial"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          <InputLabel>Editorial</InputLabel>
+
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="Editorial"
+                            variant="filled"
+                            placeholder="Editorial"
+                            type="text"
+                            value={input.editorial}
+                            name="editorial"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      )}
+                      <InputLabel>Saga</InputLabel>
+
+                      <TextField
+                        fullWidth
+                        id="filled-basic"
+                        label="Saga"
+                        variant="filled"
+                        placeholder="Saga"
+                        type="text"
+                        value={input.saga}
+                        name="saga"
                         onChange={handlerChange}
                       />
-                      {err.year && <h5 className="errForm">{err.year}</h5>}
-                    </div>
-                  </div>
+                    </Box>
 
-                  <div class="row justify-content-between text-left">
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Price <span class="text-danger"> *</span>{" "}
-                      </label>{" "}
+                    <Box>
+                      <InputLabel>Image</InputLabel>
+
                       <input
-                        className="input"
-                        placeholder="price"
-                        type="number"
-                        value={input.price}
-                        name="price"
-                        onChange={handlerChange}
+                        style={{ display: "none" }}
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={onFileInputChange}
                       />
-                      {err.price && <h5 className="errForm">{err.price}</h5>}
-                    </div>
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Type Book <span class="text-danger"> *</span>{" "}
-                      </label>
 
-                      <select
-                        className="select"
-                        name="typebook"
-                        defaultValue="type"
-                        onChange={(e) => handlerSelectTypeBook(e)}
+                      <IconButton
+                        className={
+                          image_c.length > 0
+                            ? "buttonFormImg"
+                            : "buttonFormImgErr"
+                        }
+                        onClick={() => fileInputRef.current.click()}
                       >
-                        <option disabled value="type">
-                          Type Book
-                        </option>
-
-                        <option value="physical">Physical</option>
-                        <option value="virtual"> Virtual</option>
-                      </select>
-                      {!input.typebook && (
-                        <h5 className="errForm">{err.input}</h5>
+                        <UploadOutlined />
+                      </IconButton>
+                    </Box>
+                    <Box>
+                      {err.year ? (
+                        <Box>
+                          {" "}
+                          <InputLabel>Year</InputLabel>
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Year"
+                            helperText={err.year}
+                            variant="filled"
+                            placeholder="year"
+                            type="number"
+                            value={input.year}
+                            name="year"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          <InputLabel>Year</InputLabel>
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="year"
+                            variant="filled"
+                            placeholder="year"
+                            type="number"
+                            value={input.year}
+                            name="year"
+                            onChange={handlerChange}
+                          />
+                        </Box>
                       )}
-                    </div>
-                  </div>
+                    </Box>
 
-                  <div class="row justify-content-between text-left">
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        State <span class="text-danger"> *</span>{" "}
-                      </label>
-                      <select
-                        className="select"
-                        defaultValue="state"
-                        onChange={(e) => handlerSelectState(e)}
-                      >
-                        <option disabled value="state">
-                          State
-                        </option>
-                        <option value="New">New</option>
-                        <option
-                          disabled={input.typebook === "virtual" ? true : false}
-                          value="Used"
+                    <Box>
+                      {err.price ? (
+                        <Box>
+                          <InputLabel>Price</InputLabel>
+
+                          <TextField
+                            fullWidth
+                            error
+                            id="outlined-error-helper-text"
+                            label="Price"
+                            helperText={err.price}
+                            variant="filled"
+                            placeholder="price"
+                            type="number"
+                            value={input.price}
+                            name="price"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel>Price</InputLabel>
+                          <TextField
+                            fullWidth
+                            id="filled-basic"
+                            label="price"
+                            variant="filled"
+                            placeholder="price"
+                            type="number"
+                            value={input.price}
+                            name="price"
+                            onChange={handlerChange}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+                  </Grid>
+
+                  <Grid item xs={5.5}>
+                    <Box>
+                      {!input.typebook ? (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-filled-label-tb">
+                            Type Book
+                          </InputLabel>
+                          <Select
+                            error
+                            id="outlined-error-helper-text"
+                            helperText={err.input}
+                            labelId="demo-simple-select-filled-label-tb"
+                            variant="filled"
+                            fullWidth
+                            value={input.typebooks}
+                            name="typebook"
+                            defaultValue="type"
+                            onChange={(e) => handlerSelectTypeBook(e)}
+                          >
+                            <MenuItem disabled value="type">
+                              Type Book
+                            </MenuItem>
+
+                            <MenuItem value="physical">Physical</MenuItem>
+                            <MenuItem value="virtual"> Virtual</MenuItem>
+                          </Select>
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-filled-label-tb">
+                            Type Book
+                          </InputLabel>
+                          <Select
+                            labelId="demo-simple-select-filled-label-tb"
+                            id="demo-simple-select-filled"
+                            variant="filled"
+                            fullWidth
+                            value={input.typebooks}
+                            name="typebook"
+                            defaultValue="type"
+                            onChange={(e) => handlerSelectTypeBook(e)}
+                          >
+                            <MenuItem disabled value="type">
+                              Type Book
+                            </MenuItem>
+
+                            <MenuItem value="physical">Physical</MenuItem>
+                            <MenuItem value="virtual"> Virtual</MenuItem>
+                          </Select>
+                        </Box>
+                      )}
+                    </Box>
+
+                    <Box>
+                      {!input.state ? (
+                        <Box>
+                          <InputLabel id="demo-simple-select-label-state">
+                            State
+                          </InputLabel>
+                          <Select
+                            error
+                            id="outlined-error-helper-text"
+                            helperText={err.input}
+                            labelId="demo-simple-select-label-state"
+                            variant="filled"
+                            fullWidth
+                            value={input.states}
+                            label="State"
+                            defaultValue="state"
+                            onChange={(e) => handlerSelectState(e)}
+                          >
+                            <MenuItem disabled value="state">
+                              State
+                            </MenuItem>
+                            <MenuItem value="New">New</MenuItem>
+                            <MenuItem
+                              disabled={
+                                input.typebook === "virtual" ? true : false
+                              }
+                              value="Used"
+                            >
+                              Used
+                            </MenuItem>
+                          </Select>
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-label-state">
+                            State
+                          </InputLabel>
+                          <Select
+                            variant="filled"
+                            fullWidth
+                            labelId="demo-simple-select-label-state"
+                            id="demo-simple-select"
+                            value={input.states}
+                            label="languages"
+                            defaultValue="state"
+                            onChange={(e) => handlerSelectState(e)}
+                          >
+                            <MenuItem disabled value="state">
+                              State
+                            </MenuItem>
+                            <MenuItem value="New">New</MenuItem>
+                            <MenuItem
+                              disabled={
+                                input.typebook === "virtual" ? true : false
+                              }
+                              value="Used"
+                            >
+                              Used
+                            </MenuItem>
+                          </Select>
+                        </Box>
+                      )}
+                    </Box>
+
+                    <Box>
+                      {!input.language ? (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-label-languages">
+                            Languages
+                          </InputLabel>
+                          <Select
+                            error
+                            id="outlined-error-helper-text"
+                            helperText={err.input}
+                            labelId="demo-simple-select-label-languages"
+                            variant="filled"
+                            fullWidth
+                            value={input.languages}
+                            label="languages"
+                            defaultValue="languages"
+                            onChange={(e) => handlerSelectLanguage(e)}
+                          >
+                            <MenuItem disabled value="languages">
+                              Languages
+                            </MenuItem>
+                            {languages.map((e) => (
+                              <MenuItem
+                                disabled={
+                                  input.language.includes(e) === false
+                                    ? false
+                                    : true
+                                }
+                                value={e}
+                              >
+                                {e}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </Box>
+                      ) : (
+                        <Box>
+                          {" "}
+                          <InputLabel id="demo-simple-select-label-languages">
+                            Languages
+                          </InputLabel>
+                          <Select
+                            variant="filled"
+                            fullWidth
+                            labelId="demo-simple-select-label-languages"
+                            id="demo-simple-select"
+                            value={input.languages}
+                            label="languages"
+                            defaultValue="languages"
+                            onChange={(e) => handlerSelectLanguage(e)}
+                          >
+                            <MenuItem disabled value="languages">
+                              Languages
+                            </MenuItem>
+                            {languages.map((e) => (
+                              <MenuItem
+                                disabled={
+                                  input.language.includes(e) === false
+                                    ? false
+                                    : true
+                                }
+                                value={e}
+                              >
+                                {e}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </Box>
+                      )}
+                    </Box>
+                    {!input.categorie ? (
+                      <Box>
+                        <InputLabel id="demo-simple-select-label-cat">
+                          Categories
+                        </InputLabel>
+                        <Select
+                          error
+                          id="demo-simple-select"
+                          helperText={err.input}
+                          labelId="demo-simple-select-label-cat"
+                          variant="filled"
+                          fullWidth
+                          value={input.categories}
+                          label="Categories"
+                          defaultValue="choose"
+                          onChange={(e) => handlerSelectCategorie(e)}
                         >
-                          Used
-                        </option>
-                      </select>
-                      {!input.state && <h5 className="errForm">{err.input}</h5>}
-                    </div>
-
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Languages <span class="text-danger"> *</span>{" "}
-                      </label>
-
-                      <select
-                        className="select"
-                        defaultValue="languages"
-                        onChange={(e) => handlerSelectLanguage(e)}
-                      >
-                        <option disabled value="languages">
-                          Languages
-                        </option>
-                        {languages.map((e) => (
-                          <option
-                            disabled={
-                              input.language.includes(e) === false
-                                ? false
-                                : true
-                            }
-                            value={e}
-                          >
-                            {e}
-                          </option>
-                        ))}
-                      </select>
-                      {!input.language && (
-                        <h5 className="errForm">{err.input}</h5>
-                      )}
-                    </div>
-                  </div>
-
-                  <div class="row justify-content-between text-left">
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Categories <span class="text-danger"> *</span>{" "}
-                      </label>
-
-                      <select
-                        className="select"
-                        defaultValue="choose"
-                        onChange={(e) => handlerSelectCategorie(e)}
-                      >
-                        <option disabled value="choose">
-                          choose categories
-                        </option>
-                        {categories.map((e) => (
-                          <option
-                            disabled={
-                              input.categorie.includes(e) === false
-                                ? false
-                                : true
-                            }
-                            value={e}
-                          >
-                            {e}
-                          </option>
-                        ))}
-                      </select>
-                      {!input.categorie && (
-                        <h5 className="errForm">{err.input}</h5>
-                      )}
-                    </div>
-                    <div class="form-group col-sm-6 flex-column d-flex">
-                      <label class="form-control-label px-3" className="label">
-                        Genders <span class="text-danger"> *</span>{" "}
-                      </label>
-
-                      <select
-                        className="select"
-                        defaultValue="choose"
-                        onChange={(e) => handlerSelectGenders(e)}
-                      >
-                        <option disabled value="choose">
-                          Genders
-                        </option>
-                        {genders.map((e) => (
-                          <option
-                            disabled={
-                              input.gender.includes(e) === false ? false : true
-                            }
-                            value={e}
-                          >
-                            {e}
-                          </option>
-                        ))}
-                      </select>
-                      {!input.gender.length && (
-                        <h5 className="errForm"> {err.input}</h5>
-                      )}
-                    </div>
-                  </div>
-
-                  <div class="row justify-content-between text-center">
-                    <label className="label">Choosen Genders</label>
-                    <div className="genders">
-                      <br></br>
-
-                      {input.gender.map((e) => (
-                        <div
-                          onClick={() => handleDelete(e)}
-                          className="choosenGenders"
+                          <MenuItem disabled value="choose">
+                            Categories
+                          </MenuItem>
+                          {categories.map((e) => (
+                            <MenuItem
+                              disabled={
+                                input.categorie.includes(e) === false
+                                  ? false
+                                  : true
+                              }
+                              value={e}
+                            >
+                              {e}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </Box>
+                    ) : (
+                      <Box>
+                        {" "}
+                        <InputLabel id="demo-simple-select-label-cat">
+                          Categories
+                        </InputLabel>
+                        <Select
+                          variant="filled"
+                          fullWidth
+                          labelId="demo-simple-select-label-cat"
+                          id="demo-simple-select"
+                          value={input.categories}
+                          label="Categories"
+                          defaultValue="choose"
+                          onChange={(e) => handlerSelectCategorie(e)}
                         >
-                          {e}{" "}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                          <MenuItem disabled value="choose">
+                            Categories
+                          </MenuItem>
+                          {categories.map((e) => (
+                            <MenuItem
+                              disabled={
+                                input.categorie.includes(e) === false
+                                  ? false
+                                  : true
+                              }
+                              value={e}
+                            >
+                              {e}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </Box>
+                    )}
 
-                  <button
-                    class="btn-block btn-primary"
-                    className="buttonForm"
-                    type="submit"
-                    disabled={
-                      !input.title ||
-                      err.title ||
-                      err.author ||
-                      err.editorial ||
-                      err.year ||
-                      err.price ||
-                      !input.typebook ||
-                      !input.state ||
-                      !input.language ||
-                      !input.categorie
-                        ? true
-                        : false
-                    }
-                  >
-                    Create
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                    <Box>
+                      {!input.gender.length ? (
+                        <Box>
+                          <InputLabel id="demo-simple-select-label-genders">
+                            Genders
+                          </InputLabel>
+
+                          <Select
+                            error
+                            fullWidth
+                            id="demo-simple-select"
+                            helperText={err.input}
+                            labelId="demo-simple-select-label-genders"
+                            variant="filled"
+                            defaultValue="choose"
+                            onChange={(e) => handlerSelectGenders(e)}
+                            value={input.genders}
+                            label="Genders"
+                          >
+                            <MenuItem disabled value="choose">
+                              Genders
+                            </MenuItem>
+                            {genders.map((e) => (
+                              <MenuItem
+                                disabled={
+                                  input.gender.includes(e) === false
+                                    ? false
+                                    : true
+                                }
+                                value={e}
+                              >
+                                {e}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </Box>
+                      ) : (
+                        <Box>
+                          <InputLabel id="demo-simple-select-label-genders">
+                            Genders
+                          </InputLabel>
+
+                          <Select
+                            variant="filled"
+                            fullWidth
+                            labelId="demo-simple-select-label-genders"
+                            id="demo-simple-select"
+                            defaultValue="choose"
+                            onChange={(e) => handlerSelectGenders(e)}
+                            value={input.genders}
+                            label="Genders"
+                          >
+                            <MenuItem disabled value="choose">
+                              Genders
+                            </MenuItem>
+                            {genders.map((e) => (
+                              <MenuItem
+                                disabled={
+                                  input.gender.includes(e) === false
+                                    ? false
+                                    : true
+                                }
+                                value={e}
+                              >
+                                {e}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </Box>
+                      )}
+                    </Box>
+                    <br />
+                    <br />
+                    <Box>
+                      <InputLabel>Choosen Genders</InputLabel>
+                      <Box className="genders">
+                        {input.gender.map((e) => (
+                          <Box
+                            className="choosenGenders"
+                            onClick={() => handleDelete(e)}
+                          >
+                            {e}{" "}
+                          </Box>
+                        ))}
+                      </Box>
+                    </Box>
+                    <br />
+                    <Button
+                      variant="outlined"
+                      type="submit"
+                      disabled={
+                        !input.title ||
+                        err.title ||
+                        err.author ||
+                        err.editorial ||
+                        err.year ||
+                        err.price ||
+                        !input.typebook ||
+                        !input.state ||
+                        !input.language ||
+                        !input.categorie
+                          ? true
+                          : false
+                      }
+                    >
+                      Create
+                    </Button>
+                  </Grid>
+                </Grid>
+              </form>
+            </Item>
+          </Grid>
+        </Grid>
+      </Box>
+      </Box>}
+    
+    </Box>
+ 
   );
 }

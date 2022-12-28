@@ -1,150 +1,404 @@
+import {
+  Box,
+  Button,
+  CardMedia,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import noImgAvailable from "./mclovin-sony-pictures-entertainment.jpg";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function CreateProductPreview({ input }) {
-  const imageState= useSelector(state=>state.images)
+  let navigate = useNavigate();
+  function backBtn(e) {
+    e.preventDefault();
+    navigate("/");
+  }
+
+  const isActive=useMediaQuery("(max-width:600px)")
+  const imageState = useSelector((state) => state.images);
   return (
     <div>
-      <div >
-        <div >
-          {imageState.length ? (
-            <img  src={imageState} />
-          ) : (
-            <img src={noImgAvailable} />
-          )}
+      {isActive?   <Box>
+        HOLA
+        <Button variant="outlined" onClick={(e) => backBtn(e)}>
+          Back
+        </Button>
+      
+        <List>
+            <br/>
+          <Divider />
 <br/>
-          <span >
-            Title:{" "}
-            <span >
-              {input.title ? `${input.title}` :" "}
-            </span>
-          </span>
-          <br/>
-          <span >
-            Author:{" "}
-            <span >
-              {input.author.length
-                ? `${input.author}`
-                :" "}
-            </span>
-          </span>
-          <br/>
-          <span >
-            Editorial:{" "}
-            <span >
-              {input.editorial ? `${input.editorial}` :" "}
-            </span>
-          </span>
-          <br/>
-          <span >
-            Saga:{" "}
-            <span >
-              {input.saga ? `${input.saga}` :" "}
-            </span>
-          </span>
-          <br/>
-          <span >
-            Year:{" "}
-            <span >
-              {input.year ? `${input.year}` :" "}
-            </span>
-          </span>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+            <br/>
+            <br/>
+              {imageState.length ? (
+                <CardMedia
+                  sx={{
+                    width: 190,
+                    height: 220,
+                    objectFit: "fill",
+                    borderRadius: 4,
+                  }}
+                  image={imageState}
+                  alt="img"
+                />
+              ) : (
+                <CardMedia
+                  display="flex"
+                  justify="center"
+                  component="img"
+                  sx={{
+                    width: 190,
+                    height: 220,
+                    objectFit: "fill",
+                    borderRadius: 4,
+                    bgcolor:"#ebebeb"
+                  }}
+                  image={noImgAvailable}
+                  alt="img"
+                />
+              )}
+            </Grid>
+            <Grid item xs={6}>
+            
+              <br/>
+     
+              <br/>
+              
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Language{" "}
+                    </Typography>
+                    <ListItemText
+                      primary={input.language ? `${input.language}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
 
-          <br/>
-          <span >
-            Price:{" "}
-            <span >
-              {input.price ? `U$D ${input.price}` :" "}
-            </span>
-          </span>
-          <br/>
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Category{" "}
+                    </Typography>
+                    <ListItemText
+                      primary={input.categorie ? `${input.categorie}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
+
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Saga
+                    </Typography>
+                    <ListItemText
+                      primary={input.saga ? `${input.saga}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Year
+                    </Typography>
+                    <ListItemText
+                      primary={input.year ? `${input.year}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
+
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Price{" "}
+                    </Typography>
+                    <ListItemText
+                      primary={input.price ? `U$D ${input.price}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+       
+            </Grid>
+          </Grid>
+                  <br/>
+          <div>
+            <ListItem button fullWidth>
+              <Typography sx={{ wordBreak: "break-word" }}>
+                 <Typography variant="body-2" color="#1C1C20">
+                  Title
+                </Typography>
+                <ListItemText primary={input.title ? `${input.title}` : " "} />
+              </Typography>
+            </ListItem>
+          </div>
+          <Divider />
+
           <span>
-          Typebook:{" "}
-            <span >
-              {input.typebook ? `${input.typebook}` :" "}
-            </span>
+            <ListItem button fullWidth>
+              <Typography sx={{ wordBreak: "break-word" }}>
+                 <Typography variant="body-2" color="#1C1C20">
+                  Author{" "}
+                </Typography>
+                <ListItemText
+                  primary={input.author.length ? `${input.author}` : " "}
+                />
+              </Typography>
+            </ListItem>
           </span>
-          <br/>
-          <span >
-            State:{" "}
-            <span >
-              {input.state ? ` ${input.state}` :" "}
-            </span>
-          </span>
-          <br/>
-          <span >
-            Language:{" "}
-            <span >
-              {input.language ? `${input.language}` :" "}
-            </span>
-          </span>
-          <br/>   
-          <span >
-            Category:{" "}
-            <span >
-              {input.categorie ? `${input.categorie}` :" "}{" "}
-            </span>
-          </span>
-          <br/>
-          <span >
-            Genders:{" "}
-            <span >
-              {input.gender[0] ? `${input.gender[0]}` :" "}
-            </span>
-            <span >
-              {input.gender[1] ? `${input.gender[1]}` :" "}
-            </span>
-            <span >
-              {input.gender[2] ? `${input.gender[2]}` :" "}
-          </span>
-                      <span >
-              {input.gender[3] ? `${input.gender[3]}` :" "}
-          </span>
-          <span >
-              {input.gender[4] ? `${input.gender[4]}` :" "}
-          </span>
-          <span >
-              {input.gender[5] ? `${input.gender[5]}` :" "}
-          </span>
-          <span >
-              {input.gender[6] ? `${input.gender[6]}` :" "}
-          </span>
-          <span >
-              {input.gender[7] ? `${input.gender[7]}` :" "}
-          </span>
-          <span >
-              {input.gender[8] ? `${input.gender[8]}` :" "}
-          </span>
-          <span >
-              {input.gender[9] ? `${input.gender[9]}` :" "}
-          </span>
+          <Divider />
 
-          <span >
-              {input.gender[10] ? `${input.gender[10]}` :" "}
+          <span>
+            <ListItem button fullWidth>
+              <Typography sx={{ wordBreak: "break-word" }}>
+                 <Typography variant="body-2" color="#1C1C20">
+                  Editorial{" "}
+                </Typography>
+                <ListItemText
+                  primary={input.editorial ? `${input.editorial}` : " "}
+                />
+              </Typography>
+            </ListItem>
           </span>
+          <Divider />
+          <span>
+                <ListItem button fullWidth>
+                  <Typography  sx={{ wordBreak: "break-word" }}>
+                    <Typography variant="body-2" color="#1C1C20">
+                      State
+                    </Typography>
+                
+                    <ListItemText  primary={input.state ? ` ${input.state}` : " "}/>
+              
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Typebook{" "}
+                    </Typography>
+                    <ListItemText
+                      primary={input.typebook ? `${input.typebook}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+        </List>
+      </Box> :   <Box>
+        <Button variant="outlined" onClick={(e) => backBtn(e)}>
+          Back
+        </Button>
+      
+        <List>
+            <br/>
+          <Divider />
+<br/>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+            <br/>
+            <br/>
+              {imageState.length ? (
+                <CardMedia
+                  sx={{
+                    maxWidth: 210,
+                    height: 320,
+                    objectFit: "fill",
+                    borderRadius: 4,
+                  }}
+                  image={imageState}
+                  alt="img"
+                />
+              ) : (
+                <CardMedia
+                  display="flex"
+                  justify="center"
+                  component="img"
+                  sx={{
+                    maxWidth: 250,
+                    height: 320,
+                    objectFit: "fill",
+                    borderRadius: 4,
+                    bgcolor:"#ebebeb"
+                  }}
+                  image={noImgAvailable}
+                  alt="img"
+                />
+              )}
+            </Grid>
+            <Grid item xs={6}>
+            
+              <br/>
+     
+              <br/>
+              
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Language{" "}
+                    </Typography>
+                    <ListItemText
+                      primary={input.language ? `${input.language}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
 
-          <span >
-              {input.gender[11] ? `${input.gender[11]}` :" "}
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Category{" "}
+                    </Typography>
+                    <ListItemText
+                      primary={input.categorie ? `${input.categorie}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
+
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Saga
+                    </Typography>
+                    <ListItemText
+                      primary={input.saga ? `${input.saga}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Year
+                    </Typography>
+                    <ListItemText
+                      primary={input.year ? `${input.year}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
+
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Price{" "}
+                    </Typography>
+                    <ListItemText
+                      primary={input.price ? `U$D ${input.price}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+       
+            </Grid>
+          </Grid>
+                  <br/>
+          <div>
+            <ListItem button fullWidth>
+              <Typography sx={{ wordBreak: "break-word" }}>
+                 <Typography variant="body-2" color="#1C1C20">
+                  Title
+                </Typography>
+                <ListItemText primary={input.title ? `${input.title}` : " "} />
+              </Typography>
+            </ListItem>
+          </div>
+          <Divider />
+
+          <span>
+            <ListItem button fullWidth>
+              <Typography sx={{ wordBreak: "break-word" }}>
+                 <Typography variant="body-2" color="#1C1C20">
+                  Author{" "}
+                </Typography>
+                <ListItemText
+                  primary={input.author.length ? `${input.author}` : " "}
+                />
+              </Typography>
+            </ListItem>
           </span>
+          <Divider />
 
-          <span >
-              {input.gender[12] ? `${input.gender[12]}` :" "}
+          <span>
+            <ListItem button fullWidth>
+              <Typography sx={{ wordBreak: "break-word" }}>
+                 <Typography variant="body-2" color="#1C1C20">
+                  Editorial{" "}
+                </Typography>
+                <ListItemText
+                  primary={input.editorial ? `${input.editorial}` : " "}
+                />
+              </Typography>
+            </ListItem>
           </span>
-
-          <span >
-              {input.gender[13] ? `${input.gender[13]}` :" "}
-          </span>
-
-          <span >
-              {input.gender[14] ? `${input.gender[14]}` :" "}
-          </span>
-
-          </span>
-          
-
-        </div>
-      </div>
+          <Divider />
+          <span>
+                <ListItem button fullWidth>
+                  <Typography  sx={{ wordBreak: "break-word" }}>
+                    <Typography variant="body-2" color="#1C1C20">
+                      State
+                    </Typography>
+                
+                    <ListItemText  primary={input.state ? ` ${input.state}` : " "}/>
+              
+                  </Typography>
+                </ListItem>
+              </span>
+              <Divider />
+              <span>
+                <ListItem button fullWidth>
+                  <Typography sx={{ wordBreak: "break-word" }}>
+                     <Typography variant="body-2" color="#1C1C20">
+                      Typebook{" "}
+                    </Typography>
+                    <ListItemText
+                      primary={input.typebook ? `${input.typebook}` : " "}
+                    />
+                  </Typography>
+                </ListItem>
+              </span>
+        </List>
+      </Box>}
+   
     </div>
   );
 }
