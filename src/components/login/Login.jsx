@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./login.css";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createCustomer, findUserStripe, loginUser } from "../../redux/actions";
+import Swal from "sweetalert2";
+import bcrypt from "bcryptjs";
+import withReactContent from "sweetalert2-react-content";
+import {
+  createCustomer,
+  findUserStripe,
+  getAllUsers,
+  loginUser,
+} from "../../redux/actions";
 import {
   Avatar,
   Box,
@@ -20,12 +28,22 @@ import { Google, Send } from "@mui/icons-material";
 export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const users = useSelector((state) => state.users);
+  const MySwal = withReactContent(Swal);
+
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch]);
   const [input, setInputs] = useState({
     password: "",
     username: "",
   });
 
-  const handleSubmit = async (e) => {
+  const user = users.find(
+    (e) => e.username.toLowerCase() === input.username.toLowerCase()
+  );
+
+  const handleSubmit = async (e, message) => {
     e.preventDefault();
     dispatch(findUserStripe(input.username));
     dispatch(loginUser({ password: input.password, username: input.username }));
@@ -34,7 +52,15 @@ export const Login = () => {
       localStorage.setItem("cart", "[]");
     }
 
-    navigate("/");
+    if (user) {
+      if (bcrypt.compareSync(input.password, user.password)) {
+        navigate("/");
+      } else {
+        return MySwal.fire("¡Incorrect Password!", message, "error");
+      }
+    } else {
+      return MySwal.fire("¡Incorrect User!", message, "error");
+    }
   };
 
   const handleUser = (e) => {
@@ -51,10 +77,19 @@ export const Login = () => {
 
   return (
     <div>
-      <Grid container component="main" sx={{ height: "100vh", padding: 6 }} className="texts-login">
-      <Container component="main" maxWidth="md" sx={{ bgcolor: "#ebebeb", padding: 3, borderRadius: 2 }}>
-        <CssBaseline />
-        <Box
+      <Grid
+        container
+        component="main"
+        sx={{ height: "100vh", padding: 6 }}
+        className="texts-login"
+      >
+        <Container
+          component="main"
+          maxWidth="md"
+          sx={{ bgcolor: "#ebebeb", padding: 3, borderRadius: 2 }}
+        >
+          <CssBaseline />
+          <Box
             sx={{
               marginTop: 4,
               display: "flex",
@@ -62,12 +97,15 @@ export const Login = () => {
               alignItems: "center",
             }}
           >
-          
-            <Typography component="h1" variant="h2" sx={{color: "#013a63", mb: 1}}>
+            <Typography
+              component="h1"
+              variant="h2"
+              sx={{ color: "#013a63", mb: 1 }}
+            >
               FlyBooks
             </Typography>
             <Avatar sx={{ m: 1, bgcolor: "#ff6700" }}></Avatar>
-            <Typography component="h1" variant="h5" sx={{color: "#013a63"}}>
+            <Typography component="h1" variant="h5" sx={{ color: "#013a63" }}>
               Sign In
             </Typography>
             <Box
@@ -86,8 +124,6 @@ export const Login = () => {
                 name="username"
                 autoComplete="username"
                 autoFocus
-                
-                
               />
               <TextField
                 margin="normal"
@@ -99,7 +135,6 @@ export const Login = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                
               />
 
               <Button
@@ -111,24 +146,23 @@ export const Login = () => {
               >
                 Sign In
               </Button>
-              <Button 
-              variant="outlined" 
-              fullWidth
-              sx={{  mb: 2, border: 1, color: "#013a63" }}
-              onClick={e => handleGoogle(e)}
+              <Button
+                variant="outlined"
+                fullWidth
+                sx={{ mb: 2, border: 1, color: "#013a63" }}
+                onClick={(e) => handleGoogle(e)}
               >
                 <Google />
-                <Typography sx={{ ml: 1, color: "#013a63" }}
-                 >Google</Typography>
+                <Typography sx={{ ml: 1, color: "#013a63" }}>Google</Typography>
               </Button>
 
               <Grid container>
-                <Grid item xs sx={{opacity: 0.7}}>
+                <Grid item xs sx={{ opacity: 0.7 }}>
                   <Link to="/recoverpassword" variant="body2">
                     Forgot password?
                   </Link>
                 </Grid>
-                <Grid item sx={{opacity: 0.7}}>
+                <Grid item sx={{ opacity: 0.7 }}>
                   <Link to="/register" variant="body2">
                     {"Don't have an account? Sign Up"}
                   </Link>

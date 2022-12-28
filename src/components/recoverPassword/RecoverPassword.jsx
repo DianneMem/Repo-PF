@@ -34,7 +34,6 @@ export const RecoverPassword = () => {
   const recover = users.find(
     (e) => e.email.toLowerCase() === form.email.toLowerCase()
   );
-  console.log("ddd", recover);
 
   const handleSubmit = async (e, message) => {
     e.preventDefault();
@@ -50,7 +49,7 @@ export const RecoverPassword = () => {
       return MySwal.fire(
         "¡The email is not registered!",
         message,
-        "warning"
+        "error"
       );
     }
   };
