@@ -11,7 +11,7 @@ import Cart from "./components/cart/Cart.jsx"
 import DashboardAdmin from "./components/dashboardAdmin/dashboardAdmin"
 import { RecoverPassword } from "./components/recoverPassword/RecoverPassword";
 import { ConfirmAcount } from "./components/confirmAcount/ConfirmAcount";
-import Sellers from "./components/sellers/Sellers";
+import Reviews from "./components/reviews/Reviews";
 import Favorites from "./components/favorites/Favorites";
 import MyProducts from "./components/myProducts/MyProducts";
 import Profile from "./components/myProducts/Profile";
@@ -36,7 +36,7 @@ export default function App() {
           <Route exact path="/payment/:_id" element={<Stripe />} />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/admin" element={<DashboardAdmin/>} />
-          <Route exact path="/sellers" element={<Sellers/>} />
+          <Route exact path="/sellers" element={<Reviews/>} />
           <Route exact path="/favorites" element={<Favorites/>} />
           <Route exact path="/myproducts" element={<MyProducts/>} />
           <Route exact path="/profile" element={<Profile/>} />
