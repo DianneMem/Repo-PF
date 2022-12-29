@@ -1,13 +1,28 @@
 import React, { useEffect, useState } from "react";
 
 import jwt from "jwt-decode";
-
+import {
+  Box,
+  Button,
+  CardMedia,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
   CardElement,
   useStripe,
   useElements,
+  AddressElement,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 import Header from "../header/Header";
@@ -15,17 +30,68 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addPurchases, clearStorage, deleteStorageItemById, findUserStripe } from "../../redux/actions";
+import {
+  addPurchases,
+  clearStorage,
+  deleteStorageItemById,
+  findUserStripe,
+} from "../../redux/actions";
 import Loader from "../loader/Loader";
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
 );
 
+const cardStyle = {
+  style: {
+    base: {
+      color: "#32325d",
+      fontFamily: "Verdana, sans-serif",
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#32325d",
+      
+      },
+    },
+    invalid: {
+      fontFamily: "Verdana, sans-serif",
+      color: "#fa755a",
+      iconColor: "#fa755a",
+    },
+  },
+};
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(2),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
+const Item2 = styled(Paper)(({ theme }) => ({
+  backgroundColor: "#1A2027",
+  ...theme.typography.body2,
+  padding: theme.spacing(5),
+  borderRadius: 10,
+  background: "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
+
+const Item3 = styled(Paper)(({ theme }) => ({
+  backgroundColor: "#ebebeb",
+  ...theme.typography.body2,
+  padding: theme.spacing(3),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  borderRadius: 4,
+}));
 const CheckoutForm = () => {
-  const dispatch= useDispatch()
+  const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
   const MySwal = withReactContent(Swal);
+  const [address, setAddress] = useState("");
   const navigate = useNavigate();
   let getCart = JSON.parse(localStorage.getItem("cart"));
   let totalAmount = {
@@ -36,129 +102,357 @@ const CheckoutForm = () => {
   };
   console.log(totalAmount);
 
-
-
-
   const [loading, setLoading] = useState(false);
-  const handleSubmit = async (e,message) => {
+  const handleSubmit = async (e, message) => {
     e.preventDefault();
     let userId = JSON.parse(localStorage.getItem("session"));
-    if(userId){
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: elements.getElement(CardElement),
-    });
-    setLoading(true);
-   
-    if (!error) {
-      console.log(paymentMethod);
-      const { id } = paymentMethod;
-      let stripeId = JSON.parse(localStorage.getItem("stripe"));
-      console.log(stripeId[0].id);
-      try {
-        
-        const { data } = await axios.post(
-          "http://localhost:3001/api/checkout",
-          {
-            id,
-            amount: Math.ceil(totalAmount.amount) * 100,
-            created: totalAmount.description,
-            customer:stripeId[0].id
-          }
-        );
-        
-        let session = JSON.parse(localStorage.getItem("session"));
-        console.log(data.customer);
-        elements.getElement(CardElement).clear();
-        console.log("CardElement",CardElement)
-        MySwal.fire("Thank You for your purchase!", message, "success");
-        getCart.map((elm) => dispatch(addPurchases(session[0].id,{ username: elm.seller, productId: elm._id, sellerId: elm.sellerId, image: elm.image, title: elm.title}))) 
-        localStorage.setItem("cart","[]")
-        dispatch(clearStorage(session[0].id))
-      } catch (error) {
-        console.log(error);
+    if (userId) {
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: elements.getElement(CardElement),
+      });
+      setLoading(true);
+
+      if (!error) {
+        console.log(paymentMethod);
+        const { id } = paymentMethod;
+        let stripeId = JSON.parse(localStorage.getItem("stripe"));
+        console.log(stripeId[0].id);
+        try {
+          const { data } = await axios.post(
+            "http://localhost:3001/api/checkout",
+            {
+              id,
+              amount: Math.ceil(totalAmount.amount) * 100,
+              created: totalAmount.description,
+              customer: stripeId[0].id,
+            }
+          );
+
+          let session = JSON.parse(localStorage.getItem("session"));
+          console.log(data.customer);
+          elements.getElement(CardElement).clear();
+          console.log("CardElement", CardElement);
+          MySwal.fire("Thank You for your purchase!", message, "success");
+          getCart.map((elm) =>
+            dispatch(
+              addPurchases(session[0].id, {
+                username: elm.seller,
+                productId: elm._id,
+                sellerId: elm.sellerId,
+                image: elm.image,
+                title: elm.title,
+              })
+            )
+          );
+          localStorage.setItem("cart", "[]");
+          dispatch(clearStorage(session[0].id));
+        } catch (error) {
+          console.log(error);
+        }
+        setLoading(false);
       }
-      setLoading(false);
-      
+    } else {
+      MySwal.fire(
+        "Please register to be able to buy products!",
+        message,
+        "info"
+      );
+      navigate("/login");
     }
-  } else{
-    MySwal.fire('Please register to be able to buy products!', message, 'info')
-    navigate("/login");
-  }
-  
-}
+  };
 
   function handlerDeleteAll(e, message) {
     e.preventDefault();
     let session = JSON.parse(localStorage.getItem("session"));
-    if(session){
-      dispatch(clearStorage(session[0].id))
-      localStorage.setItem("cart","[]")
+    if (session) {
+      dispatch(clearStorage(session[0].id));
+      localStorage.setItem("cart", "[]");
       MySwal.fire("You delete all Cart Items!", message, "info");
       navigate("/");
     } else {
-      localStorage.setItem("cart","[]")
+      localStorage.setItem("cart", "[]");
       MySwal.fire("You delete all Cart Items!", message, "info");
       navigate("/");
     }
   }
 
   function deleteItem(el) {
-    
     let cartCurrent = JSON.parse(localStorage.getItem("cart"));
-    let result=cartCurrent.filter(e=>e._id!==el )
+    let result = cartCurrent.filter((e) => e._id !== el);
     let session = JSON.parse(localStorage.getItem("session"));
-    dispatch(deleteStorageItemById(session[0].id,el))
-    localStorage.setItem("cart", JSON.stringify(result))
-    navigate("/cart")
-
+    dispatch(deleteStorageItemById(session[0].id, el));
+    localStorage.setItem("cart", JSON.stringify(result));
+    navigate("/cart");
   }
 
-
-
   return (
-    <div>
-      {/* <Header noSearch={true} /> */}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <button onClick={(e) => handlerDeleteAll(e)}>
-            Delete all Cart Items
-          </button>
-          {getCart.length ? (
-            getCart.map((e) => (
-              <div>
-                <button type="button" onClick={()=>deleteItem(e._id)}>x</button>
-                <img src={e.image} alt="imgcart" />
-                <h1>{e.title}</h1>
-                <h1>{e.price}</h1>
-                <h1>{e.author}</h1>
-                <h1>{e.state}</h1>
-                <h1>{e.Editorial}</h1>
-                <h1>{totalAmount.amount}</h1>
-              </div>
-            ))
-          ) : 
-            <h1>Your Cart is Empty</h1>
-          }
-        </div>
-        {totalAmount.amount !== 0 ? (
-          <div>
-            <CardElement />
-            <button disabled={!stripe}>
-              {loading ? (
-                <div role="status">
-                  <span>Loading...</span>
-                </div>
-              ) : (
-                "Buy"
-              )}
-            </button>
-          </div>
-        ) : (
-          <div> </div>
-        )}
-      </form>
-    </div>
+    <Box sx={{ bgcolor: "#013a63", height: "100vh" }}>
+      <Header noSearch={true} />
+
+      <Box component="main" sx={{ bgcolor: "#013a63", padding: 8 }}>
+        <form onSubmit={handleSubmit}>
+          <Grid spacing={2}>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={(e) => handlerDeleteAll(e)}
+            >
+              Delete all Cart Items
+            </Button>
+            {getCart.length ? (
+              getCart.map((e) => (
+                <Grid item xs={12}>
+                  <br></br>
+                  <Item sx={{ borderRadius: 4 }}>
+                    <List>
+                      <Grid container>
+                        <Grid item xs={2.1} sx={{ padding: 2, mr: 4 }}>
+                          <Item3>
+                            <Button
+                              variant="outlined"
+                              color="error"
+                              sx={{ mb: 2 }}
+                              type="button"
+                              onClick={() => deleteItem(e._id)}
+                              startIcon={<DeleteIcon />}
+                            >
+                              DELETE
+                            </Button>
+
+                            <CardMedia
+                              display="flex"
+                              justify="center"
+                              component="img"
+                              sx={{
+                                width: 130,
+                                height: 155,
+                                objectFit: "fill",
+                                borderRadius: 2,
+                                bgcolor: "#ebebeb",
+                              }}
+                              fullWidth
+                              image={e.image}
+                              alt="img"
+                            />
+                            <br></br>
+                            <ListItem
+                              button
+                              fullWidth
+                              sx={{
+                                background:
+                                  "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                ":hover": {
+                                  background:
+                                    "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                },
+                                borderRadius: 2,
+                              }}
+                            >
+                              <Typography sx={{ wordBreak: "break-word" }}>
+                                <Typography variant="subtitle1" color="#FFF">
+                                  Seller{" "}
+                                </Typography>
+                                <Box color="#FFF">{e.seller}</Box>
+                              </Typography>
+                            </ListItem>
+                          </Item3>
+                        </Grid>
+
+                        <Grid item xs={9} sx={{ mt: 5 }}>
+                          <Item2>
+                            <Grid container spacing={4}>
+                              <br></br>
+
+                              <Grid item xs={6}>
+                                <ListItem
+                                  button
+                                  fullWidth
+                                  sx={{ bgcolor: "#013a63" }}
+                                >
+                                  <Typography sx={{ wordBreak: "break-word" }}>
+                                    <Typography
+                                      variant="subtitle1"
+                                      color="#FFF"
+                                    >
+                                      Title{" "}
+                                    </Typography>
+                                    <Box color="#FFF">{e.title}</Box>
+                                  </Typography>
+                                </ListItem>
+
+                                <ListItem
+                                  button
+                                  fullWidth
+                                  sx={{ bgcolor: "#006ba6" }}
+                                >
+                                  <Typography sx={{ wordBreak: "break-word" }}>
+                                    <Typography
+                                      variant="subtitle1"
+                                      color="#FFF"
+                                    >
+                                      Price{" "}
+                                    </Typography>
+                                    <Box color="#FFF">{`U$D ${e.price}`}</Box>
+                                  </Typography>
+                                </ListItem>
+
+                                <ListItem
+                                  button
+                                  fullWidth
+                                  sx={{ bgcolor: "#013a63" }}
+                                >
+                                  <Typography sx={{ wordBreak: "break-word" }}>
+                                    <Typography
+                                      variant="subtitle1"
+                                      color="#FFF"
+                                    >
+                                      Author{" "}
+                                    </Typography>
+                                    <Box color="#FFF">{e.author}</Box>
+                                  </Typography>
+                                </ListItem>
+                              </Grid>
+
+                              <Grid item xs={6}>
+                                <ListItem
+                                  button
+                                  fullWidth
+                                  sx={{ bgcolor: "#006ba6" }}
+                                >
+                                  <Typography sx={{ wordBreak: "break-word" }}>
+                                    <Typography
+                                      variant="subtitle1"
+                                      color="#FFF"
+                                    >
+                                      State{" "}
+                                    </Typography>
+                                    <Box color="#FFF">{e.state}</Box>
+                                  </Typography>
+                                </ListItem>
+                                <ListItem
+                                  button
+                                  fullWidth
+                                  sx={{ bgcolor: "#013a63" }}
+                                >
+                                  <Typography sx={{ wordBreak: "break-word" }}>
+                                    <Typography
+                                      variant="subtitle1"
+                                      color="#FFF"
+                                    >
+                                      Editorial{" "}
+                                    </Typography>
+                                    <Box color="#FFF">{e.editorial}</Box>
+                                  </Typography>
+                                </ListItem>
+
+                                <ListItem
+                                  button
+                                  fullWidth
+                                  sx={{ bgcolor: "#006ba6" }}
+                                >
+                                  <Typography sx={{ wordBreak: "break-word" }}>
+                                    <Typography
+                                      variant="subtitle1"
+                                      color="#FFF"
+                                    >
+                                      Language{" "}
+                                    </Typography>
+                                    <Box color="#FFF">{e.language}</Box>
+                                  </Typography>
+                                </ListItem>
+                              </Grid>
+                            </Grid>
+                          </Item2>
+                        </Grid>
+                      </Grid>
+                    </List>
+                  </Item>
+                </Grid>
+              ))
+            ) : (
+              <h1>Your Cart is Empty</h1>
+            )}
+
+            <br></br>
+            <Grid item xs={4} >
+              <Item sx={{ borderRadius: 4,padding:4}}>
+                {totalAmount.amount !== 0 ? (
+                  <div>
+                    <br />
+                    <br />
+                    <CardElement options={cardStyle} />
+                    <br />
+                    <br />
+                    <AddressElement sx={{ borderRadius: 4 }}
+                      options={{ mode: "shipping" }}
+                      onChange={(event) => {
+                        if (event.complete) {
+                          // Extract potentially complete address
+                          const address = event.value.address;
+                          setAddress(address);
+                        }
+                      }}
+                    />
+                    <br></br>
+                    <Item2 sx={{ borderRadius: 4 }}>
+                      <ListItem
+                        button
+                        fullWidth
+                        sx={{
+                          background:
+                            "linear-gradient(135deg, #013a63 10%, #006ba6 90%)",
+                          borderRadius: 4,
+                        }}
+                      >
+                        <Typography
+                          sx={{ wordBreak: "break-word", color: "#FFF" }}
+                        >
+                          <Typography variant="subtitle1">Items: </Typography>
+
+                          {getCart.map((e) => (
+                            <Box color="#FFF">
+                              {" "}
+                              {`-${e.title}  U$D ${e.price}`}
+                            </Box>
+                          ))}
+                          <Typography variant="h6" color="#FFF">
+                            <Box>{`Total: U$D ${totalAmount.amount}`}</Box>
+                          </Typography>
+                        </Typography>
+                      </ListItem>
+                    </Item2>
+                    <br></br>
+                    {address && (
+                      <Button
+                        disabled={!stripe}
+                        sx={{
+                          background:
+                            "linear-gradient(135deg, #45F350 0%, #2BCA35 100%)",
+                          borderRadius: 2,
+                          color: "#FFF",
+                          width:120
+                        }}
+                      >
+                        {loading ? (
+                          <Box role="status">
+                            <Box>Loading...</Box>
+                          </Box>
+                        ) : (
+                          "Buy"
+                        )}
+                      </Button>
+                    )}
+                  </div>
+                ) : (
+                  <div> </div>
+                )}
+              </Item>
+            </Grid>
+          </Grid>
+        </form>
+      </Box>
+    </Box>
   );
 };
 
