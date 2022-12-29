@@ -58,6 +58,7 @@ const CheckoutForm = () => {
   const navigate = useNavigate();
   const detailsBooks = useSelector((state) => state.detailsBook);
   const MySwal = withReactContent(Swal);
+  const [address,setAddress]=useState("")
   useEffect(() => {
     dispatch(getBooksDetails(_id));
   }, [dispatch, _id]);
@@ -313,7 +314,15 @@ const CheckoutForm = () => {
                       />
                       <br />
                       <br />
-                      <Button
+                      {!stripe?                     
+                       <Button
+                        type="submit"
+                        variant="outlined"
+                        disabled
+                      >
+                        Buy
+                      </Button>:                    
+                       <Button
                         type="submit"
                         variant="outlined"
                         disabled={!stripe}
@@ -325,7 +334,8 @@ const CheckoutForm = () => {
                         ) : (
                           "Buy"
                         )}
-                      </Button>
+                      </Button>}
+
                     </Item>
                   </Grid>
                 </Grid>
@@ -492,25 +502,30 @@ const CheckoutForm = () => {
                           if (event.complete) {
                             // Extract potentially complete address
                             const address = event.value.address;
+                            setAddress(address)
                           }
                         }}
                       />
                       <br />
                       <br />
-                      <Button
+                      {
+                        address&&                
+                         <Button
+                        disabled={!stripe}
                         type="submit"
                         variant="outlined"
-                        disabled={!stripe}
                         sx={{width:200}}
                       >
                         {loading ? (
                           <Box role="status">
-                            <span>Loading...</span>
+                        Loading...
                           </Box>
                         ) : (
                           "Buy"
                         )}
                       </Button>
+                      }
+     
                     </Item>
                   </Grid>
                 </Grid>
