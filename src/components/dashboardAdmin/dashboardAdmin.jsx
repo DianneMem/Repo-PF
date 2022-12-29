@@ -12,6 +12,9 @@ import CreatePost from "../createProduct/CreateProduct";
 import DashUser from "../dashUser/dashUser";
 import {Register} from "../register/Register";
 
+import Modal from '@mui/material/Modal';
+
+
 
 
 export default function DashAdmin() {
@@ -42,23 +45,28 @@ export default function DashAdmin() {
   const indexOfLastBooks = currentPage * booksPerPage;
   const IndexOfFirstBooks = indexOfLastBooks - booksPerPage;
   const currentBooks = loadBooks.slice(IndexOfFirstBooks, indexOfLastBooks);
-  let pages = Math.ceil(loadBooks.length / booksPerPage);
-  
-  let [productInput, setProductInput] = useState({});
-  let [createProduct, setCreateProduct] = useState(false);
-  let [createUser, setCreateUser] = useState(false);
+  const pages = Math.ceil(loadBooks.length / booksPerPage);
   
 
-  const [advice, setAdvice] = useState('');
-  console.log(productInput)
-  console.log(loadBooks);
-  console.log('users&admins', allUsers)
+  const [createProduct, setCreateProduct] = useState(false);
+  const [createUser, setCreateUser] = useState(false);
+  const [menu, setMenu] = useState(false); 
+  // Constante para desplegar el menú lateral hecho sin material (solo css)
 
+  console.log('books', loadBooks);
+  console.log('users', allUsers)
+  
   
   // Functions
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  
+  function getBooks(e){
+    e.preventDefault();
+    dispatch(getAllBooks());
+    setCurrentPage(1);
+  }
 
   function changePage(e) {
     e.preventDefault();
@@ -100,9 +108,6 @@ export default function DashAdmin() {
     if(createUser) {setCreateUser(false);}
     else {setCreateUser(true);}
   };
-  
-  
-  const [menu, setMenu] = useState(false);
   
   function menuDisplay(e){
     e.preventDefault();
@@ -180,18 +185,20 @@ export default function DashAdmin() {
       
       
       
-      {createProduct ? 
-      (<div className={s.createPost}>
+      {createProduct &&
+      (<Modal open={createProduct}>
+        <div className={s.createPost}>
         <button  onClick={e => handleCreateProduct(e)}>Close Form</button>
           <CreatePost/>
-        </div>) : 
-      (<button onClick={e => handleCreateProduct(e)}>Create Product</button>)}
+        </div>
+        </Modal>) 
+      }
       
       <div className={s.titles}>
         <h3>Books</h3>
         <div>
-          <button>Refresh</button>
-          <button>New</button>
+          <button onClick={e => getBooks(e)}>Refresh</button>
+          <button onClick={e => handleCreateProduct(e)}>New</button>
         </div>
       </div>
       
@@ -246,6 +253,13 @@ export default function DashAdmin() {
               </div>)
             })}
           </div>
+          
+          
+          
+          
+          
+          
+          
 
         </div>) :
         (<>
