@@ -1,14 +1,14 @@
 .texts-login{
-  background: #f75959;
-  background: -moz-linear-gradient(-45deg, #f75959 0%, #f35587 100%);
-  background: -webkit-gradient(left top, right bottom, color-stop(0%, #f75959), color-stop(100%, #f35587));
-  background: -webkit-linear-gradient(-45deg, #f75959 0%, #f35587 100%);
-  background: -o-linear-gradient(-45deg, #f75959 0%, #f35587 100%);
-  background: -ms-linear-gradient(-45deg, #f75959 0%, #f35587 100%);
-  background: -webkit-linear-gradient(315deg, #f75959 0%, #f35587 100%);
-  background: -o-linear-gradient(315deg, #f75959 0%, #f35587 100%);
-  background: linear-gradient(135deg, #f75959 0%, #f35587 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f75959', endColorstr='#f35587', GradientType=1 );
+  background: #ff6700;
+  background: -moz-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, #ff6700), color-stop(100%, #013a63));
+  background: -webkit-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
+  background: -o-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
+  background: -ms-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
+  background: -webkit-linear-gradient(315deg, #ff6700 0%, #013a63 100%);
+  background: -o-linear-gradient(315deg, #ff6700 0%, #013a63 100%);
+  background: linear-gradient(135deg, #ff6700 0%, #013a63 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff6700', endColorstr='#013a63', GradientType=1 );
   color: #fff; }
   .texts-login.text h2 {
     font-weight: 900;
@@ -28,16 +28,16 @@
         background: #f35588;
         border: 1px solid #f35588;
         color: #fff;
-        background: #f75959;
-        background: -moz-linear-gradient(-45deg, #f75959 0%, #f35587 100%);
-        background: -webkit-gradient(left top, right bottom, color-stop(0%, #f75959), color-stop(100%, #f35587));
-        background: -webkit-linear-gradient(-45deg, #f75959 0%, #f35587 100%);
-        background: -o-linear-gradient(-45deg, #f75959 0%, #f35587 100%);
-        background: -ms-linear-gradient(-45deg, #f75959 0%, #f35587 100%);
-        background: -webkit-linear-gradient(315deg, #f75959 0%, #f35587 100%);
-        background: -o-linear-gradient(315deg, #f75959 0%, #f35587 100%);
-        background: linear-gradient(135deg, #f75959 0%, #f35587 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f75959', endColorstr='#f35587', GradientType=1 ); }
+        background: #ff6700;
+        background: -moz-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
+        background: -webkit-gradient(left top, right bottom, color-stop(0%, #ff6700), color-stop(100%, #013a63));
+        background: -webkit-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
+        background: -o-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
+        background: -ms-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
+        background: -webkit-linear-gradient(315deg, #ff6700 0%, #013a63 100%);
+        background: -o-linear-gradient(315deg, #ff6700 0%, #013a63 100%);
+        background: linear-gradient(135deg, #ff6700 0%, #013a63 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff6700', endColorstr='#013a63', GradientType=1 ); }
         .btnl.btnl-primary:hover {
           border: 1px solid #f35588;
           background: #f35588;
@@ -76,14 +76,14 @@
               cursor: pointer; }
 .section-log {
   display: block;
-  background-color: rgb(244, 231, 227);
-  padding-top: 7em;
-  padding-right: 0px;
-  padding-bottom: 7em;
-  padding-left: 0px;
-  box-sizing: border-box;
+  background-color: #013a63;
+  display: flex;
+  flex-direction: row;
   margin: 0;
-  border: none;
+  
+  ;
+
+  
 }
 .section-reg {
   display: block;
@@ -102,4 +102,8 @@
 .danger-p {
   color: red;
   font-size: 10px;
+}
+
+.vend {
+  font-family: Verdana;
 }
