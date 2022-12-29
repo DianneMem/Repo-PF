@@ -8,16 +8,16 @@ import {
   getAllUsers,
   getReviews,
   getUsersDetail,
+  myReview,
 } from "../../redux/actions";
 import Loader from "../loader/Loader";
-import {Button, Grid} from "@mui/material";
+import { Button, Grid, Box } from "@mui/material";
 import TextField from "@mui/joy/TextField";
 import Modal from "@mui/joy/Modal";
 import ModalDialog from "@mui/joy/ModalDialog";
 import Stack from "@mui/joy/Stack";
 import Add from "@mui/icons-material/Add";
-import {Typography} from "@mui/material";
-
+import { Typography } from "@mui/material";
 
 export default function Reviews() {
   const dispatch = useDispatch();
@@ -42,9 +42,9 @@ export default function Reviews() {
     score: 0,
   });
 
-  function setButton (productId){
-    setOpen(true)
-    setInput({...input, productId: productId})
+  function setButton(productId) {
+    setOpen(true);
+    setInput({ ...input, productId: productId });
   }
 
   function handlerChange(e) {
@@ -57,7 +57,8 @@ export default function Reviews() {
   }, [dispatch]);
 
   function handlerSubmit(id) {
-    dispatch(createReview(id,input));
+    dispatch(createReview(id, input));
+    dispatch(myReview(usersDetail[0]._id, input));
     setInput({
       productId: "",
       sellerId: session[0].username,
@@ -101,22 +102,39 @@ export default function Reviews() {
 
   return (
     <Grid
-    container
-    direction="row"
-    justifyContent="space-around"
-    alignItems="flex-start">
-        {usersDetail[0].purchases.map((elm) => (
-          <Grid>
+      container
+      direction="row"
+      justifyContent="space-around"
+      alignItems="flex-start"
+    >
+      {usersDetail[0].purchases.map((elm) => (
+        <Grid>
+          <Box
+            sx={{
+              width: 250,
+              height: 400,
+              border: "solid",
+              borderColor: "#ff6700",
+              borderRadius: 6,
+              marginBottom: 6,
+            }}
+          >
             <Typography align="center" variant="h5" color="initial">
               {elm.title}
             </Typography>
-              <img width="40%" src={elm.image} />
+            <Box
+              sx={{
+                width: 150,
+              }}
+            >
+              <img  src={elm.image} />
+            </Box>
             {handlerSellerId(elm.sellerId).includes(elm.productId) === false ? (
               <Grid>
                 <Button
                   variant="outlined"
                   color="primary"
-                  onClick={() =>setButton(elm.productId)}
+                  onClick={() => setButton(elm.productId)}
                 >
                   <Add />
                   Add Review
@@ -177,9 +195,9 @@ export default function Reviews() {
             ) : (
               <Grid></Grid>
             )}
-          </Grid>
-        ))}
+          </Box>
+        </Grid>
+      ))}
     </Grid>
   );
 }
-
