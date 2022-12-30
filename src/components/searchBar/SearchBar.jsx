@@ -37,7 +37,7 @@ export default function SearchBar() {
         className={s.searchBarInput}
         type="text"
         onChange={(e) => handlerInput(e)}
-        placeholder="Buscar..."
+        placeholder="Search..."
         value={name}
       />
 
