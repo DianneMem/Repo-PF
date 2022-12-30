@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllBooks, getAllUsers , disablePost, deletePost, getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial } from "../../redux/actions";
 import DashCard from "../dashCard/dashCard";
+import DashUserNew from "../dashUserNew/dashUserNew";
 import Paginated from "../paginado/Paginated";
 import Loader from "../loader/Loader";
 import Header from "../header/Header";
@@ -11,8 +12,10 @@ import { Link } from "react-router-dom";
 import CreatePost from "../createProduct/CreateProduct";
 import DashUser from "../dashUser/dashUser";
 import {Register} from "../register/Register";
+import Dialog from '@mui/material/Dialog';
 
 import Modal from '@mui/material/Modal';
+
 
 
 
@@ -49,9 +52,8 @@ export default function DashAdmin() {
   
 
   const [createProduct, setCreateProduct] = useState(false);
-  const [createUser, setCreateUser] = useState(false);
   const [menu, setMenu] = useState(false); 
-  // Constante para desplegar el menú lateral hecho sin material (solo css)
+  // menu: Constante para desplegar el menú lateral hecho sin material (solo css)
 
   console.log('books', loadBooks);
   console.log('users', allUsers)
@@ -65,6 +67,12 @@ export default function DashAdmin() {
   function getBooks(e){
     e.preventDefault();
     dispatch(getAllBooks());
+    setCurrentPage(1);
+  };
+  
+  function getUsers(e){
+    e.preventDefault();
+    dispatch(getAllUsers());
     setCurrentPage(1);
   };
 
@@ -88,11 +96,7 @@ export default function DashAdmin() {
     else {setCreateProduct(true);}
   };
   
-  function handleCreateUser(e){
-    e.preventDefault();
-    if(createUser) {setCreateUser(false);}
-    else {setCreateUser(true);}
-  };
+  
   
   function menuDisplay(e){
     e.preventDefault();
@@ -163,10 +167,10 @@ export default function DashAdmin() {
       <SideBar vertical={false}/>
     
       {createProduct &&
-      (<Modal open={createProduct}>
+      (<Dialog open={createProduct} maxWidth="xl">
           <button  onClick={e => handleCreateProduct(e)}>Close Form</button>
           <CreatePost/>
-        </Modal>) 
+        </Dialog>) 
       }
       
       <div className={s.titles}>
@@ -238,18 +242,13 @@ export default function DashAdmin() {
       
       {section === 'Users' && <>
       
-      {createUser? 
-      (<>
-      <button onClick={e => handleCreateUser(e)}>Close Form</button>
-      <Register/>
-      </>) : 
-      (<button onClick={e => handleCreateUser(e)}>Create User</button>)}
+      
       
       <div className={s.titles}>
         <h3>Users</h3>
         <div>
-          <button>Refresh</button>
-          <button>New</button>
+          <button onClick={e => getUsers(e)}>Refresh</button>
+          <DashUserNew/>
         </div>
       </div>
       
