@@ -10,6 +10,13 @@
   background: linear-gradient(135deg, #ff6700 0%, #013a63 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff6700', endColorstr='#013a63', GradientType=1 );
   color: #fff; }
+
+  .texts-login2{
+    background: -ms-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
+    background: -webkit-linear-gradient(315deg, #ff6700 0%, #013a63 100%, );
+    background: linear-gradient(1135deg, #ff6700  20%, #0f3d55 50%)
+  }
+
   .texts-login.text h2 {
     font-weight: 900;
     color: #fff; }
