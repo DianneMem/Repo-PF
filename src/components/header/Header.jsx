@@ -26,7 +26,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 
 
-const pages = ['Favorites', 'Shopping', 'Login', 'Create Post'];
+const pages = ['Profile','Favorites', 'Shopping', 'Login', 'Create Post'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
@@ -44,6 +44,8 @@ export default function Header () {
         return navigate("/login");
       case "Create Post":
         return navigate("/createProduct");
+      case "Profile":
+        return navigate("/profile");
     
       default:
         break;

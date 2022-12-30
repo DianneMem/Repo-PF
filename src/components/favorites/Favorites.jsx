@@ -12,6 +12,13 @@ import Loader from "../loader/Loader";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
+import Add from "@mui/icons-material/Add";
+import { Button, Grid, Box, CardMedia, Divider } from "@mui/material";
+import { Typography } from "@mui/material";
+import Stack from "@mui/joy/Stack";
+import { Delete} from "@mui/icons-material";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+
 
 export default function Favorites() {
   const MySwal = withReactContent(Swal);
@@ -26,12 +33,12 @@ export default function Favorites() {
     let session = JSON.parse(localStorage.getItem("session"));
     let id = session[0].id;
     dispatch(getUsersDetail(id));
-  }, [dispatch,loading]);
+  }, [dispatch, loading]);
 
   console.log("detail", usersDetail);
 
   // Loading SetTimeOut
-  
+
   const changeState = () => {
     setTimeout(() => {
       setLoading(true);
@@ -111,29 +118,130 @@ export default function Favorites() {
 
   console.log(usersDetail);
   return (
-    <div>
-        <button onClick={(e) => handlerDeleteAll(e)}>
-        Delete all Favorites Items
-      </button>
-     
-        <div>
-    
-       {favscurrent || favscurrent.length? favscurrent.map((elm) => (
-        <div>
-          <button onClick={() => deleteItem(elm._id)}>
-            x
-          </button>
-          <img src={elm.image} alt="asd" />
-          <h5>{elm._id}</h5>
-          <h5>{elm.title}</h5>
-          <h5>{elm.price}</h5>
-          <h5>{elm.author}</h5>
-          <button onClick={(e) => cartHandler(elm)}>add Cart</button>
-        </div>
-      )):
-        <h1>You havent  items in favorites</h1>
-      }
-      </div>
-    </div>
+    <Grid>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={(e) => handlerDeleteAll(e)}
+      >
+        <Add />
+        delete
+      </Button>
+
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-around"
+        alignItems="flex-start"
+      >
+        {favscurrent || favscurrent.length ? (
+          favscurrent.map((elm) => (
+            <Grid>
+              <Box
+                sx={{
+                  width: 220,
+                  // height: "450%",
+                  border: "dotted",
+                  border: 5,
+                  borderColor: "white",
+                  borderRadius: 6,
+                  marginBottom: 6,
+                  bgcolor: "#006ba6",
+                  boxShadow: "40px 60px 80px  #595959",
+                }}
+              >
+                <Typography
+                  align="center"
+                  variant="h5"
+                  color="initial"
+                  marginTop="10px"
+                  fontSize="100%"
+                  bgcolor="#013a63"
+                  p="15px"
+                  className="texts-login2"
+                  sx={{
+                    borderTopLeftRadius: "17px",
+                    borderTopRightRadius: "17px",
+                    borderBottom: 3,
+                    color: "white",
+                    marginTop: "-px",
+                  }}
+                >
+                  {elm.title.length > 60
+                    ? elm.title.slice(0, 35) + "..."
+                    : elm.title}
+                </Typography>
+                <Box display="flex" justifyContent="center">
+                  <CardMedia
+                    component="img"
+                    sx={{
+                      marginTop: 2,
+                      marginBottom: 3,
+                      width: 170,
+                      height: 200,
+                      objectFit: "fill",
+                      borderRadius: 4,
+                      bgcolor: "#ebebeb",
+                    }}
+                    image={elm.image}
+                    alt="img"
+                  />
+                </Box>
+                <Typography
+                  align="center"
+                  variant="h5"
+                  color="initial"
+                  marginTop="10px"
+                  fontSize="100%"
+                  bgcolor="#013a63"
+                  p="15px"
+                  className="texts-login2"
+                  sx={{
+                    borderTop: 3,
+                    color: "white",
+                    marginTop: "-px",
+                  }}
+                >
+                  {elm.author}
+                  <hr />${elm.price}
+                </Typography>
+                <Grid>
+                  <Box
+                    sx={{
+                      borderBottomLeftRadius: "17px",
+                      borderBottomRightRadius: "17px",
+                    }}
+                    bgcolor="white"
+                    p="10px"
+                    display="flex"
+                    justifyContent="center"
+                  >
+                    <Stack direction="row" justifyContent="center" spacing={1}>
+                      <Button
+                        variant="contained"
+                        endIcon={<AddShoppingCartIcon />}
+                        onClick={(e) => cartHandler(elm)}
+                      >
+                       add
+                      </Button>
+                      <Button
+                        variant="outlined" 
+                        color="error"
+                        endIcon={<Delete />}
+                        onClick={() => deleteItem(elm._id)}
+                      >
+                        Delete
+                      </Button>
+                    </Stack>
+                  </Box>
+                </Grid>
+              </Box>
+            </Grid>
+          ))
+        ) : (
+          <h1>You havent items in favorites</h1>
+        )}
+      </Grid>
+    </Grid>
   );
 }
