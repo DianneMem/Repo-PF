@@ -1,21 +1,27 @@
 .nav{
   /*  background-color: rgb(252, 232, 207); */
-  background-color:  #006ba6;
+  background-color:  #457b9d;
   width: 14rem;
-  height: 100vh;
-  padding: 2rem;
+  height: 120vh;
+  padding: 3rem;
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  
+  gap: 1rem;
+  font-size: 12px;
   border-radius: 3px;
   right:0%;
   margin-top: 2rem;
   border-radius: 3rem;
+  
 }
 .nav select{
-  border: solid 2px wheat;
+  border: none;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.292);
+  width: 220px;
+  height: 25px;
+  border-radius: 3px;
 }
 
 .state{
@@ -26,30 +32,31 @@
 .btn0{
   font-size: 0.7rem;
   /* font: 1em sans-serif; */
-  color:rgb(0, 0, 0);
-  background-color:rgb(255, 255, 255);
-  border: solid 2px wheat;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.292);
+  border: none;
+  outline: none;
   border-radius: 3px;
-  margin: 0.2rem;
+  margin: 1rem;
   padding: 0.4rem;
   cursor: pointer;
   transition: 0.3s;
 }
 .btn0:hover{
   color:rgb(0, 0, 0);
-  background-color:rgb(242, 191, 252);
+  background-color:#caf0f8
 }
 .btn0:active{
-  background-color:rgb(207, 110, 226);
+  background-color:#caf0f8
 }
 
 .btn1{
   width: 4rem;
   height: 2rem;
   font-size: 0.7rem;
-  color:rgb(0, 0, 0);
-  background-color:rgb(255, 255, 255);
-  border: solid 2px wheat;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.292);
+  border: none;
   border-radius: 3px;
   margin: 0.2rem;
   padding: 0.4rem;
@@ -58,28 +65,28 @@
 }
 .btn1:hover{
   color:rgb(0, 0, 0);
-  background-color:rgb(242, 191, 252);
+  background-color:#caf0f8;
 }
 .btn1:active{
-  background-color:rgb(207, 110, 226);
+  background-color:#caf0f8
 }
 
 .btn2{
   width: 4rem;
   height: 3rem;
   font-size: 0.7rem;
-  color:rgb(0, 0, 0);
-  background-color:rgb(255, 255, 255);
-  border: solid 2px wheat;
+  color:white;
+  background-color:rgba(255, 255, 255, 0.292);
+  border: none;
   border-radius: 3px;
   margin: 0.2rem;
   cursor: pointer;
   transition: 0.3s;
 }
 .btn2:hover{
-  color:rgb(0, 0, 0);
-  background-color:rgb(242, 191, 252);
+  color:white;
+  background-color:#caf0f8
 }
 .btn2:active{
-  background-color:rgb(207, 110, 226);
+  background-color:#caf0f8
 }
