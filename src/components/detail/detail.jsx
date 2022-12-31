@@ -128,9 +128,10 @@ export default function Detail() {
   })
 
 
-  return (
+  return (<>
+    <Header noSearch={true} />
     <div className={s.contain} style={{ "background-color": theme && "#212529", "color": theme && "white" }}>
-      <Header noSearch={true} />
+      
 
       {/* 
       <button onClick={(e) => backHandler(e)} className="buttonBack">
@@ -240,5 +241,6 @@ export default function Detail() {
       </div>
 
     </div>
+    </>
   );
 }

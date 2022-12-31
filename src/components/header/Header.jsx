@@ -77,7 +77,7 @@ export default function Header () {
   };
 
   return (
-    <AppBar className="texts-login" position="absolute">
+    <AppBar className="texts-login" position="relative">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
 

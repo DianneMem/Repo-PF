@@ -4,6 +4,7 @@
 
 .containerImage{
 display: flex
+
 }
 
 .containerTitle{
@@ -21,8 +22,7 @@ display: flex
 
 .favorite{
   background-color: rgba(187, 0, 0, 0);
-  border-radius: 3rem;
-  border: 0.1px solid rgb(117, 117, 117);
+  border: 0;
   transition: 0.3s;
   color: red;
   padding-top: 0px;
@@ -37,9 +37,9 @@ display: flex
 .card{
   border:1px solid wheat;
   border-radius: 5px;
-  background-color: #e9e7e1;
+  background-color: #e9e7e192;
   color: rgb(63, 56, 44);
-  width: 11rem;
+  width: 15rem;
   height: 23rem;
   padding-top: 0.5rem;
 }
@@ -88,9 +88,11 @@ display: flex
  height:12.5rem;
  object-fit: cover;
  border-radius: 3px;
- margin-left: 1rem;
+ margin-left: 2.5rem;
  padding: 0.8rem;
  padding-right: 0rem;
+ align-items: center;
+ justify-content:right;
 }
 
 .data{
