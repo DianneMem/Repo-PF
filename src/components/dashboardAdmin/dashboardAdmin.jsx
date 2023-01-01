@@ -13,8 +13,21 @@ import CreatePost from "../createProduct/CreateProduct";
 import DashUser from "../dashUser/dashUser";
 import {Register} from "../register/Register";
 import Dialog from '@mui/material/Dialog';
-
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
 import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+
+import Typography from '@mui/material/Typography';
 
 
 
@@ -39,6 +52,15 @@ export default function DashAdmin() {
   const allBooks = useSelector((state) => state.allbooks);
   const loadBooks = useSelector((state) => state.books);
   const allUsers = useSelector((state) => state.users);
+ 
+  const allOrders = useSelector((state) => state.users[1]?.purchases);
+  const allreviews = useSelector((state) => state.users?.map(user => {return(user.reviews)})?.flat());
+
+
+  
+  function orderObject(productId, sellerId, sellerName, buyerId, buyerName, date, amount){
+    return {productId, sellerId, sellerName, buyerId, buyerName, date, amount}
+  };
   
 
   // Local States
@@ -55,8 +77,6 @@ export default function DashAdmin() {
   const [menu, setMenu] = useState(false); 
   // menu: Constante para desplegar el menú lateral hecho sin material (solo css)
 
-  console.log('books', loadBooks);
-  console.log('users', allUsers)
   
   
   // Functions
@@ -103,6 +123,13 @@ export default function DashAdmin() {
     if(menu) {setMenu(false);}
     else {setMenu(true);}
   }
+  
+  
+  
+
+  
+  
+  
 
   return (
     <React.Fragment>
@@ -167,18 +194,22 @@ export default function DashAdmin() {
       <SideBar vertical={false}/>
     
       {createProduct &&
-      (<Dialog open={createProduct} maxWidth="xl">
-          <button  onClick={e => handleCreateProduct(e)}>Close Form</button>
-          <CreatePost/>
-        </Dialog>) 
+      (<Dialog 
+      open={createProduct} 
+      onClose={handleCreateProduct}
+      fullScreen
+      >
+        <Button onClick={e => handleCreateProduct(e)} variant="contained">Close Form</Button>
+        <CreatePost/>
+      </Dialog>) 
       }
       
       <div className={s.titles}>
         <h3>Books</h3>
-        <div>
-          <button onClick={e => getBooks(e)}>Refresh</button>
-          <button onClick={e => handleCreateProduct(e)}>New</button>
-        </div>
+        <Stack direction="row" spacing={2}>
+          <Button onClick={e => getBooks(e)} variant="outlined" startIcon={<CachedOutlinedIcon />}>Refresh</Button>
+          <Button onClick={e => handleCreateProduct(e)} variant="contained" endIcon={<AddCircleOutlineOutlinedIcon />}>New</Button>
+        </Stack>
       </div>
       
       {allBooks.length ? (
@@ -242,23 +273,37 @@ export default function DashAdmin() {
       
       {section === 'Users' && <>
       
-      
-      
       <div className={s.titles}>
         <h3>Users</h3>
-        <div>
-          <button onClick={e => getUsers(e)}>Refresh</button>
+        <Stack direction="row" spacing={2}>
+          <Button onClick={e => getUsers(e)} variant="outlined" startIcon={<CachedOutlinedIcon />}>Refresh</Button>
           <DashUserNew/>
-        </div>
+        </Stack>
       </div>
       
       {allUsers.length ? (
       <div className={s.container}>
-        <div className={s.cards}> 
-          {allUsers?.map((u)=>{return(
-          <DashUser user={u}/>
-          )})}
-        </div>
+        
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell align="left">User Name</TableCell>
+                  <TableCell align="left">Email</TableCell>
+                  <TableCell align="left">Role</TableCell>
+                  <TableCell align="center">Available</TableCell>
+                  <TableCell align="center">Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {allUsers?.map((u)=>{return(
+                <DashUser user={u}/>
+                )})}
+              </TableBody>
+            </Table>
+          </TableContainer>
+    
       </div>) : 
       (<>
       <p>Loading Users</p>
@@ -270,14 +315,85 @@ export default function DashAdmin() {
       
       
       {section === 'Orders' && (<>
-      <h3>Orders</h3>
-      <p>Empty for now</p>
+      <div className={s.titles}>
+        <h3>Orders</h3>
+        <Stack direction="row" spacing={2}>
+          <Button onClick={e => getUsers(e)} variant="outlined" startIcon={<CachedOutlinedIcon />}>Refresh</Button>
+        </Stack>
+      </div>
+      
+      {allUsers.length ? (
+      <div className={s.container}>
+        
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Product ID</TableCell>
+                <TableCell align="left">Seller's ID</TableCell>
+                <TableCell align="left">Seller's Name</TableCell>
+                <TableCell align="left">Buyer's ID</TableCell>
+                <TableCell align="left">Buyer's Name</TableCell>
+                <TableCell align="left">Date</TableCell>
+                <TableCell align="left">Amount</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {allUsers?.map((u)=>{return(
+              <p>{u.username}</p>
+              )})}
+            </TableBody>
+          </Table>
+        </TableContainer>
+    
+      </div>) : 
+      (<>
+      <p>Loading Users</p>
+      <Loader />
+      </>)
+      }
+      
       </>)}
       
       
       {section === 'Reviews' && (<>
-      <h3>Reviews</h3>
-      <p>Empty for now</p>
+      <div className={s.titles}>
+        <h3>Reviews</h3>
+        <Stack direction="row" spacing={2}>
+          <Button onClick={e => getUsers(e)} variant="outlined" startIcon={<CachedOutlinedIcon />}>Refresh</Button>
+        </Stack>
+      </div>
+      
+      {allUsers.length ? (
+      <div className={s.container}>
+        
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Product ID</TableCell>
+                <TableCell align="left">Seller's ID</TableCell>
+                <TableCell align="left">Seller's Name</TableCell>
+                <TableCell align="left">Buyer's ID</TableCell>
+                <TableCell align="left">Buyer's Name</TableCell>
+                <TableCell align="left">Calification</TableCell>
+                <TableCell align="left">Review</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {allUsers?.map((u)=>{return(
+              <p>{u.username}</p>
+              )})}
+            </TableBody>
+          </Table>
+        </TableContainer>
+    
+      </div>) : 
+      (<>
+      <p>Loading Users</p>
+      <Loader />
+      </>)
+      }
       </>)}
       
       

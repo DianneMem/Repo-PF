@@ -4,18 +4,24 @@ import { getAllBooks, getAllUsers, disableUser, deleteUser, modifyUser } from ".
 import Loader from "../loader/Loader";
 import { Link } from "react-router-dom";
 import s from "./dashUser.module.css";
+import DashUserForm from "../dashUserForm/dashUserForm";
+import Button from '@mui/material/Button';
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
 
 
 
 export default function DashUser({user}) {
   // Call Global States
   const dispatch = useDispatch();
-
-  // Global States
-
-  // Local States
-  let [userInput, setUserInput] = useState({});
-  const [advice, setAdvice] = useState('');
 
 
   // Functions
@@ -40,63 +46,45 @@ export default function DashUser({user}) {
     dispatch(getAllUsers());
   };
   
-  function handleUserInputs(e){
-    e.preventDefault();
-    setUserInput({
-    ...userInput,
-    [e.target.name]: e.target.value
-    })
-    setAdvice('Press Modify to change properties');
-  };
 
-  async function modifyUserById(e, user){
-    e.preventDefault();
-    let inputSend = userInput;
-    
-    for (const property in inputSend) {
-      if(inputSend[property] === ''){
-        inputSend[property] = user[property]
-      };
-    }
-    
-    await dispatch(modifyUser(user._id, inputSend));
-    dispatch(getAllUsers());
-    setAdvice('');
-  };
   
   
-  return (
-    <form className={s.user} onSubmit={(e) => modifyUserById(e,user)}>
-      <p>id: {user._id}</p>
-      <div>
-        <p>role: {user.role}</p>
-        {user.role === 'user' ? 
-        (<button name='role' value='admin' className="btn btn-outline-warning" onClick={(e)=>changePermissions(e,user)}>admin</button>) : 
-        (<button name='role' value='user' className="btn btn-outline-warning" onClick={(e)=>changePermissions(e,user)}>user</button>)}
-      </div>
-      <div>
-        <p>username: {user.username}</p>
-        <input type='text' name='username' onChange={(e)=>handleUserInputs(e)} placeholder={'New username'}/>
-      </div>
-      <div>
-        <p>email: {user.email}</p>
-        <input type='email' name='email' onChange={(e)=>handleUserInputs(e)} placeholder={'New email'}/>
-      </div>
-      <div>
-        <button type='submit' className="btn btn-outline-primary">Modify</button>
-        <p>{advice}</p>
-      </div>
-      {user.available? (<p>Available: Yes</p>) : (<p>Available: No</p>)}
-      {user.available ? 
-      (<button value={user._id} className="btn btn-outline-warning" onClick={e => disableUserById(e)}>
-        Disable
-      </button>) : 
-      (<button value={user._id}className="btn btn-outline-warning" onClick={e => disableUserById(e)}>
-        Enable
-      </button>)}
-      <button value={user._id} className="btn btn-outline-danger" onClick={e => deleteUserById(e)}>
-        Delete
-      </button>
-  </form>
-  )
-};
+  return (<React.Fragment>
+  {/* <div className={s.user}>
+    <p>{user._id}</p>
+    <div>
+      <p>{user.role}</p>
+      {user.role === 'user' ? 
+      (<button name='role' value='admin' onClick={(e)=>changePermissions(e,user)}>admin</button>) : 
+      (<button name='role' value='user' onClick={(e)=>changePermissions(e,user)}>user</button>)}
+    </div>
+    <p>{user.username}</p>
+    <p>{user.email}</p>
+    {user.available? (<CheckOutlinedIcon/>) : (<ClearOutlinedIcon/>)}
+    <DashUserForm user={user}/>
+    {user.available ? 
+    (<Button value={user._id} onClick={e => disableUserById(e)} variant="outlined">Disable</Button>) : 
+    (<Button value={user._id} onClick={e => disableUserById(e)} variant="outlined">Enable</Button>)}
+    <Button value={user._id} onClick={e => deleteUserById(e)} variant="outlined">Delete</Button>
+  </div> */}
+    <TableRow
+    key={user.username}
+    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+    >
+      <TableCell component="th" scope="row">{user._id}</TableCell>
+      <TableCell align="left">{user.username}</TableCell>
+      <TableCell align="left">{user.email}</TableCell>
+      <TableCell align="left">{user.role}</TableCell>
+      <TableCell align="center">
+        {user.available? (<CheckOutlinedIcon/>) : (<ClearOutlinedIcon/>)}
+      </TableCell>
+      <TableCell align="center">
+        <DashUserForm user={user}/>
+        {user.available ? 
+        (<Button value={user._id} onClick={e => disableUserById(e)} variant="outlined">Disable</Button>) : 
+        (<Button value={user._id} onClick={e => disableUserById(e)} variant="outlined">Enable</Button>)}
+        <Button value={user._id} onClick={e => deleteUserById(e)} variant="outlined">Delete</Button>
+      </TableCell>
+  </TableRow>
+</React.Fragment>
+)};

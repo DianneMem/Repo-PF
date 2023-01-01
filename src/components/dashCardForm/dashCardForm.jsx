@@ -162,7 +162,7 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
 
   return(
   <React.Fragment>
-    <button onClick={e => handleOpen(e)}>Modify</button>
+    <Button onClick={e => handleOpen(e)} variant="outlined" size="small">Modify</Button>
   
     <Dialog open={open} onClose={handleClose} maxWidth="md">
       <DialogTitle>Edit Book</DialogTitle>

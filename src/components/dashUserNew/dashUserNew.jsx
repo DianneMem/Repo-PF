@@ -7,6 +7,7 @@ import defaultImage from '../../assets/bookDefault.png';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -60,15 +61,31 @@ const [input, setInputs] = useState({
   confirmation: "",
   role:"user",
 });
-console.log(input);
+if(open) console.log(input);
 
 
 // Functions
 function handleOpen(){
+  setInputs({
+    username: "",
+    email: "",
+    password: "",
+    confirmation: "",
+    role:"user",
+  });
+  setError({});
   setOpen(true);
 };
 
 function handleClose(){
+  setInputs({
+    username: "",
+    email: "",
+    password: "",
+    confirmation: "",
+    role:"user",
+  });
+  setError({});
   setOpen(false);
 };
 
@@ -134,6 +151,8 @@ function validate(input){
   }
   if (!input.password) {
     errors.password = "Password required";
+  } else if (input.password.length < 5){
+    errors.password = "Password minimum 5 characters";
   }
   if (input.password !== input.confirmation) {
     errors.confirmation = "Passwords must match";
@@ -149,8 +168,7 @@ function validate(input){
 
 return(
 <React.Fragment>
-
-<button onClick={e => handleOpen(e)}>Create New User</button>
+  <Button onClick={e => handleOpen(e)} variant="contained" endIcon={<AddCircleOutlineOutlinedIcon />}>New</Button>
 
   <Dialog open={open} onClose={handleClose} maxWidth="md">
       <Grid
