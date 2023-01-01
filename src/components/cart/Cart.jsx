@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-
+import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import jwt from "jwt-decode";
 import {
   Box,
@@ -50,7 +51,6 @@ const cardStyle = {
       fontSize: "16px",
       "::placeholder": {
         color: "#32325d",
-      
       },
     },
     invalid: {
@@ -86,7 +86,10 @@ const Item3 = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
   borderRadius: 4,
 }));
+
 const CheckoutForm = () => {
+  const isActive = useMediaQuery("(max-width:870px)");
+ 
   const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
@@ -187,271 +190,700 @@ const CheckoutForm = () => {
   }
 
   return (
-    <Box sx={{ bgcolor: "#013a63", height: "100vh" }}>
-      <Header noSearch={true} />
+    <Box>
+      {" "}
+      {isActive ? (
+        <Box>
+          <Box sx={{ bgcolor: "#013a63", height: "100vh" }}>
+            <Header noSearch={true} />
 
-      <Box component="main" sx={{ bgcolor: "#013a63", padding: 8 }}>
-        <form onSubmit={handleSubmit}>
-          <Grid spacing={2}>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={(e) => handlerDeleteAll(e)}
-            >
-              Delete all Cart Items
-            </Button>
-            {getCart.length ? (
-              getCart.map((e) => (
-                <Grid item xs={12}>
-                  <br></br>
-                  <Item sx={{ borderRadius: 4 }}>
-                    <List>
-                      <Grid container>
-                        <Grid item xs={2.1} sx={{ padding: 2, mr: 4 }}>
-                          <Item3>
-                            <Button
-                              variant="outlined"
-                              color="error"
-                              sx={{ mb: 2 }}
-                              type="button"
-                              onClick={() => deleteItem(e._id)}
-                              startIcon={<DeleteIcon />}
-                            >
-                              DELETE
-                            </Button>
+            <Box component="main" sx={{ bgcolor: "#013a63", padding: 8 }}>
+              <form onSubmit={handleSubmit}>
+                <Grid spacing={2}>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={(e) => handlerDeleteAll(e)}
+                  >
+                    Delete all Cart Items
+                  </Button>
+                  {getCart.length ? (
+                    getCart.map((e) => (
+                      <Grid item xs={12}>
+                        <br></br>
+                        <Item sx={{ borderRadius: 4 }}>
+                          <List>
+                            <Grid >
+                              <Grid item xs={12 } sx={{ padding: 2}}>
+                                <Item3 >
+                                  <Grid  >
+                                  <Grid item xs={5.3} spacing={2}>
+                                    <Item>
+                                    <Button
+                                    variant="outlined"
+                                    color="error"
+                                    sx={{ mb: 2 }}
+                                    type="button"
+                                    onClick={() => deleteItem(e._id)}
+                                    startIcon={<DeleteIcon />}
+                                  >
+                                    DELETE
+                                  </Button>
 
-                            <CardMedia
-                              display="flex"
-                              justify="center"
-                              component="img"
-                              sx={{
-                                width: 130,
-                                height: 155,
-                                objectFit: "fill",
-                                borderRadius: 2,
-                                bgcolor: "#ebebeb",
-                              }}
-                              fullWidth
-                              image={e.image}
-                              alt="img"
-                            />
-                            <br></br>
-                            <ListItem
-                              button
-                              fullWidth
-                              sx={{
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                                ":hover": {
-                                  background:
-                                    "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                                },
-                                borderRadius: 2,
-                              }}
-                            >
-                              <Typography sx={{ wordBreak: "break-word" }}>
-                                <Typography variant="subtitle1" color="#FFF">
-                                  Seller{" "}
-                                </Typography>
-                                <Box color="#FFF">{e.seller}</Box>
-                              </Typography>
-                            </ListItem>
-                          </Item3>
-                        </Grid>
+                                  <CardMedia
+                                    display="flex"
+                                    justify="center"
+                                    component="img"
+                                    sx={{
+                                      width: "80%",
+                                      height: "100%",
+                                      objectFit: "fill",
+                                      borderRadius: 2,
+                                      bgcolor: "#ebebeb",
+                                      ml:"10%",
+                                      mb:"2%"
 
-                        <Grid item xs={9} sx={{ mt: 5 }}>
-                          <Item2>
-                            <Grid container spacing={4}>
-                              <br></br>
+                                    }}
+                                    fullWidth
+                                    image={e.image}
+                                    alt="img"
+                                  />
+                                    </Item>
 
-                              <Grid item xs={6}>
-                                <ListItem
-                                  button
-                                  fullWidth
-                                  sx={{ bgcolor: "#013a63" }}
-                                >
-                                  <Typography sx={{ wordBreak: "break-word" }}>
+                                  </Grid>
+
+                                  <br></br>
+
+
+                                    <Grid item xs={6}>
+                                    <ListItem
+                                    button
+                                    fullWidth
+                                    sx={{
+                                      background:
+                                        "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                      ":hover": {
+                                        background:
+                                          "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                      },
+                                      borderRadius: 2,
+                                    }}
+                                  >
                                     <Typography
-                                      variant="subtitle1"
-                                      color="#FFF"
+                                      sx={{ wordBreak: "break-word" }}
                                     >
-                                      Title{" "}
+                                      <Typography
+                                        variant="subtitle1"
+                                        color="#FFF"
+                                      >
+                                        Seller{" "}
+                                      </Typography>
+                                      <Box color="#FFF">{e.seller}</Box>
                                     </Typography>
-                                    <Box color="#FFF">{e.title}</Box>
-                                  </Typography>
-                                </ListItem>
+                                  </ListItem>
+                                  <br></br>
+                                  <ListItem
+                                        button
+                                        fullWidth
+                                        sx={{
+                                          background:
+                                            "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                          ":hover": {
+                                            background:
+                                              "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                          },
+                                          borderRadius: 2,
+                                        }}
+                                      >
+                                        <Typography
+                                          sx={{ wordBreak: "break-word" }}
+                                        >
+                                          <Typography
+                                            variant="subtitle1"
+                                            color="#FFF"
+                                          >
+                                            Price{" "}
+                                          </Typography>
+                                          <Box color="#FFF">{`U$D ${e.price}`}</Box>
+                                        </Typography>
+                                      </ListItem>
+  <br></br>
+                                      <ListItem
+                                        button
+                                        fullWidth
+                                        sx={{
+                                          background:
+                                            "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                          ":hover": {
+                                            background:
+                                              "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                          },
+                                          borderRadius: 2,
+                                        }}
+                                      >
+                                        <Typography
+                                          sx={{ wordBreak: "break-word" }}
+                                        >
+                                          <Typography
+                                            variant="subtitle1"
+                                            color="#FFF"
+                                          >
+                                            Title{" "}
+                                          </Typography>
+                                          <Box color="#FFF">{e.title}</Box>
+                                        </Typography>
+                                      </ListItem>
+                                      <br></br>
+                                      <ListItem
+                                        button
+                                        fullWidth
+                                        sx={{
+                                          background:
+                                            "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                          ":hover": {
+                                            background:
+                                              "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                          },
+                                          borderRadius: 2,
+                                        }}
+                                      >
+                                        <Typography
+                                          sx={{ wordBreak: "break-word" }}
+                                        >
+                                          <Typography
+                                            variant="subtitle1"
+                                            color="#FFF"
+                                          >
+                                            Author{" "}
+                                          </Typography>
+                                          <Box color="#FFF">{e.author}</Box>
+                                        </Typography>
+                                      </ListItem>
+                                         <br></br>
+                                      <ListItem
+                                        button
+                                        fullWidth
+                                        sx={{
+                                          background:
+                                            "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                          ":hover": {
+                                            background:
+                                              "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                          },
+                                          borderRadius: 2,
+                                        }}
+                                      >
+                                        <Typography
+                                          sx={{ wordBreak: "break-word" }}
+                                        >
+                                          <Typography
+                                            variant="subtitle1"
+                                            color="#FFF"
+                                          >
+                                            Language{" "}
+                                          </Typography>
+                                          <Box color="#FFF">{e.language}</Box>
+                                        </Typography>
+                                      </ListItem>
+                                      <br></br>
+                                      <ListItem
+                                        button
+                                        fullWidth
+                                        sx={{
+                                          background:
+                                            "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                          ":hover": {
+                                            background:
+                                              "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                          },
+                                          borderRadius: 2,
+                                        }}
+                                      >
+                                        <Typography
+                                          sx={{ wordBreak: "break-word" }}
+                                        >
+                                          <Typography
+                                            variant="subtitle1"
+                                            color="#FFF"
+                                          >
+                                            State{" "}
+                                          </Typography>
+                                          <Box color="#FFF">{e.state}</Box>
+                                        </Typography>
+                                      </ListItem>
+                                      <br></br>
+                                      <ListItem
+                                        button
+                                        fullWidth
+                                        sx={{
+                                          background:
+                                            "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                          ":hover": {
+                                            background:
+                                              "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                          },
+                                          borderRadius: 2,
+                                        }}
+                                      >
+                                        <Typography
+                                          sx={{ wordBreak: "break-word" }}
+                                        >
+                                          <Typography
+                                            variant="subtitle1"
+                                            color="#FFF"
+                                          >
+                                            Editorial{" "}
+                                          </Typography>
+                                          <Box color="#FFF">{e.editorial}</Box>
+                                        </Typography>
+                                      </ListItem>
 
-                                <ListItem
-                                  button
-                                  fullWidth
-                                  sx={{ bgcolor: "#006ba6" }}
-                                >
-                                  <Typography sx={{ wordBreak: "break-word" }}>
-                                    <Typography
-                                      variant="subtitle1"
-                                      color="#FFF"
-                                    >
-                                      Price{" "}
-                                    </Typography>
-                                    <Box color="#FFF">{`U$D ${e.price}`}</Box>
-                                  </Typography>
-                                </ListItem>
+                                  </Grid>
 
-                                <ListItem
-                                  button
-                                  fullWidth
-                                  sx={{ bgcolor: "#013a63" }}
-                                >
-                                  <Typography sx={{ wordBreak: "break-word" }}>
-                                    <Typography
-                                      variant="subtitle1"
-                                      color="#FFF"
-                                    >
-                                      Author{" "}
-                                    </Typography>
-                                    <Box color="#FFF">{e.author}</Box>
-                                  </Typography>
-                                </ListItem>
+                                  </Grid>
+                            
+                                </Item3>
                               </Grid>
 
-                              <Grid item xs={6}>
-                                <ListItem
-                                  button
-                                  fullWidth
-                                  sx={{ bgcolor: "#006ba6" }}
-                                >
-                                  <Typography sx={{ wordBreak: "break-word" }}>
-                                    <Typography
-                                      variant="subtitle1"
-                                      color="#FFF"
-                                    >
-                                      State{" "}
-                                    </Typography>
-                                    <Box color="#FFF">{e.state}</Box>
-                                  </Typography>
-                                </ListItem>
-                                <ListItem
-                                  button
-                                  fullWidth
-                                  sx={{ bgcolor: "#013a63" }}
-                                >
-                                  <Typography sx={{ wordBreak: "break-word" }}>
-                                    <Typography
-                                      variant="subtitle1"
-                                      color="#FFF"
-                                    >
-                                      Editorial{" "}
-                                    </Typography>
-                                    <Box color="#FFF">{e.editorial}</Box>
-                                  </Typography>
-                                </ListItem>
-
-                                <ListItem
-                                  button
-                                  fullWidth
-                                  sx={{ bgcolor: "#006ba6" }}
-                                >
-                                  <Typography sx={{ wordBreak: "break-word" }}>
-                                    <Typography
-                                      variant="subtitle1"
-                                      color="#FFF"
-                                    >
-                                      Language{" "}
-                                    </Typography>
-                                    <Box color="#FFF">{e.language}</Box>
-                                  </Typography>
-                                </ListItem>
-                              </Grid>
+                                      
                             </Grid>
-                          </Item2>
+                          </List>
+                        </Item>
+                      </Grid>
+                    ))
+                  ) : (
+                    <Box>
+                      <br />
+                      <br />
+                      <Grid>
+                        <Grid item xs={5} sx={{ ml: 3, mr: 3 }}>
+                          {" "}
+                          <Item>
+                            <Typography variant="h5">
+                              {" "}
+                              Your Cart is Empty{" "}
+                            </Typography>
+                            <br></br>
+                            <br></br> <RemoveShoppingCartIcon color="error" />{" "}
+                          </Item>
                         </Grid>
                       </Grid>
-                    </List>
-                  </Item>
+                    </Box>
+                  )}
+ <br></br>
+                  {getCart.length ? (
+                    <Box>
+                      {" "}
+                      <Grid item xs={4}>
+                        <Item sx={{ borderRadius: 4, padding: 4 }}>
+                          {totalAmount.amount !== 0 ? (
+                            <div>
+                              <br />
+                              <br />
+                              <CardElement options={cardStyle} />
+                              <br />
+                              <br />
+                              <AddressElement
+                                sx={{ borderRadius: 4 }}
+                                options={{ mode: "shipping" }}
+                                onChange={(event) => {
+                                  if (event.complete) {
+                                    // Extract potentially complete address
+                                    const address = event.value.address;
+                                    setAddress(address);
+                                  }
+                                }}
+                              />
+                              <br></br>
+                              <Item2 sx={{ borderRadius: 4 }}>
+                                <ListItem
+                                  button
+                                  fullWidth
+                                  sx={{
+                                    background:
+                                      "linear-gradient(135deg, #013a63 10%, #006ba6 90%)",
+                                    borderRadius: 4,
+                                  }}
+                                >
+                                  <Typography
+                                    sx={{
+                                      wordBreak: "break-word",
+                                      color: "#FFF",
+                                    }}
+                                  >
+                                    <Typography variant="subtitle1">
+                                      Items:{" "}
+                                    </Typography>
+
+                                    {getCart.map((e) => (
+                                      <Box color="#FFF">
+                                        {" "}
+                                        {`-${e.title}  U$D ${e.price}`}
+                                      </Box>
+                                    ))}
+                                    <Typography variant="h6" color="#FFF">
+                                      <Box>{`Total: U$D ${totalAmount.amount}`}</Box>
+                                    </Typography>
+                                  </Typography>
+                                </ListItem>
+                              </Item2>
+                              <br></br>
+                              {address && (
+                                <Button
+                                  type="submit"
+                                  disabled={!stripe}
+                                  sx={{
+                                    background:
+                                      "linear-gradient(135deg, #45F350 0%, #2BCA35 100%)",
+                                    borderRadius: 2,
+                                    color: "#FFF",
+                                    width: 120,
+                                  }}
+                                >
+                                  {loading ? (
+                                    <Box role="status">
+                                      <Box>Loading...</Box>
+                                    </Box>
+                                  ) : (
+                                    "Buy"
+                                  )}
+                                </Button>
+                              )}
+                            </div>
+                          ) : (
+                            <div> </div>
+                          )}
+                        </Item>
+                      </Grid>
+                    </Box>
+                  ) : (
+                    <Box> </Box>
+                  )}
+                  <br></br>
                 </Grid>
-              ))
-            ) : (
-              <h1>Your Cart is Empty</h1>
-            )}
+              </form>
+            </Box>
+          </Box>
+          
+        </Box>
+      ) : (
+        <Box sx={{ bgcolor: "#013a63", height: "100vh" }}>
+          <Header noSearch={true} />
 
-            <br></br>
-            <Grid item xs={4} >
-              <Item sx={{ borderRadius: 4,padding:4}}>
-                {totalAmount.amount !== 0 ? (
-                  <div>
-                    <br />
-                    <br />
-                    <CardElement options={cardStyle} />
-                    <br />
-                    <br />
-                    <AddressElement sx={{ borderRadius: 4 }}
-                      options={{ mode: "shipping" }}
-                      onChange={(event) => {
-                        if (event.complete) {
-                          // Extract potentially complete address
-                          const address = event.value.address;
-                          setAddress(address);
-                        }
-                      }}
-                    />
-                    <br></br>
-                    <Item2 sx={{ borderRadius: 4 }}>
-                      <ListItem
-                        button
-                        fullWidth
-                        sx={{
-                          background:
-                            "linear-gradient(135deg, #013a63 10%, #006ba6 90%)",
-                          borderRadius: 4,
-                        }}
-                      >
-                        <Typography
-                          sx={{ wordBreak: "break-word", color: "#FFF" }}
-                        >
-                          <Typography variant="subtitle1">Items: </Typography>
+          <Box component="main" sx={{ bgcolor: "#013a63", padding: 8 }}>
+            <form onSubmit={handleSubmit}>
+              <Grid spacing={2}>
+                <br></br>
+                <br></br>
+                <br></br>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={(e) => handlerDeleteAll(e)}
+                >
+                  Delete all Cart Items
+                </Button>
+                {getCart.length ? (
+                  getCart.map((e) => (
+                    <Grid item xs={12}>
+                      <br></br>
+                      <Item sx={{ borderRadius: 4 }}>
+                        <List>
+                          <Grid container >
+                            <Grid item xs={2.1} sx={{ padding: 2, mr: 4 }}>
+                              <Item3>
+                                <Button
+                                  variant="outlined"
+                                  color="error"
+                                  sx={{ mb: 2,width:"100%" }}
+                                  type="button"
+                                  onClick={() => deleteItem(e._id)}
+                                  startIcon={<DeleteIcon />}
+                                >
+                                  DELETE
+                                </Button>
 
-                          {getCart.map((e) => (
-                            <Box color="#FFF">
-                              {" "}
-                              {`-${e.title}  U$D ${e.price}`}
-                            </Box>
-                          ))}
-                          <Typography variant="h6" color="#FFF">
-                            <Box>{`Total: U$D ${totalAmount.amount}`}</Box>
-                          </Typography>
-                        </Typography>
-                      </ListItem>
-                    </Item2>
-                    <br></br>
-                    {address && (
-                      <Button
-                        disabled={!stripe}
-                        sx={{
-                          background:
-                            "linear-gradient(135deg, #45F350 0%, #2BCA35 100%)",
-                          borderRadius: 2,
-                          color: "#FFF",
-                          width:120
-                        }}
-                      >
-                        {loading ? (
-                          <Box role="status">
-                            <Box>Loading...</Box>
-                          </Box>
-                        ) : (
-                          "Buy"
-                        )}
-                      </Button>
-                    )}
-                  </div>
+                                <CardMedia
+                                  display="flex"
+                                  justify="center"
+                                  component="img"
+                                  sx={{
+                                    width: "80%",
+                                    height: "100%",
+                                    objectFit: "fill",
+                                    borderRadius: 2,
+                                    bgcolor: "#ebebeb",
+                                    ml:"10%"
+                                  }}
+                                  fullWidth
+                                  image={e.image}
+                                  alt="img"
+                                />
+                                <br></br>
+                                <ListItem
+                                  button
+                                  fullWidth
+                                  sx={{
+                                    background:
+                                      "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                    ":hover": {
+                                      background:
+                                        "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                    },
+                                    borderRadius: 2,
+                                  }}
+                                >
+                                  <Typography sx={{ wordBreak: "break-word" }}>
+                                    <Typography
+                                      variant="subtitle1"
+                                      color="#FFF"
+                                    >
+                                      Seller{" "}
+                                    </Typography>
+                                    <Box color="#FFF">{e.seller}</Box>
+                                  </Typography>
+                                </ListItem>
+                              </Item3>
+                            </Grid>
+
+                            <Grid item xs={9} sx={{ mt: 5 }}>
+                              <Item2>
+                                <Grid container spacing={4}>
+                                  <br></br>
+
+                                  <Grid item xs={6}>
+                                    <ListItem
+                                      button
+                                      fullWidth
+                                      sx={{ bgcolor: "#013a63" }}
+                                    >
+                                      <Typography
+                                        sx={{ wordBreak: "break-word" }}
+                                      >
+                                        <Typography
+                                          variant="subtitle1"
+                                          color="#FFF"
+                                        >
+                                          Title{" "}
+                                        </Typography>
+                                        <Box color="#FFF">{e.title}</Box>
+                                      </Typography>
+                                    </ListItem>
+
+                                    <ListItem
+                                      button
+                                      fullWidth
+                                      sx={{ bgcolor: "#006ba6" }}
+                                    >
+                                      <Typography
+                                        sx={{ wordBreak: "break-word" }}
+                                      >
+                                        <Typography
+                                          variant="subtitle1"
+                                          color="#FFF"
+                                        >
+                                          Price{" "}
+                                        </Typography>
+                                        <Box color="#FFF">{`U$D ${e.price}`}</Box>
+                                      </Typography>
+                                    </ListItem>
+
+                                    <ListItem
+                                      button
+                                      fullWidth
+                                      sx={{ bgcolor: "#013a63" }}
+                                    >
+                                      <Typography
+                                        sx={{ wordBreak: "break-word" }}
+                                      >
+                                        <Typography
+                                          variant="subtitle1"
+                                          color="#FFF"
+                                        >
+                                          Author{" "}
+                                        </Typography>
+                                        <Box color="#FFF">{e.author}</Box>
+                                      </Typography>
+                                    </ListItem>
+                                  </Grid>
+
+                                  <Grid item xs={6}>
+                                    <ListItem
+                                      button
+                                      fullWidth
+                                      sx={{ bgcolor: "#006ba6" }}
+                                    >
+                                      <Typography
+                                        sx={{ wordBreak: "break-word" }}
+                                      >
+                                        <Typography
+                                          variant="subtitle1"
+                                          color="#FFF"
+                                        >
+                                          State{" "}
+                                        </Typography>
+                                        <Box color="#FFF">{e.state}</Box>
+                                      </Typography>
+                                    </ListItem>
+                                    <ListItem
+                                      button
+                                      fullWidth
+                                      sx={{ bgcolor: "#013a63" }}
+                                    >
+                                      <Typography
+                                        sx={{ wordBreak: "break-word" }}
+                                      >
+                                        <Typography
+                                          variant="subtitle1"
+                                          color="#FFF"
+                                        >
+                                          Editorial{" "}
+                                        </Typography>
+                                        <Box color="#FFF">{e.editorial}</Box>
+                                      </Typography>
+                                    </ListItem>
+
+                                    <ListItem
+                                      button
+                                      fullWidth
+                                      sx={{ bgcolor: "#006ba6" }}
+                                    >
+                                      <Typography
+                                        sx={{ wordBreak: "break-word" }}
+                                      >
+                                        <Typography
+                                          variant="subtitle1"
+                                          color="#FFF"
+                                        >
+                                          Language{" "}
+                                        </Typography>
+                                        <Box color="#FFF">{e.language}</Box>
+                                      </Typography>
+                                    </ListItem>
+                                  </Grid>
+                                </Grid>
+                              </Item2>
+                            </Grid>
+                          </Grid>
+                        </List>
+                      </Item>
+                    </Grid>
+                  ))
                 ) : (
-                  <div> </div>
+                  <Box>
+                    <br />
+                    <br />
+                    <Grid>
+                      <Grid item xs={5} sx={{ ml: 40, mr: 40 }}>
+                        {" "}
+                        <Item>
+                          <Typography variant="h5">
+                            {" "}
+                            Your Cart is Empty{" "}
+                          </Typography>
+                          <br></br>
+                          <br></br> <RemoveShoppingCartIcon color="error" />{" "}
+                        </Item>
+                      </Grid>
+                    </Grid>
+                  </Box>
                 )}
-              </Item>
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
+<br></br>
+                {getCart.length ? (
+                  <Box>
+                    {" "}
+                    <Grid item xs={4}>
+                      <Item sx={{ borderRadius: 4, padding: 4 }}>
+                        {totalAmount.amount !== 0 ? (
+                          <div>
+                            <br />
+                            <br />
+                            <CardElement options={cardStyle} />
+                            <br />
+                            <br />
+                            <AddressElement
+                              sx={{ borderRadius: 4 }}
+                              options={{ mode: "shipping" }}
+                              onChange={(event) => {
+                                if (event.complete) {
+                                  // Extract potentially complete address
+                                  const address = event.value.address;
+                                  setAddress(address);
+                                }
+                              }}
+                            />
+                            <br></br>
+                            <Item2 sx={{ borderRadius: 4 }}>
+                              <ListItem
+                                button
+                                fullWidth
+                                sx={{
+                                  background:
+                                    "linear-gradient(135deg, #013a63 10%, #006ba6 90%)",
+                                  borderRadius: 4,
+                                }}
+                              >
+                                <Typography
+                                  sx={{
+                                    wordBreak: "break-word",
+                                    color: "#FFF",
+                                  }}
+                                >
+                                  <Typography variant="subtitle1">
+                                    Items:{" "}
+                                  </Typography>
+
+                                  {getCart.map((e) => (
+                                    <Box color="#FFF">
+                                      {" "}
+                                      {`-${e.title}  U$D ${e.price}`}
+                                    </Box>
+                                  ))}
+                                  <Typography variant="h6" color="#FFF">
+                                    <Box>{`Total: U$D ${totalAmount.amount}`}</Box>
+                                  </Typography>
+                                </Typography>
+                              </ListItem>
+                            </Item2>
+                            <br></br>
+                            {address && (
+                              <Button
+                                type="submit"
+                                disabled={!stripe}
+                                sx={{
+                                  background:
+                                    "linear-gradient(135deg, #45F350 0%, #2BCA35 100%)",
+                                  borderRadius: 2,
+                                  color: "#FFF",
+                                  width: 120,
+                                }}
+                              >
+                                {loading ? (
+                                  <Box role="status">
+                                    <Box>Loading...</Box>
+                                  </Box>
+                                ) : (
+                                  "Buy"
+                                )}
+                              </Button>
+                            )}
+                          </div>
+                        ) : (
+                          <div> </div>
+                        )}
+                      </Item>
+                    </Grid>
+                  </Box>
+                ) : (
+                  <Box> </Box>
+                )}
+                <br></br>
+              </Grid>
+            </form>
+          </Box>
+        </Box>
+      )}
+      
     </Box>
   );
 };
