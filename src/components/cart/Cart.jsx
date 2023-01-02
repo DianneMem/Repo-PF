@@ -206,7 +206,8 @@ const CheckoutForm = () => {
       {" "}
       {isActive ? (
         <Box>
-          <Box sx={{ bgcolor: "#013a63", height: "100vh" }}>
+          <Box sx={{ background:
+                            "linear-gradient(135deg,  #006ba6 0%, #013a63 100%)", height: "100vh" }}>
             <Header noSearch={true} />
 
             <Box component="main" sx={{ bgcolor: "#013a63", padding: 8 }}>
@@ -579,10 +580,12 @@ const CheckoutForm = () => {
           
         </Box>
       ) : (
-        <Box sx={{ bgcolor: "#013a63", height: "100vh" }}>
+        <Box sx={{ background:
+          "linear-gradient(135deg,  #006ba6 0%, #013a63 100%)", height: "100vh" }}>
           <Header noSearch={true} />
 
-          <Box component="main" sx={{ bgcolor: "#013a63", padding: 8 }}>
+          <Box component="main" sx={{ background:
+                            "linear-gradient(135deg,  #006ba6 0%, #013a63 100%)", padding: 8 }}>
             <form onSubmit={handleSubmit}>
               <Grid spacing={2}>
                 <br></br>

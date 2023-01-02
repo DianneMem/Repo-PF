@@ -114,3 +114,12 @@
 .vend {
   font-family: Verdana;
 }
+.color-header {
+  color: white;
+  margin-right: 2;
+  text-decoration: none;
+  padding-right: 15px;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 20px;
+}
