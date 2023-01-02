@@ -34,7 +34,7 @@ export default function Detail() {
     return elm._id === detail.sellerId
   });
   
-  const score = user.reviews.map((elm) => {
+  const score =user &&  user.reviews.map((elm) => {
     return elm.score
   });
 
