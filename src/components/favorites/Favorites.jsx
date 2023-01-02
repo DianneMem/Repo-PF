@@ -22,6 +22,10 @@ import Alert from '@mui/material/Alert';
 
 export default function Favorites() {
   const MySwal = withReactContent(Swal);
+  if(!localStorage.getItem("favs")){
+    localStorage.setItem("favs","[]")
+  }
+
   let getCart = JSON.parse(localStorage.getItem("cart"));
   const dispatch = useDispatch();
   const usersDetail = useSelector((state) => state.userDetail);
