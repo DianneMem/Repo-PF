@@ -30,10 +30,11 @@ export default function Favorites() {
   let favscurrent = JSON.parse(localStorage.getItem("favs"));
 
   useEffect(() => {
+    if(loading)return
     let session = JSON.parse(localStorage.getItem("session"));
     let id = session[0].id;
     dispatch(getUsersDetail(id));
-  }, [dispatch, loading]);
+  }, [handlerDeleteAll,deleteItem]);
 
   console.log("detail", usersDetail);
 
@@ -100,11 +101,14 @@ export default function Favorites() {
       localStorage.setItem("favs", "[]");
       MySwal.fire("You delete all Favorites Items!", message, "info");
 
-      navigate("/");
+      // navigate("/");
+      setLoading(false)
     } else {
       localStorage.setItem("favs", "[]");
       MySwal.fire("You delete all Favorites Items!", message, "info");
-      navigate("/");
+      // navigate("/");
+      setLoading(false)
+
     }
   }
   function deleteItem(el) {
@@ -113,12 +117,24 @@ export default function Favorites() {
     let session = JSON.parse(localStorage.getItem("session"));
     dispatch(deleteFavoriteItemById(session[0].id, el));
     localStorage.setItem("favs", JSON.stringify(result));
-    navigate("/favorites");
+    // navigate("/favorites");
+    setLoading(false)
+
   }
 
   console.log(usersDetail);
   return (
+    
     <Grid>
+      <Box
+      bgcolor="white"
+      sx={{
+
+      }} 
+      >
+      <Typography>
+        My Favorites Books
+      </Typography>
       <Button
         variant="outlined"
         color="primary"
@@ -127,6 +143,7 @@ export default function Favorites() {
         <Add />
         delete
       </Button>
+      </Box>
 
       <Grid
         container
@@ -146,7 +163,8 @@ export default function Favorites() {
                   borderColor: "white",
                   borderRadius: 6,
                   marginBottom: 6,
-                  bgcolor: "#006ba6",
+                  // bgcolor: "#006ba6",
+                  bgcolor: "#ebebeb",
                   boxShadow: "40px 60px 80px  #595959",
                 }}
               >
@@ -163,7 +181,8 @@ export default function Favorites() {
                     borderTopLeftRadius: "17px",
                     borderTopRightRadius: "17px",
                     borderBottom: 3,
-                    color: "white",
+                    borderBottomColor: "white",
+                    color: "black",
                     marginTop: "-px",
                   }}
                 >
@@ -198,8 +217,9 @@ export default function Favorites() {
                   className="texts-login2"
                   sx={{
                     borderTop: 3,
-                    color: "white",
+                    color: "black",
                     marginTop: "-px",
+                    borderTopColor: "white"
                   }}
                 >
                   {elm.author}
