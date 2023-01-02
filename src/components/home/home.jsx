@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { FiHeart } from "react-icons/fi";
-import { findUserStripe, getAllBooks, getUsersDetail, setPage } from "../../redux/actions";
-import jwt from "jwt-decode"
+import {
+  findUserStripe,
+  getAllBooks,
+  getUsersDetail,
+  setPage,
+} from "../../redux/actions";
+import jwt from "jwt-decode";
 import Card from "../card/card";
 import Paginated from "../paginado/Paginated";
 import Loader from "../loader/Loader";
@@ -11,44 +16,43 @@ import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
 import DarkMode from "../DarkMode/DarkMode";
 
+import { Button, Grid, Box, CardMedia, Divider } from "@mui/material";
+import { Typography } from "@mui/material";
+import Stack from "@mui/joy/Stack";
+import { Favorite } from "@mui/icons-material";
 
 export default function Home() {
   const dispatch = useDispatch();
 
-  const theme = useSelector((state) => state.darkMode)
-
-
+  const theme = useSelector((state) => state.darkMode);
 
   // Global States
   const allBooks = useSelector((state) => state.allbooks);
-  const loadBooks = useSelector((state) => state.books.filter(e=> e.available===true ));
+  const loadBooks = useSelector((state) =>
+    state.books.filter((e) => e.available === true)
+  );
   let currentPageGlobal = useSelector((state) => state.currentPage);
-  const token = useSelector((state) => state.sessionState)
-  const stripeId=  useSelector((state) => state.stripeState)
-  
-
+  const token = useSelector((state) => state.sessionState);
+  const stripeId = useSelector((state) => state.stripeState);
 
   useEffect(() => {
     dispatch(getAllBooks());
     setCurrentPage(1);
     dispatch(setPage(1));
   }, [dispatch]);
-  if(token.length !== 0){
-    let currentToken = token
+  if (token.length !== 0) {
+    let currentToken = token;
 
-    localStorage.setItem("session","[]")
+    localStorage.setItem("session", "[]");
     let session = JSON.parse(localStorage.getItem("session"));
-    session.push(currentToken)
-    localStorage.setItem("session", JSON.stringify(session))
+    session.push(currentToken);
+    localStorage.setItem("session", JSON.stringify(session));
 
-
-    localStorage.setItem("stripe","[]")
+    localStorage.setItem("stripe", "[]");
     let stripe = JSON.parse(localStorage.getItem("stripe"));
-    stripe.push(stripeId)
-    localStorage.setItem("stripe", JSON.stringify(stripe))
-    
+    stripe.push(stripeId);
+    localStorage.setItem("stripe", JSON.stringify(stripe));
   }
-
 
   // Local States
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,7 +62,6 @@ export default function Home() {
   const currentBooks = loadBooks.slice(IndexOfFirstBooks, indexOfLastBooks);
   let pages = Math.ceil(loadBooks.length / booksPerPage);
 
-  
   // Functions
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -97,14 +100,16 @@ export default function Home() {
   return (
     <React.Fragment>
       <Header />
-      <br />
-
       {allBooks.length ? (
-        <div className={s.container} style={{ "background-color": theme && "#212529", "color": theme && "white"}}>
-
-          
+        <div
+          className={s.container}
+          style={{
+            "background-color": theme && "#212529",
+            color: theme && "white",
+          }}
+        >
           <div className={s.paginated}>
-            {currentPage !== 1 ? (
+            {currentPage !== 1  ? (
               <button
                 className={s.pageBtn}
                 value="less"
@@ -113,9 +118,7 @@ export default function Home() {
                 {"<"}
               </button>
             ) : (
-              <button className={s.noBtn} disabled>
-                {"<"}
-              </button>
+              <div></div>
             )}
 
             <Paginated
@@ -133,35 +136,37 @@ export default function Home() {
                 {">"}
               </button>
             ) : (
-              <button className={s.noBtn} disabled>
-                {">"}
-              </button>
+              <div></div>
             )}
           </div>
 
+          <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-around"
+                  alignItems="flex-start">
           <div className={s.components}>
-          
-          <div className={s.cards}>
-            {currentBooks?.map((b) => {
-              return (
-                <div key={b._id} className={s.card}>
-                  <Card
-                    id={b._id}
-                    title={b.title}
-                    image={b.image}
-                    typebook={b.typebook}
-                    price={b.price}
-                    author={b.author}
-                    type={b.typebook}
-                  />
-                </div>
-              );
-            })}
+            <div className={s.cards}>
+              {currentBooks?.map((b) => {
+                return (
+                  <div key={b._id} className={s.card}>
+                    <Card
+                      id={b._id}
+                      title={b.title}
+                      image={b.image}
+                      typebook={b.typebook}
+                      price={b.price}
+                      author={b.author}
+                      type={b.typebook}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            <SideBar />
           </div>
-          
-          <SideBar />          
-          </div>
-          
+          </Grid>
         </div>
       ) : (
         <Loader />

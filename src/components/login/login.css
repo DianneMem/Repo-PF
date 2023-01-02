@@ -14,7 +14,7 @@
   .texts-login2{
     background: -ms-linear-gradient(-45deg, #ff6700 0%, #013a63 100%);
     background: -webkit-linear-gradient(315deg, #ff6700 0%, #013a63 100%, );
-    background: linear-gradient(1135deg, #ff6700  20%, #0f3d55 50%)
+    background: linear-gradient(1135deg, #bfc0c0  100%, #595959 90%)
   }
 
   .texts-login.text h2 {
