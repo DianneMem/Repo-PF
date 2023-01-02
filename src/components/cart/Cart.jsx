@@ -96,6 +96,9 @@ const CheckoutForm = () => {
   const MySwal = withReactContent(Swal);
   const [address, setAddress] = useState("");
   const navigate = useNavigate();
+  if(!localStorage.getItem("cart")){
+    localStorage.setItem("cart","[]")
+  }
   let getCart = JSON.parse(localStorage.getItem("cart"));
   let totalAmount = {
     amount: getCart
