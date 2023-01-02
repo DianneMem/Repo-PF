@@ -18,7 +18,7 @@ import { Typography } from "@mui/material";
 import Stack from "@mui/joy/Stack";
 import { Delete} from "@mui/icons-material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-
+import Alert from '@mui/material/Alert';
 
 export default function Favorites() {
   const MySwal = withReactContent(Swal);
@@ -124,7 +124,7 @@ export default function Favorites() {
 
   console.log(usersDetail);
   return (
-    
+    favscurrent.length ? 
     <Grid>
       <Box
       bgcolor="white"
@@ -151,7 +151,7 @@ export default function Favorites() {
         justifyContent="space-around"
         alignItems="flex-start"
       >
-        {favscurrent || favscurrent.length ? (
+        {
           favscurrent.map((elm) => (
             <Grid>
               <Box
@@ -174,15 +174,15 @@ export default function Favorites() {
                   color="initial"
                   marginTop="10px"
                   fontSize="100%"
-                  bgcolor="#013a63"
+                  bgcolor="#006ba6"
                   p="15px"
-                  className="texts-login2"
+                  // className="texts-login2"
                   sx={{
                     borderTopLeftRadius: "17px",
                     borderTopRightRadius: "17px",
                     borderBottom: 3,
                     borderBottomColor: "white",
-                    color: "black",
+                    color: "white",
                     marginTop: "-px",
                   }}
                 >
@@ -258,10 +258,9 @@ export default function Favorites() {
               </Box>
             </Grid>
           ))
-        ) : (
-          <h1>You havent items in favorites</h1>
-        )}
+        }
       </Grid>
-    </Grid>
+    </Grid>: 
+          <Alert severity="info">You don't have favorite books - choose one!</Alert>
   );
 }
