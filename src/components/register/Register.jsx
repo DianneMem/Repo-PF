@@ -72,6 +72,8 @@ export const Register = () => {
       errors.username = "Username required";
     } else if (RegEXP.test(input.username)) {
       errors.username = "Special characters are not accepted";
+    }else if (users.find((e) => e.username.toLowerCase() === input.username.toLowerCase())) {
+      errors.username = "This user is already registered";
     }
     if (!input.email) {
       errors.email = "E-mail required";
