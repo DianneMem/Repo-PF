@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getAllBooks, disablePost, deletePost } from "../../redux/actions";
 import DashCardForm from '../dashCardForm/dashCardForm';
 
+import Button from '@mui/material/Button';
 import defaultImage from '../../assets/bookDefault.png';
 import s from './dashCard.module.css';
 
@@ -62,37 +63,32 @@ export default function DashCard({id, title, image, typebook, price, author, cat
   <React.Fragment>
     <div key={id} className={s.card}>
       <img src={image? (image) : (defaultImage)} alt='Book' className={s.image}/>
-      <div>
-        <div className={s.info}>
-          <p className={s.title}>{titleShort}</p>
-          <p className={s.title}>Saga: {saga? sagaShort : 'Unique'}</p>
-          <div>
-            <p>Category: {categorie}</p>
-            <span>Genders:</span>
-            <span>{gender?.join(', ')}</span>
-          </div>
-          <div className={s.infoContainer}>
-            <p>Author: {authorShort}</p>
-            <p>|</p>
-            <p>Editorial: {editorial}</p>
-            <p>|</p>
-            <p>Language: {language}</p>
-            <p>|</p>
-            <p>Year: {year}</p>
-            <p>|</p>
-            <p>State: {state}</p>
-            <p>|</p>
-            <p>Type: {typebook}</p>
-            <p>|</p>
-            <p>${price}</p>
-            <p>|</p>
-            {available? (<p>Available: Yes</p>) : (<p>Available: No</p>)}
-          </div>
+      <div className={s.info}>
+        <p className={s.title}>{titleShort}</p>
+        <p className={s.title}>Saga: {saga? sagaShort : 'Unique'}</p>
+        <div>
+          <p>Category: {categorie}</p>
+          <span>Genders:</span>
+          <span>{gender?.join(', ')}</span>
         </div>
         <div className={s.infoContainer}>
-          {available? (<button value={id} onClick={e => disable(e)}>Disable</button>) : 
-          (<button value={id} onClick={e => disable(e)} >Enable</button>)}
-          <button value={id} onClick={e => deletes(e)}>Delete</button>
+          <p>Author: {authorShort}</p>
+          <p>|</p>
+          <p>Editorial: {editorial}</p>
+          <p>|</p>
+          <p>Language: {language}</p>
+          <p>|</p>
+          <p>Year: {year}</p>
+          <p>|</p>
+          <p>State: {state}</p>
+          <p>|</p>
+          <p>Type: {typebook}</p>
+          <p>|</p>
+          <p>${price}</p>
+          <p>|</p>
+          {available? (<p>Available: Yes</p>) : (<p>Available: No</p>)}
+        </div>
+        <div className={s.infoContainer}>
           <DashCardForm
           id={id}
           title={title}
@@ -107,11 +103,12 @@ export default function DashCard({id, title, image, typebook, price, author, cat
           gender={gender}
           saga={saga}
           />
+          {available? (<Button value={id} onClick={e => disable(e)} variant="outlined" size="small">Disable</Button>) : 
+          (<Button value={id} onClick={e => disable(e)} variant="outlined" size="small">Enable</Button>)}
+          <Button value={id} onClick={e => deletes(e)} variant="outlined" size="small">Delete</Button>
         </div>
       </div>
     </div>
-    
-    
   </React.Fragment>
   )
 };

@@ -10,7 +10,11 @@
   border:1px solid wheat;
   border-radius: 5px;
   display: flex;
+/*   flex-direction: row;
+  flex-wrap: wrap; */
   transition-duration: 0.5s;
+  font-family: Verdana;
+  font-size: 0.9rem;
 }
 .card h4{
   padding: 0px;
@@ -32,6 +36,7 @@
   /* background-color: #ccc3a8; */
 }
 
+
 .image{
   height:8rem;
   width:6rem;
@@ -43,9 +48,6 @@
 
 .content{
 display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-justify-content: space-between;
 }
 
 .info{
