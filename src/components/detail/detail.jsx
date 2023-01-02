@@ -32,7 +32,11 @@ export default function Detail() {
 
   const user = users.find((elm) => {
     return elm._id === detail.sellerId
-  })
+  });
+  
+  const score = user.reviews.map((elm) => {
+    return elm.score
+  });
 
 
   useEffect(() => {
@@ -123,10 +127,7 @@ export default function Detail() {
     return <Loader />;
   }
 
-  const score = user.reviews.map((elm) => {
-    return elm.score
-  })
-
+  
 
   return (<>
     <Header noSearch={true} />
@@ -224,14 +225,14 @@ export default function Detail() {
 
         <h2>Seller: {detail.seller}</h2>
         {
-          !score.length ?
-            <div></div> :
-            <h3>Score:{score.reduce((acc, curr) => acc + curr) / 5}</h3>
+          score.length ?
+            <h3>Score:{score.reduce((acc, curr) => acc + curr) / score.length}</h3> :
+            <h3>No score yet</h3>
         }
         <h4>Reviews</h4>
         {
           !user.reviews.length ?
-            <a>There are no reviews</a> :
+            <p>There are no reviews</p> :
             user.reviews.map((elm) => {
               return (
                 <p>{elm.sellerId}: {elm.comment}</p>

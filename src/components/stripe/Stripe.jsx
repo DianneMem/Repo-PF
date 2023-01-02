@@ -119,13 +119,22 @@ const CheckoutForm = () => {
           let session = JSON.parse(localStorage.getItem("session"));
           dispatch(deleteStorageItemById(session[0].id, _id));
           console.log("sessionId", session[0].id);
+          const date = new Date()
+          const hour = [date.getHours(), date.getMinutes(), date.getSeconds()].join(':')
+          const day = [date.getDate(), date.getMonth() +1, date.getFullYear()].join('-');
+          const fullDate = `${day} ${hour}`;
           dispatch(
             addPurchases(session[0].id, {
-              username: detailsBooks.seller,
               productId: _id,
+              buyerId: session[0].id,
+              buyerName: session[0].username,
+              username: detailsBooks.seller,
               sellerId: detailsBooks.sellerId,
+              sellerName: detailsBooks.seller,
               image: detailsBooks.image,
               title: detailsBooks.title,
+              amount: Math.ceil(detailsBooks.price),
+              date: fullDate,
             })
           );
           console.log(data);
