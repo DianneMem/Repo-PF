@@ -48,15 +48,21 @@ export default function Reviews() {
 
   const [input, setInput] = useState({
     productId: "",
-    sellerId: session[0].username,
+    buyerId: session[0].id,
+    buyerUsername: session[0].username,
     comment: "",
     score: start,
   });
 
-  console.log("start",start)
-  function setButton(productId) {
+  if(open) console.log("start",start)
+  function setButton(productId, sellerID, sellerName) {
     setOpen(true);
-    setInput({ ...input, productId: productId });
+    setInput({ 
+    ...input, 
+    productId: productId,
+    sellerId: sellerID,
+    sellerName: sellerName,
+    });
   }
 
   function handlerChange(e) {
@@ -70,21 +76,22 @@ export default function Reviews() {
     dispatch(getAllUsers());
   }, [handlerSubmit]);
   
-  function handlerSubmit(id) {
+  
+  function handlerSubmit(id){
     dispatch(createReview(id,{...input, score: start}));
     dispatch(myReview(usersDetail[0]._id,{...input, score: start}));
     setOpen(false);
     setInput({
       productId: "",
-      sellerId: session[0].username,
+      buyerId: session[0].id,
+      buyerUsername: session[0].username,
       comment: "",
       score: 0,
     });
     setLoading(false);
-  
-  }
+  };
 
-  console.log("input", input);
+  if(open) console.log("input", input);
 
 
   // Loading SetTimeOut
@@ -113,7 +120,7 @@ export default function Reviews() {
   }
 
   function handlerSellerId(sellerId) {
-    console.log(users);
+    if(open) console.log('users', users);
 
     const result = users.find((elm) => {
       return elm._id === sellerId;
@@ -125,7 +132,7 @@ export default function Reviews() {
 
     return exist;
   }
-  console.log("usersDetail", usersDetail);
+  if(open) console.log("usersDetail", usersDetail);
 
   return (
     <Grid
@@ -197,7 +204,7 @@ export default function Reviews() {
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={() => setButton(elm.productId)}
+                    onClick={() => setButton(elm.productId, elm.sellerId, elm.sellerName)}
                   >
                     <Add />
                     Add Review

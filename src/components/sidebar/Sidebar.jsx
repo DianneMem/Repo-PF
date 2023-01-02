@@ -157,10 +157,6 @@ export default function SideBar({vertical=true}) {
       <button className={s1.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
       <button className={s1.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
     </div>
-
-    <div>
-     <Link to="/sellers" ><button>Add your reviews</button></Link>
-    </div>
     
 	</div>) 
 	:

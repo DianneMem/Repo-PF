@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllBooks, getAllUsers , disablePost, deletePost, getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial } from "../../redux/actions";
+import { Link } from "react-router-dom";
 import DashCard from "../dashCard/dashCard";
+import CreatePost from "../createProduct/CreateProduct";
 import DashUserNew from "../dashUserNew/dashUserNew";
 import Paginated from "../paginado/Paginated";
 import Loader from "../loader/Loader";
 import Header from "../header/Header";
 import SideBar from "../sidebar/Sidebar";
-import s from "./dashboardAdmin.module.css";
-import { Link } from "react-router-dom";
-import CreatePost from "../createProduct/CreateProduct";
 import DashUser from "../dashUser/dashUser";
 import {Register} from "../register/Register";
+import s from "./dashboardAdmin.module.css";
+
 import Dialog from '@mui/material/Dialog';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -26,7 +27,6 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-
 import Typography from '@mui/material/Typography';
 
 
@@ -53,14 +53,9 @@ export default function DashAdmin() {
   const loadBooks = useSelector((state) => state.books);
   const allUsers = useSelector((state) => state.users);
  
-  const allOrders = useSelector((state) => state.users[1]?.purchases);
-  const allreviews = useSelector((state) => state.users?.map(user => {return(user.reviews)})?.flat());
-
-
+  const allOrders = allUsers?.slice().filter(user => user.purchases.length).map(user => user.purchases).flat();
+  const allreviews = allUsers?.slice().filter(user => user.reviews.length).map(user => user.reviews).flat();
   
-  function orderObject(productId, sellerId, sellerName, buyerId, buyerName, date, amount){
-    return {productId, sellerId, sellerName, buyerId, buyerName, date, amount}
-  };
   
 
   // Local States
@@ -102,8 +97,6 @@ export default function DashAdmin() {
     else if (e.target.value === "more" && currentPage !== pages) setCurrentPage(currentPage + 1);
   };
 
-
-  
   function handleSections(e){
     e.preventDefault();
     setSection(e.target.value);
@@ -116,8 +109,6 @@ export default function DashAdmin() {
     else {setCreateProduct(true);}
   };
   
-  
-  
   function menuDisplay(e){
     e.preventDefault();
     if(menu) {setMenu(false);}
@@ -127,9 +118,6 @@ export default function DashAdmin() {
   
   
 
-  
-  
-  
 
   return (
     <React.Fragment>
@@ -282,7 +270,7 @@ export default function DashAdmin() {
       </div>
       
       {allUsers.length ? (
-      <div className={s.container}>
+      <div className={s.container} >
         
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -298,7 +286,7 @@ export default function DashAdmin() {
               </TableHead>
               <TableBody>
                 {allUsers?.map((u)=>{return(
-                <DashUser user={u}/>
+                <DashUser user={u} key={u._id}/>
                 )})}
               </TableBody>
             </Table>
@@ -339,8 +327,16 @@ export default function DashAdmin() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {allUsers?.map((u)=>{return(
-              <p>{u.username}</p>
+              {allOrders?.map((ord)=>{return(
+              <TableRow key={ord.productId}>
+                <TableCell>{ord.productId}</TableCell>
+                <TableCell align="left">{ord.sellerId}</TableCell>
+                <TableCell align="left">{ord.sellerName}</TableCell>
+                <TableCell align="left">{ord.buyerId}</TableCell>
+                <TableCell align="left">{ord.buyerName}</TableCell>
+                <TableCell align="left">{ord.date}</TableCell>
+                <TableCell align="left">{ord.amount}</TableCell>
+              </TableRow>
               )})}
             </TableBody>
           </Table>
@@ -377,12 +373,20 @@ export default function DashAdmin() {
                 <TableCell align="left">Buyer's ID</TableCell>
                 <TableCell align="left">Buyer's Name</TableCell>
                 <TableCell align="left">Calification</TableCell>
-                <TableCell align="left">Review</TableCell>
+                <TableCell align="left">Commentary</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {allUsers?.map((u)=>{return(
-              <p>{u.username}</p>
+              {allreviews?.map((rev)=>{return(
+              <TableRow key={rev.productId}>
+                <TableCell>{rev.productId}</TableCell>
+                <TableCell align="left">{rev.sellerId}</TableCell>
+                <TableCell align="left">{rev.sellerName}</TableCell>
+                <TableCell align="left">{rev.buyerId}</TableCell>
+                <TableCell align="left">{rev.buyerUsername}</TableCell>
+                <TableCell align="left">{rev.score}</TableCell>
+                <TableCell align="left">{rev.comment}</TableCell>
+              </TableRow>
               )})}
             </TableBody>
           </Table>

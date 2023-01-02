@@ -140,14 +140,23 @@ const CheckoutForm = () => {
           elements.getElement(CardElement).clear();
           console.log("CardElement", CardElement);
           MySwal.fire("Thank You for your purchase!", message, "success");
+          const date = new Date()
+          const hour = [date.getHours(), date.getMinutes(), date.getSeconds()].join(':')
+          const day = [date.getDate(), date.getMonth() +1, date.getFullYear()].join('-');
+          const fullDate = `${day} ${hour}`;
           getCart.map((elm) =>
             dispatch(
               addPurchases(session[0].id, {
-                username: elm.seller,
                 productId: elm._id,
+                buyerId: session[0].id,
+                buyerName: session[0].username,
                 sellerId: elm.sellerId,
+                sellerName: elm.seller,
+                username: elm.seller,
                 image: elm.image,
                 title: elm.title,
+                amount: Math.ceil(elm.price),
+                date: fullDate,
               })
             )
           );
