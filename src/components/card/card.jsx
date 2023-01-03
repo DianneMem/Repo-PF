@@ -16,20 +16,15 @@ import Stack from "@mui/joy/Stack";
 
 
 
-export default function Card({ id, title, image, type, price, author }) {
+export default function Card({ id, title, image, type, price, author, product }) {
   // Only First Mayus
   let getCart = JSON.parse(localStorage.getItem("cart"));
   let titlemod = title.toLowerCase().split(" ").join(" ");
   let mayus = title[0].toUpperCase();
   titlemod = mayus + titlemod.slice(1, titlemod.length);
   title = titlemod;
-  let detail = {
-    _id: id,
-    title: title,
-    image: image,
-    author: author,
-    price: price,
-  };
+  let detail = product;
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
@@ -88,17 +83,22 @@ export default function Card({ id, title, image, type, price, author }) {
     if (userId) {
       let id = userId[0].id;
       console.log(detail);
-      getCart.filter((e) => e._id === detail._id).length < 1
-        ? getCart.push(detail)
-        : MySwal.fire(
-            "You already have this product in the cart!",
-            message,
-            "error"
-          );
+
+      let getCart = JSON.parse(localStorage.getItem("cart"));
       localStorage.setItem("cart", JSON.stringify(getCart));
-      if (getCart.filter((e) => e._id === detail._id).length < 1) {
+      if (getCart.slice().filter((e) => e._id === detail._id).length < 1) {
+        getCart.push(detail)
+        
         dispatch(addStorage(id, detail));
       }
+      else{
+        MySwal.fire(
+          "You already have this product in the cart!",
+          message,
+          "error"
+        );
+      }
+      localStorage.setItem("cart", JSON.stringify(getCart))
 
       console.log(getCart);
     } else {
@@ -106,7 +106,7 @@ export default function Card({ id, title, image, type, price, author }) {
         localStorage.setItem("cart", "[]");
       }
       let getCart = JSON.parse(localStorage.getItem("cart"));
-      getCart.filter((e) => e._id === detail._id).length < 1
+      getCart.slice().filter((e) => e._id === detail._id).length < 1
         ? getCart.push(detail)
         : MySwal.fire(
             "You already have this product in the cart!",
@@ -122,14 +122,15 @@ export default function Card({ id, title, image, type, price, author }) {
           sx={{
             width: 180,
             // height: "450%",
-            border: "dotted",
+            // border: "dotted",
             border: 5,
             borderColor: "white",
             borderRadius: 6,
             marginBottom: 2,
             // bgcolor: "#006ba6",
             bgcolor: "#ebebeb",
-            boxShadow: "40px 60px 300px #595959",
+            // boxShadow: "40px 60px 300px #595959",
+            boxShadow: "10px 10px 15px #595959",
           }}
         >
           <Link to={`/detail/${id}`} className={s.decOff}>
@@ -216,7 +217,3 @@ export default function Card({ id, title, image, type, price, author }) {
   );
 }
 
-
-{/* <button className={s.favorite} onClick={(e) => favsHandler(e)}>
-<FiHeart />
-</button> */}
