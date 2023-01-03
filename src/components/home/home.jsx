@@ -158,6 +158,7 @@ export default function Home() {
                       price={b.price}
                       author={b.author}
                       type={b.typebook}
+                      product={b}
                     />
                   </div>
                 );
