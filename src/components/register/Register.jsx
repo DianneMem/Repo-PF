@@ -86,6 +86,9 @@ export const Register = () => {
     }
     if (!input.password) {
       errors.password = "Password required";
+    } else if (!/^[a-z0-9_-]{6,}$/.test(input.password))
+    {
+      errors.password = "Must be more than 6 characters";
     }
     if (input.password !== input.confirmation) {
       errors.confirmation = "Passwords must match";
