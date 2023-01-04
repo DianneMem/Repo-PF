@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -33,6 +33,7 @@ import {
   getAllEditorial,
 } from "../../redux/actions";
 import MyProducts from "./MyProducts";
+import Account from "./Account";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -44,7 +45,7 @@ import { border, margin } from "@mui/system";
 const drawerWidth = 240;
 
 function Profile(props) {
-  const [component, setComponent] = useState("inicio");
+  const [component, setComponent] = useState("Account");
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate()
@@ -110,7 +111,7 @@ function Profile(props) {
       icon: <AutoStories />,
     },
     {
-      text: "Settings",
+      text: "Account",
       icon: <Settings />,
       path: "/",
     },
@@ -256,6 +257,11 @@ function Profile(props) {
                   </div>
                 );
               })}
+            </>
+          )}
+          {component === "Account" && (
+            <>
+              <Account />
             </>
           )}
         </Grid>

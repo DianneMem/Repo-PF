@@ -318,21 +318,21 @@ export default function DashAdmin() {
             <TableHead>
               <TableRow>
                 <TableCell>Product ID</TableCell>
-                <TableCell align="left">Seller's ID</TableCell>
-                <TableCell align="left">Seller's Name</TableCell>
-                <TableCell align="left">Buyer's ID</TableCell>
-                <TableCell align="left">Buyer's Name</TableCell>
+                <TableCell align="left">Product Name</TableCell>
+                <TableCell align="left">Seller</TableCell>
+                <TableCell align="left">Buyer</TableCell>
                 <TableCell align="left">Date</TableCell>
                 <TableCell align="left">Amount</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {allOrders?.map((ord)=>{return(
+              {allOrders?.map((ord)=>{
+              if(ord.title.length > 30){ord.title = ord.title.slice(0,30) + '...'};
+              return(
               <TableRow key={ord.productId}>
                 <TableCell>{ord.productId}</TableCell>
-                <TableCell align="left">{ord.sellerId}</TableCell>
+                <TableCell align="left">{ord.title}</TableCell>
                 <TableCell align="left">{ord.sellerName}</TableCell>
-                <TableCell align="left">{ord.buyerId}</TableCell>
                 <TableCell align="left">{ord.buyerName}</TableCell>
                 <TableCell align="left">{ord.date}</TableCell>
                 <TableCell align="left">{ord.amount}</TableCell>
@@ -368,21 +368,19 @@ export default function DashAdmin() {
             <TableHead>
               <TableRow>
                 <TableCell>Product ID</TableCell>
-                <TableCell align="left">Seller's ID</TableCell>
-                <TableCell align="left">Seller's Name</TableCell>
-                <TableCell align="left">Buyer's ID</TableCell>
-                <TableCell align="left">Buyer's Name</TableCell>
+                <TableCell align="left">Seller</TableCell>
+                <TableCell align="left">Buyer</TableCell>
                 <TableCell align="left">Calification</TableCell>
                 <TableCell align="left">Commentary</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {allreviews?.map((rev)=>{return(
+              {allreviews?.map((rev)=>{
+              if(rev.comment.length > 30){rev.comment = rev.comment.slice(0,30) + '...'};
+              return(
               <TableRow key={rev.productId}>
                 <TableCell>{rev.productId}</TableCell>
-                <TableCell align="left">{rev.sellerId}</TableCell>
                 <TableCell align="left">{rev.sellerName}</TableCell>
-                <TableCell align="left">{rev.buyerId}</TableCell>
                 <TableCell align="left">{rev.buyerUsername}</TableCell>
                 <TableCell align="left">{rev.score}</TableCell>
                 <TableCell align="left">{rev.comment}</TableCell>
@@ -408,4 +406,4 @@ export default function DashAdmin() {
       </div>
     </React.Fragment>
   );
-}
+};

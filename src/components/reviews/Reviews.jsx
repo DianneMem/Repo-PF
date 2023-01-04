@@ -11,6 +11,7 @@ import {
   getUsersDetail,
   myReview,
 } from "../../redux/actions";
+import InfoBuy from "./InfoBuy";
 import Loader from "../loader/Loader";
 import { Button, Grid, Box, CardMedia } from "@mui/material";
 import TextField from "@mui/joy/TextField";
@@ -28,24 +29,22 @@ import Rating from "@mui/material/Rating";
 
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import InfoReview from "./InfoReview";
 
 export default function Reviews() {
-  const dispatch = useDispatch();
-  const usersDetail = useSelector((state) => state.userDetail);
-  const users = useSelector((state) => state.users);
 
+
+  // Global States
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users);
   let session = JSON.parse(localStorage.getItem("session"));
   const id = session[0].id;
+  const usersDetail = users.find(u => u._id === id)
 
-  // const [modal, setModal] = useState(false)
 
-  // const openCloseModal = () => {
-  //   setModal(!modal)
-  // }
-
+  // Local States
   const [open, setOpen] = useState(false);
   const [start, setStart] = useState(1);
-
   const [input, setInput] = useState({
     productId: "",
     buyerId: session[0].id,
@@ -53,9 +52,16 @@ export default function Reviews() {
     comment: "",
     score: start,
   });
-
-  if(open) console.log("start",start)
-  function setButton(productId, sellerID, sellerName) {
+  
+ 
+  if(open) console.log("input", input);
+  
+  
+  
+  // Functions
+  
+  
+  function handleOpen(productId, sellerID, sellerName) {
     setOpen(true);
     setInput({ 
     ...input, 
@@ -63,24 +69,20 @@ export default function Reviews() {
     sellerId: sellerID,
     sellerName: sellerName,
     });
-  }
-
+  };
+  
+  function handleclose(){
+    setOpen(false);
+    dispatch(getAllUsers());
+  };
+  
   function handlerChange(e) {
     setInput({ ...input, [e.target.name]: e.target.value});
-  }
+  };
 
- 
-  useEffect(() => {
-    if(loading)return
-    dispatch(getUsersDetail(id));
-    dispatch(getAllUsers());
-  }, [handlerSubmit]);
-  
-  
-  function handlerSubmit(id){
-    dispatch(createReview(id,{...input, score: start}));
-    dispatch(myReview(usersDetail[0]._id,{...input, score: start}));
-    setOpen(false);
+  async function handlerSubmit(id){
+    await dispatch(myReview(usersDetail._id,{...input, score: start}));
+    await dispatch(createReview(id,{...input, score: start}));
     setInput({
       productId: "",
       buyerId: session[0].id,
@@ -88,51 +90,20 @@ export default function Reviews() {
       comment: "",
       score: 0,
     });
-    setLoading(false);
+    handleclose();
   };
+  
+ 
 
-  if(open) console.log("input", input);
+
+  //  <Backdrop
+  //   sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+  //   open={true}
+  //  >
+  //    <CircularProgress color="inherit" />
+  //  </Backdrop>
 
 
-  // Loading SetTimeOut
-  const [loading, setLoading] = useState(false);
-  const changeState = () => {
-    setTimeout(() => {
-      setLoading(true);
-    }, 1000);
-  };
-  if (loading === false) {
-    changeState();
-    // return <Loader />;
-    return (
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={true}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
-    );
-  } else {
-    if (usersDetail.length === 0) {
-      dispatch(getUsersDetail(id));
-      setLoading(false);
-    }
-  }
-
-  function handlerSellerId(sellerId) {
-    if(open) console.log('users', users);
-
-    const result = users.find((elm) => {
-      return elm._id === sellerId;
-    });
-
-    const exist = result.reviews.map((elm) => {
-      return elm.productId;
-    });
-
-    return exist;
-  }
-  if(open) console.log("usersDetail", usersDetail);
 
   return (
     <Grid
@@ -141,13 +112,12 @@ export default function Reviews() {
       justifyContent="space-around"
       alignItems="flex-start"
     >
-      {usersDetail[0].purchases.map((elm) => (
-        <Grid>
+      {usersDetail?.purchases.map((elm) => (
+        <Grid key={elm.productId}>
           <Box
             sx={{
               width: 220,
               // height: "450%",
-              border: "dotted",
               border: 5,
               borderColor: "white",
               borderRadius: 6,
@@ -173,7 +143,7 @@ export default function Reviews() {
                 marginTop: "-px",
               }}
             >
-              {elm.title.length > 60? elm.title.slice(0,35) + '...': elm.title}
+              {elm.title.length > 45? elm.title.slice(0,45) + '...': elm.title}
             </Typography>
             <Box display="flex" justifyContent="center">
               <CardMedia
@@ -191,7 +161,7 @@ export default function Reviews() {
                 alt="img"
               />
             </Box>
-            {handlerSellerId(elm.sellerId).includes(elm.productId) === false ? (
+            {usersDetail?.myreviews.some(rev => rev.productId === elm.productId) === false? (
               <Grid>
                 <Box sx={{ 
                   borderBottomLeftRadius: "17px", 
@@ -201,10 +171,11 @@ export default function Reviews() {
                   p="10px" 
                   display="flex" 
                   justifyContent="center">
+                  <InfoBuy Purchase={elm}/>
                   <Button
                     variant="outlined"
                     color="primary"
-                    onClick={() => setButton(elm.productId, elm.sellerId, elm.sellerName)}
+                    onClick={() => handleOpen(elm.productId, elm.sellerId, elm.sellerName)}
                   >
                     <Add />
                     Add Review
@@ -242,11 +213,7 @@ export default function Reviews() {
                     >
                       Comments about your purchase
                     </Typography>
-                    <form
-                      onSubmit={() => {
-                        handlerSubmit(elm.sellerId);
-                      }}
-                    >
+          
                       <Stack spacing={2}>
                         <TextField
                           label="Comment"
@@ -274,16 +241,30 @@ export default function Reviews() {
                       Thanks for your rating
                     </Typography>
                         <Stack direction="row" justifyContent="center" spacing={5}>
-                        <Button variant="contained" endIcon={<SendIcon />} type="submit">Send</Button>
+                        <Button variant="contained" endIcon={<SendIcon />} onClick={() => {
+                        handlerSubmit(elm.sellerId);
+                      }}>Send</Button>
                         <Button variant="contained" endIcon={<CancelScheduleSendRoundedIcon />} open={open} onClick={() => setOpen(false)}>Cancel</Button>
                         </Stack>
                       </Stack>
-                    </form>
+                   
                   </ModalDialog>
                 </Modal>
               </Grid>
             ) : (
-              <Grid></Grid>
+              <Grid>
+                <Box sx={{ 
+                    borderBottomLeftRadius: "17px", 
+                    borderBottomRightRadius: "17px" 
+                  }} 
+                    bgcolor="white" 
+                    p="10px" 
+                    display="flex" 
+                    justifyContent="center">
+                    <InfoBuy Purchase={elm}/>
+                    <InfoReview buyerId={elm.buyerId} productId={elm.productId}/>
+                  </Box>
+                </Grid>
             )}
           </Box>
         </Grid>
