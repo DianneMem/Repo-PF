@@ -16,6 +16,8 @@ import Favorites from "./components/favorites/Favorites";
 import MyProducts from "./components/myProducts/MyProducts";
 import Profile from "./components/myProducts/Profile";
 import DarkMode from "./components/DarkMode/DarkMode";
+import { UserRoutes } from "./components/protectionRoute/UserRoutes";
+import { AdminRoutes } from "./components/protectionRoute/AdminRoutes";
 
 
 
@@ -31,15 +33,15 @@ export default function App() {
           <Route exact path="/recoverpassword" element={<RecoverPassword/>} />
           <Route exact path="/confirmacount" element={<ConfirmAcount/>} />
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/createproduct" element={<CreateProduct />} />
+          <Route exact path="/createproduct" element={<UserRoutes><CreateProduct /></UserRoutes> } />
           <Route exact path="/detail/:_id" element={<Detail />} />
-          <Route exact path="/payment/:_id" element={<Stripe />} />
-          <Route exact path="/cart" element={<Cart />} />
-          <Route exact path="/admin" element={<DashboardAdmin/>} />
-          <Route exact path="/sellers" element={<Reviews/>} />
-          <Route exact path="/favorites" element={<Favorites/>} />
-          <Route exact path="/myproducts" element={<MyProducts/>} />
-          <Route exact path="/profile" element={<Profile/>} />
+          <Route exact path="/payment/:_id" element={<UserRoutes><Stripe /></UserRoutes>} />
+          <Route exact path="/cart" element={<UserRoutes><Cart /></UserRoutes>} />
+          <Route exact path="/admin" element={<AdminRoutes><DashboardAdmin /></AdminRoutes>} />
+          <Route exact path="/sellers" element={<UserRoutes><Reviews/></UserRoutes>} />
+          <Route exact path="/favorites" element={<UserRoutes><Favorites/></UserRoutes>} />
+          <Route exact path="/myproducts" element={<UserRoutes><MyProducts/></UserRoutes>} />
+          <Route exact path="/profile" element={<UserRoutes><Profile/></UserRoutes>} />
         </Routes>
       </Router>
     </div>

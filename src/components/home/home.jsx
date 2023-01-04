@@ -104,7 +104,7 @@ export default function Home() {
         <div
           className={s.container}
           style={{
-            "background-color": theme && "#212529",
+            "backgroundColor": theme && "#212529",
             color: theme && "white",
           }}
         >
