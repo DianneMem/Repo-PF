@@ -226,7 +226,7 @@ export default function Detail() {
         <h2>Seller: {detail.seller}</h2>
         {
           score.length ?
-            <h3>Score:{score.reduce((acc, curr) => acc + curr) / score.length}</h3> :
+            <h3>Score:{Math.round(score.reduce((acc, curr) => acc + curr) / score.length)}</h3> :
             <h3>No score yet</h3>
         }
         <h4>Reviews</h4>
