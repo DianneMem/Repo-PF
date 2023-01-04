@@ -36,6 +36,7 @@ import {
   clearStorage,
   deleteStorageItemById,
   findUserStripe,
+  payMailing,
 } from "../../redux/actions";
 import Loader from "../loader/Loader";
 const stripePromise = loadStripe(
@@ -159,7 +160,15 @@ const CheckoutForm = () => {
                 date: fullDate,
               })
             )
+
           );
+          getCart.map((elm) =>
+          dispatch(payMailing({
+            username:session[0].username,
+            email:session[0].email,
+            product:elm,
+            amount:Math.ceil(elm.price)}))
+        );
           localStorage.setItem("cart", "[]");
           dispatch(clearStorage(session[0].id));
         } catch (error) {
@@ -850,6 +859,7 @@ const CheckoutForm = () => {
 
                                   {getCart.map((e) => (
                                     <Box color="#FFF">
+                                     
                                       {" "}
                                       {`-${e.title}  U$D ${e.price}`}
                                     </Box>

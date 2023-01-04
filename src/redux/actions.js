@@ -378,6 +378,16 @@ export function createPost(id, payload) {
     }
   };
 }
+export function payMailing(payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/sendMail`, payload);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
 
 
 

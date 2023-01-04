@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 import {
@@ -14,6 +15,7 @@ import {
   addPurchases,
   deleteStorageItemById,
   getBooksDetails,
+  payMailing,
 } from "../../redux/actions";
 import "./Stripe.css";
 import Header from "../header/Header";
@@ -31,14 +33,16 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { width } from "@mui/system";
-const stripePromise = loadStripe(
-  "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
-);
 
+const stripePromise = loadStripe(
+ "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
+);
+console.log(  process.env);
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -51,7 +55,7 @@ const CheckoutForm = () => {
   const isActive = useMediaQuery("(max-width:600px)");
   const detailState = useSelector((state) => state.detailsBook);
   let { _id } = useParams();
-  console.log(_id);
+
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
@@ -94,11 +98,11 @@ const CheckoutForm = () => {
       setLoading(true);
 
       if (!error) {
-        console.log(paymentMethod);
+    
         const { id } = paymentMethod;
 
         let stripeId = JSON.parse(localStorage.getItem("stripe"));
-        console.log(stripeId[0]);
+
 
         try {
           const { data } = await axios.post(
@@ -118,11 +122,20 @@ const CheckoutForm = () => {
           }
           let session = JSON.parse(localStorage.getItem("session"));
           dispatch(deleteStorageItemById(session[0].id, _id));
-          console.log("sessionId", session[0].id);
+  
           const date = new Date()
           const hour = [date.getHours(), date.getMinutes(), date.getSeconds()].join(':')
           const day = [date.getDate(), date.getMonth() +1, date.getFullYear()].join('-');
           const fullDate = `${day} ${hour}`;
+          
+          dispatch(payMailing({
+            username:session[0].username,
+            email:session[0].email,
+            product:detailsBooks,
+            amount:Math.ceil(detailsBooks.price)}))
+
+
+
           dispatch(
             addPurchases(session[0].id, {
               productId: _id,
@@ -137,7 +150,6 @@ const CheckoutForm = () => {
               date: fullDate,
             })
           );
-          console.log(data);
           elements.getElement(CardElement).clear();
           MySwal.fire("Thank You for your purchase!", message, "success");
           navigate("/");
