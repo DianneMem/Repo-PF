@@ -165,6 +165,7 @@ const CheckoutForm = () => {
             )
 
           );
+          
    
         getCart.map((elm) =>
         dispatch(addBuyerToProduct( elm._id,session[0]))

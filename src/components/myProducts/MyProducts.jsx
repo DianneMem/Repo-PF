@@ -1854,7 +1854,7 @@ export default function MyProducts({
                     </ListItem>
                
                     {buyers.length<1?  
-                       
+                        
                        <div>
                          <br></br>       
                       {available ? (

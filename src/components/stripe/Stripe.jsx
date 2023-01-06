@@ -155,7 +155,7 @@ const CheckoutForm = () => {
               title: detailsBooks.title,
               amount: Math.ceil(detailsBooks.price),
               date: fullDate,
-            })
+            }) 
           );
           elements.getElement(CardElement).clear();
           dispatch(addBuyerToProduct(detailsBooks._id,userState[0]))

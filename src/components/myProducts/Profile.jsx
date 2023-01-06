@@ -217,7 +217,7 @@ function Profile(props) {
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
-      >
+      > 
 
         <Toolbar />
         <Grid>
