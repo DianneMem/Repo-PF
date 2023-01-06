@@ -34,9 +34,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addBuyerToProduct,
   addPurchases,
+  balanceProfile,
   cartMailing,
   clearStorage,
   deleteStorageItemById,
+  disablePost,
   findUserStripe,
   getUsersDetail,
   payMailing,
@@ -173,6 +175,7 @@ const CheckoutForm = () => {
         getCart.map((elm) =>
         dispatch(addBuyerToProduct( elm._id,session[0]))
       );
+
      
     let products=[]
     products.push(getCart.map((e) =>e))
@@ -182,7 +185,10 @@ const CheckoutForm = () => {
         email:session[0].email,
         allProducts:products[0],
         amount:totalAmount.amount}))
-  
+        dispatch(balanceProfile(session[0].id,{balance:totalAmount.amount}))
+         getCart.map((elm) =>
+        dispatch(disablePost( elm._id))
+      );
           localStorage.setItem("cart", "[]");
           dispatch(clearStorage(session[0].id));
         } catch (error) {

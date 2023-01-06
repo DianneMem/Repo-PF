@@ -700,6 +700,18 @@ export function modifyUser(id, payload) {
   };
 }
 
+export function balanceProfile(id, payload) {
+  return async function () {
+    try {
+      let post = await axios.put(`${localhost}/profile/balance/${id}`, payload);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+
 export function modifyPost(id, payload) {
   return async function () {
     try {

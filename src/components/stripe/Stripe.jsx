@@ -14,7 +14,9 @@ import axios from "axios";
 import {
   addBuyerToProduct,
   addPurchases,
+  balanceProfile,
   deleteStorageItemById,
+  disablePost,
   getBooksDetails,
   getUsersDetail,
   payMailing,
@@ -69,8 +71,9 @@ const CheckoutForm = () => {
 
 
   useEffect(() => {
+    let userId = JSON.parse(localStorage.getItem("session"));
     dispatch(getBooksDetails(_id));
- 
+    dispatch(getUsersDetail(userId[0].id))
   }, [dispatch, _id]);
 
   const cardStyle = {
@@ -96,7 +99,7 @@ const CheckoutForm = () => {
   const handleSubmit = async (e, message) => {
     e.preventDefault();
     let userId = JSON.parse(localStorage.getItem("session"));
-    dispatch(getUsersDetail(userId[0].id))
+
     if (userId) {
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
@@ -141,6 +144,8 @@ const CheckoutForm = () => {
             product:detailsBooks,
             amount:Math.ceil(detailsBooks.price)}))
 
+             
+          
 
 
           dispatch(
@@ -159,6 +164,8 @@ const CheckoutForm = () => {
           );
           elements.getElement(CardElement).clear();
           dispatch(addBuyerToProduct(detailsBooks._id,userState[0]))
+          dispatch(balanceProfile(userState[0]._id,{balance:detailsBooks.price}))
+          dispatch(disablePost(detailsBooks._id))
           MySwal.fire("Thank You for your purchase!", message, "success");
           navigate("/");
         } catch (error) {

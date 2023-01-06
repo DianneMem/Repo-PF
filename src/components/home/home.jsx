@@ -24,23 +24,8 @@ import Footer from "../Footer/Footer";
 
 export default function Home() {
   const dispatch = useDispatch();
-
-  const theme = useSelector((state) => state.darkMode);
-
-  // Global States
-  const allBooks = useSelector((state) => state.allbooks);
-  const loadBooks = useSelector((state) =>
-    state.books.filter((e) => e.available === true)
-  );
-  let currentPageGlobal = useSelector((state) => state.currentPage);
-  const token = useSelector((state) => state.sessionState);
+    const token = useSelector((state) => state.sessionState);
   const stripeId = useSelector((state) => state.stripeState);
-
-  useEffect(() => {
-    dispatch(getAllBooks());
-    setCurrentPage(1);
-    dispatch(setPage(1));
-  }, [dispatch]);
   if (token.length !== 0) {
     let currentToken = token;
 
@@ -54,6 +39,29 @@ export default function Home() {
     stripe.push(stripeId);
     localStorage.setItem("stripe", JSON.stringify(stripe));
   }
+
+  const theme = useSelector((state) => state.darkMode);
+
+  // Global States
+  const allBooks = useSelector((state) => state.allbooks);
+ 
+  let loadBooks = useSelector((state) =>
+    state.books.filter((e) => e.available === true)
+  );
+  if(localStorage.getItem("session")){
+    let session = JSON.parse(localStorage.getItem("session"));
+     loadBooks = loadBooks.filter(e=>e.sellerId!==session[0].id)
+    
+  }
+  let currentPageGlobal = useSelector((state) => state.currentPage);
+
+
+  useEffect(() => {
+    dispatch(getAllBooks());
+    setCurrentPage(1);
+    dispatch(setPage(1));
+  }, [dispatch]);
+
 
   // Local States
   const [currentPage, setCurrentPage] = useState(1);
