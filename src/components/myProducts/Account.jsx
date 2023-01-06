@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { getUsersDetail } from "../../redux/actions";
-import DashUserForm from "../dashUserForm/dashUserForm";
+import PasswordForm from "./PasswordForm";
 import DefaultUser from "../../assets/user1.png"
 
 import Card from '@mui/material/Card';
@@ -47,7 +47,7 @@ export default function Account() {
         </Typography>
       </CardContent>
       <CardActions>
-        <DashUserForm user={user}/>
+        <PasswordForm user={user}/>
       </CardActions>
   </Card>) 
   :(<></>)}

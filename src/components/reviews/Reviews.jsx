@@ -23,6 +23,9 @@ import { Typography } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import CancelScheduleSendRoundedIcon from '@mui/icons-material/CancelScheduleSendRounded';
 import Divider from "@mui/material/Divider";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 
 import TextareaAutosize from "@mui/base/TextareaAutosize";
 import Rating from "@mui/material/Rating";
@@ -40,6 +43,7 @@ export default function Reviews() {
   let session = JSON.parse(localStorage.getItem("session"));
   const id = session[0].id;
   const usersDetail = users.find(u => u._id === id)
+  const MySwal = withReactContent(Swal);
 
 
   // Local States
@@ -91,6 +95,7 @@ export default function Reviews() {
       score: 0,
     });
     handleclose();
+    return MySwal.fire(`Seller review done!`, "Thanks for your time", "success");
   };
   
  

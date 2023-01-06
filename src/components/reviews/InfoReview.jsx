@@ -34,7 +34,7 @@ export default function InfoReview({buyerId, productId}){
 
  
   const allUsers = useSelector((state) => state.users);
-  let Review = {sellerName:'Algo', score:'Algo', comment:'Algo'};
+  let Review = {sellerName:'Name', score:' - / 5', comment:'comment'};
   
   if(allUsers.length){
     const user = allUsers.find(user => user._id === buyerId);

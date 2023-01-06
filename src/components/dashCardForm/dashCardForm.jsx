@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { getAllBooks, modifyPost } from "../../redux/actions";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import defaultImage from '../../assets/bookDefault.png';
 
 import Modal from '@mui/material/Modal';
@@ -37,7 +38,7 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
   const allGenders = useSelector(state => state.genders);
   const allLanguages = useSelector(state => state.languages);
   const dispatch = useDispatch();
-
+  const MySwal = withReactContent(Swal);
 
   // Local States
   const [input, setInput] = useState({
@@ -154,6 +155,7 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
     await dispatch(modifyPost(id, inputSend));
     dispatch(getAllBooks());
     handleClose();
+    return MySwal.fire("Book Update succesfully", "" , "success");
   };
 
 

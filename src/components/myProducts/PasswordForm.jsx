@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
 import { getAllBooks, getAllUsers, disableUser, deleteUser, modifyUser } from "../../redux/actions";
 import bcrypt from "bcryptjs";
 import Swal from "sweetalert2";
@@ -31,18 +32,16 @@ import FormLabel from '@mui/material/FormLabel';
 
 
 
-export default function DashUserForm({user}){
+export default function PasswordForm({user}){
 
 //Global States
 const dispatch = useDispatch();
-const users = useSelector((state) => state.users);
+const navigate = useNavigate();
 const MySwal = withReactContent(Swal);
+const users = useSelector((state) => state.users);
 
 // Local States
-const [input, setInput] = useState({
-username: user.username,
-email: user.email
-});
+const [input, setInput] = useState({});
 const [error, setError] = useState({});
 const [open, setOpen] = useState(false);
 
@@ -53,9 +52,7 @@ if(open) console.log('formError', error);
 // Functions
 function handleOpen(){
   setInput({
-    username: user.username,
-    email: user.email,
-    role: user.role,
+    oldPassword: '',
     password: '',
     confirm: ''
   });
@@ -65,9 +62,7 @@ function handleOpen(){
 
 function handleClose(){
   setInput({
-    username: user.username,
-    email: user.email,
-    role: user.role,
+    oldPassword: '',
     password: '',
     confirm: ''
   });
@@ -87,102 +82,62 @@ function inputChange(e){
   }));
 };
 
-async function modifyUserById(){
+function modifyUserById(){
+  
+  const hashPassword = bcrypt.hashSync(input.password, 10);
+  
   const infoToSend = {
-    username: input.username,
-    email: input.email,
-    role: input.role,
-    password: input.password
+    password: hashPassword
   };
   
-  if(input.password){
-    infoToSend.password = bcrypt.hashSync(input.password, 10);
-  }
-
-  for (const property in infoToSend) {
-    if(infoToSend[property] === ''){
-      infoToSend[property] = user[property]
-    };
-  };
-  
-  await dispatch(modifyUser(user._id, infoToSend));
-  handleClose();
+  dispatch(modifyUser(user._id, infoToSend));
   dispatch(getAllUsers());
-  return MySwal.fire("User Update succesfully", "" , "success");
+  localStorage.clear();
+  navigate("/");
+  handleClose();
+  return MySwal.fire("Your Password has been changed", "Logout please" , "success");
 };
 
 function validate(input){
   const error = {};
   let RegEXP = /[`ª!@#$%^*-+\=\[\]{};"\\|,<>\/~]/;
-  if (!input.username) {
-    error.username = "Username required";
-  } else if (RegEXP.test(input.username)) {
-    error.username = "Special characters are not accepted";
-  } else if (
-    users.find((e) => e.username.toLowerCase() === input.username.toLowerCase())
-  ) {
-    error.email = "This mail is already registered";
-  }
-  if (!input.email) {
-    error.email = "E-mail required";
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(input.email)) {
-    error.email = "Invalid e-mail address";
-  } else if (
-    users.find((e) => e.email.toLowerCase() === input.email.toLowerCase())
-  ) {
-    error.email = "This mail is already registered";
-  }
   if (!input.password) {
     error.password = "Password required";
-  } else if (input.password.length < 5){
-    error.password = "Password minimum 5 characters";
+  } else if (input.password.length < 6){
+    error.password = "Password minimum 6 characters";
   }
   if (input.password !== input.confirm) {
     error.confirmation = "Passwords must match";
   }
-  if (!input.role) {
-    error.role = "Select role";
+  if(!bcrypt.compareSync(input.oldPassword, user.password)){
+    error.oldPassword = "Incorrect Password";
   }
   return error;
-};
-
+}
 
 
 return(
 <React.Fragment>
   <Button onClick={e => handleOpen(e)} variant="outlined">Modify</Button>
   <Dialog open={open} onClose={handleClose} maxWidth="md">
-    <DialogTitle>Edit User</DialogTitle>
+    <DialogTitle>Edit password</DialogTitle>
     <DialogContent>
       <DialogContentText>
-        Fill the fields you want to change
+        Password minimum 6 characters
       </DialogContentText>
       <TextField
         autoFocus
         margin="dense"
-        id="username"
-        name='username'
-        label="Username"
-        type="text"
+        id="oldPassword"
+        name='oldPassword'
+        label="Old Password"
+        type="password"
         fullWidth
         variant="outlined"
-        value={input.username}
+        value={input.oldPassword}
         onChange={(e)=>inputChange(e)}
       />
-      {/* {error.username && <p className="danger-p">{error.username}</p>} */}
-      <TextField
-        autoFocus
-        margin="dense"
-        id="email"
-        name='email'
-        label="Email"
-        type="text"
-        fullWidth
-        variant="outlined"
-        value={input.email}
-        onChange={(e)=>inputChange(e)}
-      />
-      {/* {error.email && <p className="danger-p">{error.email}</p>} */}
+      {error.oldPassword && <p className="danger-p">{error.oldPassword}</p>}
       <TextField
         autoFocus
         margin="dense"
@@ -192,10 +147,10 @@ return(
         type="password"
         fullWidth
         variant="outlined"
-        value={input.password}
+        value={input.newPassword}
         onChange={(e)=>inputChange(e)}
       />
-      {/* {error.password && <p className="danger-p">{error.password}</p>} */}
+      {error.password && <p className="danger-p">{error.password}</p>}
       <TextField
         autoFocus
         margin="dense"
@@ -208,21 +163,7 @@ return(
         value={input.confirm}
         onChange={(e)=>inputChange(e)}
       />
-      {/* {error.confirmation && <p className="danger-p">{error.confirmation}</p>} */}
-      <FormControl >
-        <FormLabel id="radio-group-label-1">Type</FormLabel>
-        <RadioGroup
-        row
-        aria-labelledby="radio-group-label-1"
-        name="typebook"
-        onChange={e=>inputChange(e)}
-        value={input.role}
-        >
-          <FormControlLabel name="role" value="admin" control={<Radio />} label="Admin" />
-          <FormControlLabel name="role" value="user" control={<Radio />} label="User" />
-        </RadioGroup>
-      </FormControl>
-      {error.role && <p className="danger-p">{error.role}</p>}
+      {error.confirmation && <p className="danger-p">{error.confirmation}</p>}
       <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={modifyUserById}>Modify</Button>
