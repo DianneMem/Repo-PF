@@ -20,6 +20,7 @@ import { Button, Grid, Box, CardMedia, Divider } from "@mui/material";
 import { Typography } from "@mui/material";
 import Stack from "@mui/joy/Stack";
 import { Favorite } from "@mui/icons-material";
+import Footer from "../Footer/Footer";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -100,13 +101,41 @@ export default function Home() {
   return (
     <React.Fragment>
       <Header />
-      {allBooks.length ? (
+      
+
+          <Grid
+                  container
+                  direction="row"
+                  justifyContent="space-around"
+                  alignItems="flex-start">
+          <div className={s.components}>
+            <div className={s.cards}>
+              {currentBooks?.map((b) => {
+                return (
+                  <div key={b._id} className={s.card}>
+                    <Card
+                      id={b._id}
+                      title={b.title}
+                      image={b.image}
+                      typebook={b.typebook}
+                      price={b.price}
+                      author={b.author}
+                      type={b.typebook}
+                      product={b}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            <SideBar />
+          </div>
+          
+          </Grid>
+          {allBooks.length ? (
         <div
           className={s.container}
-          style={{
-            "backgroundColor": theme && "#212529",
-            color: theme && "white",
-          }}
+         
         >
           <div className={s.paginated}>
             {currentPage !== 1  ? (
@@ -140,38 +169,11 @@ export default function Home() {
             )}
           </div>
 
-          <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-around"
-                  alignItems="flex-start">
-          <div className={s.components}>
-            <div className={s.cards}>
-              {currentBooks?.map((b) => {
-                return (
-                  <div key={b._id} className={s.card}>
-                    <Card
-                      id={b._id}
-                      title={b.title}
-                      image={b.image}
-                      typebook={b.typebook}
-                      price={b.price}
-                      author={b.author}
-                      type={b.typebook}
-                      product={b}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-
-            <SideBar />
-          </div>
-          </Grid>
         </div>
       ) : (
         <Loader />
       )}
+      <Footer/>
     </React.Fragment>
   );
 }
