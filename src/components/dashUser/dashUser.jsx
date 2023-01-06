@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllBooks, getAllUsers, disableUser, deleteUser, modifyUser } from "../../redux/actions";
 import Loader from "../loader/Loader";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import s from "./dashUser.module.css";
 import DashUserForm from "../dashUserForm/dashUserForm";
 import Button from '@mui/material/Button';
@@ -22,14 +24,16 @@ import Paper from '@mui/material/Paper';
 export default function DashUser({user}) {
   // Call Global States
   const dispatch = useDispatch();
-
+  const MySwal = withReactContent(Swal);
 
   // Functions
   async function disableUserById(e){
     e.preventDefault();
+    let stateAux = user.available ? ("disabled") : ("enabled");
     let itemId = e.target.value;
     await dispatch(disableUser(itemId));
     dispatch(getAllUsers());
+    return MySwal.fire(`The user has been ${stateAux}`, "" , "success");
   };
   
   async function deleteUserById(e){
@@ -37,16 +41,10 @@ export default function DashUser({user}) {
     let itemId = e.target.value;
     await dispatch(deleteUser(itemId));
     dispatch(getAllUsers());
+    return MySwal.fire("The user has been deleted", "" , "success");
   };
   
-  async function changePermissions(e, user){
-    e.preventDefault();
-    let info = {[e.target.name]: e.target.value};
-    await dispatch(modifyUser(user._id, info));
-    dispatch(getAllUsers());
-  };
   
-
   
   
   return (<React.Fragment>

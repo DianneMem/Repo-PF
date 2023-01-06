@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllBooks, disablePost, deletePost } from "../../redux/actions";
 import DashCardForm from '../dashCardForm/dashCardForm';
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 import Button from '@mui/material/Button';
 import defaultImage from '../../assets/bookDefault.png';
@@ -11,16 +13,19 @@ import s from './dashCard.module.css';
 
 
 
-export default function DashCard({id, title, image, typebook, price, author, categorie, editorial, saga, language, gender, year, state, available}){
+export default function DashCard({id, title, image, typebook, price, author, categorie, editorial, saga, language, gender, year, state, available, seller}){
 
 
   const dispatch = useDispatch();
-
+  const MySwal = withReactContent(Swal);
+  
   async function disable(e){
+    let stateAux = available ? ("disabled") : ("enabled");
     e.preventDefault();
     let itemId = e.target.value;
     await dispatch(disablePost(itemId));
     dispatch(getAllBooks());
+    return MySwal.fire(`The product has been ${stateAux}`, "", "success");
   }
   
   async function deletes(e){
@@ -28,6 +33,7 @@ export default function DashCard({id, title, image, typebook, price, author, cat
     let itemId = e.target.value;
     await dispatch(deletePost(itemId));
     dispatch(getAllBooks());
+    return MySwal.fire(`The product has been deleted`, "", "success");
   }
 
 
@@ -88,7 +94,8 @@ export default function DashCard({id, title, image, typebook, price, author, cat
           <p>|</p>
           {available? (<p>Available: Yes</p>) : (<p>Available: No</p>)}
         </div>
-        <div className={s.infoContainer}>
+        <div className={s.controllerContainer}>
+          <span>Seller: {seller}</span>
           <DashCardForm
           id={id}
           title={title}

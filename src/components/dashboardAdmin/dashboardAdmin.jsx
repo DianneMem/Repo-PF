@@ -245,6 +245,7 @@ export default function DashAdmin() {
                 year={b.year}
                 state={b.state}
                 available={b.available}
+                seller={b.seller}
                 />
               </div>)
             })}

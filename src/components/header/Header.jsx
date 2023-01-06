@@ -43,7 +43,7 @@ export default function Header() {
   }
   if (!sesionLocal) {
     return (
-      <AppBar className="texts-login">
+      <AppBar className="texts-login" position="relative">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -100,7 +100,7 @@ export default function Header() {
             </Box>
 
             <NavLink to={"/"}>
-              <img src={logo} width="100px" style={{ cursor: "pointer" }} />
+              <img alt="logo" src={logo} width="100px" style={{ cursor: "pointer" }} />
             </NavLink>
 
             <Typography
@@ -162,7 +162,7 @@ export default function Header() {
 
   if (sesionLocal && sesionLocal[0].role === "admin") {
     return (
-      <AppBar className="texts-login">
+      <AppBar className="texts-login" position="relative">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -225,7 +225,7 @@ export default function Header() {
             </Box>
 
             <NavLink to={"/"}>
-              <img src={logo} width="100px" style={{ cursor: "pointer" }} />
+              <img alt="logo" src={logo} width="100px" style={{ cursor: "pointer" }} />
             </NavLink>
 
             <Typography
@@ -297,7 +297,7 @@ export default function Header() {
 
   if (sesionLocal && sesionLocal[0].role === "user") {
     return (
-      <AppBar className="texts-login">
+      <AppBar className="texts-login"  position="relative">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -364,7 +364,7 @@ export default function Header() {
             </Box>
 
             <NavLink to={"/"}>
-              <img src={logo} width="100px" style={{ cursor: "pointer" }} />
+              <img alt="logo" src={logo} width="100px" style={{ cursor: "pointer" }} />
             </NavLink>
 
             <Typography
