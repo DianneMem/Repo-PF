@@ -34,9 +34,11 @@
 .paginated{
 display: flex;
 justify-content: center;
-padding-top: 1rem  ;
-margin-bottom: 50px;
 background-color: white;
+padding-top: 1rem  ;
+padding-bottom: 1rem;
+margin-top: 2.5rem;
+margin-bottom: 2rem;
 }
 
 .pageBtn{

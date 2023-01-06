@@ -33,7 +33,7 @@ export default function DashUser({user}) {
     let itemId = e.target.value;
     await dispatch(disableUser(itemId));
     dispatch(getAllUsers());
-    return MySwal.fire(`The user has been ${stateAux}`, "" , "success");
+    return MySwal.fire(`The user has been ${stateAux}`, "" , "info");
   };
   
   async function deleteUserById(e){
@@ -41,7 +41,7 @@ export default function DashUser({user}) {
     let itemId = e.target.value;
     await dispatch(deleteUser(itemId));
     dispatch(getAllUsers());
-    return MySwal.fire("The user has been deleted", "" , "success");
+    return MySwal.fire("The user has been deleted", "" , "info");
   };
   
   

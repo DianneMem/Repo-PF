@@ -49,6 +49,15 @@ const [open, setOpen] = useState(false);
 if(open) console.log(input);
 if(open) console.log('formError', error);
 
+const initialDataJson = JSON.stringify({
+  username: user.username,
+    email: user.email,
+    role: user.role,
+    password: '',
+    confirm: ''
+});
+const inputJson = JSON.stringify(input);
+
 
 // Functions
 function handleOpen(){
@@ -119,22 +128,20 @@ function validate(input){
   } else if (RegEXP.test(input.username)) {
     error.username = "Special characters are not accepted";
   } else if (
-    users.find((e) => e.username.toLowerCase() === input.username.toLowerCase())
+    users.filter(e => e.username.toLowerCase() !== user.username).find((e) => e.username.toLowerCase() === input.username.toLowerCase())
   ) {
-    error.email = "This mail is already registered";
+    error.username = "This username is already registered";
   }
   if (!input.email) {
     error.email = "E-mail required";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(input.email)) {
     error.email = "Invalid e-mail address";
   } else if (
-    users.find((e) => e.email.toLowerCase() === input.email.toLowerCase())
+    users.filter(e => e.email.toLowerCase() !== user.email).find((e) => e.email.toLowerCase() === input.email.toLowerCase())
   ) {
     error.email = "This mail is already registered";
   }
-  if (!input.password) {
-    error.password = "Password required";
-  } else if (input.password.length < 5){
+  if (input.password && input.password.length < 5){
     error.password = "Password minimum 5 characters";
   }
   if (input.password !== input.confirm) {
@@ -168,8 +175,9 @@ return(
         variant="outlined"
         value={input.username}
         onChange={(e)=>inputChange(e)}
+        error={error.username}
+        helperText={error.username}
       />
-      {/* {error.username && <p className="danger-p">{error.username}</p>} */}
       <TextField
         autoFocus
         margin="dense"
@@ -181,8 +189,9 @@ return(
         variant="outlined"
         value={input.email}
         onChange={(e)=>inputChange(e)}
+        error={error.email}
+        helperText={error.email}
       />
-      {/* {error.email && <p className="danger-p">{error.email}</p>} */}
       <TextField
         autoFocus
         margin="dense"
@@ -194,8 +203,9 @@ return(
         variant="outlined"
         value={input.password}
         onChange={(e)=>inputChange(e)}
+        error={error.password}
+        helperText={error.password}
       />
-      {/* {error.password && <p className="danger-p">{error.password}</p>} */}
       <TextField
         autoFocus
         margin="dense"
@@ -207,8 +217,9 @@ return(
         variant="outlined"
         value={input.confirm}
         onChange={(e)=>inputChange(e)}
+        error={error.confirmation}
+        helperText={error.confirmation}
       />
-      {/* {error.confirmation && <p className="danger-p">{error.confirmation}</p>} */}
       <FormControl >
         <FormLabel id="radio-group-label-1">Type</FormLabel>
         <RadioGroup
@@ -225,7 +236,7 @@ return(
       {error.role && <p className="danger-p">{error.role}</p>}
       <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={modifyUserById}>Modify</Button>
+          {initialDataJson === inputJson || Object.keys(error).length ? (<Button disabled onClick={modifyUserById}>Modify</Button>) : (<Button onClick={modifyUserById}>Modify</Button>)}
         </DialogActions>
     </DialogContent>
   </Dialog>

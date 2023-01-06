@@ -25,7 +25,7 @@ export default function DashCard({id, title, image, typebook, price, author, cat
     let itemId = e.target.value;
     await dispatch(disablePost(itemId));
     dispatch(getAllBooks());
-    return MySwal.fire(`The product has been ${stateAux}`, "", "success");
+    return MySwal.fire(`The product has been ${stateAux}`, "", "info");
   }
   
   async function deletes(e){
@@ -33,7 +33,7 @@ export default function DashCard({id, title, image, typebook, price, author, cat
     let itemId = e.target.value;
     await dispatch(deletePost(itemId));
     dispatch(getAllBooks());
-    return MySwal.fire(`The product has been deleted`, "", "success");
+    return MySwal.fire(`The product has been deleted`, "", "info");
   }
 
 
