@@ -34,6 +34,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addBuyerToProduct,
   addPurchases,
+  cartMailing,
   clearStorage,
   deleteStorageItemById,
   findUserStripe,
@@ -108,7 +109,9 @@ const CheckoutForm = () => {
       ? getCart.map((e) => e.price).reduce((sum, item) => sum + item, 0)
       : 0,
     description: getCart ? getCart.map((e) => e._id).join(" ") : " ",
+  
   };
+  
   console.log(totalAmount);
 
   const [loading, setLoading] = useState(false);
@@ -170,13 +173,16 @@ const CheckoutForm = () => {
         getCart.map((elm) =>
         dispatch(addBuyerToProduct( elm._id,session[0]))
       );
-      getCart.map((elm) =>
-      dispatch(payMailing({
+     
+    let products=[]
+    products.push(getCart.map((e) =>e))
+            console.log(products);  
+      dispatch(cartMailing({
         username:session[0].username,
         email:session[0].email,
-        product:elm,
-        amount:Math.ceil(elm.price)}))
-    );
+        allProducts:products[0],
+        amount:totalAmount.amount}))
+  
           localStorage.setItem("cart", "[]");
           dispatch(clearStorage(session[0].id));
         } catch (error) {
@@ -552,7 +558,7 @@ const CheckoutForm = () => {
                                       </Box>
                                     ))}
                                     <Typography variant="h6" color="#FFF">
-                                      <Box>{`Total: U$D ${totalAmount.amount}`}</Box>
+                                      <Box>{`Total: U$D ${ Math.ceil(totalAmount.amount)}`}</Box>
                                     </Typography>
                                   </Typography>
                                 </ListItem>
@@ -873,7 +879,7 @@ const CheckoutForm = () => {
                                     </Box>
                                   ))}
                                   <Typography variant="h6" color="#FFF">
-                                    <Box>{`Total: U$D ${totalAmount.amount}`}</Box>
+                                    <Box>{`Total: U$D ${Math.ceil(totalAmount.amount)}`}</Box>
                                   </Typography>
                                 </Typography>
                               </ListItem>
