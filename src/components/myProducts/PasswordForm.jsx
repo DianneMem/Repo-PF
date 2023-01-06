@@ -136,8 +136,9 @@ return(
         variant="outlined"
         value={input.oldPassword}
         onChange={(e)=>inputChange(e)}
+        error={error.oldPassword}
+        helperText={error.oldPassword}
       />
-      {error.oldPassword && <p className="danger-p">{error.oldPassword}</p>}
       <TextField
         autoFocus
         margin="dense"
@@ -149,8 +150,9 @@ return(
         variant="outlined"
         value={input.newPassword}
         onChange={(e)=>inputChange(e)}
+        error={error.password}
+        helperText={error.password}
       />
-      {error.password && <p className="danger-p">{error.password}</p>}
       <TextField
         autoFocus
         margin="dense"
@@ -162,11 +164,12 @@ return(
         variant="outlined"
         value={input.confirm}
         onChange={(e)=>inputChange(e)}
+        error={error.confirmation}
+        helperText={error.confirmation}
       />
-      {error.confirmation && <p className="danger-p">{error.confirmation}</p>}
       <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={modifyUserById}>Modify</Button>
+          {!input.oldPassword || Object.keys(error).length ? (<Button disabled onClick={modifyUserById}>Modify</Button>) : (<Button onClick={modifyUserById}>Modify</Button>)}
         </DialogActions>
     </DialogContent>
   </Dialog>

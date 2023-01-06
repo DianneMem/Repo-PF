@@ -151,8 +151,8 @@ function validate(input){
   }
   if (!input.password) {
     errors.password = "Password required";
-  } else if (input.password.length < 5){
-    errors.password = "Password minimum 5 characters";
+  } else if (input.password.length < 6){
+    errors.password = "Password minimum 6 characters";
   }
   if (input.password !== input.confirmation) {
     errors.confirmation = "Passwords must match";
@@ -213,9 +213,11 @@ return(
                     name="username"
                     autoComplete="username"
                     onChange={(e) => handleUser(e)}
+                    error={errors.username}
+                    helperText={errors.username}
                   />
                 </Grid>
-                {errors.username && <p className="danger-p">{errors.username}</p>}
+
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -225,9 +227,11 @@ return(
                     name="email"
                     autoComplete="email"
                     onChange={(e) => handleUser(e)}
+                    error={errors.email}
+                    helperText={errors.email}
                   />
                 </Grid>
-                {errors.email && <p className="danger-p">{errors.email}</p>}
+                
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -238,9 +242,11 @@ return(
                     id="password"
                     autoComplete="new-password"
                     onChange={(e) => handleUser(e)}
+                    error={errors.password}
+                    helperText={errors.password}
                   />
                 </Grid>
-                {errors.password && <p className="danger-p">{errors.password}</p>}
+                
                 <Grid item xs={12}>
                   <TextField
                     required
@@ -251,9 +257,11 @@ return(
                     id="confirmation"
                     autoComplete="new-password"
                     onChange={(e) => handleUser(e)}
+                    error={errors.confirmation}
+                    helperText={errors.confirmation}
                   />
                 </Grid>
-                {errors.confirmation && <p className="danger-p">{errors.confirmation}</p>}
+               
               </Grid>
                 <FormControl >
                   <FormLabel id="radio-group-label-1">Type</FormLabel>
@@ -277,14 +285,22 @@ return(
                 >
                   Cancel
                 </Button>
-                <Button
+                {!input.username || Object.keys(errors).length ? (<Button
                   type="submit"
                   variant="outlined"
                   sx={{ mt: 3, mb: 2, color: "#013a63", border:1}}
                   endIcon={<Send />}
-                >
-                  Create
-                </Button>
+                  disabled
+                >Create
+                </Button>) : (<Button
+                  type="submit"
+                  variant="outlined"
+                  sx={{ mt: 3, mb: 2, color: "#013a63", border:1}}
+                  endIcon={<Send />}
+                >  Create
+                </Button>)}
+                
+                
               </DialogActions>
             </Box>
           </Box>

@@ -78,25 +78,7 @@ export default function Home() {
     }
   }
 
-  // Loading SetTimeOut
-  /* 
-  const [loading, setLoading] = useState(false);
-  const changeState = () => {
-    setTimeout(() => {
-      setLoading(true);
-    }, 4000);
-  };
-  if (loading === false) {
-    changeState();
-    return <Loader />;
-  } else {
-    if (allBooks.length === 0) {
-      dispatch(getAllBooks());
-      setLoading(false);
-      // alert("No books found");
-    }
-  }
-  */
+  
 
   return (
     <React.Fragment>
@@ -133,42 +115,14 @@ export default function Home() {
           
           </Grid>
           {allBooks.length ? (
-        <div
-          className={s.container}
-         
-        >
+        <div className={s.container}>
           <div className={s.paginated}>
-            {currentPage !== 1  ? (
-              <button
-                className={s.pageBtn}
-                value="less"
-                onClick={(e) => changePage(e)}
-              >
-                {"<"}
-              </button>
-            ) : (
-              <div></div>
-            )}
-
             <Paginated
               booksPerPage={booksPerPage}
               allBooks={loadBooks.length}
               paginate={paginate}
             />
-
-            {currentPage !== pages ? (
-              <button
-                className={s.pageBtn}
-                value="more"
-                onClick={(e) => changePage(e)}
-              >
-                {">"}
-              </button>
-            ) : (
-              <div></div>
-            )}
           </div>
-
         </div>
       ) : (
         <Loader />

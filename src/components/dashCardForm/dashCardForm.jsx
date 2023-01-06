@@ -25,6 +25,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
+import { Typography } from '@mui/material';
 
 
 
@@ -60,10 +61,22 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
   if(open) console.log(input);
   if(open) console.log('formError', error);
 
+  const initialDataJson = JSON.stringify({
+    title: title,
+    author: author,
+    editorial: editorial,
+    language: language,
+    year: year,
+    state: state,
+    typebook: typebook,
+    price: price,
+    categorie: categorie,
+    gender: gender,
+    saga: saga
+  });
+  const inputJson = JSON.stringify(input)
 
   
-  
-
 
   // Functions
   function handleOpen(){
@@ -71,6 +84,20 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
   };
   
   function handleClose(){
+    setInput({
+      title: title,
+      author: author,
+      editorial: editorial,
+      language: language,
+      year: year,
+      state: state,
+      typebook: typebook,
+      price: price,
+      categorie: categorie,
+      gender: gender,
+      saga: saga
+    });
+    setError({});
     setOpen(false);
   };
   
@@ -81,15 +108,19 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
     
     if (!input.title) {err.title = "· Title is required"} 
     else if (RegEXP.test(input.title)) {err.title = "· Special characters are not accepted"}
-    else if(input.title.length > 200) {err.title = "· Title too long"}
+    else if(input.title.length > 100) {err.title = "· Title too long"}
     
     else if (!input.author) {err.author = "· Author is required"}
     else if (RegEXP.test(input.author)) {err.author = "· Special characters are not accepted"}
-    else if(input.author.length > 200) {err.author = "· Author name too long"}
+    else if(input.author.length > 100) {err.author = "· Author name too long"}
+    else if (RegEXP.test(input.author)) {err.author = "· Special characters are not accepted"}
     
     else if (!input.editorial) {err.editorial = "· Editorial is required"}
     else if (RegEXP.test(input.editorial)) {err.editorial = "· Special characters are not accepted"}
-    else if(input.editorial.length > 200) {err.editorial = "· Editorial name too long"}
+    else if(input.editorial.length > 100) {err.editorial = "· Editorial name too long"}
+    else if (RegEXP.test(input.editorial)) {err.editorial = "· Special characters are not accepted"}
+    
+    if (RegEXP.test(input.saga)) {err.saga = "· Special characters are not accepted"}
     
     else if (!input.gender.length) {err.gender = "· Select at least one gender"}
     
@@ -185,6 +216,8 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
           variant="outlined"
           value={input.title}
           onChange={(e)=>inputChange(e)}
+          error={error.title}
+          helperText={error.title}
         />
         <TextField
           autoFocus
@@ -197,6 +230,8 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
           variant="outlined"
           value={input.saga}
           onChange={(e)=>inputChange(e)}
+          error={error.saga}
+          helperText={error.saga}
         />
         <TextField
           autoFocus
@@ -209,6 +244,8 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
           variant="outlined"
           value={input.author}
           onChange={(e)=>inputChange(e)}
+          error={error.author}
+          helperText={error.author}
         />
         <TextField
           autoFocus
@@ -221,6 +258,8 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
           variant="outlined"
           value={input.editorial}
           onChange={(e)=>inputChange(e)}
+          error={error.editorial}
+          helperText={error.editorial}
         />
         <TextField
           autoFocus
@@ -233,6 +272,8 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
           variant="outlined"
           value={input.year}
           onChange={(e)=>inputChange(e)}
+          error={error.year}
+          helperText={error.year}
         />
         <TextField
           autoFocus
@@ -245,6 +286,8 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
           variant="outlined"
           value={input.price}
           onChange={(e)=>inputChange(e)}
+          error={error.price}
+          helperText={error.price}
         />
         
         <FormControl sx={{ m: 1, minWidth: 80 }} fullWidth>
@@ -271,6 +314,7 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
             value={input.gender}
             onChange={selectGendersMUI}
             renderValue={(selected) => selected.join(', ')}
+            error={error.gender}
           >
             {allGenders?.map(gen => {return(
             <MenuItem key={gen} value={gen}>
@@ -279,6 +323,7 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
             </MenuItem>
             )})}
           </Select>
+          <Typography>{error.gender}</Typography>
         </FormControl>
         
         <FormControl sx={{ m: 1, minWidth: 80 }} fullWidth>
@@ -324,7 +369,7 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
       
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={modifyMUI}>Modify</Button>
+          {initialDataJson === inputJson || Object.keys(error).length ? (<Button disabled onClick={modifyMUI}>Modify</Button>) : (<Button onClick={modifyMUI}>Modify</Button>)}
         </DialogActions>
       
       </DialogContent>
