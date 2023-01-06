@@ -388,6 +388,16 @@ export function payMailing(payload) {
     }
   };
 }
+export function cartMailing(payload) {
+  return async function (dispatch) {
+    try {
+      let post = await axios.post(`${localhost}/profile/cartMail`, payload);
+      console.log(post.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
 
 
 
