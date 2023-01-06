@@ -5,6 +5,8 @@
   gap: 1.5rem;
   padding: 1rem;
   margin-left: 5rem;
+  margin-top: 50px;
+  
 }
 
   
@@ -23,6 +25,7 @@
 .card{
  /*  transform: scale(0.9); */
   transition-duration: 0.5s;
+  margin-top: 50px;
 }
 .card:hover{
   transform: scale(1.04);
@@ -31,8 +34,9 @@
 .paginated{
 display: flex;
 justify-content: center;
-margin-top: 5.8rem;
 padding-top: 1rem  ;
+margin-bottom: 50px;
+background-color: white;
 }
 
 .pageBtn{
@@ -42,8 +46,8 @@ padding-top: 1rem  ;
   height: 2rem;
   font-size: 0.9rem;
   color:rgb(0, 0, 0);
-  background-color:rgb(255, 255, 255);
-  border: solid 2px rgb(245, 210, 146);
+  background-color:white;
+  border: solid 2px #bfc0c0;
   border-radius: 3px;
   margin: 0.2rem;
   padding-top: 0.1rem;
@@ -52,10 +56,10 @@ padding-top: 1rem  ;
 }
 .pageBtn:hover{
   color:rgb(0, 0, 0);
-  background-color:rgb(242, 191, 252);
+  background-color:#bfc0c0;
 }
 .pageBtn:active{
-  background-color:rgb(207, 110, 226);
+  background-color:#bfc0c0;
 }
 
 .noBtn{
@@ -78,4 +82,5 @@ padding-top: 1rem  ;
 .components{
   display: flex;
   justify-content: space-between;
+  
   }
