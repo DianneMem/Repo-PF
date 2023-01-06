@@ -238,6 +238,7 @@ function Profile(props) {
                   <div key={b._id}>
                     <MyProducts
                       id={b._id}
+                      buyers={b.buyers}
                       title={b.title}
                       image={b.image}
                       typebook={b.typebook}

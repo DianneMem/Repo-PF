@@ -523,6 +523,16 @@ export const deleteStorageItemById = (id, item) => {
     }
   };
 };
+export const addBuyerToProduct = (id,payload) => {
+  return async (dispatch) => {
+    try {
+      const pay = await axios.put(`${localhost}/products/buyers/${id}`,payload)
+      console.log(pay)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
 
 export const modifyMyPosts = (id,item,payload) => {
   return async (dispatch) => {
