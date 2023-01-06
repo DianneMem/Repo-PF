@@ -26,7 +26,7 @@ export const CLEAR_IMAGE="CLEAR_IMAGE"
 export const GET_MY_PRODUCTS="GET_MY_PRODUCTS"
 export const GET_MY_BOOKS="GET_MY_BOOKS"
 export const DARK_MODE = "DARK_MODE";
-
+ 
 
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
@@ -517,6 +517,16 @@ export const deleteStorageItemById = (id, item) => {
   return async (dispatch) => {
     try {
       const pay = await axios.put(`${localhost}/users/${id}/storage?item=${item}`)
+      console.log(pay)
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+export const addBuyerToProduct = (id,payload) => {
+  return async (dispatch) => {
+    try {
+      const pay = await axios.put(`${localhost}/products/buyers/${id}`,payload)
       console.log(pay)
     } catch (e) {
       console.log(e);

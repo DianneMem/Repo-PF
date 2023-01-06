@@ -67,6 +67,7 @@ export default function MyProducts({
   available,
   deletes,
   disable,
+  buyers
 }) {
   const isActive = useMediaQuery("(max-width:870px)");
   // Only First Mayus
@@ -845,7 +846,9 @@ export default function MyProducts({
                       alt="Book"
                     /> 
                     </Grid>
-             <Grid  item xs={1} sx={{ml:6,mt:2}}>  
+                    {console.log(buyers.length)}
+                    {buyers.length<1?             
+                    <Grid  item xs={1} sx={{ml:6,mt:2}}>  
                       {available ? (
                         <Button
                           variant="outlined"
@@ -902,7 +905,31 @@ export default function MyProducts({
                       >
                         Modify
                       </Button>
-                    </Grid>
+                    </Grid> : 
+                    
+                       <ListItem
+                      button
+                      fullWidth
+                      sx={{
+                        background:
+                          "linear-gradient(135deg, #006ba6 0%,  #013a63 90%)",
+                        ":hover": {
+                          background:
+                            "linear-gradient(135deg,  #006ba6 0%, #013a63 100%)",
+                        },
+                        borderRadius: 2,
+                        mt: 1,
+                      }}
+                    >
+                      <Typography sx={{ wordBreak: "break-word" }}>
+                        <Typography
+                          variant="subtitle1"
+                          color="#FFF"
+                        ></Typography>
+                        <Box color="#FFF"> Buyer : {buyers[0].username}</Box>
+                      </Typography>
+                    </ListItem>
+}
                     </Grid>
              </Grid>
          
@@ -958,7 +985,7 @@ export default function MyProducts({
                         <Box color="#FFF"> State : {state}</Box>
                       </Typography>
                     </ListItem>
-
+                
                     <ListItem
                       button
                       fullWidth
@@ -1183,7 +1210,8 @@ export default function MyProducts({
        
         </Box>
       )}
-      </Box> :<Box>     
+      </Box> :
+      <Box>     
          {isForm ? 
          (
         <Box
@@ -1824,8 +1852,11 @@ export default function MyProducts({
                         <Box color="#FFF">Language : {language}</Box>
                       </Typography>
                     </ListItem>
-                    <br></br>
-                    <div>
+               
+                    {buyers.length<1?  
+                        
+                       <div>
+                         <br></br>       
                       {available ? (
                         <Button
                           variant="outlined"
@@ -1880,7 +1911,34 @@ export default function MyProducts({
                       >
                         Modify
                       </Button>
-                    </div>
+                    </div> 
+                    : 
+                    
+                       <ListItem
+                      button
+                      fullWidth
+                      sx={{
+                        background:
+                          "linear-gradient(135deg, #006ba6 0%,  #013a63 90%)",
+                        ":hover": {
+                          background:
+                            "linear-gradient(135deg,  #006ba6 0%, #013a63 100%)",
+                        },
+                        borderRadius: 2,
+                        mt: 1,
+                      }}
+                    >
+                      <Typography sx={{ wordBreak: "break-word" }}>
+                        <Typography
+                          variant="subtitle1"
+                          color="#FFF"
+                        ></Typography>
+                        <Box color="#FFF"> Buyer : {buyers[0].username}</Box>
+                      </Typography>
+                    </ListItem>
+                    
+                     }
+                  
                   </Item3>
                 </Grid>
                 <Grid item xs={8} sx={{ mt: 5.5 }}>

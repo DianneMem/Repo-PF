@@ -12,9 +12,11 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
+  addBuyerToProduct,
   addPurchases,
   deleteStorageItemById,
   getBooksDetails,
+  getUsersDetail,
   payMailing,
 } from "../../redux/actions";
 import "./Stripe.css";
@@ -63,8 +65,12 @@ const CheckoutForm = () => {
   const detailsBooks = useSelector((state) => state.detailsBook);
   const MySwal = withReactContent(Swal);
   const [address,setAddress]=useState("")
+  const userState= useSelector(state=>state.userDetail)
+
+
   useEffect(() => {
     dispatch(getBooksDetails(_id));
+ 
   }, [dispatch, _id]);
 
   const cardStyle = {
@@ -90,6 +96,7 @@ const CheckoutForm = () => {
   const handleSubmit = async (e, message) => {
     e.preventDefault();
     let userId = JSON.parse(localStorage.getItem("session"));
+    dispatch(getUsersDetail(userId[0].id))
     if (userId) {
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
@@ -148,9 +155,10 @@ const CheckoutForm = () => {
               title: detailsBooks.title,
               amount: Math.ceil(detailsBooks.price),
               date: fullDate,
-            })
+            }) 
           );
           elements.getElement(CardElement).clear();
+          dispatch(addBuyerToProduct(detailsBooks._id,userState[0]))
           MySwal.fire("Thank You for your purchase!", message, "success");
           navigate("/");
         } catch (error) {
@@ -166,6 +174,7 @@ const CheckoutForm = () => {
       );
       navigate("/login");
     }
+    console.log(userState);
   };
 
   return (

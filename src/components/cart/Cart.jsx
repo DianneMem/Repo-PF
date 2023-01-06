@@ -32,10 +32,12 @@ import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addBuyerToProduct,
   addPurchases,
   clearStorage,
   deleteStorageItemById,
   findUserStripe,
+  getUsersDetail,
   payMailing,
 } from "../../redux/actions";
 import Loader from "../loader/Loader";
@@ -90,7 +92,7 @@ const Item3 = styled(Paper)(({ theme }) => ({
 
 const CheckoutForm = () => {
   const isActive = useMediaQuery("(max-width:870px)");
- 
+  const userState= useSelector(state=>state.userDetail)
   const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
@@ -113,6 +115,7 @@ const CheckoutForm = () => {
   const handleSubmit = async (e, message) => {
     e.preventDefault();
     let userId = JSON.parse(localStorage.getItem("session"));
+    dispatch(getUsersDetail(userId[0].id))
     if (userId) {
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
@@ -162,13 +165,18 @@ const CheckoutForm = () => {
             )
 
           );
-          getCart.map((elm) =>
-          dispatch(payMailing({
-            username:session[0].username,
-            email:session[0].email,
-            product:elm,
-            amount:Math.ceil(elm.price)}))
-        );
+          
+   
+        getCart.map((elm) =>
+        dispatch(addBuyerToProduct( elm._id,session[0]))
+      );
+      getCart.map((elm) =>
+      dispatch(payMailing({
+        username:session[0].username,
+        email:session[0].email,
+        product:elm,
+        amount:Math.ceil(elm.price)}))
+    );
           localStorage.setItem("cart", "[]");
           dispatch(clearStorage(session[0].id));
         } catch (error) {
