@@ -17,6 +17,8 @@ import { LogoutOutlined } from "@mui/icons-material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import SupervisorAccountRoundedIcon from '@mui/icons-material/SupervisorAccountRounded';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -96,6 +98,10 @@ export default function Header() {
               >
                 <MenuItem>
                   <NavLink className="color-header-res" to={"/login"}>
+                    <LoginRoundedIcon></LoginRoundedIcon>
+                  </NavLink>
+                  
+                  <NavLink className="color-header-res2" to={"/login"}>
                     LOGIN
                   </NavLink>
                 </MenuItem>
@@ -130,6 +136,9 @@ export default function Header() {
               <NavLink className="color-header" to={"/login"}>
                 LOGIN
               </NavLink>
+                    <NavLink className="color-header" to={"/login"}>
+                    <LoginRoundedIcon></LoginRoundedIcon>
+                  </NavLink>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -214,15 +223,22 @@ export default function Header() {
                 }}
               >
                 <MenuItem>
-                  <NavLink className="color-header-res" to={"/admin"}>
+                <NavLink className="color-header-res" to={"/admin"}>
+                    <SupervisorAccountRoundedIcon></SupervisorAccountRoundedIcon>
+                  </NavLink>
+                  <NavLink className="color-header-res2" to={"/admin"}>
                     ADMIN
                   </NavLink>
                 </MenuItem>
 
                 <MenuItem>
-                  <NavLink className="color-header-res" to={"/profile"}>
-                    PROFILE
-                  </NavLink>
+                <NavLink className="color-header-res" to={"/profile"}>
+                  <AccountCircleIcon/> 
+                  {" "}   
+              </NavLink>
+              <NavLink className="color-header-res2" to={"/profile"}>
+              {sesionLocal[0].username[0].toUpperCase()+ sesionLocal[0].username.slice(1)}
+              </NavLink>
                 </MenuItem>
               </Menu>
             </Box>
@@ -252,12 +268,22 @@ export default function Header() {
               sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
               className="color-header"
             >
-              <NavLink className="color-header" to={"/admin"}>
+    <NavLink className="color-header" to={"/admin"}>
+                    <SupervisorAccountRoundedIcon></SupervisorAccountRoundedIcon>
+                  </NavLink>
+<NavLink className="color-header" to={"/admin"}>
                 ADMIN
               </NavLink>
-              <NavLink className="color-header" to={"/profile"}>
-                PROFILE
+
+<NavLink className="color-header" to={"/profile"}>
+                  <AccountCircleIcon/> 
+                  {" "}   
               </NavLink>
+              <NavLink className="color-header" to={"/profile"}>
+              {sesionLocal[0].username[0].toUpperCase()+ sesionLocal[0].username.slice(1)}
+              </NavLink>
+
+              
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -349,20 +375,32 @@ export default function Header() {
                 }}
               >
                 <MenuItem>
-                  <NavLink className="color-header-res" to={"/cart"}>
-                    CART
-                  </NavLink>
-                </MenuItem>
+                <NavLink className="color-header-res" to={"/cart"}>
+                <ShoppingCartIcon/>
+             
+              </NavLink> 
+               <NavLink className="color-header-res2" to={"/cart"}>
+             CART
+             
+              </NavLink>
+               </MenuItem>
+                <MenuItem >
+              <NavLink className="color-header-res" to={"/createProduct"}>
+             <AddBoxIcon></AddBoxIcon>
+              </NavLink>
+                <NavLink className="color-header-res2" to={"/createProduct"}>
+                CREATE PRODUCT
+              </NavLink>
+               </MenuItem>
                 <MenuItem>
-                  <NavLink className="color-header-res" to={"/createProduct"}>
-                    CREATE PRODUCT
-                  </NavLink>
-                </MenuItem>
-                <MenuItem>
-                  <NavLink className="color-header-res" to={"/profile"}>
-                    PROFILE
-                  </NavLink>
-                </MenuItem>
+                <NavLink className="color-header-res" to={"/profile"}>
+                  <AccountCircleIcon/> 
+                  {" "}   
+              </NavLink>
+              <NavLink className="color-header-res2" to={"/profile"}>
+              {sesionLocal[0].username[0].toUpperCase()+ sesionLocal[0].username.slice(1)}
+              </NavLink>
+               </MenuItem>
               </Menu>
             </Box>
 

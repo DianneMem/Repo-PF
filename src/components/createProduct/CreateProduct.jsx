@@ -207,15 +207,15 @@ export default function CreatePost() {
     });
   }
 
-  const changeState = () => {
-    setTimeout(() => {
-      setLoading(true);
-    }, 3000);
-  };
-  if (!loading) {
-    changeState();
-    return <Loader />;
-  }
+  // const changeState = () => {
+  //   setTimeout(() => {
+  //     setLoading(true);
+  //   }, 3000);
+  // };
+  // if (!loading) {
+  //   changeState();
+  //   return <Loader />;
+  // }
 
   const onFileInputChange = ({ target }) => {
     if (target.files === 0) return;
@@ -1459,7 +1459,7 @@ export default function CreatePost() {
                         !input.typebook ||
                         !input.state ||
                         !input.language ||
-                        !input.categorie
+                        !input.categorie||!input.gender.length
                           ? true
                           : false
                       }

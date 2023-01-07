@@ -280,7 +280,7 @@ export default function Reviews() {
             </Grid>
             </Box>
         :
-        <Alert severity="info">You don't have favorite books - choose one!</Alert>
+        <Alert severity="info">You haven't bought any books yet - Go to the shop!!</Alert>
         }
 
     </>
