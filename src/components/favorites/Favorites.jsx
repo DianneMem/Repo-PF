@@ -8,7 +8,7 @@ import {
   deleteFavoriteItemById,
   getUsersDetail,
 } from "../../redux/actions";
-import Loader from "../loader/Loader";
+
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { useNavigate } from "react-router-dom";
@@ -44,23 +44,7 @@ export default function Favorites() {
 
   // Loading SetTimeOut
 
-  const changeState = () => {
-    setTimeout(() => {
-      setLoading(true);
-    }, 2000);
-  };
-  if (loading === false) {
-    changeState();
-    return <Loader />;
-  } else {
-    if (usersDetail.length === 0) {
-      let session = JSON.parse(localStorage.getItem("session"));
-      let id = session[0].id;
-      dispatch(getUsersDetail(id));
-      setLoading(false);
-      // alert("No books found");
-    }
-  }
+
   function cartHandler(detail, message) {
     if (!localStorage.getItem("cart")) {
       localStorage.setItem("cart", "[]");
@@ -145,7 +129,7 @@ export default function Favorites() {
         onClick={(e) => handlerDeleteAll(e)}
       >
         <Add />
-        delete
+        delete all items
       </Button>
       </Box>
 

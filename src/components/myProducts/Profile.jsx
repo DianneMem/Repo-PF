@@ -39,7 +39,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Reviews from "../reviews/Reviews";
 import Favorites from "../favorites/Favorites";
-import { Grid } from "@mui/material";
+import { Alert, Grid } from "@mui/material";
 import { border, margin } from "@mui/system";
 
 const drawerWidth = 240;
@@ -74,8 +74,7 @@ function Profile(props) {
 
   let [productInput, setProductInput] = useState({});
   const [advice, setAdvice] = useState("");
-  console.log(productInput);
-  console.log(loadBooks);
+
 
   // Functions
 
@@ -126,7 +125,7 @@ function Profile(props) {
     <div className="texts-login"> 
       <Toolbar />
       <Divider color="white" variant="middle"/>
-      <List className="texts-login" sx={{height:"590px"}} >
+      <List className="texts-login" sx={{height:"100vh"}} >
         {myComponents.map((elm, index) => (
           elm.text !== "Home"?
           <ListItem button key={index} onClick={() => setComponent(elm.text)}>
@@ -216,16 +215,13 @@ function Profile(props) {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          height:"40vh"
         }}
       > 
 
         <Toolbar />
-        <Grid>
-          {component === "My Books" && (
-            <>
-              <Reviews />
-            </>
-          )}
+        <Grid >
+        
           {component === "Favorites" && (
             <>
               <Favorites />
@@ -233,7 +229,7 @@ function Profile(props) {
           )}
           {component === "My Products" && (
             <>
-              {aux?.map((b) => {
+              {aux.length? aux.map((b) => {
                 return (
                   <div key={b._id}>
                     <MyProducts
@@ -257,7 +253,16 @@ function Profile(props) {
                     />
                   </div>
                 );
-              })}
+              })
+              :
+              <Alert severity="info">You don't have published products already !</Alert>
+            }
+            </>
+          )}
+            {component === "My Books" && (
+            <>
+            
+              <Reviews />
             </>
           )}
           {component === "Account" && (

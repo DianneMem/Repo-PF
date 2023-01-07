@@ -83,7 +83,7 @@ function inputChange(e){
 };
 
 function modifyUserById(){
-  
+  localStorage.clear();
   const hashPassword = bcrypt.hashSync(input.password, 10);
   
   const infoToSend = {
@@ -92,9 +92,9 @@ function modifyUserById(){
   
   dispatch(modifyUser(user._id, infoToSend));
   dispatch(getAllUsers());
-  localStorage.clear();
-  navigate("/");
+
   handleClose();
+  navigate("/login");  
   return MySwal.fire("Your Password has been changed", "Logout please" , "success");
 };
 

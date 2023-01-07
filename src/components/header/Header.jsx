@@ -14,6 +14,9 @@ import MenuItem from "@mui/material/MenuItem";
 // import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -389,13 +392,21 @@ export default function Header() {
               className="color-header"
             >
               <NavLink className="color-header" to={"/cart"}>
-                CART
+                <ShoppingCartIcon/>
+             
+              </NavLink>
+              <NavLink className="color-header" to={"/profile"}>
+                  <AccountCircleIcon/> 
+                  {" "}   
+              </NavLink>
+              <NavLink className="color-header" to={"/profile"}>
+              {sesionLocal[0].username[0].toUpperCase()+ sesionLocal[0].username.slice(1)}
               </NavLink>
               <NavLink className="color-header" to={"/createProduct"}>
                 CREATE PRODUCT
               </NavLink>
-              <NavLink className="color-header" to={"/profile"}>
-                PROFILE
+              <NavLink className="color-header" to={"/createProduct"}>
+             <AddBoxIcon></AddBoxIcon>
               </NavLink>
             </Box>
 
