@@ -19,11 +19,16 @@ import {
   Button,
   Container,
   CssBaseline,
+  FormControl,
   Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
   TextField,
   Typography,
 } from "@mui/material";
-import { Google, Send } from "@mui/icons-material";
+import { Google, Send, Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const Login = () => {
   const dispatch = useDispatch();
@@ -54,7 +59,11 @@ export const Login = () => {
 
     if (user) {
       if (bcrypt.compareSync(input.password, user.password)) {
-        navigate("/");
+        if (user.confirm === true) {
+          navigate("/");
+        } else {
+          return MySwal.fire("¡Unverified Account!", message, "error");
+        }
       } else {
         return MySwal.fire("¡Incorrect Password!", message, "error");
       }
@@ -73,6 +82,14 @@ export const Login = () => {
     dispatch(findUserStripe());
     dispatch(loginUser());
     navigate("/");
+  };
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
   };
 
   return (
@@ -125,17 +142,35 @@ export const Login = () => {
                 autoComplete="username"
                 autoFocus
               />
-              <TextField
-                margin="normal"
-                onChange={(e) => handleUser(e)}
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
+
+              <FormControl fullWidth variant="outlined">
+                <InputLabel htmlFor="outlined-adornment-password" fullWidth>
+                  Password *
+                </InputLabel>
+                <OutlinedInput
+                  margin="normal"
+                  id="outlined-adornment-password"
+                  label="Password"
+                  onChange={(e) => handleUser(e)}
+                  required
+                  fullWidth
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
 
               <Button
                 type="submit"
