@@ -67,49 +67,98 @@ function handleClose(){
   setOpen(false);
 };
 
-
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(2),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 return (<React.Fragment>
   <Button onClick={e => handleOpen(e)} variant="outlined" size="small">Info</Button>
   <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={'sm'}>
-    <DialogTitle>{Purchase.title}</DialogTitle>
-    <DialogContent>
+    <Box   
+          component="main"
+          sx={{ bgcolor: "#fff", height: "74vh" }}>
+    <Grid item xs={24}>
+    
+      <Grid >
+            <DialogTitle sx={{ padding: 2 , textAlign: "center"}}>{Purchase.title}</DialogTitle>
+      <Box>
+      <Grid item xs={12} sx={{ padding: 2 }}>
+      <Item>
       <DialogContentText variant={'h6'}>
-        Buy
-      </DialogContentText>
-      <DialogContentText >
-        Author: {book.author}
-      </DialogContentText>
-      <DialogContentText>
-        Editorial: {book.editorial}
-      </DialogContentText>
-      <DialogContentText>
-        Language: {book.language}
-      </DialogContentText>
-      <DialogContentText>
-        State: {book.state} - {book.typebook}
-      </DialogContentText>
-      <DialogContentText variant={'h6'}>
-        Seller
-      </DialogContentText>
-      <DialogContentText>
-          User: {Purchase.sellerName} - Score: {score}
-      </DialogContentText>
-      <DialogContentText>
-        Contact: {seller.email ? (seller.email) : ('')}
-      </DialogContentText>
-      <DialogContentText>
-        {`Date of purchase: ${day[0]}`}
-      </DialogContentText>
-      <DialogContentText>
-        {`Ammount: ${Purchase.amount}`}
-      </DialogContentText>   
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleClose}>Close</Button>
-      <Button>Report</Button>
-      <Button>Mark as received</Button>
-    </DialogActions>
+    Buy
+  </DialogContentText>
+  <Box  > 
+  <Typography variant={'subtitle1'}>
+  Author: {book.author}
+  </Typography>
+  
+  </Box>
+  <Box> 
+  <Typography variant={'subtitle1'}>
+    Editorial: {book.editorial}
+  </Typography>
+  </Box>
+  <Box>
+  <Typography variant={'subtitle1'}>
+    Language: {book.language}
+  </Typography>
+  </Box>
+  <Box>
+  <Typography variant={'subtitle1'}>
+    State: {book.state} - {book.typebook}
+  </Typography>
+  </Box>
+      </Item>
+
+</Grid>
+
+<Grid item xs={12} sx={{ padding: 2 }}>
+  <Item>
+  <Box >
+  <Typography variant={'h6'}>
+    Seller
+  </Typography>
+  </Box>
+  <Box>
+  <Typography variant={'subtitle1'}>
+      User: {Purchase.sellerName} - Score: {score}
+  </Typography>
+  </Box>
+  <Box>
+  <Typography variant={'subtitle1'}>
+    Contact: {seller.email ? (seller.email) : ('')}
+  </Typography>
+  </Box>
+  <Box>
+  <Typography variant={'subtitle1'}>
+    {`Date of purchase: ${day[0]}`}
+  </Typography>
+  </Box>
+  <Box>
+  <Typography variant={'subtitle1'}>
+    {`Amount: ${Purchase.amount}`}
+  </Typography>
+  </Box>   
+  </Item>
+  <br></br>
+  <Box sx={{ padding: 2 , textAlign: "center"}}>  <Button onClick={handleClose}>Close</Button>
+      <Button >Report</Button>
+      <Button >Mark as received</Button></Box>
+
+  </Grid>
+</Box>
+
+   
+  
+      </Grid>
+   
+    </Grid>
+    </Box>
+
   </Dialog>
   </React.Fragment>)
   };

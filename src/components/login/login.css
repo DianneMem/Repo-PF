@@ -124,7 +124,15 @@
   font-size: 20px;
 }
 .color-header-res {
-  
+  color: #ff6700;
+  text-decoration: none;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 20px;
+}
+.color-header-res2 {
+  padding-bottom: 6px;
+  padding-left: 4px;
   color: #ff6700;
   text-decoration: none;
   font-family: monospace;

@@ -39,7 +39,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Reviews from "../reviews/Reviews";
 import Favorites from "../favorites/Favorites";
-import { Grid } from "@mui/material";
+import { Alert, Button, Dialog, DialogContentText, Grid } from "@mui/material";
 import { border, margin } from "@mui/system";
 
 const drawerWidth = 240;
@@ -67,15 +67,14 @@ function Profile(props) {
   const allBooks = useSelector((state) => state.allbooks);
   const loadBooks = useSelector((state) => state.books);
   const allUsers = useSelector((state) => state.users);
-
+  const [open, setOpen] = useState(false);
   // Local States
   let session = JSON.parse(localStorage.getItem("session"));
   let aux = allBooks.filter((e) => e.sellerId === session[0].id);
 
   let [productInput, setProductInput] = useState({});
   const [advice, setAdvice] = useState("");
-  console.log(productInput);
-  console.log(loadBooks);
+
 
   // Functions
 
@@ -85,13 +84,23 @@ function Profile(props) {
     await dispatch(disablePost(itemId));
     dispatch(getAllBooks());
   }
+  function handleOpen(){
+    setOpen(true);
+  };
+  
+  function handleClose(){
+    setOpen(false);
+  };
 
-  async function deleteItem(e) {
-    e.preventDefault();
-    let itemId = e.target.value;
-    await dispatch(deletePost(itemId));
-    dispatch(getAllBooks());
-  }
+  function deleteItem(){
+    setOpen(true);
+  };
+      async function confirmDelete(e) {
+        e.preventDefault();
+        let itemId = e.target.value;
+        await dispatch(deletePost(itemId));
+        dispatch(getAllBooks());
+      }
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -126,7 +135,7 @@ function Profile(props) {
     <div className="texts-login"> 
       <Toolbar />
       <Divider color="white" variant="middle"/>
-      <List className="texts-login" sx={{height:"590px"}} >
+      <List className="texts-login" sx={{height:"100vh"}} >
         {myComponents.map((elm, index) => (
           elm.text !== "Home"?
           <ListItem button key={index} onClick={() => setComponent(elm.text)}>
@@ -216,16 +225,13 @@ function Profile(props) {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          height:"40vh"
         }}
       > 
 
         <Toolbar />
-        <Grid>
-          {component === "My Books" && (
-            <>
-              <Reviews />
-            </>
-          )}
+        <Grid >
+        
           {component === "Favorites" && (
             <>
               <Favorites />
@@ -233,7 +239,13 @@ function Profile(props) {
           )}
           {component === "My Products" && (
             <>
-              {aux?.map((b) => {
+            <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={'sm'}>
+            <DialogContentText sx={{ padding: 2,mt:2 , textAlign: "center"}} variant={'h6'}>
+            Do you want to delete this item permanently?
+  </DialogContentText>
+  <Button color="error" sx={{m:3}} variant="outlined" onClick={e=> confirmDelete(e) }>Confirm Delete</Button>
+            </Dialog>
+              {aux.length? aux.map((b) => {
                 return (
                   <div key={b._id}>
                     <MyProducts
@@ -257,7 +269,16 @@ function Profile(props) {
                     />
                   </div>
                 );
-              })}
+              })
+              :
+              <Alert severity="info">You don't have published products already !- Go to Create Product!</Alert>
+            }
+            </>
+          )}
+            {component === "My Books" && (
+            <>
+            
+              <Reviews />
             </>
           )}
           {component === "Account" && (
