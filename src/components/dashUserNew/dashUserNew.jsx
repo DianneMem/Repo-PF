@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { getAllBooks, modifyPost, createCustomer, createUser, getAllUsers } from "../../redux/actions";
-
+import { getAllBooks, modifyPost, createCustomer, createUser, createUserFromAdmin, getAllUsers } from "../../redux/actions";
+import bcrypt from "bcryptjs";
 import defaultImage from '../../assets/bookDefault.png';
+
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -57,6 +58,8 @@ const [errors, setError] = useState({});
 const [input, setInputs] = useState({
   username: "",
   email: "",
+  address: "",
+  phone: "",
   password: "",
   confirmation: "",
   role:"user",
@@ -71,6 +74,8 @@ function handleOpen(){
     email: "",
     password: "",
     confirmation: "",
+    address: "",
+    phone: "",
     role:"user",
   });
   setError({});
@@ -81,6 +86,8 @@ function handleClose(){
   setInputs({
     username: "",
     email: "",
+    address: "",
+    phone: "",
     password: "",
     confirmation: "",
     role:"user",
@@ -98,32 +105,26 @@ function handleClose2(){
 };
 
 
-function handleSubmit(e){
+async function handleSubmit(e){
   e.preventDefault();
-  if (!input.username || !input.email || !input.password) {
+  if (!input.username || !input.email || !input.password || !input.address ||
+  !input.phone || !input.password) {
     alert("Cannot have empty elements!!");
   } else {
-    dispatch(
-      createCustomer({ username: input.username, email: input.email })
-    );
-    dispatch(
-      createUser({
-        username: input.username,
-        password: input.password,
-        email: input.email,
-        role: input.role,
-      })
-    );
-    setInputs({
-      username: "",
-      email: "",
-      password: "",
-      confirmation: "",
-      role:"user",
-    });
-  }
-  handleClose();
-  handleOpen2();
+    const hashPassword = bcrypt.hashSync(input.password, 10);
+    dispatch(createCustomer({ username: input.username, email: input.email }));
+    await dispatch(createUserFromAdmin({
+      username: input.username,
+      password: hashPassword,
+      email: input.email,
+      role: input.role,
+      address: input.address,
+      phone: input.phone,
+      confirm: true
+    }))
+    dispatch(getAllUsers());
+    handleClose();
+    handleOpen2();}
 };
 
 function handleUser(e){
@@ -140,7 +141,7 @@ function validate(input){
   } else if (RegEXP.test(input.username)) {
     errors.username = "Special characters are not accepted";
   }
-  if (!input.email) {
+  else if (!input.email) {
     errors.email = "E-mail required";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(input.email)) {
     errors.email = "Invalid e-mail address";
@@ -149,19 +150,27 @@ function validate(input){
   ) {
     errors.email = "This mail is already registered";
   }
-  if (!input.password) {
+  else if (!input.address) {
+    errors.address = "Addres required";
+  } else if (RegEXP.test(input.address)){
+    errors.address = "Special characters are not accepted";
+  }
+  else if (!input.phone) {
+    errors.phone = "Phone number required";
+  }
+  else if (!input.password) {
     errors.password = "Password required";
   } else if (input.password.length < 6){
     errors.password = "Password minimum 6 characters";
   }
-  if (input.password !== input.confirmation) {
+  else if (input.password !== input.confirmation) {
     errors.confirmation = "Passwords must match";
   }
-  if (!input.role) {
+  else if (!input.role) {
     errors.role = "Select role";
   }
   return errors;
-}
+};
 
 
 
@@ -236,6 +245,34 @@ return(
                   <TextField
                     required
                     fullWidth
+                    id="address"
+                    label="Address"
+                    name="address"
+                    autoComplete="address"
+                    onChange={(e) => handleUser(e)}
+                    error={errors.address}
+                    helperText={errors.address}
+                  />
+                </Grid>
+                
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="phone"
+                    label="Phone"
+                    name="phone"
+                    autoComplete="phone"
+                    onChange={(e) => handleUser(e)}
+                    error={errors.phone}
+                    helperText={errors.phone}
+                  />
+                </Grid>
+                
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
                     name="password"
                     label="Password"
                     type="password"
@@ -252,7 +289,7 @@ return(
                     required
                     fullWidth
                     name="confirmation"
-                    label=" Repeat Password"
+                    label="Repeat Password"
                     type="password"
                     id="confirmation"
                     autoComplete="new-password"

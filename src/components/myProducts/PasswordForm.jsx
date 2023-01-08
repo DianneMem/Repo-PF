@@ -48,13 +48,23 @@ const [open, setOpen] = useState(false);
 if(open) console.log(input);
 if(open) console.log('formError', error);
 
+const initialDataJson = JSON.stringify({
+  oldPassword: '',
+  password: '',
+  confirm: '',
+  address: user.address,
+  phone: user.phone,
+});
+const inputJson = JSON.stringify(input);
 
 // Functions
 function handleOpen(){
   setInput({
     oldPassword: '',
     password: '',
-    confirm: ''
+    confirm: '',
+    address: user.address,
+    phone: user.phone,
   });
   setError({});
   setOpen(true);
@@ -64,7 +74,9 @@ function handleClose(){
   setInput({
     oldPassword: '',
     password: '',
-    confirm: ''
+    confirm: '',
+    address: '',
+    phone: '',
   });
   setError({});
   setOpen(false);
@@ -82,49 +94,92 @@ function inputChange(e){
   }));
 };
 
-function modifyUserById(){
-  localStorage.clear();
-  const hashPassword = bcrypt.hashSync(input.password, 10);
-  
+async function modifyUserById(){
   const infoToSend = {
-    password: hashPassword
+    address: input.address,
+    phone: input.phone,
   };
-  
-  dispatch(modifyUser(user._id, infoToSend));
-  dispatch(getAllUsers());
+  if(input.oldPassword){
+    localStorage.clear();
+    const hashPassword = bcrypt.hashSync(input.password, 10);
+    infoToSend.password = hashPassword;
+  };
 
+  await dispatch(modifyUser(user._id, infoToSend));
+  dispatch(getAllUsers());
   handleClose();
-  navigate("/login");  
-  return MySwal.fire("Your Password has been changed", "Logout please" , "success");
+  if(input.oldPassword){
+   navigate("/login")
+    return MySwal.fire("User Update succesfully", "Login please" , "success") 
+  }else{
+    navigate("/");
+    return MySwal.fire("User Update succesfully", "" , "success") 
+  }
 };
 
 function validate(input){
   const error = {};
   let RegEXP = /[`ª!@#$%^*-+\=\[\]{};"\\|,<>\/~]/;
-  if (!input.password) {
-    error.password = "Password required";
-  } else if (input.password.length < 6){
-    error.password = "Password minimum 6 characters";
+  if (!input.address) {
+    error.address = "Addres required";
+  } else if (RegEXP.test(input.address)){
+    error.address = "Special characters are not accepted";
   }
-  if (input.password !== input.confirm) {
-    error.confirmation = "Passwords must match";
+  if (!input.phone) {
+    error.phone = "Phone number required";
   }
-  if(!bcrypt.compareSync(input.oldPassword, user.password)){
+  else if(input.oldPassword && !bcrypt.compareSync(input.oldPassword, user.password)){
     error.oldPassword = "Incorrect Password";
   }
+  else if (input.oldPassword && !input.password) {
+    error.password = "Password required";
+  } else if (input.oldPassword && input.password.length < 6){
+    error.password = "Password minimum 6 characters";
+  }
+  if (input.oldPassword && input.password !== input.confirm) {
+    error.confirmation = "Passwords must match";
+  }
   return error;
-}
+};
 
 
 return(
 <React.Fragment>
   <Button onClick={e => handleOpen(e)} variant="outlined">Modify</Button>
   <Dialog open={open} onClose={handleClose} maxWidth="md">
-    <DialogTitle>Edit password</DialogTitle>
+    <DialogTitle>Edit Your Account</DialogTitle>
     <DialogContent>
       <DialogContentText>
-        Password minimum 6 characters
+        Fill the fields you want to change
       </DialogContentText>
+      <TextField
+        autoFocus
+        margin="dense"
+        id="address"
+        name='address'
+        label="Address"
+        type="text"
+        fullWidth
+        variant="outlined"
+        value={input.address}
+        onChange={(e)=>inputChange(e)}
+        error={error.address}
+        helperText={error.address}
+      />
+      <TextField
+        autoFocus
+        margin="dense"
+        id="phone"
+        name='phone'
+        label="Phone"
+        type="text"
+        fullWidth
+        variant="outlined"
+        value={input.phone}
+        onChange={(e)=>inputChange(e)}
+        error={error.phone}
+        helperText={error.phone}
+      />
       <TextField
         autoFocus
         margin="dense"
@@ -158,7 +213,7 @@ return(
         margin="dense"
         id="confirm"
         name='confirm'
-        label="Repeat Password"
+        label="Repeat New Password"
         type="password"
         fullWidth
         variant="outlined"
@@ -169,7 +224,7 @@ return(
       />
       <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          {!input.oldPassword || Object.keys(error).length ? (<Button disabled onClick={modifyUserById}>Modify</Button>) : (<Button onClick={modifyUserById}>Modify</Button>)}
+          {initialDataJson === inputJson || Object.keys(error).length ? (<Button disabled onClick={modifyUserById}>Modify</Button>) : (<Button onClick={modifyUserById}>Modify</Button>)}
         </DialogActions>
     </DialogContent>
   </Dialog>

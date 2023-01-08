@@ -615,6 +615,16 @@ export function createUser(payload) {
   };
 }
 
+export function createUserFromAdmin(payload) {
+  return async function (dispatch) {
+    try {
+      let user = await axios.post(`${localhost}/users`, payload);
+      console.log("------", user.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
 export const startUploadingFile = (file = []) => {
   return async function (dispatch) {
     const cloudUrl = "https://api.cloudinary.com/v1_1/deudiau9e/upload";

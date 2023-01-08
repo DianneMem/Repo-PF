@@ -51,10 +51,12 @@ if(open) console.log('formError', error);
 
 const initialDataJson = JSON.stringify({
   username: user.username,
-    email: user.email,
-    role: user.role,
-    password: '',
-    confirm: ''
+  email: user.email,
+  role: user.role,
+  address: user.address,
+  phone: user.phone,
+  password: '',
+  confirm: ''
 });
 const inputJson = JSON.stringify(input);
 
@@ -65,6 +67,8 @@ function handleOpen(){
     username: user.username,
     email: user.email,
     role: user.role,
+    address: user.address,
+    phone: user.phone,
     password: '',
     confirm: ''
   });
@@ -74,9 +78,11 @@ function handleOpen(){
 
 function handleClose(){
   setInput({
-    username: user.username,
-    email: user.email,
-    role: user.role,
+    username: '',
+    email: '',
+    address: '',
+    phone: '',
+    role: '',
     password: '',
     confirm: ''
   });
@@ -100,39 +106,40 @@ async function modifyUserById(){
   const infoToSend = {
     username: input.username,
     email: input.email,
+    address: input.address,
+    phone: input.phone,
     role: input.role,
-    password: input.password
   };
   
   if(input.password){
     infoToSend.password = bcrypt.hashSync(input.password, 10);
   }
 
-  for (const property in infoToSend) {
-    if(infoToSend[property] === ''){
-      infoToSend[property] = user[property]
-    };
-  };
+  // for (const property in infoToSend) {
+  //   if(infoToSend[property] === ''){
+  //     infoToSend[property] = user[property]
+  //   };
+  // };
   
   await dispatch(modifyUser(user._id, infoToSend));
-  handleClose();
   dispatch(getAllUsers());
+  handleClose();
   return MySwal.fire("User Update succesfully", "" , "success");
 };
 
 function validate(input){
   const error = {};
   let RegEXP = /[`ª!@#$%^*-+\=\[\]{};"\\|,<>\/~]/;
+  const userExists = users.filter(e => e.username.toLowerCase() !== user.username.toLowerCase() ).find((e) => e.username.toLowerCase() === input.username.toLowerCase());
+  
   if (!input.username) {
     error.username = "Username required";
   } else if (RegEXP.test(input.username)) {
     error.username = "Special characters are not accepted";
-  } else if (
-    users.filter(e => e.username.toLowerCase() !== user.username).find((e) => e.username.toLowerCase() === input.username.toLowerCase())
-  ) {
+  } else if (userExists) {
     error.username = "This username is already registered";
   }
-  if (!input.email) {
+  else if (!input.email) {
     error.email = "E-mail required";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(input.email)) {
     error.email = "Invalid e-mail address";
@@ -141,10 +148,18 @@ function validate(input){
   ) {
     error.email = "This mail is already registered";
   }
-  if (input.password && input.password.length < 5){
+  else if (!input.address) {
+    error.address = "Addres required";
+  } else if (RegEXP.test(input.address)){
+    error.address = "Special characters are not accepted";
+  }
+  else if (!input.phone) {
+    error.phone = "Phone number required";
+  }
+  else if (input.password && input.password.length < 5){
     error.password = "Password minimum 5 characters";
   }
-  if (input.password !== input.confirm) {
+  else if (input.password !== input.confirm) {
     error.confirmation = "Passwords must match";
   }
   if (!input.role) {
@@ -191,6 +206,34 @@ return(
         onChange={(e)=>inputChange(e)}
         error={error.email}
         helperText={error.email}
+      />
+      <TextField
+        autoFocus
+        margin="dense"
+        id="address"
+        name='address'
+        label="Address"
+        type="text"
+        fullWidth
+        variant="outlined"
+        value={input.address}
+        onChange={(e)=>inputChange(e)}
+        error={error.address}
+        helperText={error.address}
+      />
+      <TextField
+        autoFocus
+        margin="dense"
+        id="phone"
+        name='phone'
+        label="Phone"
+        type="text"
+        fullWidth
+        variant="outlined"
+        value={input.phone}
+        onChange={(e)=>inputChange(e)}
+        error={error.phone}
+        helperText={error.phone}
       />
       <TextField
         autoFocus
