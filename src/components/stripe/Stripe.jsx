@@ -164,7 +164,7 @@ const CheckoutForm = () => {
           );
           elements.getElement(CardElement).clear();
           dispatch(addBuyerToProduct(detailsBooks._id,userState[0]))
-          dispatch(balanceProfile(userState[0]._id,{balance:detailsBooks.price}))
+          dispatch(balanceProfile(detailsBooks.sellerId,{balance:Math.ceil(detailsBooks.price)}))
           dispatch(disablePost(detailsBooks._id))
           MySwal.fire("Thank You for your purchase!", message, "success");
           navigate("/");

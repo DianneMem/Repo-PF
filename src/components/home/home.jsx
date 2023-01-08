@@ -129,6 +129,7 @@ export default function Home() {
               booksPerPage={booksPerPage}
               allBooks={loadBooks.length}
               paginate={paginate}
+              actualPage={currentPage}
             />
           </div>
         </div>

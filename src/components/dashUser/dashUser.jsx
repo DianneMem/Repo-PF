@@ -17,6 +17,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Box } from "@mui/material";
 
 
 
@@ -25,53 +31,47 @@ export default function DashUser({user}) {
   // Call Global States
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
+  const [open, setOpen] = useState(false);
 
   // Functions
+  function handleOpen(){
+    setOpen(true);
+  }
+  
+  function handleClose(){
+    setOpen(false);
+  }
+  
   async function disableUserById(e){
     e.preventDefault();
     let stateAux = user.available ? ("disabled") : ("enabled");
     let itemId = e.target.value;
     await dispatch(disableUser(itemId));
     dispatch(getAllUsers());
-    return MySwal.fire(`The user has been ${stateAux}`, "" , "info");
+    return MySwal.fire(`The user ${user.username} has been ${stateAux}`, "" , "info");
   };
   
   async function deleteUserById(e){
     e.preventDefault();
-    let itemId = e.target.value;
+    let itemId = user._id
     await dispatch(deleteUser(itemId));
     dispatch(getAllUsers());
-    return MySwal.fire("The user has been deleted", "" , "info");
+    handleClose();
+    return MySwal.fire(`The user ${user.username} has been deleted`, "" , "info");
   };
   
-  
+
   
   
   return (<React.Fragment>
-  {/* <div className={s.user}>
-    <p>{user._id}</p>
-    <div>
-      <p>{user.role}</p>
-      {user.role === 'user' ? 
-      (<button name='role' value='admin' onClick={(e)=>changePermissions(e,user)}>admin</button>) : 
-      (<button name='role' value='user' onClick={(e)=>changePermissions(e,user)}>user</button>)}
-    </div>
-    <p>{user.username}</p>
-    <p>{user.email}</p>
-    {user.available? (<CheckOutlinedIcon/>) : (<ClearOutlinedIcon/>)}
-    <DashUserForm user={user}/>
-    {user.available ? 
-    (<Button value={user._id} onClick={e => disableUserById(e)} variant="outlined">Disable</Button>) : 
-    (<Button value={user._id} onClick={e => disableUserById(e)} variant="outlined">Enable</Button>)}
-    <Button value={user._id} onClick={e => deleteUserById(e)} variant="outlined">Delete</Button>
-  </div> */}
     <TableRow
     key={user.username}
     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
     >
-      <TableCell component="th" scope="row">{user._id}</TableCell>
-      <TableCell align="left">{user.username}</TableCell>
+      <TableCell component="th" scope="row">{user.username}</TableCell>
       <TableCell align="left">{user.email}</TableCell>
+      <TableCell align="left">{user.address}</TableCell>
+      <TableCell align="left">{user.phone}</TableCell>
       <TableCell align="left">{user.role}</TableCell>
       <TableCell align="center">
         {user.available? (<CheckOutlinedIcon/>) : (<ClearOutlinedIcon/>)}
@@ -81,8 +81,22 @@ export default function DashUser({user}) {
         {user.available ? 
         (<Button value={user._id} onClick={e => disableUserById(e)} variant="outlined">Disable</Button>) : 
         (<Button value={user._id} onClick={e => disableUserById(e)} variant="outlined">Enable</Button>)}
-        <Button value={user._id} onClick={e => deleteUserById(e)} variant="outlined">Delete</Button>
+        <Button value={user._id} onClick={handleOpen} variant="outlined">Delete</Button>
       </TableCell>
   </TableRow>
+  
+  <Dialog open={open} onClose={handleClose} maxWidth="md">
+    <DialogTitle>Delete User</DialogTitle>
+    <DialogContentText sx={{p:9}}>
+      Are you sure to delete {user.username} ?
+    </DialogContentText>
+    <DialogActions>
+      <Button onClick={handleClose}>Cancel</Button>
+      <Button onClick={e=>deleteUserById(e)}>Delete</Button>
+    </DialogActions>
+  </Dialog>
+  
+
+  
 </React.Fragment>
 )};
