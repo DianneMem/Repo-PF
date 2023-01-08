@@ -175,6 +175,11 @@ const CheckoutForm = () => {
         getCart.map((elm) =>
         dispatch(addBuyerToProduct( elm._id,session[0]))
       );
+      
+      getCart.map((elm) =>
+        dispatch(balanceProfile(elm.sellerId,{balance:Math.ceil(elm.price)}))
+      );
+
 
      
     let products=[]
@@ -185,7 +190,6 @@ const CheckoutForm = () => {
         email:session[0].email,
         allProducts:products[0],
         amount:totalAmount.amount}))
-        dispatch(balanceProfile(session[0].id,{balance:totalAmount.amount}))
          getCart.map((elm) =>
         dispatch(disablePost( elm._id))
       );

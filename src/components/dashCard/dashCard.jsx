@@ -6,35 +6,49 @@ import DashCardForm from '../dashCardForm/dashCardForm';
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
 import defaultImage from '../../assets/bookDefault.png';
 import s from './dashCard.module.css';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 
 
 
 
-export default function DashCard({id, title, image, typebook, price, author, categorie, editorial, saga, language, gender, year, state, available, seller}){
 
+export default function DashCard({id, title, image, typebook, price, author, categorie, editorial, saga, language, gender, year, state, available, seller, buyer}){
 
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
+  
+  
+  function handleOpen(){
+    setOpen(true);
+  }
+  
+  function handleClose(){
+    setOpen(false);
+  }
   
   async function disable(e){
     let stateAux = available ? ("disabled") : ("enabled");
     e.preventDefault();
-    let itemId = e.target.value;
-    await dispatch(disablePost(itemId));
+    await dispatch(disablePost(id));
     dispatch(getAllBooks());
     return MySwal.fire(`The product has been ${stateAux}`, "", "info");
   }
   
   async function deletes(e){
     e.preventDefault();
-    let itemId = e.target.value;
-    await dispatch(deletePost(itemId));
+    await dispatch(deletePost(id));
     dispatch(getAllBooks());
+    handleClose();
     return MySwal.fire(`The product has been deleted`, "", "info");
-  }
+  };
 
 
 
@@ -54,15 +68,16 @@ export default function DashCard({id, title, image, typebook, price, author, cat
   let sagaShort = saga || '';
   if(saga && saga.length > maxLength1){
   sagaShort = saga.slice(0,maxLength1) + '...'
-  }
+  };
   // Max author words
   const maxLength2 = 22;
   let authorShort = author;
   if(author.length > maxLength2){
     authorShort = author.split(' ').slice(0,2).join(' ');
-  }
-  
-  
+  };
+  // Sell string
+  let sell = '';
+  if(buyer.length) sell = '- SELLED';
   
 
   return(
@@ -70,7 +85,7 @@ export default function DashCard({id, title, image, typebook, price, author, cat
     <div key={id} className={s.card}>
       <img src={image? (image) : (defaultImage)} alt='Book' className={s.image}/>
       <div className={s.info}>
-        <p className={s.title}>{titleShort}</p>
+        <p className={s.title}>{titleShort} {sell}</p>
         <p className={s.title}>Saga: {saga? sagaShort : 'Unique'}</p>
         <div>
           <p>Category: {categorie}</p>
@@ -112,10 +127,20 @@ export default function DashCard({id, title, image, typebook, price, author, cat
           />
           {available? (<Button value={id} onClick={e => disable(e)} variant="outlined" size="small">Disable</Button>) : 
           (<Button value={id} onClick={e => disable(e)} variant="outlined" size="small">Enable</Button>)}
-          <Button value={id} onClick={e => deletes(e)} variant="outlined" size="small">Delete</Button>
+          <Button value={id} onClick={handleOpen} variant="outlined" size="small">Delete</Button>
         </div>
       </div>
     </div>
+    <Dialog open={open} onClose={handleClose} maxWidth="md">
+    <DialogTitle>Delete User</DialogTitle>
+    <DialogContentText sx={{p:9}}>
+      Are you sure to delete {title} ?
+    </DialogContentText>
+    <DialogActions>
+      <Button onClick={handleClose}>Cancel</Button>
+      <Button onClick={e=>deletes(e)}>Delete</Button>
+    </DialogActions>
+  </Dialog>
   </React.Fragment>
   )
 };
