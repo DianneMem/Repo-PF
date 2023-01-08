@@ -135,7 +135,7 @@ const CheckoutForm = () => {
         console.log(stripeId[0].id);
         try {
           const { data } = await axios.post(
-            "http://localhost:3001/api/checkout",
+            "https://flybooks.up.railway.app/api/checkout",
             {
               id,
               amount: Math.ceil(totalAmount.amount) * 100,
