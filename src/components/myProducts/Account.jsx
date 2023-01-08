@@ -28,7 +28,9 @@ export default function Account() {
   }, [dispatch]);
   
   const user = useSelector((state) => state.userDetail[0]);
-  const role = user.role === 'admin'? ('Admin') : ('');
+  let role ='';
+  if(user && user.role === 'admin') role = 'Admin';
+
   
   
   // Functions
