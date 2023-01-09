@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -5,6 +6,9 @@ import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, get
 import Loader from "../loader/Loader";
 import s1 from './Sidebar-1.module.css';
 import s2 from './Sidebar-2.module.css';
+
+import { Button, Typography } from "@mui/material";
+import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
 
 
 
@@ -28,7 +32,7 @@ export default function SideBar({vertical=true}) {
 	const editorials = useSelector(state => state.allEditorial);
 	const sagas = useSelector(state => state.allSaga);
 	const languages = useSelector(state => state.languages);
-  
+  const filters = useSelector(state => state.filters);
   // Local States
   const [minState,setMinState]=useState("");
   let [orderB, setOrderB] = useState('');
@@ -38,32 +42,25 @@ export default function SideBar({vertical=true}) {
 
   // Button Functions
 	function select(e){
-	  let filter = {name: e.target.name, value: e.target.value};
-	  dispatch(filterBooks(filter))
-   
+    let filter = {[e.target.name]: e.target.value};
+	  
+	  if(e.target.name === 'priceMin'){
+	    if((!filters.priceMax || parseInt(e.target.value) < parseInt(filters.priceMax)) && parseInt(e.target.value) >= 0){
+	      dispatch(filterBooks(filter))}
+	  } else if(e.target.name === 'priceMax'){
+	    if((!filters.priceMin || parseInt(e.target.value) > parseInt(filters.priceMin)) && parseInt(e.target.value) >= 1){
+	      dispatch(filterBooks(filter))}
+	  }else{
+      dispatch(filterBooks(filter))
+  	  document.getElementById('SelectCategory').selectedIndex = 'DEFAULT';
+  	  document.getElementById('SelectGender').selectedIndex = 'DEFAULT';
+  	  document.getElementById('SelectAuthor').selectedIndex = 'DEFAULT';
+  	  document.getElementById('SelectEditorial').selectedIndex = 'DEFAULT';
+  	  document.getElementById('SelectSaga').selectedIndex = 'DEFAULT';
+  	  document.getElementById('SelectLanguage').selectedIndex = 'DEFAULT';
+    };
 	};
-	function priceMin(e){
-    e.preventDefault()    
-	  let filter = {name: "Min", value:minState};
-	  dispatch(filterPrice(filter))
- 
-	};
-  function priceMax(e){
-    e.preventDefault()    
-	  let filter = {name: "Max", value:minState};
-	  dispatch(filterPrice(filter))
-   
-	};
-  function inputMin(e){
-    e.preventDefault()  
-    setMinState(e.target.value)
-    
-  };
-  function inputMax(e){
-    e.preventDefault()  
-    setMinState(e.target.value)
-  
-  };
+	
   function order(e) {
     e.preventDefault();
     dispatch(orderBooks(e.target.value));
@@ -72,8 +69,7 @@ export default function SideBar({vertical=true}) {
   };
   function refreshButton(e) {
     e.preventDefault();
-    dispatch(getAllBooks());
-   
+    dispatch(filterBooks('Clear'));
   };
 
   
@@ -86,6 +82,7 @@ export default function SideBar({vertical=true}) {
 	  <div className={s1.state}>
       <button className={s1.btn1} onClick={e => select(e)} name='state' value='New'>New</button>
       <button className={s1.btn1} onClick={e => select(e)} name='state' value='Used'>Used</button>
+      <button className={s1.btn1} onClick={e => select(e)} name='typebook' value='physical'>Physical</button>
       <button className={s1.btn1} onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
 	  </div>
 	
@@ -126,36 +123,148 @@ export default function SideBar({vertical=true}) {
 			)})}
     </select>
     
-    <form onSubmit={e=>{priceMin(e)}}>
       <input 
       type='number'
-      name='Min'
-      placeholder='Min'
+      name='priceMin'
+      placeholder='Min Price'
       min='0'
       max='1000000'
-      step='0.01'
-      onChange={(e)=> inputMin(e)}
+      step='1'
+      onChange={(e)=> select(e)}
       />
-      <button className={s1.btn} type="submit">+</button>
-    </form>
-      <form onSubmit={e=>{priceMax(e)}}>
+      
       <input 
       type='number'
-      name='Max'
-      placeholder='Max'
+      name='priceMax'
+      placeholder='Max Price'
       min='0'
       max='1000000'
-      step='0.01'
-      onChange={(e)=> inputMax(e)}
+      step='1'
+      onChange={(e)=> select(e)}
       />
-      <button className={s1.btn} type="submit">+</button>
-    </form>
+
 
     <div className={s1.state}>
       <button className={s1.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
       <button className={s1.btn2} onClick={e => order(e)} value='HP'>Higher Price</button>
       <button className={s1.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
       <button className={s1.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
+    </div>
+    
+    <div>
+      {filters.categorie && 
+      (<Button 
+      variant="contained" 
+      endIcon={<CancelTwoToneIcon />} 
+      size="small"
+      name='categorie' 
+      value= ""
+      onClick={e => select(e)}
+      >
+        {filters.categorie}
+      </Button>)}
+      
+      {filters.gender && filters.gender.map(gender => 
+      (<Button 
+        variant="contained" 
+        endIcon={<CancelTwoToneIcon />} 
+        size="small"
+        name='genderDelete' 
+        value= {gender}
+        onClick={e => select(e)}
+        >
+          {gender}
+        </Button>))
+      }
+      
+      {filters.author && 
+      (<Button 
+      variant="contained" 
+      endIcon={<CancelTwoToneIcon />} 
+      size="small"
+      name='author' 
+      value= ""
+      onClick={e => select(e)}
+      >
+        {filters.author}
+      </Button>)}
+      
+      {filters.editorial && 
+      (<Button 
+      variant="contained" 
+      endIcon={<CancelTwoToneIcon />} 
+      size="small"
+      name='editorial' 
+      value= ""
+      onClick={e => select(e)}
+      >
+        {filters.editorial}
+      </Button>)}
+      
+      {filters.saga && 
+      (<Button 
+      variant="contained" 
+      endIcon={<CancelTwoToneIcon />} 
+      size="small"
+      name='saga' 
+      value= ""
+      onClick={e => select(e)}
+      >
+        {filters.saga}
+      </Button>)}
+      
+      {filters.language && 
+      (<Button 
+      variant="contained" 
+      endIcon={<CancelTwoToneIcon />} 
+      size="small"
+      name='language' 
+      value= ""
+      onClick={e => select(e)}
+      >
+        {filters.language}
+      </Button>)}
+      
+      {filters.typebook && 
+      (<Button 
+      variant="contained" 
+      endIcon={<CancelTwoToneIcon />} 
+      size="small"
+      name='typebook' 
+      value= ""
+      onClick={e => select(e)}
+      >
+        {filters.typebook}
+      </Button>)}
+      
+      {filters.state && 
+      (<Button 
+      variant="contained" 
+      endIcon={<CancelTwoToneIcon />} 
+      size="small"
+      name='state' 
+      value= ""
+      onClick={e => select(e)}
+      >
+        {filters.state}
+      </Button>)}
+      
+      {filters.priceMin && 
+      (<p
+      variant="contained" 
+      
+      >
+        Price Min: {filters.priceMin}
+      </p>)}
+      
+      {filters.priceMax && 
+      (<p
+      variant="contained"
+      size="small"
+      >
+        Price Max: {filters.priceMax}
+      </p>)}
+      
     </div>
     
 	</div>) 
@@ -178,6 +287,7 @@ export default function SideBar({vertical=true}) {
   	<div className={s2.nav}>
       <div>
         <button  className={s2.btn1} onClick={e=>refreshButton(e)}>Clear</button>
+        <button className={s2.btn1} onClick={e => select(e)} name='typebook' value='physical'>Physical</button>
     	  <button className={s2.btn1} onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
         <select id='SelectCategory' name='categorie' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
           <option key={'default1'} value='DEFAULT' disabled>Category</option>
@@ -223,30 +333,27 @@ export default function SideBar({vertical=true}) {
 	  </div>
 	
 	  <div className={s2.state}>
-  	  <form onSubmit={e=>{priceMin(e)}}>
+  	  
         <input 
         type='number'
-        name='Min'
-        placeholder='Min'
+        name='priceMin'
+        placeholder='Min Price'
         min='0'
         max='1000000'
-        step='0.01'
-        onChange={(e)=> inputMin(e)}
+        step='1'
+        onChange={(e)=> select(e)}
         />
-        <button className={s2.btn0} type="submit">+</button>
-      </form>
-        <form onSubmit={e=>{priceMax(e)}}>
+       
         <input 
         type='number'
-        name='Max'
-        placeholder='Max'
+        name='priceMax'
+        placeholder='Max Price'
         min='0'
         max='1000000'
-        step='0.01'
-        onChange={(e)=> inputMax(e)}
+        step='1'
+        onChange={(e)=> select(e)}
         />
-        <button className={s2.btn0} type="submit">+</button>
-      </form>   
+   
     </div>
     
 	</div>)}
