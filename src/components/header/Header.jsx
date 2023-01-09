@@ -14,11 +14,11 @@ import MenuItem from "@mui/material/MenuItem";
 // import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import SupervisorAccountRoundedIcon from '@mui/icons-material/SupervisorAccountRounded';
-import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
+import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -45,7 +45,7 @@ export default function Header() {
   const handleSesionClose = () => {
     localStorage.clear();
     navigate("/");
-  }
+  };
   if (!sesionLocal) {
     return (
       <AppBar className="texts-login" position="relative">
@@ -100,7 +100,7 @@ export default function Header() {
                   <NavLink className="color-header-res" to={"/login"}>
                     <LoginRoundedIcon></LoginRoundedIcon>
                   </NavLink>
-                  
+
                   <NavLink className="color-header-res2" to={"/login"}>
                     LOGIN
                   </NavLink>
@@ -109,7 +109,12 @@ export default function Header() {
             </Box>
 
             <NavLink to={"/"}>
-              <img alt="logo" src={logo} width="100px" style={{ cursor: "pointer" }} />
+              <img
+                alt="logo"
+                src={logo}
+                width="100px"
+                style={{ cursor: "pointer" }}
+              />
             </NavLink>
 
             <Typography
@@ -136,9 +141,9 @@ export default function Header() {
               <NavLink className="color-header" to={"/login"}>
                 LOGIN
               </NavLink>
-                    <NavLink className="color-header" to={"/login"}>
-                    <LoginRoundedIcon></LoginRoundedIcon>
-                  </NavLink>
+              <NavLink className="color-header" to={"/login"}>
+                <LoginRoundedIcon></LoginRoundedIcon>
+              </NavLink>
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -223,7 +228,7 @@ export default function Header() {
                 }}
               >
                 <MenuItem>
-                <NavLink className="color-header-res" to={"/admin"}>
+                  <NavLink className="color-header-res" to={"/admin"}>
                     <SupervisorAccountRoundedIcon></SupervisorAccountRoundedIcon>
                   </NavLink>
                   <NavLink className="color-header-res2" to={"/admin"}>
@@ -232,19 +237,24 @@ export default function Header() {
                 </MenuItem>
 
                 <MenuItem>
-                <NavLink className="color-header-res" to={"/profile"}>
-                  <AccountCircleIcon/> 
-                  {" "}   
-              </NavLink>
-              <NavLink className="color-header-res2" to={"/profile"}>
-              {sesionLocal[0].username[0].toUpperCase()+ sesionLocal[0].username.slice(1)}
-              </NavLink>
+                  <NavLink className="color-header-res" to={"/profile"}>
+                    <AccountCircleIcon />{" "}
+                  </NavLink>
+                  <NavLink className="color-header-res2" to={"/profile"}>
+                    {sesionLocal[0].username[0].toUpperCase() +
+                      sesionLocal[0].username.slice(1)}
+                  </NavLink>
                 </MenuItem>
               </Menu>
             </Box>
 
             <NavLink to={"/"}>
-              <img alt="logo" src={logo} width="100px" style={{ cursor: "pointer" }} />
+              <img
+                alt="logo"
+                src={logo}
+                width="100px"
+                style={{ cursor: "pointer" }}
+              />
             </NavLink>
 
             <Typography
@@ -268,22 +278,20 @@ export default function Header() {
               sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
               className="color-header"
             >
-    <NavLink className="color-header" to={"/admin"}>
-                    <SupervisorAccountRoundedIcon></SupervisorAccountRoundedIcon>
-                  </NavLink>
-<NavLink className="color-header" to={"/admin"}>
+              <NavLink className="color-header" to={"/admin"}>
+                <SupervisorAccountRoundedIcon></SupervisorAccountRoundedIcon>
+              </NavLink>
+              <NavLink className="color-header" to={"/admin"}>
                 ADMIN
               </NavLink>
 
-<NavLink className="color-header" to={"/profile"}>
-                  <AccountCircleIcon/> 
-                  {" "}   
+              <NavLink className="color-header" to={"/profile"}>
+                <AccountCircleIcon />{" "}
               </NavLink>
               <NavLink className="color-header" to={"/profile"}>
-              {sesionLocal[0].username[0].toUpperCase()+ sesionLocal[0].username.slice(1)}
+                {sesionLocal[0].username[0].toUpperCase() +
+                  sesionLocal[0].username.slice(1)}
               </NavLink>
-
-              
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
@@ -311,11 +319,12 @@ export default function Header() {
               </Menu>
             </Box>
             <SearchBar />
-            <Button 
-            variant="outlined"
-            onClick={handleSesionClose}
-            sx={{ml:3, color: "#ff6700"}} 
-            endIcon={<LogoutOutlined/>}>
+            <Button
+              variant="outlined"
+              onClick={handleSesionClose}
+              sx={{ ml: 3, color: "#ff6700" }}
+              endIcon={<LogoutOutlined />}
+            >
               LOGOUT
             </Button>
           </Toolbar>
@@ -326,7 +335,7 @@ export default function Header() {
 
   if (sesionLocal && sesionLocal[0].role === "user") {
     return (
-      <AppBar className="texts-login"  position="relative">
+      <AppBar className="texts-login" position="relative">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -375,37 +384,40 @@ export default function Header() {
                 }}
               >
                 <MenuItem>
-                <NavLink className="color-header-res" to={"/cart"}>
-                <ShoppingCartIcon/>
-             
-              </NavLink> 
-               <NavLink className="color-header-res2" to={"/cart"}>
-             CART
-             
-              </NavLink>
-               </MenuItem>
-                <MenuItem >
-              <NavLink className="color-header-res" to={"/createProduct"}>
-             <AddBoxIcon></AddBoxIcon>
-              </NavLink>
-                <NavLink className="color-header-res2" to={"/createProduct"}>
-                CREATE PRODUCT
-              </NavLink>
-               </MenuItem>
+                  <NavLink className="color-header-res" to={"/cart"}>
+                    <ShoppingCartIcon />
+                  </NavLink>
+                  <NavLink className="color-header-res2" to={"/cart"}>
+                    CART
+                  </NavLink>
+                </MenuItem>
                 <MenuItem>
-                <NavLink className="color-header-res" to={"/profile"}>
-                  <AccountCircleIcon/> 
-                  {" "}   
-              </NavLink>
-              <NavLink className="color-header-res2" to={"/profile"}>
-              {sesionLocal[0].username[0].toUpperCase()+ sesionLocal[0].username.slice(1)}
-              </NavLink>
-               </MenuItem>
+                  <NavLink className="color-header-res" to={"/createProduct"}>
+                    <AddBoxIcon></AddBoxIcon>
+                  </NavLink>
+                  <NavLink className="color-header-res2" to={"/createProduct"}>
+                    CREATE PRODUCT
+                  </NavLink>
+                </MenuItem>
+                <MenuItem>
+                  <NavLink className="color-header-res" to={"/profile"}>
+                    <AccountCircleIcon />{" "}
+                  </NavLink>
+                  <NavLink className="color-header-res2" to={"/profile"}>
+                    {sesionLocal[0].username[0].toUpperCase() +
+                      sesionLocal[0].username.slice(1)}
+                  </NavLink>
+                </MenuItem>
               </Menu>
             </Box>
 
             <NavLink to={"/"}>
-              <img alt="logo" src={logo} width="100px" style={{ cursor: "pointer" }} />
+              <img
+                alt="logo"
+                src={logo}
+                width="100px"
+                style={{ cursor: "pointer" }}
+              />
             </NavLink>
 
             <Typography
@@ -429,22 +441,25 @@ export default function Header() {
               sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}
               className="color-header"
             >
+              <NavLink className="color-header2" to={"/profile"}>
+                <AccountCircleIcon />{" "}
+              </NavLink>
+              <NavLink className="color-header" to={"/profile"}>
+                {sesionLocal[0].username[0].toUpperCase() +
+                  sesionLocal[0].username.slice(1)}
+              </NavLink>
+              <NavLink className="color-header2" to={"/cart"}>
+                <ShoppingCartIcon />
+              </NavLink>
               <NavLink className="color-header" to={"/cart"}>
-                <ShoppingCartIcon/>
-             
+                CART
               </NavLink>
-              <NavLink className="color-header" to={"/profile"}>
-                  <AccountCircleIcon/> 
-                  {" "}   
-              </NavLink>
-              <NavLink className="color-header" to={"/profile"}>
-              {sesionLocal[0].username[0].toUpperCase()+ sesionLocal[0].username.slice(1)}
+
+              <NavLink className="color-header2" to={"/createProduct"}>
+                <AddBoxIcon></AddBoxIcon>
               </NavLink>
               <NavLink className="color-header" to={"/createProduct"}>
                 CREATE PRODUCT
-              </NavLink>
-              <NavLink className="color-header" to={"/createProduct"}>
-             <AddBoxIcon></AddBoxIcon>
               </NavLink>
             </Box>
 
@@ -473,11 +488,12 @@ export default function Header() {
               </Menu>
             </Box>
             <SearchBar />
-            <Button 
-            variant="outlined"
-            onClick={handleSesionClose}
-            sx={{ml:3, color: "#ff6700"}} 
-            endIcon={<LogoutOutlined/>}>
+            <Button
+              variant="outlined"
+              onClick={handleSesionClose}
+              sx={{ ml: 3, color: "#ff6700" }}
+              endIcon={<LogoutOutlined />}
+            >
               LOGOUT
             </Button>
           </Toolbar>

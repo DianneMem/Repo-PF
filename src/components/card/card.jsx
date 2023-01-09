@@ -29,14 +29,14 @@ export default function Card({ id, title, image, type, price, author, product })
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
   // Max title characters
-  const maxLength1 = 41;
+  const maxLength1 = 35;
   // if card is more smaller, maxLength1 = 34;
   if (title.length > maxLength1) {
     title = title.slice(0, maxLength1) + "...";
   }
 
   // Max author words
-  const maxLength2 = 22;
+  const maxLength2 = 20;
   if (author.length > maxLength2) {
     author = author.split(" ").slice(0, 2).join(" ");
   }
@@ -56,7 +56,7 @@ export default function Card({ id, title, image, type, price, author, product })
         dispatch(addFavorites(id, detail));
       } else {
         MySwal.fire(
-          "You already have this product in the cart!",
+          "You already have this product in favorites!",
           message,
           "error"
         );
@@ -120,7 +120,7 @@ export default function Card({ id, title, image, type, price, author, product })
     <Grid>
         <Box
           sx={{
-            width: 180,
+            width: 200,
             // height: "450%",
             // border: "dotted",
             border: 5,
@@ -142,6 +142,7 @@ export default function Card({ id, title, image, type, price, author, product })
             fontSize="100%"
             bgcolor="#006ba6"
             p="10px"
+            height="90px"
             // className="texts-login2"
             sx={{
               borderTopLeftRadius: "17px",
@@ -149,7 +150,7 @@ export default function Card({ id, title, image, type, price, author, product })
               borderBottom: 3,
               borderBottomColor: "white",
               color: "white",
-              marginTop: "-px",
+              marginTop: "px",
             }}
           >
             {title}

@@ -164,6 +164,7 @@ export default function Favorites() {
                   fontSize="100%"
                   bgcolor="#006ba6"
                   p="15px"
+                  height="80px"
                   // className="texts-login2"
                   sx={{
                     borderTopLeftRadius: "17px",
