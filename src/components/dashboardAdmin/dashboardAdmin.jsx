@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllBooks, getAllUsers , disablePost, deletePost, getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial } from "../../redux/actions";
+import { getAllBooks, getAllUsers , disablePost, deletePost, getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks } from "../../redux/actions";
 import { Link } from "react-router-dom";
 import DashCard from "../dashCard/dashCard";
 import CreatePost from "../createProduct/CreateProduct";
@@ -85,7 +85,7 @@ export default function DashAdmin() {
   
   function getBooks(e){
     e.preventDefault();
-    dispatch(getAllBooks());
+    dispatch(filterBooks('Clear'));
     setCurrentPage(1);
   };
   

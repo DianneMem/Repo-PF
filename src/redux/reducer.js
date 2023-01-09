@@ -47,7 +47,18 @@ const initialState = {
   stripeState: [],
   myproductDetail:[],
   darkMode: false,
-
+  filters: {
+    categorie: "", 
+    author: "",
+    editorial: "",
+    saga: "",
+    language: "",
+    typebook: "",
+    state: "",
+    priceMin: "",
+    priceMax: "",
+    gender: [],
+  },
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -150,21 +161,67 @@ const rootReducer = (state = initialState, { type, payload }) => {
         currentPage: payload,
       };
     case FILTER_BOOKS:
-      let filterType = payload.name;
-      let filterElement = payload.value;
-      let booksFiltered = state.allbooks[0];
-      if (filterType === "gender") {
-        booksFiltered = state.books.filter((el) =>
-          el.gender.some((el) => el === filterElement)
-        );
-      } else if (filterType) {
-        booksFiltered = state.books.filter(
-          (el) => el[filterType] === filterElement
-        );
-      }
+    
+    let newFilter = payload
+    let filter = state.filters
+    let filteredBooks = state.allbooks.slice();
+    
+    if(newFilter === 'Clear'){return ({
+      ...state,
+      books: state.allbooks,
+      filters: {
+        categorie: "", 
+        author: "",
+        editorial: "",
+        saga: "",
+        language: "",
+        typebook: "",
+        state: "",
+        priceMin: "",
+        priceMax: "",
+        gender: [],
+      },
+      })
+    };
+    
+   
+    
+    if(newFilter.gender && newFilter.gender.length) {
+      filter = {...filter, gender: [...filter.gender, newFilter.gender]};
+    } 
+    else if (newFilter && newFilter.genderDelete){
+      const genderDel = newFilter.genderDelete;
+      const genderFilter = filter.gender.filter(gen => gen !== genderDel);
+      filter = {...filter, gender: [...genderFilter]};
+    }
+    else {
+      filter = {...filter, ...newFilter};
+    };
+
+
+    
+    
+    if(filter.categorie){filteredBooks = filteredBooks.filter(b => b.categorie === filter.categorie)};
+    if(filter.author){filteredBooks = filteredBooks.filter(b => b.author === filter.author)};
+    if(filter.editorial){filteredBooks = filteredBooks.filter(b => b.editorial === filter.editorial)};
+    if(filter.saga){filteredBooks = filteredBooks.filter(b => b.saga === filter.saga)};
+    if(filter.language){filteredBooks = filteredBooks.filter(b => b.language === filter.language)};
+    if(filter.typebook){filteredBooks = filteredBooks.filter(b => b.typebook === filter.typebook)};
+    if(filter.state){filteredBooks = filteredBooks.filter(b => b.state === filter.state)};
+    if(filter.priceMin){filteredBooks = filteredBooks.filter(b => b.price >= filter.priceMin)};
+    if(filter.priceMax){filteredBooks = filteredBooks.filter(b => b.price <= filter.priceMax)};
+    
+    if(filter.gender.length){
+      for (let i=0; i<filter.gender.length; i++){
+        filteredBooks = filteredBooks.filter(b => b.gender.includes((filter.gender[i])))
+      };
+    };
+      
+      
       return {
         ...state,
-        books: booksFiltered,
+        books: filteredBooks,
+        filters: filter
       };
 
     case FILTER_PRICE:
