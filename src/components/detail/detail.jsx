@@ -17,17 +17,16 @@ import {
   Button,
   CssBaseline,
   Grid,
+  Rating,
   TextField,
   Typography,
 } from "@mui/material";
 import {
-  AccountCircleOutlined,
   AddShoppingCartOutlined,
   Book,
   FavoriteOutlined,
   MenuBookOutlined,
   PaidOutlined,
-  StarOutline,
   StyleOutlined,
 } from "@mui/icons-material";
 
@@ -152,22 +151,20 @@ export default function Detail() {
       <Grid
         container
         component="main"
-        sx={{ height: "100vh", paddingTop: 13 }}
         direction="row"
         justifyContent="space-evenly"
       >
         <CssBaseline />
 
-        <Grid item xs sm={2} md={4} sx={{ height: "100%" }}>
-          <img width={500} height={645} src={detail.image} alt="" />
+        <Grid item xs={12} sm={6} md={4} sx={{ height: "100%" }}>
+          <img width={"100%"} height={645} src={detail.image} alt="" />
         </Grid>
 
         <Grid
           item
-          xs
-          sm={8}
+          xs={12}
+          sm={6}
           md={4}
-          elevation={6}
           sx={{ backgroundColor: theme && "#212529", color: theme && "white" }}
         >
           <Box
@@ -198,32 +195,37 @@ export default function Detail() {
               </Typography>
             </Box>
 
-            <Box component="form" noValidate sx={{ mt: 1, ml: 4 }}>
+            <Box component="form" noValidate sx={{ margin: 2 }}>
               <p>
                 <b>Author: </b>
-                <span>{detail.author}</span>{" "}
+                <span>{detail.author}</span>
               </p>
               <p>
                 <b>Categorie: </b>
-                <span>{detail.categorie}</span>{" "}
+                <span>{detail.categorie}</span>
               </p>
               <p>
                 <b>Editorial: </b>
-                <span>{detail.editorial}</span>{" "}
+                <span>{detail.editorial}</span>
               </p>
               <p>
                 <b>Saga: </b>
-                <span>{detail.saga}</span>{" "}
+                <span>{detail.saga}</span>
               </p>
               <p>
                 <b>Language: </b>
-                <span>{detail.language}</span>{" "}
+                <span>{detail.language}</span>
               </p>
               <p>
                 <b>Gender: </b>
                 <span>
-                  {detail.gender?.map((e) => {
-                    return <span>{e} </span>;
+                  {detail.gender?.map((e, i) => {
+
+                    if(i < detail.gender.length -1){
+                    return <span>{e}, </span>;}
+                    else{
+                      return <span>{e}. </span>;
+                    }
                   })}
                 </span>
               </p>
@@ -260,7 +262,7 @@ export default function Detail() {
                 variant="h5"
                 sx={{ fontWeight: "bold" }}
               >
-                $ {detail.price}
+                $ {detail.price} 
               </Typography>
               <Button
                 startIcon={<PaidOutlined />}
@@ -298,10 +300,9 @@ export default function Detail() {
 
         <Grid
           item
-          xs
-          sm={8}
+          xs={12}
+          sm={12}
           md={4}
-          elevation={6}
           sx={{ backgroundColor: theme && "#212529", color: theme && "white" }}
         >
           <Box
@@ -313,19 +314,28 @@ export default function Detail() {
               alignItems: "left",
             }}
           >
-            <Box>
-              <p>
-                <AccountCircleOutlined />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                bgcolor: "#ebebeb",
+                borderRadius: 4,
+              }}
+            >
+              <p >
                 <b> Seller: </b>
                 <span>{detail.seller}</span>{" "}
               </p>
               {score.length ? (
-                <p>
-                  <StarOutline /> <b>Score: </b>
-                  {Math.round(
-                    score.reduce((acc, curr) => acc + curr) / score.length
-                  )}
-                </p>
+                  <Rating
+                    name="read-only"
+                    sx={{mb:2}}
+                    value={Math.round(
+                      score.reduce((acc, curr) => acc + curr) / score.length
+                    )}
+                    readOnly
+                  />
               ) : (
                 <p>
                   <b>No Score Yet</b>
@@ -353,23 +363,42 @@ export default function Detail() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "left",
+                bgcolor: "#ebebeb",
+                borderRadius: 4,
+                height: 450,
               }}
             >
               {!user.reviews.length ? (
                 <p>There are no reviews</p>
               ) : (
                 user.reviews.map((elm) => {
-                  const colours = ["orange", "blue", "green", "black", "violet", "yellow", "red"];
+                  const colours = [
+                    "orange",
+                    "blue",
+                    "green",
+                    "black",
+                    "violet",
+                    "yellow",
+                    "red",
+                  ];
                   const random = Math.floor(Math.random() * colours.length);
                   return (
-                    <Box sx={{ display: "flex", alignItems: "flex-end" }}>
-                      <Avatar sx={{ bgcolor: colours[random] }}>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <Avatar sx={{ bgcolor: colours[random], ml:2 }}>
                         {elm.buyerUsername.charAt(0).toUpperCase()}
                       </Avatar>
                       <TextField
-                        label={elm.buyerUsername +": "+elm.comment}
+                        label={
+                          elm.buyerUsername.toUpperCase() + ": " + elm.comment
+                        }
                         fullWidth
-                        sx={{bgcolor: "#ebebeb", mb: 1, border: 0, color: "#000"}}
+                        sx={{
+                          bgcolor: "white",
+                          margin: 2,
+                          border: 0,
+                          color: "blue",
+                          borderRadius: 2,
+                        }}
                         boxShadow={3}
                         disabled
                       />
