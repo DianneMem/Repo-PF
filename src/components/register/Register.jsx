@@ -196,7 +196,7 @@ export const Register = () => {
               variant="outlined" 
               fullWidth 
               sx={{ mb: 2, border: 1, color: "#013a63" }}
-              href="http://localhost:3001/google/signup"
+              href="https://flybooks.up.railway.app/google/signup"
               >
                 <Google />
                 <Typography sx={{ ml: 1, color: "#013a63" }}>Google</Typography>

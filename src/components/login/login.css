@@ -116,9 +116,17 @@
 }
 .color-header {
   color: white;
-  margin-right: 2;
+  margin-right: 4;
   text-decoration: none;
   padding-right: 15px;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 20px;
+}
+.color-header2 {
+  color: white;
+  text-decoration: none;
+  padding-right: 1px;
   font-family: monospace;
   font-weight: 700;
   font-size: 20px;

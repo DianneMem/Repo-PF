@@ -28,8 +28,8 @@ export const GET_MY_BOOKS="GET_MY_BOOKS"
 export const DARK_MODE = "DARK_MODE";
  
 
-const url = "https://pfback-production.up.railway.app";
-const localhost = 'http://localhost:3001'
+const localhost = "http://localhost:3001";
+const deploy = 'https://flybooks.up.railway.app'
 
 export function filterBooks(payload) {
   return async function (dispatch) {
@@ -59,13 +59,19 @@ export function loginUser(payload) {
     };
   } else {
     return async function (dispatch) {
-      await axios.get("http://localhost:3001/google/signin")
-      const token = document.cookie
-      console.log("aaaa", token)
-      return dispatch({
-        type: GET_TOKEN,
-        payload: token
-      })
+      try {
+        
+        await axios.get(`${localhost}/google/signin`)
+        const token = document.cookie
+        console.log("aaaa", token)
+        return dispatch({
+          type: GET_TOKEN,
+          payload: token
+        })
+      } catch (error) {
+        console.log(error.message)
+      }
+   
 
     }
   }
@@ -119,7 +125,7 @@ export function orderBooks(payload) {
 export function getAllBooks() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${localhost}/products`);
+      const res = await axios.get(`${deploy}/products`);
       return dispatch({
         type: GET_ALL_BOOKS,
         payload: res.data,
@@ -146,7 +152,7 @@ export function setPage(payload) {
 export function getAllUsers() {
   return async function (dispatch) {
     try {
-      const user = await axios.get(`${localhost}/users`);
+      const user = await axios.get(`${deploy}/users`);
       return dispatch({
         type: GET_ALL_USERS,
         payload: user.data,
@@ -160,7 +166,7 @@ export function getAllUsers() {
 export function getUsersDetail(id) {
   return async function (dispatch) {
     try {
-      const user = await axios.get(`${localhost}/users/${id}`);
+      const user = await axios.get(`${deploy}/users/${id}`);
       return dispatch({
         type: GET_USER_DETAIL,
         payload: user.data,
@@ -174,7 +180,7 @@ export function getUsersDetail(id) {
 export function getCategories() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${localhost}/categories`);
+      const res = await axios.get(`${deploy}/categories`);
       return dispatch({
         type: GET_CATEGORIES,
         payload: res.data,
@@ -188,7 +194,7 @@ export function getCategories() {
 export function getLanguages() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${localhost}/languages`);
+      const res = await axios.get(`${deploy}/languages`);
       return dispatch({
         type: GET_LANGUAGES,
         payload: res.data,
@@ -201,7 +207,7 @@ export function getLanguages() {
 export function getGenders() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${localhost}/genders`);
+      const res = await axios.get(`${deploy}/genders`);
       return dispatch({
         type: GET_GENDERS,
         payload: res.data,
@@ -215,7 +221,7 @@ export function getGenders() {
 export function getAllAuthor() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${localhost}/authors`);
+      const res = await axios.get(`${deploy}/authors`);
       return dispatch({
         type: GET_ALL_AUTHOR,
         payload: res.data,
@@ -229,7 +235,7 @@ export function getAllAuthor() {
 export function getAllSaga() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${localhost}/sagas`);
+      const res = await axios.get(`${deploy}/sagas`);
       return dispatch({
         type: GET_ALL_SAGA,
         payload: res.data,
@@ -243,7 +249,7 @@ export function getAllSaga() {
 export function getAllEditorial() {
   return async function (dispatch) {
     try {
-      const res = await axios.get(`${localhost}/editorials`);
+      const res = await axios.get(`${deploy}/editorials`);
       return dispatch({
         type: GET_ALL_EDITORIAL,
         payload: res.data,
@@ -258,7 +264,7 @@ export function getAllEditorial() {
 export function getBooksByName(title) {
   return async function (dispatch) {
     try {
-      const searchName = await axios.get(`${localhost}/products?search=${title}`);
+      const searchName = await axios.get(`${deploy}/products?search=${title}`);
       return dispatch({
         type: GET_BOOKS_BY_NAME,
         payload: searchName.data,
@@ -272,7 +278,7 @@ export function getBooksByName(title) {
 export function getBooksDetails(id) {
   return async function (dispatch) {
     try {
-      let detailsBook = await axios.get(`${localhost}/products/${id}`);
+      let detailsBook = await axios.get(`${deploy}/products/${id}`);
       return dispatch({
         type: GET_BOOK_DETAILS,
         payload: detailsBook.data,
@@ -286,7 +292,7 @@ export function getBooksDetails(id) {
 export function myProductDetail(id) {
   return async function (dispatch) {
     try {
-      let detailsBook = await axios.get(`${localhost}/products/${id}`);
+      let detailsBook = await axios.get(`${deploy}/products/${id}`);
       return dispatch({
         type: GET_MY_BOOKS,
         payload: detailsBook.data,
@@ -300,7 +306,7 @@ export function findUserStripe(username) {
   if (username) {
     return async function (dispatch) {
       try {
-        let res = await axios.get(`${localhost}/api/checkout?username=${username}`);
+        let res = await axios.get(`${deploy}/api/checkout?username=${username}`);
         return dispatch({
           type: GET_USER_STRIPE,
           payload: res.data,
@@ -314,7 +320,7 @@ export function findUserStripe(username) {
       try {
         const userNameGoogle = jwt(document.cookie)
         const result = userNameGoogle.username
-        let res = await axios.get(`${localhost}/api/checkout?username=${result}`);
+        let res = await axios.get(`${deploy}/api/checkout?username=${result}`);
         return dispatch({
           type: GET_USER_STRIPE,
           payload: res.data,
@@ -329,7 +335,7 @@ export function findUserStripe(username) {
 export function authorByName(name) {
   return async function (dispatch) {
     try {
-      let res = await axios.get(`${localhost}/filters/author/${name}`);
+      let res = await axios.get(`${deploy}/filters/author/${name}`);
       return dispatch({
         type: GET_AUTHOR,
         payload: res.data,
@@ -343,7 +349,7 @@ export function authorByName(name) {
 export function editorialByName(name) {
   return async function (dispatch) {
     try {
-      let res = await axios.get(`${localhost}/userController/editorial/${name}`);
+      let res = await axios.get(`${deploy}/userController/editorial/${name}`);
       return dispatch({
         type: GET_EDITORIAL,
         payload: res.data,
@@ -357,7 +363,7 @@ export function editorialByName(name) {
 export function sagaByName(name) {
   return async function (dispatch) {
     try {
-      let res = await axios.get(`${localhost}/filters/saga/${name}`);
+      let res = await axios.get(`${deploy}/filters/saga/${name}`);
       return dispatch({
         type: GET_SAGA,
         payload: res.data,
@@ -371,7 +377,7 @@ export function sagaByName(name) {
 export function createPost(id, payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/products/${id}`, payload);
+      let post = await axios.post(`${deploy}/products/${id}`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -381,7 +387,7 @@ export function createPost(id, payload) {
 export function payMailing(payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/profile/sendMail`, payload);
+      let post = await axios.post(`${deploy}/profile/sendMail`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -391,7 +397,7 @@ export function payMailing(payload) {
 export function cartMailing(payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/profile/cartMail`, payload);
+      let post = await axios.post(`${deploy}/profile/cartMail`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -404,7 +410,7 @@ export function cartMailing(payload) {
 export function modificatePostInProfile(id,productId,payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/products/${id}?title=${productId}`, payload);
+      let post = await axios.post(`${deploy}/products/${id}?title=${productId}`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -416,7 +422,7 @@ export function modificatePostInProfile(id,productId,payload) {
 export function addStorage(id, payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/users/${id}/storage`, payload);
+      let post = await axios.post(`${deploy}/users/${id}/storage`, payload);
       console.log(post);
     } catch (error) {
       console.log(error);
@@ -427,7 +433,7 @@ export function addStorage(id, payload) {
 export function addPurchases(id, payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/profile/purchases/${id}`, payload);
+      let post = await axios.post(`${deploy}/profile/purchases/${id}`, payload);
       console.log(post);
     } catch (error) {
       console.log(error);
@@ -438,7 +444,7 @@ export function addPurchases(id, payload) {
 export function addReview(id, payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/profile/reviews/${id}`, payload);
+      let post = await axios.post(`${deploy}/profile/reviews/${id}`, payload);
       console.log(post);
     } catch (error) {
       console.log(error);
@@ -449,7 +455,7 @@ export function addReview(id, payload) {
 export function myReview(id, payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/profile/myreviews/${id}`, payload);
+      let post = await axios.post(`${deploy}/profile/myreviews/${id}`, payload);
       console.log(post);
     } catch (error) {
       console.log(error);
@@ -461,7 +467,7 @@ export function myReview(id, payload) {
 export function createReview(id,payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/profile/reviews/${id}`, payload);
+      let post = await axios.post(`${deploy}/profile/reviews/${id}`, payload);
       console.log(post);
     } catch (error) {
       console.log(error);
@@ -472,7 +478,7 @@ export function createReview(id,payload) {
 export function addFavorites(id,payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/profile/favorites/${id}`, payload);
+      let post = await axios.post(`${deploy}/profile/favorites/${id}`, payload);
       console.log("hola", post.data);
     } catch (error) {
       console.log(error);
@@ -483,7 +489,7 @@ export function addFavorites(id,payload) {
 export function addMyProducts(id, payload) {
   return async function (dispatch) {
     try {
-      let post = await axios.post(`${localhost}/profile/myproducts/${id}`, payload);
+      let post = await axios.post(`${deploy}/profile/myproducts/${id}`, payload);
       console.log(post);
     } catch (error) {
       console.log(error);
@@ -497,7 +503,7 @@ export function createCustomer(payload) {
   if (payload) {
     return async function (dispatch) {
       try {
-        let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
+        let post = await axios.post(`${deploy}/api/checkout/stripe`, payload);
         console.log(post);
       } catch (error) {
         console.log(error);
@@ -511,7 +517,7 @@ export function createCustomer(payload) {
           username: token.username,
           email: token.email
         }
-        let post = await axios.post(`${localhost}/api/checkout/stripe`, payload);
+        let post = await axios.post(`${deploy}/api/checkout/stripe`, payload);
         console.log("customer", post)
       } catch (error) {
         console.log(error);
@@ -526,7 +532,7 @@ export function createCustomer(payload) {
 export const deleteStorageItemById = (id, item) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.put(`${localhost}/users/${id}/storage?item=${item}`)
+      const pay = await axios.put(`${deploy}/users/${id}/storage?item=${item}`)
       console.log(pay)
     } catch (e) {
       console.log(e);
@@ -536,7 +542,7 @@ export const deleteStorageItemById = (id, item) => {
 export const addBuyerToProduct = (id,payload) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.put(`${localhost}/products/buyers/${id}`,payload)
+      const pay = await axios.put(`${deploy}/products/buyers/${id}`,payload)
       console.log(pay)
     } catch (e) {
       console.log(e);
@@ -547,7 +553,7 @@ export const addBuyerToProduct = (id,payload) => {
 export const modifyMyPosts = (id,item,payload) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.put(`${localhost}/profile/myproducts/${id}?item=${item}`,payload)
+      const pay = await axios.put(`${deploy}/profile/myproducts/${id}?item=${item}`,payload)
       console.log(pay)
     } catch (e) {
       console.log(e);
@@ -559,7 +565,7 @@ export const modifyMyPosts = (id,item,payload) => {
 export const deleteFavoriteItemById = (id, item) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.put(`${localhost}/users/${id}/favorites?item=${item}`)
+      const pay = await axios.put(`${deploy}/users/${id}/favorites?item=${item}`)
       console.log(pay)
     } catch (e) {
       console.log(e);
@@ -570,7 +576,7 @@ export const deleteFavoriteItemById = (id, item) => {
 export const clearStorage = (id) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.get(`${localhost}/users/${id}/storage`)
+      const pay = await axios.get(`${deploy}/users/${id}/storage`)
       console.log(pay)
     } catch (e) {
       console.log(e);
@@ -581,7 +587,7 @@ export const clearStorage = (id) => {
 export const clearFavorites = (id) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.get(`${localhost}/users/${id}/favorites`)
+      const pay = await axios.get(`${deploy}/users/${id}/favorites`)
       console.log(pay)
     } catch (e) {
       console.log(e);
@@ -592,7 +598,7 @@ export const clearFavorites = (id) => {
 export const getMyProducts = (id) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.get(`${localhost}/profile/user/${id}/`)
+      const pay = await axios.get(`${deploy}/profile/user/${id}/`)
       return dispatch({
         type: GET_MY_PRODUCTS
       })
@@ -607,7 +613,7 @@ export const getMyProducts = (id) => {
 export function createUser(payload) {
   return async function (dispatch) {
     try {
-      let user = await axios.post(`${localhost}/local/register`, payload);
+      let user = await axios.post(`${deploy}/local/register`, payload);
       console.log("------", user.data);
     } catch (error) {
       console.log(error);
@@ -618,7 +624,7 @@ export function createUser(payload) {
 export function createUserFromAdmin(payload) {
   return async function (dispatch) {
     try {
-      let user = await axios.post(`${localhost}/users`, payload);
+      let user = await axios.post(`${deploy}/users`, payload);
       console.log("------", user.data);
     } catch (error) {
       console.log(error);
@@ -655,7 +661,7 @@ export const startUploadingFile = (file = []) => {
 export function disablePost(id) {
   return async function () {
     try {
-      let post = await axios.put(`${localhost}/products/deletelogic/${id}`);
+      let post = await axios.put(`${deploy}/products/deletelogic/${id}`);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -668,7 +674,7 @@ export function disablePost(id) {
 export function deletePost(id) {
   return async function () {
     try {
-      let post = await axios.delete(`${localhost}/products/${id}`);
+      let post = await axios.delete(`${deploy}/products/${id}`);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -680,7 +686,7 @@ export function deletePost(id) {
 export function disableUser(id) {
   return async function () {
     try {
-      let post = await axios.put(`${localhost}/users/deletelogic/${id}`);
+      let post = await axios.put(`${deploy}/users/deletelogic/${id}`);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -691,7 +697,7 @@ export function disableUser(id) {
 export function deleteUser(id) {
   return async function () {
     try {
-      let post = await axios.delete(`${localhost}/users/${id}`);
+      let post = await axios.delete(`${deploy}/users/${id}`);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -702,7 +708,7 @@ export function deleteUser(id) {
 export function modifyUser(id, payload) {
   return async function () {
     try {
-      let post = await axios.put(`${localhost}/users/${id}`, payload);
+      let post = await axios.put(`${deploy}/users/${id}`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -713,7 +719,7 @@ export function modifyUser(id, payload) {
 export function balanceProfile(id, payload) {
   return async function () {
     try {
-      let post = await axios.put(`${localhost}/profile/balance/${id}`, payload);
+      let post = await axios.put(`${deploy}/profile/balance/${id}`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -725,7 +731,7 @@ export function balanceProfile(id, payload) {
 export function modifyPost(id, payload) {
   return async function () {
     try {
-      let post = await axios.put(`${localhost}/products/${id}`, payload);
+      let post = await axios.put(`${deploy}/products/${id}`, payload);
       console.log(post.data);
     } catch (error) {
       console.log(error);
@@ -736,7 +742,7 @@ export function modifyPost(id, payload) {
 export function recoverPassword(payload) {
   return async function () {
     try {
-      let user = await axios.post(`${localhost}/local/recover-password`, payload);
+      let user = await axios.post(`${deploy}/local/recover-password`, payload);
     } catch (error) {
       console.log(error);
     }

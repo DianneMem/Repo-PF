@@ -181,11 +181,12 @@ export const Login = () => {
               >
                 Sign In
               </Button>
-              <Button
-                variant="outlined"
-                fullWidth
-                sx={{ mb: 2, border: 1, color: "#013a63" }}
-                onClick={(e) => handleGoogle(e)}
+              <Button 
+              variant="outlined" 
+              fullWidth 
+              sx={{ mb: 2, border: 1, color: "#013a63" }}
+              href="https://flybooks.up.railway.app/google/signin"
+              onClick={(e) => handleGoogle(e)}
               >
                 <Google />
                 <Typography sx={{ ml: 1, color: "#013a63" }}>Google</Typography>
