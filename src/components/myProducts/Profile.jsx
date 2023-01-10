@@ -44,6 +44,7 @@ import { border, margin } from "@mui/system";
 
 const drawerWidth = 240;
 
+
 function Profile(props) {
   const [component, setComponent] = useState("Account");
   const { window } = props;
@@ -84,23 +85,7 @@ function Profile(props) {
     await dispatch(disablePost(itemId));
     dispatch(getAllBooks());
   }
-  function handleOpen(){
-    setOpen(true);
-  };
-  
-  function handleClose(){
-    setOpen(false);
-  };
-
-  function deleteItem(){
-    setOpen(true);
-  };
-      async function confirmDelete(e) {
-        e.preventDefault();
-        let itemId = e.target.value;
-        await dispatch(deletePost(itemId));
-        dispatch(getAllBooks());
-      }
+ 
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -239,12 +224,7 @@ function Profile(props) {
           )}
           {component === "My Products" && (
             <>
-            <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={'sm'}>
-            <DialogContentText sx={{ padding: 2,mt:2 , textAlign: "center"}} variant={'h6'}>
-            Do you want to delete this item permanently?
-  </DialogContentText>
-  <Button color="error" sx={{m:3}} variant="outlined" onClick={e=> confirmDelete(e) }>Confirm Delete</Button>
-            </Dialog>
+          
               {aux.length? aux.map((b) => {
                 return (
                   <div key={b._id}>
@@ -265,7 +245,7 @@ function Profile(props) {
                       state={b.state}
                       available={b.available}
                       disable={disableItem}
-                      deletes={deleteItem}
+                  
                     />
                   </div>
                 );

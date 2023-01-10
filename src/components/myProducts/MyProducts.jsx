@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { getAllBooks, modifyMyPosts, modifyPost } from "../../redux/actions";
+import { deletePost, getAllBooks, modifyMyPosts, modifyPost } from "../../redux/actions";
 import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import jwt from "jwt-decode";
@@ -9,6 +9,8 @@ import {
   Box,
   Button,
   CardMedia,
+  Dialog,
+  DialogContentText,
   Divider,
   Grid,
   List,
@@ -24,11 +26,15 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import defaultImage from "../../assets/bookDefault.png";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
-  padding: theme.spacing(2),
+  padding: theme.spacing(3),
+  borderRadius: 10,
+  background: "linear-gradient(135deg, #3CAFF5 0%, #013a63 100%)",
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
@@ -37,7 +43,7 @@ const Item2 = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(5),
   borderRadius: 10,
-  background: "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+  background: "linear-gradient(135deg, #3CAFF5 0%, #013a63 100%)",
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
@@ -48,7 +54,7 @@ const Item3 = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   textAlign: "center",
   color: theme.palette.text.secondary,
-  borderRadius: 4,
+  borderRadius: 10,
 }));
 export default function MyProducts({
   id,
@@ -65,7 +71,6 @@ export default function MyProducts({
   year,
   state,
   available,
-  deletes,
   disable,
   buyers
 }) {
@@ -92,6 +97,7 @@ export default function MyProducts({
   }
 
   //Global States
+  const [open, setOpen] = useState(false);
   const allCategories = useSelector((state) => state.categories);
   const allGenders = useSelector((state) => state.genders);
   const allLanguages = useSelector((state) => state.languages);
@@ -99,7 +105,8 @@ export default function MyProducts({
   let session = JSON.parse(localStorage.getItem("session"));
   let aux = allproducts.filter((e) => e.sellerId === session[0].id);
   const dispatch = useDispatch();
-
+  const MySwal = withReactContent(Swal);
+  console.log(open);
   // Local States
   const [isForm, setIsForm] = useState(false);
   const [input, setInput] = useState({
@@ -267,13 +274,27 @@ export default function MyProducts({
     let session = JSON.parse(localStorage.getItem("session"));
     let sessionId = session[0].id;
     const inputSend = input;
-    console.log("SEND", inputSend);
+
     await dispatch(modifyPost(id, inputSend));
     await dispatch(modifyMyPosts(sessionId, id, inputSend));
     dispatch(getAllBooks());
     setIsForm(false);
   }
-
+  async function deletes(e){
+    e.preventDefault();
+    await dispatch(deletePost(id));
+    dispatch(getAllBooks());
+    handleClose();
+    return MySwal.fire(`The product has been deleted`, "", "info");
+  };
+    
+  function handleOpen(){
+    setOpen(true);
+  }
+  
+  function handleClose(){
+    setOpen(false);
+  }
   return (
     <React.Fragment>
       {isActive?<Box >
@@ -283,8 +304,13 @@ export default function MyProducts({
           component="main"
           sx={{ bgcolor:"#fff",mb:2 }}
         >
-          
-          <Grid sx={{ bgcolor: "#fff" }} item xs={12}>
+                            <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={'sm'}>
+            <DialogContentText sx={{ padding: 2,mt:2 , textAlign: "center"}} variant={'h6'}>
+            Do you want to delete this item permanently?
+  </DialogContentText>
+  <Button color="error" sx={{m:3}} variant="outlined" onClick={e=> deletes(e) }>Confirm Delete</Button>
+            </Dialog>
+            <Grid sx={{ bgcolor: "#fff" }} item xs={12}>
             <Item>
               <Grid >
                 <Grid item xs={4} component="main" sx={{ mt: 5.5, padding: 2}}>
@@ -444,7 +470,7 @@ export default function MyProducts({
                           m: 1,
                         }}
                         value={id}
-                        onClick={(e) => deletes(e)}
+                        onClick={(e) => handleOpen(e)}
                       >
                         Delete
                       </Button>
@@ -820,9 +846,15 @@ export default function MyProducts({
         <Box
           key={id}
           component="main"
-          sx={{ bgcolor: "#fff"}}
+          sx={{ bgcolor: "#fff",mb:2}}
         >
-          <Grid   sx={{ bgcolor: "#fff" }} item xs={12}>
+           <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={'sm'}>
+            <DialogContentText sx={{ padding: 2,mt:2 , textAlign: "center"}} variant={'h6'}>
+            Do you want to delete this item permanently?
+  </DialogContentText>
+  <Button color="error" sx={{m:3}} variant="outlined" onClick={e=> deletes(e) }>Confirm Delete</Button>
+            </Dialog>
+            <Grid   sx={{ bgcolor: "#fff" }} item xs={12}>
             <Item>
              
              <Grid item xs={12}>
@@ -851,7 +883,7 @@ export default function MyProducts({
                     <Grid  item xs={1} sx={{ml:6,mt:2}}>  
                       {available ? (
                         <Button
-                          variant="outlined"
+                          variant="contained"
                           sx={{
                             fontFamily: "Verdana",
                             width: 100,
@@ -864,7 +896,7 @@ export default function MyProducts({
                         </Button>
                       ) : (
                         <Button
-                          variant="outlined"
+                          variant="contained"
                           sx={{
                             fontFamily: "Verdana",
                             width: 100,
@@ -877,7 +909,7 @@ export default function MyProducts({
                         </Button>
                       )}
                       <Button
-                        variant="outlined"
+                        variant="contained"
                         color="error"
                         sx={{
                           fontFamily: "Verdana",
@@ -885,17 +917,16 @@ export default function MyProducts({
                           m:1
                         }}
                         value={id}
-                        onClick={(e) => deletes(e)}
+                        onClick={(e) => handleOpen(e)}
                       >
                         Delete
                       </Button>
                       <Button
-                        variant="outlined"
+                        variant="contained"
+                        color= "success"
                         sx={{
                           fontFamily: "Verdana",
-                       
-                          color: "#2BCA35",
-                          borderColor: "#2BCA35",
+                         
                           width: 100,
                           m:1
                          
@@ -912,11 +943,11 @@ export default function MyProducts({
                       fullWidth
                       sx={{
                         background:
-                          "linear-gradient(135deg, #006ba6 0%,  #013a63 90%)",
-                        ":hover": {
-                          background:
-                            "linear-gradient(135deg,  #006ba6 0%, #013a63 100%)",
-                        },
+                        "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                      ":hover": {
+                        background:
+                          "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                      },
                         borderRadius: 2,
                         mt: 1,
                       }}
@@ -941,11 +972,11 @@ export default function MyProducts({
                       fullWidth
                       sx={{
                         background:
-                          "linear-gradient(135deg,  #006ba6 0%,  #013a63 90%)",
-                        ":hover": {
-                          background:
-                            "linear-gradient(135deg,  #006ba6 0%, #013a63 100%)",
-                        },
+                        "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                      ":hover": {
+                        background:
+                          "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                      },
                         borderRadius: 2,
                         mt: 1,
                       }}
@@ -968,11 +999,11 @@ export default function MyProducts({
                       fullWidth
                       sx={{
                         background:
-                          "linear-gradient(135deg, #006ba6 0%,  #013a63 90%)",
-                        ":hover": {
-                          background:
-                            "linear-gradient(135deg,  #006ba6 0%, #013a63 100%)",
-                        },
+                        "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                      ":hover": {
+                        background:
+                          "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                      },
                         borderRadius: 2,
                         mt: 1,
                       }}
@@ -991,11 +1022,11 @@ export default function MyProducts({
                       fullWidth
                       sx={{
                         background:
-                          "linear-gradient(135deg,  #006ba6 0%,  #013a63 90%)",
-                        ":hover": {
-                          background:
-                            "linear-gradient(135deg, #006ba6 0%, #013a63 100%)",
-                        },
+                        "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                      ":hover": {
+                        background:
+                          "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                      },
                         borderRadius: 2,
                         mt: 1,
                       }}
@@ -1020,11 +1051,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1043,11 +1074,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1065,11 +1096,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1088,11 +1119,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1110,11 +1141,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1132,11 +1163,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1156,11 +1187,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1180,11 +1211,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1217,9 +1248,15 @@ export default function MyProducts({
         <Box
           key={id}
           component="main"
-          sx={{ bgcolor:"#fff", height: "100vh" }}
+          sx={{ bgcolor:"#fff", height: "110vh" }}
         >
-          <Grid item xs={12}>
+                            <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={'sm'}>
+            <DialogContentText sx={{ padding: 2,mt:2 , textAlign: "center"}} variant={'h6'}>
+            Do you want to delete this item permanently?
+  </DialogContentText>
+  <Button color="error" sx={{m:3}} variant="outlined" onClick={e=> deletes(e) }>Confirm Delete</Button>
+            </Dialog>
+            <Grid item xs={12}>
             <Item>
               <Grid container>
                 <Grid item xs={4} component="main" sx={{ mt: 5.5, padding: 2}}>
@@ -1378,7 +1415,7 @@ export default function MyProducts({
                           m: 1,
                         }}
                         value={id}
-                        onClick={(e) => deletes(e)}
+                        onClick={(e) => handleOpen(e)}
                       >
                         Delete
                       </Button>
@@ -1756,9 +1793,15 @@ export default function MyProducts({
         <Box
           key={id}
           component="main"
-          sx={{ bgcolor: "#fff", height: "100vh" }}
+          sx={{ bgcolor: "#fff", height: "90vh" }}
         >
-          <Grid   sx={{ bgcolor: "#fff" }} item xs={12}>
+                  <Dialog open={open} onClose={handleClose} fullWidth={true} maxWidth={'sm'}>
+            <DialogContentText sx={{ padding: 2,mt:2 , textAlign: "center"}} variant={'h6'}>
+            Do you want to delete this item permanently?
+  </DialogContentText>
+  <Button color="error" sx={{m:3}} variant="outlined" onClick={e=> deletes(e) }>Confirm Delete</Button>
+            </Dialog>
+            <Grid   sx={{ bgcolor: "#fff" }} item xs={12}>
             <Item>
               <Grid container>
                 <Grid item xs={4} sx={{ padding: 2 }}>
@@ -1893,7 +1936,7 @@ export default function MyProducts({
                           fontSize: 10,
                         }}
                         value={id}
-                        onClick={(e) => deletes(e)}
+                        onClick={(e) => handleOpen(e)}
                       >
                         Delete
                       </Button>
@@ -1945,17 +1988,17 @@ export default function MyProducts({
                   <Item2>
                     <Grid container spacing={4}>
                       <Grid item xs={6}>
-                        <Item3 sx={{ borderRadius: 4 }}>
+                      <Item3>
                           <ListItem
                             button
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1973,11 +2016,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -1997,11 +2040,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -2021,11 +2064,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -2037,21 +2080,21 @@ export default function MyProducts({
                               <Box color="#FFF">Editorial : {editorial}</Box>
                             </Typography>
                           </ListItem>
-                        </Item3>
+                          </Item3>
                       </Grid>
 
                       <Grid item xs={6}>
-                        <Item3 sx={{ borderRadius: 4 }}>
+                      <Item3>
                           <ListItem
                             button
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -2070,11 +2113,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -2092,11 +2135,11 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
-                              ":hover": {
-                                background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
-                              },
+                              "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
+                            ":hover": {
+                              background:
+                                "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
+                            },
                               borderRadius: 2,
                             }}
                           >
@@ -2115,10 +2158,10 @@ export default function MyProducts({
                             fullWidth
                             sx={{
                               background:
-                                "linear-gradient(135deg, #ff6700 0%,  #013a63 90%)",
+                                "linear-gradient(135deg, #3CAFF5 0%,  #013a63 90%)",
                               ":hover": {
                                 background:
-                                  "linear-gradient(135deg, #ff6700 0%, #013a63 100%)",
+                                  "linear-gradient(135deg, #013a63 0%, #3CAFF5 100%)",
                               },
                               borderRadius: 2,
                             }}
@@ -2131,7 +2174,7 @@ export default function MyProducts({
                               <Box color="#FFF">Title : {title}</Box>
                             </Typography>
                           </ListItem>
-                        </Item3>
+                          </Item3>
                       </Grid>
                     </Grid>
                   </Item2>
@@ -2146,3 +2189,5 @@ export default function MyProducts({
     </React.Fragment>
   );
 }
+ 
+ 
