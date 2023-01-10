@@ -25,6 +25,7 @@ import {
   GET_MY_PRODUCTS,
   GET_MY_BOOKS,
   DARK_MODE,
+  SEARCH_BOOKS
 
 } from "./actions";
 
@@ -272,7 +273,17 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         darkMode: !state.darkMode
-      };
+      }
+      case SEARCH_BOOKS:
+        console.log(state.books.length);
+        console.log(payload); 
+        
+      return{
+          ...state,
+          books:state.allbooks?.filter(book => book.title.toLowerCase().includes(payload))  
+          
+
+        }
     default:
       return state;
   }

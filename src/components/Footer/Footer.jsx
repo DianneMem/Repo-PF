@@ -39,7 +39,7 @@ export default function Footer() {
                     <a className={s.copyright}
                         href="copyr">
 
-                        © {new Date().getFullYear()} Fly Books
+                        Copyright © {new Date().getFullYear()} Fly Books
                     </a>
                 </div>
             </div>

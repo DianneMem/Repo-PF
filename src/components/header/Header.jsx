@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import SearchBar from "../searchBar/SearchBar";
+import { getAllBooks, setPage } from "../../redux/actions";
 import logo from "../../assets/logo.PNG";
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -11,20 +12,41 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
-// import { useSelector } from "react-redux";
+import { searchBooks } from '../../redux/actions'
 import { Button } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+
+
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
+
 
 export default function Header() {
   // const tokenUser = useSelector((state) => state.sessionState);
   const sesionLocal = JSON.parse(localStorage.getItem("session"));
   // console.log("sesion---->", sesionLocal);
-  const navigate = useNavigate();
 
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const allBooks = useSelector((state) => state.allbooks);
+
+
+  useEffect(() => {
+    dispatch(getAllBooks());
+    setCurrentPage(1);
+    dispatch(setPage(1));
+  }, [dispatch]);
+
+  
+
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentBooks, setBooks] = useState();
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -43,7 +65,7 @@ export default function Header() {
   }
   if (!sesionLocal) {
     return (
-      <AppBar className="texts-login">
+      <AppBar className="texts-login" position="relative">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -153,7 +175,7 @@ export default function Header() {
                 ))}
               </Menu>
             </Box>
-            <SearchBar />
+            <SearchBar searchBooks={searchBooks} />
           </Toolbar>
         </Container>
       </AppBar>
@@ -281,12 +303,12 @@ export default function Header() {
                 ))}
               </Menu>
             </Box>
-            <SearchBar />
-            <Button 
-            variant="outlined"
-            onClick={handleSesionClose}
-            sx={{ml:3, color: "#ff6700"}} 
-            endIcon={<LogoutOutlined/>}>
+            <SearchBar searchBooks={searchBooks} />
+            <Button
+              variant="outlined"
+              onClick={handleSesionClose}
+              sx={{ ml: 3, color: "#ff6700" }}
+              endIcon={<LogoutOutlined />}>
               LOGOUT
             </Button>
           </Toolbar>
@@ -423,12 +445,12 @@ export default function Header() {
                 ))}
               </Menu>
             </Box>
-            <SearchBar />
-            <Button 
-            variant="outlined"
-            onClick={handleSesionClose}
-            sx={{ml:3, color: "#ff6700"}} 
-            endIcon={<LogoutOutlined/>}>
+            <SearchBar searchBooks={searchBooks} />
+            <Button
+              variant="outlined"
+              onClick={handleSesionClose}
+              sx={{ ml: 3, color: "#ff6700" }}
+              endIcon={<LogoutOutlined />}>
               LOGOUT
             </Button>
           </Toolbar>

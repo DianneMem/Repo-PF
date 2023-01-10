@@ -22,14 +22,32 @@ export const GET_USER_STRIPE = "GET_USER_STRIPE"
 export const GET_TOKEN = "GET_TOKEN";
 export const CLEAR_STORAGE = "CLEAR_STORAGE"
 export const GET_USER_DETAIL = "GET_USER_DETAIL";
-export const CLEAR_IMAGE="CLEAR_IMAGE"
-export const GET_MY_PRODUCTS="GET_MY_PRODUCTS"
-export const GET_MY_BOOKS="GET_MY_BOOKS"
+export const CLEAR_IMAGE = "CLEAR_IMAGE"
+export const GET_MY_PRODUCTS = "GET_MY_PRODUCTS"
+export const GET_MY_BOOKS = "GET_MY_BOOKS"
 export const DARK_MODE = "DARK_MODE";
+export const SEARCH_BOOKS = "SEARCH_BOOKS";
 
 
 const url = "https://pfback-production.up.railway.app";
 const localhost = 'http://localhost:3001'
+
+
+export function searchBooks(payload) {
+  return async function (dispatch) {
+    try {
+      console.log(payload);
+      return dispatch({
+        type: SEARCH_BOOKS,
+        payload
+      })
+    } catch (err) {
+      console.log(err);
+
+    }
+
+  }
+}
 
 export function filterBooks(payload) {
   return async function (dispatch) {
@@ -391,7 +409,7 @@ export function payMailing(payload) {
 
 
 
-export function modificatePostInProfile(id,productId,payload) {
+export function modificatePostInProfile(id, productId, payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/products/${id}?title=${productId}`, payload);
@@ -448,7 +466,7 @@ export function myReview(id, payload) {
 }
 
 
-export function createReview(id,payload) {
+export function createReview(id, payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/profile/reviews/${id}`, payload);
@@ -459,7 +477,7 @@ export function createReview(id,payload) {
   };
 }
 
-export function addFavorites(id,payload) {
+export function addFavorites(id, payload) {
   return async function (dispatch) {
     try {
       let post = await axios.post(`${localhost}/profile/favorites/${id}`, payload);
@@ -524,10 +542,10 @@ export const deleteStorageItemById = (id, item) => {
   };
 };
 
-export const modifyMyPosts = (id,item,payload) => {
+export const modifyMyPosts = (id, item, payload) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.put(`${localhost}/profile/myproducts/${id}?item=${item}`,payload)
+      const pay = await axios.put(`${localhost}/profile/myproducts/${id}?item=${item}`, payload)
       console.log(pay)
     } catch (e) {
       console.log(e);
