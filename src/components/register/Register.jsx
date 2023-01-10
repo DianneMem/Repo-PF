@@ -65,6 +65,12 @@ export const Register = () => {
     console.log(input);
   };
 
+  // const handlerGoogle = (e) => {
+  //   e.preventDefault()
+  //   dispatch(registerGoogle())
+  //   // navigate("/login")
+  // }
+
   function validate(input) {
     const errors = {};
     let RegEXP = /[`ª!@#$%^*-+\=\[\]{};"\\|,<>\/~]/;
@@ -196,7 +202,9 @@ export const Register = () => {
               variant="outlined" 
               fullWidth 
               sx={{ mb: 2, border: 1, color: "#013a63" }}
-              href="https://flybooks.up.railway.app/google/signup"
+              // href="https://fly-books.up.railway.app/google/signup"
+              href="http://localhost:3001/google/signup"
+              // onClick={(e) => handlerGoogle(e)}
               >
                 <Google />
                 <Typography sx={{ ml: 1, color: "#013a63" }}>Google</Typography>

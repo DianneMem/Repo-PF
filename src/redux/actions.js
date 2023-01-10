@@ -43,13 +43,13 @@ export function filterBooks(payload) {
     }
   }
 };
-
+ 
 
 export function loginUser(payload) {
   if (payload) {
     return async function (dispatch) {
       try {
-        let token = await axios.post(`${localhost}/local/login`, payload);
+        let token = await axios.post(`${deploy}/local/login`, payload);
         return dispatch({
           type: GET_TOKEN,
           payload: token.data
@@ -61,10 +61,9 @@ export function loginUser(payload) {
   } else {
     return async function (dispatch) {
       try {
-        
         await axios.get(`${localhost}/google/signin`)
         const token = document.cookie
-        console.log("aaaa", token)
+        console.log("aaaa", document)
         return dispatch({
           type: GET_TOKEN,
           payload: token
