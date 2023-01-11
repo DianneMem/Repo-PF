@@ -67,7 +67,7 @@ export function loginUser(payload) {
   if (payload) {
     return async function (dispatch) {
       try {
-        let token = await axios.post(`${localhost}/local/login`, payload);
+        let token = await axios.post(`${deploy}/local/login`, payload);
         return dispatch({
           type: GET_TOKEN,
           payload: token.data
