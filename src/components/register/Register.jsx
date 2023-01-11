@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { createCustomer, createUser, getAllUsers } from "../../redux/actions";
+import { createCustomer, createUser, findUserStripe, getAllUsers } from "../../redux/actions";
 import { Google, LockClockOutlined, Send } from "@mui/icons-material";
 import {
   Avatar,
@@ -57,6 +57,11 @@ export const Register = () => {
       });
       navigate("/confirmacount");
     }
+  };
+
+  const handleGoogle = () => {
+    dispatch(createCustomer());
+
   };
 
   const handleUser = (e) => {
@@ -197,6 +202,7 @@ export const Register = () => {
               fullWidth 
               sx={{ mb: 2, border: 1, color: "#013a63" }}
               href="https://flybooks.up.railway.app/google/signup"
+              onClick={(e) => handleGoogle(e)}
               >
                 <Google />
                 <Typography sx={{ ml: 1, color: "#013a63" }}>Google</Typography>
