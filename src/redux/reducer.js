@@ -25,6 +25,8 @@ import {
   GET_MY_PRODUCTS,
   GET_MY_BOOKS,
   DARK_MODE,
+  SEARCH_BOOKS
+
 
 } from "./actions";
 
@@ -45,10 +47,10 @@ const initialState = {
   auxState: [],
   sessionState: [],
   stripeState: [],
-  myproductDetail:[],
+  myproductDetail: [],
   darkMode: false,
   filters: {
-    categorie: "", 
+    categorie: "",
     author: "",
     editorial: "",
     saga: "",
@@ -65,7 +67,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_ALL_BOOKS:
 
-     
+
       return {
         ...state,
         allbooks: payload,
@@ -89,7 +91,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
         sessionState: currentToken,
       };
     case GET_USER_STRIPE:
-    
+
       return {
         ...state,
         stripeState: payload,
@@ -147,77 +149,84 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         detailsBook: payload,
-    
+
       };
-      case GET_MY_BOOKS:
-        console.log(state.myproductDetail);
-        return{
-          ...state,
-          myproductDetail:payload
-        }
+    case GET_MY_BOOKS:
+      console.log(state.myproductDetail);
+      return {
+        ...state,
+        myproductDetail: payload
+      }
     case CHANGE_PAGE:
       return {
         ...state,
         currentPage: payload,
       };
     case FILTER_BOOKS:
-    
-    let newFilter = payload
-    let filter = state.filters
-    let filteredBooks = state.allbooks.slice();
-    
-    if(newFilter === 'Clear'){return ({
-      ...state,
-      books: state.allbooks,
-      filters: {
-        categorie: "", 
-        author: "",
-        editorial: "",
-        saga: "",
-        language: "",
-        typebook: "",
-        state: "",
-        priceMin: "",
-        priceMax: "",
-        gender: [],
-      },
-      })
-    };
-    
-   
-    
-    if(newFilter.gender && newFilter.gender.length) {
-      filter = {...filter, gender: [...filter.gender, newFilter.gender]};
-    } 
-    else if (newFilter && newFilter.genderDelete){
-      const genderDel = newFilter.genderDelete;
-      const genderFilter = filter.gender.filter(gen => gen !== genderDel);
-      filter = {...filter, gender: [...genderFilter]};
-    }
-    else {
-      filter = {...filter, ...newFilter};
-    };
 
+      let newFilter = payload
+      let filter = state.filters
+      let filteredBooks = state.allbooks.slice();
 
-    
-    
-    if(filter.categorie){filteredBooks = filteredBooks.filter(b => b.categorie === filter.categorie)};
-    if(filter.author){filteredBooks = filteredBooks.filter(b => b.author === filter.author)};
-    if(filter.editorial){filteredBooks = filteredBooks.filter(b => b.editorial === filter.editorial)};
-    if(filter.saga){filteredBooks = filteredBooks.filter(b => b.saga === filter.saga)};
-    if(filter.language){filteredBooks = filteredBooks.filter(b => b.language === filter.language)};
-    if(filter.typebook){filteredBooks = filteredBooks.filter(b => b.typebook === filter.typebook)};
-    if(filter.state){filteredBooks = filteredBooks.filter(b => b.state === filter.state)};
-    if(filter.priceMin){filteredBooks = filteredBooks.filter(b => b.price >= filter.priceMin)};
-    if(filter.priceMax){filteredBooks = filteredBooks.filter(b => b.price <= filter.priceMax)};
-    
-    if(filter.gender.length){
-      for (let i=0; i<filter.gender.length; i++){
-        filteredBooks = filteredBooks.filter(b => b.gender.includes((filter.gender[i])))
+      if (newFilter === 'Clear') {
+        return ({
+          ...state,
+          books: state.allbooks,
+          filters: {
+            categorie: "",
+            author: "",
+            editorial: "",
+            saga: "",
+            language: "",
+            typebook: "",
+            state: "",
+            priceMin: "",
+            priceMax: "",
+            gender: [],
+          },
+        })
       };
-    };
-      
-      
+
+
+
+      if (newFilter.gender && newFilter.gender.length) {
+        filter = { ...filter, gender: [...filter.gender, newFilter.gender] };
+      }
+      else if(newFilter && (newFilter.priceMin === '' || newFilter.priceMin === 0) ){
+        filter = {...filter, priceMin: ""};
+      }
+      else if(newFilter && (newFilter.priceMax === '' || newFilter.priceMax === 0)){
+        filter = {...filter, priceMax: ""};
+      }
+      else if (newFilter && newFilter.genderDelete) {
+        const genderDel = newFilter.genderDelete;
+        const genderFilter = filter.gender.filter(gen => gen !== genderDel);
+        filter = { ...filter, gender: [...genderFilter] };
+      }
+      else {
+        filter = { ...filter, ...newFilter };
+      };
+
+
+
+
+      if (filter.categorie) { filteredBooks = filteredBooks.filter(b => b.categorie === filter.categorie) };
+      if (filter.author) { filteredBooks = filteredBooks.filter(b => b.author === filter.author) };
+      if (filter.editorial) { filteredBooks = filteredBooks.filter(b => b.editorial === filter.editorial) };
+      if (filter.saga) { filteredBooks = filteredBooks.filter(b => b.saga === filter.saga) };
+      if (filter.language) { filteredBooks = filteredBooks.filter(b => b.language === filter.language) };
+      if (filter.typebook) { filteredBooks = filteredBooks.filter(b => b.typebook === filter.typebook) };
+      if (filter.state) { filteredBooks = filteredBooks.filter(b => b.state === filter.state) };
+      if (filter.priceMin) { filteredBooks = filteredBooks.filter(b => b.price >= filter.priceMin) };
+      if (filter.priceMax) { filteredBooks = filteredBooks.filter(b => b.price <= filter.priceMax) };
+
+      if (filter.gender.length) {
+        for (let i = 0; i < filter.gender.length; i++) {
+          filteredBooks = filteredBooks.filter(b => b.gender.includes((filter.gender[i])))
+        };
+      };
+
+
       return {
         ...state,
         books: filteredBooks,
@@ -329,7 +338,15 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         darkMode: !state.darkMode
-      };
+      }
+    case SEARCH_BOOKS:
+      console.log(state.books.length);
+      console.log(payload);
+
+      return {
+        ...state,
+        books: state.allbooks?.filter(book => book.title.toLowerCase().includes(payload))
+      }
     default:
       return state;
   }
