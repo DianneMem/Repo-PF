@@ -24,6 +24,7 @@ import { Typography } from "@mui/material";
 import Stack from "@mui/joy/Stack";
 import { Favorite } from "@mui/icons-material";
 import Footer from "../Footer/Footer";
+import { Alert } from "@mui/material";
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import FilterListOffOutlinedIcon from '@mui/icons-material/FilterListOffOutlined';
 
@@ -95,7 +96,9 @@ export default function Home() {
     else{setMenu(true)}
   };
 
+
   
+
 
 return (<React.Fragment>
 <Header />
@@ -104,17 +107,19 @@ return (<React.Fragment>
 (<Button onClick={handleMenu}><FilterListOffOutlinedIcon/></Button>) 
 : (<Button onClick={handleMenu}><FilterListOutlinedIcon/></Button>)}
 
-<Grid container spacing={2}>
-  
+<Grid container spacing={2} sx={{mt:2}}>
   {menu? 
   (<>
-  <Grid item xs={12} sm={6} md={4} lg={3} xl={3}>
+  <Grid item xs={12} sm={7} md={5} lg={3.2} xl={2.6}>
     <SideBar /> 
   </Grid>
-  <Grid item xs={12} sm={6} md={8} lg={9} xl={7}>
+  <Grid item xs={12} sm={5} md={7} lg={8.8} xl={7}>
     <div>
-      <div className={s.cards}>
-        {currentBooks?.map((b) => {return (
+      <Grid container spacing={0}>
+        {currentBooks.length? 
+        (
+        currentBooks?.map((b) => {return (
+        <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
         <div key={b._id} className={s.card}>
           <Card
           id={b._id}
@@ -127,8 +132,16 @@ return (<React.Fragment>
           product={b}
           />
         </div>
-        )})}
-      </div>
+        </Grid>
+        )})
+        ) :
+        (<>
+         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Alert severity="info">There are no matches - Keep Searching!</Alert>
+        </Grid>
+        </>)
+        }
+      </Grid>
       <div className={s.paginated}>
         <Paginated
         booksPerPage={booksPerPage}
@@ -139,12 +152,12 @@ return (<React.Fragment>
       </div>
     </div>
   </Grid>
-  <Grid item xs={12} sm={12} md={12} lg={12} xl={2}>
+  <Grid item xs={12} sm={12} md={12} lg={12} xl={2.4}>
     <div className={s.ImageContainer}>
       <img 
       alt="Henry-Banner" 
       src={xlMediaQuery ? (vertical_Henry) : (horyzontal_Henry)} 
-      width={xlMediaQuery ? "200" : "600"} 
+      width={xlMediaQuery ? "200" : (xsMediaQuery ? "600" : "400")} 
       height={xlMediaQuery ? "1000" : "200"}
       />
     </div>
@@ -152,10 +165,13 @@ return (<React.Fragment>
   </>) :
   
   (<>
-  <Grid item xs={12} sm={8} md={9} lg={9} xl={10}>
+  <Grid item xs={12} sm={9} md={9} lg={9} xl={10.2} >
     <div>
-      <div className={s.cards}>
-        {currentBooks?.map((b) => {return (
+      <Grid container spacing={0} sx={{ml:1}}>
+        {currentBooks.length?
+        (
+        currentBooks?.map((b) => {return (
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
         <div key={b._id} className={s.card}>
           <Card
           id={b._id}
@@ -168,8 +184,17 @@ return (<React.Fragment>
           product={b}
           />
         </div>
-        )})}
-      </div>
+        </Grid>
+        )})
+        ): 
+        (<>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Alert severity="info">There are no matches - Keep Searching!</Alert>
+        </Grid>
+        </>)
+        
+        }
+      </Grid>
       <div className={s.paginated}>
         <Paginated
         booksPerPage={booksPerPage}
@@ -180,14 +205,16 @@ return (<React.Fragment>
       </div>
     </div>
   </Grid>
-  <Grid item xs={12} sm={4} md={3} lg={3} xl={2}>
+  <Grid item xs={12} sm={3} md={3} lg={3} xl={1.8}>
     <div className={s.ImageContainer}>
-      <img 
-      alt="Henry-Banner" 
-      src={xsMediaQuery ? (vertical_Henry) : (horyzontal_Henry)} 
-      width={xsMediaQuery ? "200" : "600"} 
-      height={xsMediaQuery ? "1000" : "200"}
-      />
+      <a href="https://www.soyhenry.com" target="blank">
+        <img 
+        alt="Henry-Banner" 
+        src={xsMediaQuery ? (vertical_Henry) : (horyzontal_Henry)} 
+        width={xsMediaQuery ? "200" : "400"} 
+        height={xsMediaQuery ? "1000" : "200"}
+        />
+      </a>
     </div>
   </Grid>
   </>)
