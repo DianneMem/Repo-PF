@@ -44,6 +44,7 @@ export default function Header() {
   };
   const handleSesionClose = () => {
     localStorage.clear();
+    window.location.reload();
     navigate("/");
   };
   if (!sesionLocal) {
