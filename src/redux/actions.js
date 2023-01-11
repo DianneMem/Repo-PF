@@ -67,7 +67,7 @@ export function loginUser(payload) {
   if (payload) {
     return async function (dispatch) {
       try {
-        let token = await axios.post(`${deploy}/local/login`, payload);
+        let token = await axios.post(`${localhost}/local/login`, payload);
         return dispatch({
           type: GET_TOKEN,
           payload: token.data
@@ -76,23 +76,6 @@ export function loginUser(payload) {
         console.log(error.message);
       }
     };
-  } else {
-    return async function (dispatch) {
-      try {
-
-        await axios.get(`${deploy}/google/signin`)
-        const token = document.cookie
-        console.log("aaaa", token)
-        return dispatch({
-          type: GET_TOKEN,
-          payload: token
-        })
-      } catch (error) {
-        console.log(error.message)
-      }
-
-
-    }
   }
 }
 
@@ -338,6 +321,7 @@ export function findUserStripe(username) {
     return async function (dispatch) {
       try {
         const userNameGoogle = jwt(document.cookie)
+        console.log(userNameGoogle)
         const result = userNameGoogle.username
         let res = await axios.get(`${deploy}/api/checkout?username=${result}`);
         return dispatch({
