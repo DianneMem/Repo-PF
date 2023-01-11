@@ -1,29 +1,31 @@
 .nav{
   /*  background-color: rgb(252, 232, 207); */
-  background-color:  #457b9d;
+  /*  background-color:  #457b9d; */
+  background-color:  #799baf;
   width: 14rem;
-  height: 120vh;
-  padding: 3rem;
-  margin-bottom: 1rem;
+  /* height: 170vh; */
+  height: 90rem;
+  padding-top: 3rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-bottom: 3rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   font-size: 12px;
   border-radius: 3px;
-  right:3%;
-  margin-top: 8rem;
-  border-radius: 3rem;
-  
-  
-}
+  position: relative;
+  animation:animateleft 0.3s;
+  }@keyframes animateleft{from{left:-300px;opacity:0} to{left:0;opacity:1}}
+
 .nav select{
   border: none;
-
-  background-color: rgba(255, 255, 255, 0.292);
+  background-color: rgb(255, 255, 255);
   width: 220px;
   height: 25px;
   border-radius: 3px;
 }
+
 
 .state{
  display: flex;
@@ -34,7 +36,7 @@
   font-size: 0.7rem;
   /* font: 1em sans-serif; */
   color: white;
-  background-color: rgba(255, 255, 255, 0.292);
+  background-color: #457b9d;
   border: none;
   outline: none;
   border-radius: 3px;
@@ -45,10 +47,10 @@
 }
 .btn0:hover{
   color:rgb(0, 0, 0);
-  background-color:#caf0f8
+  background-color:#89aeb6
 }
 .btn0:active{
-  background-color:#caf0f8
+  background-color:#14d4fa
 }
 
 .btn1{
@@ -56,7 +58,7 @@
   height: 2rem;
   font-size: 0.7rem;
   color: white;
-  background-color: rgba(255, 255, 255, 0.292);
+  background-color: #457b9d;
   border: none;
   border-radius: 3px;
   margin: 0.2rem;
@@ -66,10 +68,10 @@
 }
 .btn1:hover{
   color:rgb(0, 0, 0);
-  background-color:#caf0f8;
+  background-color: #89aeb6;
 }
 .btn1:active{
-  background-color:#caf0f8
+  background-color: #14d4fa
 }
 
 .btn2{
@@ -77,7 +79,7 @@
   height: 3rem;
   font-size: 0.7rem;
   color:white;
-  background-color:rgba(255, 255, 255, 0.292);
+  background-color: #457b9d;
   border: none;
   border-radius: 3px;
   margin: 0.2rem;
@@ -86,8 +88,32 @@
 }
 .btn2:hover{
   color:white;
-  background-color:#caf0f8
+  background-color:#89aeb6
 }
 .btn2:active{
-  background-color:#caf0f8
+  background-color:#14d4fa
+}
+
+
+.btn3{
+  height: 0.5rem;
+  color: white;
+  background-color: #799baf;
+  border: none;
+  border-radius: 3px;
+  padding: 0.2rem;
+  margin-left: 0.1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn3:hover{
+  color:rgb(90, 90, 90);
+}
+.btn3:active{
+  color:rgb(0, 0, 0);
+}
+
+.flex_row{
+display: flex;
+gap: 0.1rem
 }
