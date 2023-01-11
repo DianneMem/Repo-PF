@@ -207,7 +207,7 @@ export const Register = () => {
               variant="outlined" 
               fullWidth 
               sx={{ mb: 2, border: 1, color: "#013a63" }}
-              href="https://flybooks.up.railway.app/google/signup"
+              href="http://localhost:3001/google/signup"
               onClick={(e) => handleGoogle(e)}
               >
                 <Google />

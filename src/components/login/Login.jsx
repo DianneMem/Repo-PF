@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import jwt from "jwt-decode";
 import "./login.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import bcrypt from "bcryptjs";
+import Loader from "../loader/Loader";
 import withReactContent from "sweetalert2-react-content";
 import {
   createCustomer,
   findUserStripe,
   getAllUsers,
+  loginGoogle,
   loginUser,
 } from "../../redux/actions";
 import {
@@ -31,6 +34,7 @@ import {
 import { Google, Send, Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const Login = () => {
+  const [showPassword, setShowPassword] = React.useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const users = useSelector((state) => state.users);
@@ -75,6 +79,16 @@ export const Login = () => {
       return MySwal.fire("¡Incorrect User!", message, "error");
     }
   };
+  // const [loading, setLoading] = useState(false);
+  // const changeState = () => {
+  //   setTimeout(() => {
+  //     setLoading(true);
+  //   }, 3000);
+  // };
+  // if (!loading) {
+  //   changeState();
+  //   return <Loader />;
+  // }
 
   const handleUser = (e) => {
     setInputs({ ...input, [e.target.name]: e.target.value });
@@ -84,11 +98,20 @@ export const Login = () => {
   const handleGoogle = () => {
     dispatch(createCustomer());
     dispatch(findUserStripe());
-    dispatch(loginUser());
-    navigate("/");
+    
+    let cookie=jwt(document.cookie)
+      // if(cookie){
+        
+      // }
+    console.log(cookie);
+        localStorage.setItem("session","[]")
+        let aux=JSON.parse(localStorage.getItem("session"))
+        aux.push(cookie)
+        localStorage.setItem("session",JSON.stringify(aux))
+    
   };
 
-  const [showPassword, setShowPassword] = React.useState(false);
+
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -189,7 +212,7 @@ export const Login = () => {
               variant="outlined" 
               fullWidth 
               sx={{ mb: 2, border: 1, color: "#013a63" }}
-              href="https://flybooks.up.railway.app/google/signin"
+              href="http://localhost:3001/google/signin"
               onClick={(e) => handleGoogle(e)}
               >
                 <Google />
