@@ -300,7 +300,7 @@ return(
                 </Grid>
                
               </Grid>
-                <FormControl >
+                <FormControl sx={{mt:1}} >
                   <FormLabel id="radio-group-label-1">Type</FormLabel>
                   <RadioGroup
                     row
@@ -309,8 +309,13 @@ return(
                     onChange={e=>handleUser(e)}
                     value={input.role}
                   >
+                    <Typography component="h1" variant="h5" sx={{ color: "#495057" }}>
                     <FormControlLabel name="role" value="admin" control={<Radio />} label="Admin" />
+                    </Typography>
+                    <Typography component="h1" variant="h5" sx={{ color: "#495057" }}>
                     <FormControlLabel name="role" value="user" control={<Radio />} label="User" />
+                    </Typography>
+                    
                   </RadioGroup>
                 </FormControl>
                 {errors.role && <p className="danger-p">{errors.role}</p>}
