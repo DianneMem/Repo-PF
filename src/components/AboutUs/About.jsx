@@ -37,7 +37,7 @@ export default function About() {
               <Grid item xs={12} sm={6} md={4}>
                 <div className={s.Profile}>
                   <img
-                    className={s.imgGonza}
+                    className={s.photo}
                     src={Gonza}
                     alt="not found"
                     height={120}
@@ -64,7 +64,7 @@ export default function About() {
               <Grid item xs={12} sm={6} md={4}>
                 <div className={s.Profile}>
                   <img
-                    className={s.imgGonza}
+                    className={s.photo}
                     src={Juampi}
                     alt="not found"
                     height={120}
@@ -90,7 +90,7 @@ export default function About() {
               <Grid item xs={12} sm={6} md={4}>
                 <div className={s.Profile}>
                   <img
-                    className={s.imgGonza}
+                    className={s.photo}
                     src={Karen}
                     alt="not found"
                     height={120}
@@ -116,7 +116,7 @@ export default function About() {
               <Grid item xs={12} sm={6} md={6}>
                 <div className={s.Profile}>
                   <img
-                    className={s.imgGonza}
+                    className={s.photo}
                     src={Lucas}
                     alt="not found"
                     height={120}
@@ -142,7 +142,7 @@ export default function About() {
               <Grid item xs={12} sm={6} md={6}>
                 <div className={s.Profile}>
                   <img
-                    className={s.imgGonza}
+                    className={s.photo}
                     src={Toto}
                     alt="not found"
                     height={120}
