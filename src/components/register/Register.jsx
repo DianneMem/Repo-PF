@@ -192,7 +192,13 @@ export const Register = () => {
                 fullWidth
                 variant="outlined"
                 sx={{ mt: 3, mb: 2, color: "#013a63", border:1}}
-                endIcon={<Send />}
+                endIcon={<Send />
+              }
+              disabled={
+                errors.username || errors.email || errors.password || errors.confirmation
+                  ? true
+                  : false
+              }
               >
                 Sign Up
               </Button>

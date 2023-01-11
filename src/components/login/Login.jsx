@@ -60,7 +60,11 @@ export const Login = () => {
     if (user) {
       if (bcrypt.compareSync(input.password, user.password)) {
         if (user.confirm === true) {
-          navigate("/");
+          if(user.available === true){
+            navigate("/");
+          }else{
+            return MySwal.fire("¡Suspended user!", message, "error");
+          }
         } else {
           return MySwal.fire("¡Unverified Account!", message, "error");
         }
@@ -78,6 +82,7 @@ export const Login = () => {
   };
 
   const handleGoogle = () => {
+    dispatch(createCustomer());
     dispatch(findUserStripe());
     dispatch(loginUser());
     navigate("/");
