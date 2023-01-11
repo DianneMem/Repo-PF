@@ -78,7 +78,6 @@ export const Login = () => {
   };
 
   const handleGoogle = () => {
-    dispatch(createCustomer());
     dispatch(findUserStripe());
     dispatch(loginUser());
     navigate("/");
