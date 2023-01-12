@@ -14,13 +14,19 @@ import Loader from "../loader/Loader";
 import Header from "../header/Header";
 import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
+import vertical_Henry from "../../assets/Henry.png"
+import horyzontal_Henry from "../../assets/Henry-Horyzontal.png"
 import DarkMode from "../DarkMode/DarkMode";
 
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { Button, Grid, Box, CardMedia, Divider } from "@mui/material";
 import { Typography } from "@mui/material";
 import Stack from "@mui/joy/Stack";
 import { Favorite } from "@mui/icons-material";
 import Footer from "../Footer/Footer";
+import { Alert } from "@mui/material";
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
+import FilterListOffOutlinedIcon from '@mui/icons-material/FilterListOffOutlined';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -41,6 +47,8 @@ export default function Home() {
   }
 
   const theme = useSelector((state) => state.darkMode);
+ 
+  
 
   // Global States
   const allBooks = useSelector((state) => state.allbooks);
@@ -70,6 +78,11 @@ export default function Home() {
   const IndexOfFirstBooks = indexOfLastBooks - booksPerPage;
   const currentBooks = loadBooks.slice(IndexOfFirstBooks, indexOfLastBooks);
   let pages = Math.ceil(loadBooks.length / booksPerPage);
+  
+  const [menu, setMenu] = useState(true);
+  const xlMediaQuery = useMediaQuery('(min-width:1536px)');
+  const xsMediaQuery = useMediaQuery('(min-width:600px)');
+  
 
   // Functions
   const paginate = (pageNumber) => {
@@ -77,66 +90,165 @@ export default function Home() {
     dispatch(setPage(pageNumber));
   };
 
-  function changePage(e) {
-    e.preventDefault();
-    if (e.target.value === "less" && currentPage !== 1) {
-      setCurrentPage(currentPage - 1);
-    } else if (e.target.value === "more" && currentPage !== pages) {
-      setCurrentPage(currentPage + 1);
-    }
-  }
+  
+  function handleMenu(){
+    if(menu) {setMenu(false)}
+    else{setMenu(true)}
+  };
+
 
   
 
-  return (
-    <React.Fragment>
-      <Header />
-      
 
-          <Grid
-                  container
-                  direction="row"
-                  justifyContent="space-around"
-                  alignItems="flex-start">
-          <div className={s.components}>
-            <div className={s.cards}>
-              {currentBooks?.map((b) => {
-                return (
-                  <div key={b._id} className={s.card}>
-                    <Card
-                      id={b._id}
-                      title={b.title}
-                      image={b.image}
-                      typebook={b.typebook}
-                      price={b.price}
-                      author={b.author}
-                      type={b.typebook}
-                      product={b}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+return (<div  
+  style={{ "background-color": theme && "#212529", "color": theme && "white" }}>
+<Header />
 
-            <SideBar />
-          </div>
-          
-          </Grid>
-          {allBooks.length ? (
-        <div className={s.container}>
-          <div className={s.paginated}>
-            <Paginated
-              booksPerPage={booksPerPage}
-              allBooks={loadBooks.length}
-              paginate={paginate}
-              actualPage={currentPage}
-            />
-          </div>
+{menu? 
+(<Button onClick={handleMenu}><FilterListOffOutlinedIcon/></Button>) 
+: (<Button onClick={handleMenu}><FilterListOutlinedIcon/></Button>)}
+{allBooks.length ? (
+<div>
+<Grid container spacing={2} sx={{mt:2}}>
+  {menu? 
+  (<>
+  <Grid item xs={12} sm={7} md={5} lg={3.2} xl={2.6}>
+    <SideBar /> 
+  </Grid>
+  <Grid item xs={12} sm={5} md={7} lg={8.8} xl={7}>
+    <div>
+      <Grid container spacing={0}>
+        {currentBooks.length? 
+        (
+        currentBooks?.map((b) => {return (
+        <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
+        <div key={b._id} className={s.card}>
+          <Card
+          id={b._id}
+          title={b.title}
+          image={b.image}
+          typebook={b.typebook}
+          price={b.price}
+          author={b.author}
+          type={b.typebook}
+          product={b}
+          />
         </div>
-      ) : (
-        <Loader />
-      )}
-      <Footer/>
-    </React.Fragment>
-  );
-}
+        </Grid>
+        )})
+        ) :
+        (<>
+         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Alert severity="info">There are no matches - Keep Searching!</Alert>
+        </Grid>
+        </>)
+        }
+      </Grid>
+      <div  className={s.paginated} style={{ "background-color": theme && "#212529", "color": theme && "white" }}>
+        <Paginated
+        booksPerPage={booksPerPage}
+        allBooks={loadBooks.length}
+        paginate={paginate}
+        actualPage={currentPage}
+        />
+      </div>
+    </div>
+  </Grid>
+  <Grid item xs={12} sm={12} md={12} lg={12} xl={2.4}>
+    <div className={s.ImageContainer}>
+    <a href="https://www.soyhenry.com" target="blank">
+      <img 
+      alt="Henry-Banner" 
+      src={xlMediaQuery ? (vertical_Henry) : (horyzontal_Henry)} 
+      width={xlMediaQuery ? "200" : (xsMediaQuery ? "600" : "400")} 
+      height={xlMediaQuery ? "1000" : "200"}
+      />
+    </a>
+    </div>
+  </Grid>
+  </>) :
+  
+  (<>
+  <Grid item xs={12} sm={9} md={9} lg={9} xl={10.2} >
+    <div>
+      <Grid container spacing={0} sx={{ml:1}}>
+        {currentBooks.length?
+        (
+        currentBooks?.map((b) => {return (
+        <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <div key={b._id} className={s.card}>
+          <Card
+          id={b._id}
+          title={b.title}
+          image={b.image}
+          typebook={b.typebook}
+          price={b.price}
+          author={b.author}
+          type={b.typebook}
+          product={b}
+          />
+        </div>
+        </Grid>
+        )})
+        ): 
+        (<>
+        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Alert severity="info">There are no matches - Keep Searching!</Alert>
+        </Grid>
+        </>)
+        
+        }
+      </Grid>
+      <div className={s.paginated}>
+        <Paginated
+        booksPerPage={booksPerPage}
+        allBooks={loadBooks.length}
+        paginate={paginate}
+        actualPage={currentPage}
+        />
+      </div>
+    </div>
+  </Grid>
+  <Grid item xs={12} sm={3} md={3} lg={3} xl={1.8}>
+    <div className={s.ImageContainer}>
+      <a href="https://www.soyhenry.com" target="blank">
+        <img 
+        alt="Henry-Banner" 
+        src={xsMediaQuery ? (vertical_Henry) : (horyzontal_Henry)} 
+        width={xsMediaQuery ? "200" : "400"} 
+        height={xsMediaQuery ? "1000" : "200"}
+        />
+      </a>
+    </div>
+  </Grid>
+  </>)
+  }
+  
+</Grid>
+    
+
+</div>
+) : (
+<>
+<Grid container spacing={0} sx={{ml:1}}>
+  <Grid item xs={12} sm={8} md={8} lg={8} xl={9}>
+    <Loader />
+  </Grid>
+  <Grid item xs={12} sm={4} md={4} lg={4} xl={3}>
+    <div className={s.ImageContainer}>
+      <a href="https://www.soyhenry.com" target="blank">
+        <img 
+        alt="Henry-Banner" 
+        src={xsMediaQuery ? (vertical_Henry) : (horyzontal_Henry)} 
+        width={xsMediaQuery ? "200" : "400"} 
+        height={xsMediaQuery ? "1000" : "200"}
+        />
+      </a>
+    </div>
+  </Grid>
+</Grid>
+</>
+)}
+<Footer/>
+</div>)
+};

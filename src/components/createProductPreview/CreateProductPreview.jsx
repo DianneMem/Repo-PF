@@ -31,7 +31,7 @@ export default function CreateProductPreview({ input }) {
   return (
     <div>
       {isActive?   <Box>
-        HOLA
+   
         <Button variant="outlined" onClick={(e) => backBtn(e)}>
           Back
         </Button>
