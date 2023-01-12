@@ -100,13 +100,15 @@ export default function Home() {
   
 
 
-return (<React.Fragment>
+return (<div  
+  style={{ "background-color": theme && "#212529", "color": theme && "white" }}>
 <Header />
 
 {menu? 
 (<Button onClick={handleMenu}><FilterListOffOutlinedIcon/></Button>) 
 : (<Button onClick={handleMenu}><FilterListOutlinedIcon/></Button>)}
-
+{allBooks.length ? (
+<div>
 <Grid container spacing={2} sx={{mt:2}}>
   {menu? 
   (<>
@@ -142,7 +144,7 @@ return (<React.Fragment>
         </>)
         }
       </Grid>
-      <div className={s.paginated}>
+      <div  className={s.paginated} style={{ "background-color": theme && "#212529", "color": theme && "white" }}>
         <Paginated
         booksPerPage={booksPerPage}
         allBooks={loadBooks.length}
@@ -154,12 +156,14 @@ return (<React.Fragment>
   </Grid>
   <Grid item xs={12} sm={12} md={12} lg={12} xl={2.4}>
     <div className={s.ImageContainer}>
+    <a href="https://www.soyhenry.com" target="blank">
       <img 
       alt="Henry-Banner" 
       src={xlMediaQuery ? (vertical_Henry) : (horyzontal_Henry)} 
       width={xlMediaQuery ? "200" : (xsMediaQuery ? "600" : "400")} 
       height={xlMediaQuery ? "1000" : "200"}
       />
+    </a>
     </div>
   </Grid>
   </>) :
@@ -222,10 +226,29 @@ return (<React.Fragment>
   
 </Grid>
     
-{allBooks.length ? (
-<div>
+
 </div>
-) : (<Loader />)}
+) : (
+<>
+<Grid container spacing={0} sx={{ml:1}}>
+  <Grid item xs={12} sm={8} md={8} lg={8} xl={9}>
+    <Loader />
+  </Grid>
+  <Grid item xs={12} sm={4} md={4} lg={4} xl={3}>
+    <div className={s.ImageContainer}>
+      <a href="https://www.soyhenry.com" target="blank">
+        <img 
+        alt="Henry-Banner" 
+        src={xsMediaQuery ? (vertical_Henry) : (horyzontal_Henry)} 
+        width={xsMediaQuery ? "200" : "400"} 
+        height={xsMediaQuery ? "1000" : "200"}
+        />
+      </a>
+    </div>
+  </Grid>
+</Grid>
+</>
+)}
 <Footer/>
-</React.Fragment>)
+</div>)
 };
