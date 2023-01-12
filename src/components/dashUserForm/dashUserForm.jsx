@@ -162,7 +162,7 @@ function validate(input){
 
 return(
 <React.Fragment>
-  <Button onClick={e => handleOpen(e)} variant="outlined">Modify</Button>
+  <Button onClick={e => handleOpen(e)} variant="outlined">Update</Button>
   <Dialog open={open} onClose={handleClose} maxWidth="md">
     <DialogTitle>Edit User</DialogTitle>
     <DialogContent>

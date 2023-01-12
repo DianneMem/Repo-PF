@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,9 +6,21 @@ import Loader from "../loader/Loader";
 import s1 from './Sidebar-1.module.css';
 import s2 from './Sidebar-2.module.css';
 
+import { AiOutlineClear } from 'react-icons/ai';
+import { FcClearFilters } from 'react-icons/fc';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+
+import Chip from '@mui/material/Chip';
+import Slider from '@mui/material/Slider';
 import { Button, Typography } from "@mui/material";
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
-
+import BackspaceTwoToneIcon from '@mui/icons-material/BackspaceTwoTone';
+import SendIcon from '@mui/icons-material/Send';
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
 export default function SideBar({vertical=true}) {
@@ -36,7 +47,7 @@ export default function SideBar({vertical=true}) {
   // Local States
   const [minState,setMinState]=useState("");
   let [orderB, setOrderB] = useState('');
- 
+
   
 
 
@@ -47,10 +58,18 @@ export default function SideBar({vertical=true}) {
 	  if(e.target.name === 'priceMin'){
 	    if((!filters.priceMax || parseInt(e.target.value) < parseInt(filters.priceMax)) && parseInt(e.target.value) >= 0){
 	      dispatch(filterBooks(filter))}
-	  } else if(e.target.name === 'priceMax'){
+	  } 
+	  else if(e.target.name === 'priceMax'){
 	    if((!filters.priceMin || parseInt(e.target.value) > parseInt(filters.priceMin)) && parseInt(e.target.value) >= 1){
 	      dispatch(filterBooks(filter))}
-	  }else{
+	  }
+	  else if(e.target.name === 'gender'){
+	    if(!filters.gender.includes(e.target.value)){
+        dispatch(filterBooks(filter));
+	    }
+	    document.getElementById('SelectGender').selectedIndex = 'DEFAULT';
+	  }
+	  else{
       dispatch(filterBooks(filter))
   	  document.getElementById('SelectCategory').selectedIndex = 'DEFAULT';
   	  document.getElementById('SelectGender').selectedIndex = 'DEFAULT';
@@ -61,31 +80,74 @@ export default function SideBar({vertical=true}) {
     };
 	};
 	
+	const [priceMin , setPriceMin] = useState("");
+	const [priceMax , setPriceMax] = useState("");
+
+	
+	function selectPrice(e){
+	  e.preventDefault();
+	  if((!priceMax || parseInt(priceMin) < parseInt(priceMax)) && parseInt(priceMin) >= 0) {
+	    dispatch(filterBooks({priceMin: priceMin}));
+	  } else {dispatch(filterBooks({priceMin: ""}));}
+    if((!priceMin || parseInt(priceMax) > parseInt(priceMin)) && parseInt(priceMax) >= 1){
+      dispatch(filterBooks({priceMax: priceMax}));
+    } else {dispatch(filterBooks({priceMax: ""}));}
+    
+    setPriceMin("")
+    setPriceMax("")
+    document.getElementById('inputPriceMin').value = '';
+    document.getElementById('inputPriceMax').value = '';
+  }
+  
+  function deSelectPrice(e) {
+    e.preventDefault();
+    dispatch(filterBooks({priceMin: ""}));
+    dispatch(filterBooks({priceMax: ""}));
+    setPriceMin("");
+    setPriceMax("");
+    document.getElementById('inputPriceMin').value = '';
+    document.getElementById('inputPriceMax').value = '';
+  };
+	
   function order(e) {
     e.preventDefault();
     dispatch(orderBooks(e.target.value));
     setOrderB(e.target.value);
     
+    
   };
   function refreshButton(e) {
     e.preventDefault();
     dispatch(filterBooks('Clear'));
+    document.getElementById('SelectCategory').selectedIndex = 'DEFAULT';
+  	document.getElementById('SelectGender').selectedIndex = 'DEFAULT';
+  	document.getElementById('SelectAuthor').selectedIndex = 'DEFAULT';
+  	document.getElementById('SelectEditorial').selectedIndex = 'DEFAULT';
+  	document.getElementById('SelectSaga').selectedIndex = 'DEFAULT';
+  	document.getElementById('SelectLanguage').selectedIndex = 'DEFAULT';
+    document.getElementById('inputPriceMin').value = '';
+  	document.getElementById('inputPriceMax').value = '';
   };
 
   
+
+
+
+    
 	return(<React.Fragment>
 	
-	{vertical? 
-	(<div className={s1.nav}>
-	  <button className={s1.btn0} onClick={e=>refreshButton(e)}>clear</button>
-
-	  <div className={s1.state}>
-      <button className={s1.btn1} onClick={e => select(e)} name='state' value='New'>New</button>
-      <button className={s1.btn1} onClick={e => select(e)} name='state' value='Used'>Used</button>
-      <button className={s1.btn1} onClick={e => select(e)} name='typebook' value='physical'>Physical</button>
-      <button className={s1.btn1} onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
-	  </div>
+	{vertical?
+	(<>
 	
+	<div className={s1.nav}>
+    
+	  <div className={s1.state}>
+      <button className={s1.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
+      <button className={s1.btn2} onClick={e => order(e)} value='HP'>Higher Price</button>
+      <button className={s1.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
+      <button className={s1.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
+	  </div>
+	  
 		<select id='SelectCategory' name='categorie' onChange={e=> select(e)} defaultValue={'DEFAULT'} >
       <option key={'default1'} value='DEFAULT' disabled>Category</option>
       {categories.map((a)=> {return(
@@ -123,151 +185,224 @@ export default function SideBar({vertical=true}) {
 			)})}
     </select>
     
-      <input 
+    <div className={s1.flex_row}>
+      <input
+      id='inputPriceMin'
       type='number'
       name='priceMin'
       placeholder='Min Price'
       min='0'
       max='1000000'
       step='1'
-      onChange={(e)=> select(e)}
+      onChange={(e)=> setPriceMin(e.target.value)}
       />
-      
-      <input 
+      <span> - </span>
+      <input
+      id='inputPriceMax'
       type='number'
       name='priceMax'
       placeholder='Max Price'
       min='0'
       max='1000000'
       step='1'
-      onChange={(e)=> select(e)}
+      onChange={(e)=> setPriceMax(e.target.value)}
       />
+      <button className={s1.btn3} onClick={e => selectPrice(e)}>
+        <SendIcon sx={{ fontSize: 12 }}/>
+      </button>
 
-
+    </div>
     <div className={s1.state}>
-      <button className={s1.btn2} onClick={e => order(e)} value='LP'>Lower Price</button>
-      <button className={s1.btn2} onClick={e => order(e)} value='HP'>Higher Price</button>
-      <button className={s1.btn2} onClick={e => order(e)} value='AZ'>A-Z</button>
-      <button className={s1.btn2} onClick={e => order(e)} value='ZA'>Z-A</button>
+      <button className={s1.btn1} onClick={e => select(e)} name='state' value='New'>New</button>
+      <button className={s1.btn1} onClick={e => select(e)} name='state' value='Used'>Used</button>
+      <button className={s1.btn1} onClick={e => select(e)} name='typebook' value='physical'>Physical</button>
+      <button className={s1.btn1} onClick={e => select(e)} name='typebook' value='virtual'>Digital</button>
+      <button className={s1.btn1} onClick={e=>refreshButton(e)}><FilterAltOffIcon/></button>
     </div>
     
+    
+    
+    
+    
     <div>
-      {filters.categorie && 
-      (<Button 
-      variant="contained" 
-      endIcon={<CancelTwoToneIcon />} 
-      size="small"
-      name='categorie' 
-      value= ""
-      onClick={e => select(e)}
-      >
-        {filters.categorie}
-      </Button>)}
-      
-      {filters.gender && filters.gender.map(gender => 
-      (<Button 
+      {filters.categorie &&
+      (<>
+        <hr/>
+        <Typography>
+          Category
+        </Typography>
+        <Button 
         variant="contained" 
         endIcon={<CancelTwoToneIcon />} 
         size="small"
-        name='genderDelete' 
-        value= {gender}
+        name='categorie' 
+        value= ""
         onClick={e => select(e)}
+        sx={{m:0.1, }}
+        >
+          {filters.categorie}
+        </Button>
+      </>)}
+      
+      {filters.gender.length?
+      (<>
+        <hr/>
+        <Typography>
+          Genders
+        </Typography>
+        {filters.gender.map(gender => 
+        (<Button 
+          variant="contained" 
+          endIcon={<CancelTwoToneIcon />} 
+          size="small"
+          name='genderDelete' 
+          value= {gender}
+          onClick={e => select(e)}
+          sx={{m:0.1, mr:3, height:"1.6rem" }}
         >
           {gender}
-        </Button>))
+          </Button>))}
+        </>)
+      :(<></>)
       }
       
       {filters.author && 
-      (<Button 
-      variant="contained" 
-      endIcon={<CancelTwoToneIcon />} 
-      size="small"
-      name='author' 
-      value= ""
-      onClick={e => select(e)}
-      >
-        {filters.author}
-      </Button>)}
+      (<>
+        <hr/>
+        <Typography>
+          Author
+        </Typography>
+        <Button 
+        variant="contained" 
+        endIcon={<CancelTwoToneIcon />} 
+        size="small"
+        name='author' 
+        value= ""
+        onClick={e => select(e)}
+        sx={{m:0.1, }}
+        >
+          {filters.author}
+        </Button>
+      </>)}
       
       {filters.editorial && 
-      (<Button 
-      variant="contained" 
-      endIcon={<CancelTwoToneIcon />} 
-      size="small"
-      name='editorial' 
-      value= ""
-      onClick={e => select(e)}
-      >
-        {filters.editorial}
-      </Button>)}
+      (<>
+        <hr/>
+        <Typography>
+          Editorial
+        </Typography>
+        <Button 
+        variant="contained" 
+        endIcon={<CancelTwoToneIcon />} 
+        size="small"
+        name='editorial' 
+        value= ""
+        onClick={e => select(e)}
+        sx={{m:0.1, }}
+        >
+          {filters.editorial}
+        </Button>
+      </>)}
       
       {filters.saga && 
-      (<Button 
+      (<>
+        <hr/>
+        <Typography>
+          Saga
+        </Typography>
+      <Button 
       variant="contained" 
       endIcon={<CancelTwoToneIcon />} 
       size="small"
       name='saga' 
       value= ""
       onClick={e => select(e)}
+      sx={{m:0.1, }}
       >
         {filters.saga}
-      </Button>)}
+      </Button>
+      </>)}
       
       {filters.language && 
-      (<Button 
-      variant="contained" 
-      endIcon={<CancelTwoToneIcon />} 
-      size="small"
-      name='language' 
-      value= ""
-      onClick={e => select(e)}
-      >
-        {filters.language}
-      </Button>)}
+      (<>
+        <hr/>
+        <Typography>
+          Language
+        </Typography>
+        <Button 
+        variant="contained" 
+        endIcon={<CancelTwoToneIcon />} 
+        size="small"
+        name='language' 
+        value= ""
+        onClick={e => select(e)}
+        sx={{m:0.1, }}
+        >
+          {filters.language}
+        </Button>
+      </>)}
       
       {filters.typebook && 
-      (<Button 
+      (<>
+        <hr/>
+        <Typography>
+          Format
+        </Typography>
+        <Button 
       variant="contained" 
       endIcon={<CancelTwoToneIcon />} 
       size="small"
       name='typebook' 
       value= ""
       onClick={e => select(e)}
+      sx={{m:0.1, }}
       >
         {filters.typebook}
-      </Button>)}
+      </Button>
+      </>)}
       
-      {filters.state && 
-      (<Button 
+      {filters.state &&
+      (<>
+        <hr/>
+        <Typography>
+          State
+        </Typography>
+      <Button 
       variant="contained" 
       endIcon={<CancelTwoToneIcon />} 
       size="small"
       name='state' 
       value= ""
       onClick={e => select(e)}
+      sx={{m:0.1, }}
       >
         {filters.state}
-      </Button>)}
-      
-      {filters.priceMin && 
-      (<p
-      variant="contained" 
-      
-      >
-        Price Min: {filters.priceMin}
-      </p>)}
-      
-      {filters.priceMax && 
-      (<p
-      variant="contained"
-      size="small"
-      >
-        Price Max: {filters.priceMax}
-      </p>)}
-      
+      </Button>
+      </>)}
+      { (filters.priceMin || filters.priceMax) &&
+      (<>
+        <hr/>
+        <Typography>
+            Price
+            <CancelTwoToneIcon sx={{height:"0.9rem"}} onClick={e=>deSelectPrice(e)}/>
+        </Typography>
+        {filters.priceMin && 
+        (<>
+          <Typography>
+            Min: {filters.priceMin}
+          </Typography>
+        </>)}
+        
+        {filters.priceMax && 
+        (<>
+          <Typography>
+            Max: {filters.priceMax}
+          </Typography>
+        </>)}
+      </>)}
     </div>
-    
-	</div>) 
+	</div>
+	</>) 
 	:
 	(<div className={s2.container} >
 	
@@ -515,4 +650,8 @@ export default function Sidebar() {
     </div>
   )
 }
- */
+*/
+
+
+
+

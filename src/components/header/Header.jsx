@@ -1,7 +1,7 @@
+import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import SearchBar from "../searchBar/SearchBar";
 import logo from "../../assets/logo.PNG";
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -11,7 +11,7 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
-// import { useSelector } from "react-redux";
+import Badge from '@mui/material/Badge';
 import { Button } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -228,12 +228,23 @@ export default function Header() {
                   display: { xs: "block", md: "none" },
                 }}
               >
+                
+              
                 <MenuItem>
                   <NavLink className="color-header-res" to={"/admin"}>
                     <SupervisorAccountRoundedIcon></SupervisorAccountRoundedIcon>
                   </NavLink>
                   <NavLink className="color-header-res2" to={"/admin"}>
                     ADMIN
+                  </NavLink>
+                </MenuItem>
+                
+                <MenuItem>
+                  <NavLink className="color-header-res" to={"/cart"}>
+                    <ShoppingCartIcon />
+                  </NavLink>
+                  <NavLink className="color-header-res2" to={"/cart"}>
+                    CART
                   </NavLink>
                 </MenuItem>
 
@@ -292,6 +303,13 @@ export default function Header() {
               <NavLink className="color-header" to={"/profile"}>
                 {sesionLocal[0].username[0].toUpperCase() +
                   sesionLocal[0].username.slice(1)}
+              </NavLink>
+              
+              <NavLink className="color-header2" to={"/cart"}>
+                  <ShoppingCartIcon />
+              </NavLink>
+              <NavLink className="color-header" to={"/cart"}>
+                CART
               </NavLink>
             </Box>
 

@@ -125,9 +125,11 @@ return (<React.Fragment>
   </Box>   
   </Item>
   <br></br>
-  <Box sx={{ padding: 2 , textAlign: "center"}}>  <Button onClick={handleClose}>Close</Button>
-      <Button >Report</Button>
-      <Button >Mark as received</Button></Box>
+  <Box sx={{ padding: 2 , textAlign: "center"}}>  
+      <Button onClick={handleClose}>Close</Button>
+      {/* <Button >Report</Button>
+      <Button >Mark as received</Button> */}
+  </Box>
 
   </Grid>
 </Box>

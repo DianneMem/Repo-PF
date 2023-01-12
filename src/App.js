@@ -18,6 +18,7 @@ import Profile from "./components/myProducts/Profile";
 import DarkMode from "./components/DarkMode/DarkMode";
 import { UserRoutes } from "./components/protectionRoute/UserRoutes";
 import { AdminRoutes } from "./components/protectionRoute/AdminRoutes";
+import About from "./components/AboutUs/About";
 
 
 
@@ -43,6 +44,7 @@ export default function App() {
           <Route exact path="/favorites" element={<UserRoutes><Favorites/></UserRoutes>} />
           <Route exact path="/myproducts" element={<UserRoutes><MyProducts/></UserRoutes>} />
           <Route exact path="/profile" element={<UserRoutes><Profile/></UserRoutes>} />
+          <Route exact path="/aboutUs"element={<About/>} />
         </Routes>
       </Router>
     </div>
