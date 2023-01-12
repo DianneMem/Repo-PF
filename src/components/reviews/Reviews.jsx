@@ -1,18 +1,13 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState} from "react";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import {
-  addReview,
   createReview,
   getAllUsers,
-  getReviews,
-  getUsersDetail,
   myReview,
 } from "../../redux/actions";
 import InfoBuy from "./InfoBuy";
-import Loader from "../loader/Loader";
 import { Button, Grid, Box, CardMedia, Alert } from "@mui/material";
 import TextField from "@mui/joy/TextField";
 import Modal from "@mui/joy/Modal";
@@ -25,15 +20,8 @@ import CancelScheduleSendRoundedIcon from '@mui/icons-material/CancelScheduleSen
 import Divider from "@mui/material/Divider";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
-
-import TextareaAutosize from "@mui/base/TextareaAutosize";
 import Rating from "@mui/material/Rating";
-
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import InfoReview from "./InfoReview";
-
 export default function Reviews() {
 
 

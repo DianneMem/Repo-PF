@@ -6,7 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import bcrypt from "bcryptjs-react";
 import Loader from "../loader/Loader";
+
 import withReactContent from "sweetalert2-react-content";
 import {
   createCustomer,
@@ -61,7 +63,7 @@ export const Login = () => {
     }
 
     if (user) {
-      // if (bcrypt.compareSync(input.password, user.password)) {
+      if (bcrypt.compareSync(input.password, user.password)) {
         if (user.confirm === true) {
           if(user.available === true){
             navigate("/");
@@ -71,9 +73,9 @@ export const Login = () => {
         } else {
           return MySwal.fire("¡Unverified Account!", message, "error");
         }
-      // } else {
-      //   return MySwal.fire("¡Incorrect Password!", message, "error");
-      // }
+      } else {
+        return MySwal.fire("¡Incorrect Password!", message, "error");
+      }
     } else {
       return MySwal.fire("¡Incorrect User!", message, "error");
     }
@@ -214,7 +216,7 @@ export const Login = () => {
               variant="outlined" 
               fullWidth 
               sx={{ mb: 2, border: 1, color: "#013a63" }}
-              href="https://flybooks.up.railway.app/google/signin"
+              href="http://localhost:3001/google/signin"
               onClick={(e) => handleGoogle(e)}
               >
                 <Google />

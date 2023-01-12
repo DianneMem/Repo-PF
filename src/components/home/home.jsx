@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { FiHeart } from "react-icons/fi";
 import {
-  findUserStripe,
+  
   getAllBooks,
-  getUsersDetail,
+  
   setPage,
 } from "../../redux/actions";
-import jwt from "jwt-decode";
 import Card from "../card/card";
 import Paginated from "../paginado/Paginated";
 import Loader from "../loader/Loader";
 import Header from "../header/Header";
 import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
+
+
+import { Grid} from "@mui/material";
+
+
 import vertical_Henry from "../../assets/Henry.png"
 import horyzontal_Henry from "../../assets/Henry-Horyzontal.png"
 import DarkMode from "../DarkMode/DarkMode";
@@ -23,6 +26,7 @@ import { Button, Grid, Box, CardMedia, Divider } from "@mui/material";
 import { Typography } from "@mui/material";
 import Stack from "@mui/joy/Stack";
 import { Favorite } from "@mui/icons-material";
+
 import Footer from "../Footer/Footer";
 import { Alert } from "@mui/material";
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
