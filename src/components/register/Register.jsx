@@ -61,6 +61,7 @@ export const Register = () => {
 
   const handleGoogle = () => {
     dispatch(createCustomer());
+    navigate("/")
 
   };
 
