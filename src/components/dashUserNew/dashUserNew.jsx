@@ -1,27 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { getAllBooks, modifyPost, createCustomer, createUser, createUserFromAdmin, getAllUsers } from "../../redux/actions";
-// import bcrypt from "bcryptjs";
-import defaultImage from '../../assets/bookDefault.png';
-
-import Modal from '@mui/material/Modal';
+import {  createCustomer, createUserFromAdmin, getAllUsers } from "../../redux/actions";
+import bcrypt from "bcryptjs-react";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
-import InputAdornment from '@mui/material/InputAdornment';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -35,7 +21,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { Google, LockClockOutlined, Send } from "@mui/icons-material";
+import {  LockClockOutlined, Send } from "@mui/icons-material";
 
 
 
@@ -111,7 +97,7 @@ async function handleSubmit(e){
   !input.phone || !input.password) {
     alert("Cannot have empty elements!!");
   } else {
-    const hashPassword = input.password
+    const hashPassword = bcrypt.hashSync(input.password, 10);
     dispatch(createCustomer({ username: input.username, email: input.email }));
     await dispatch(createUserFromAdmin({
       username: input.username,
