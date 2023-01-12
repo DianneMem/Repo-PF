@@ -53,6 +53,15 @@ export const Login = () => {
     (e) => e.username.toLowerCase() === input.username.toLowerCase()
   );
 
+  const result = [];
+  const userg = users.map(e => { 
+     if(e.google === true){
+      result.push(e);
+    }
+  });
+  const current = result[result.length -1];
+  
+
   const handleSubmit = async (e, message) => {
     e.preventDefault();
     dispatch(findUserStripe(input.username));
@@ -96,22 +105,28 @@ export const Login = () => {
     console.log(input);
   };
 
+  
+    // const num = user.length -1;
+    // const userfind = userg[num];
   const handleGoogle = () => {
     dispatch(createCustomer());
-    dispatch(findUserStripe());
+    dispatch(findUserStripe(current.username));
+
+    dispatch(loginGoogle())
+    navigate("/")
     
-    let cookie=jwt(document.cookie.split(";"))
-    let hola=cookie.split(";")
-    let chau= hola[0].split("jwt=")
+    // let cookie=jwt(document.cookie.split(";"))
+    // let hola=cookie.split(";")
+    // let chau= hola[0].split("jwt=")
    
-      // if(cookie){
+    //   // if(cookie){
         
-      // }
-    console.log(cookie);
-        localStorage.setItem("session","[]")
-        let aux=JSON.parse(localStorage.getItem("session"))
-        aux.push(chau[1])
-        localStorage.setItem("session",JSON.stringify(aux))
+    //   // }
+    // console.log(cookie);
+    //     localStorage.setItem("session","[]")
+    //     let aux=JSON.parse(localStorage.getItem("session"))
+    //     aux.push(chau[1])
+    //     localStorage.setItem("session",JSON.stringify(aux))
   };
 
 
@@ -215,7 +230,7 @@ export const Login = () => {
               variant="outlined" 
               fullWidth 
               sx={{ mb: 2, border: 1, color: "#013a63" }}
-              href="https://flybooks.up.railway.app/google/signin"
+              // href="http://localhost:3001/google/signin"
               onClick={(e) => handleGoogle(e)}
               >
                 <Google />
