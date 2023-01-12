@@ -14,8 +14,6 @@ import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
 
 
-import { Grid} from "@mui/material";
-
 
 import vertical_Henry from "../../assets/Henry.png"
 import horyzontal_Henry from "../../assets/Henry-Horyzontal.png"
