@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { getAllBooks, getAllUsers, disableUser, deleteUser, modifyUser } from "../../redux/actions";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import defaultImage from '../../assets/bookDefault.png';
@@ -112,7 +112,7 @@ async function modifyUserById(){
   };
   
   if(input.password){
-    infoToSend.password = bcrypt.hashSync(input.password, 10);
+    infoToSend.password = input.password;
   }
 
   // for (const property in infoToSend) {

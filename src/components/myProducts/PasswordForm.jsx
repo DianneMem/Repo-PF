@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { getAllBooks, getAllUsers, disableUser, deleteUser, modifyUser } from "../../redux/actions";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import defaultImage from '../../assets/bookDefault.png';
@@ -101,7 +101,7 @@ async function modifyUserById(){
   };
   if(input.oldPassword){
     localStorage.clear();
-    const hashPassword = bcrypt.hashSync(input.password, 10);
+    const hashPassword = input.password;
     infoToSend.password = hashPassword;
   };
 
@@ -128,9 +128,7 @@ function validate(input){
   if (!input.phone) {
     error.phone = "Phone number required";
   }
-  else if(input.oldPassword && !bcrypt.compareSync(input.oldPassword, user.password)){
-    error.oldPassword = "Incorrect Password";
-  }
+  
   else if (input.oldPassword && !input.password) {
     error.password = "Password required";
   } else if (input.oldPassword && input.password.length < 6){
