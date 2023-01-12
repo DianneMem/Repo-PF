@@ -112,7 +112,7 @@ export const Login = () => {
         let aux=JSON.parse(localStorage.getItem("session"))
         aux.push(chau[1])
         localStorage.setItem("session",JSON.stringify(aux))
-    
+    navigate("/")
   };
 
 
