@@ -99,14 +99,17 @@ export const Login = () => {
     dispatch(createCustomer());
     dispatch(findUserStripe());
     
-    let cookie=jwt(document.cookie)
+    let cookie=jwt(document.cookie.split(";"))
+    let hola=cookie.split(";")
+    let chau= hola[0].split("jwt=")
+   
       // if(cookie){
         
       // }
     console.log(cookie);
         localStorage.setItem("session","[]")
         let aux=JSON.parse(localStorage.getItem("session"))
-        aux.push(cookie)
+        aux.push(chau[1])
         localStorage.setItem("session",JSON.stringify(aux))
     
   };
