@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllBooks, modifyPost, createCustomer, createUser, createUserFromAdmin, getAllUsers } from "../../redux/actions";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import defaultImage from '../../assets/bookDefault.png';
 
 import Modal from '@mui/material/Modal';
@@ -111,7 +111,7 @@ async function handleSubmit(e){
   !input.phone || !input.password) {
     alert("Cannot have empty elements!!");
   } else {
-    const hashPassword = bcrypt.hashSync(input.password, 10);
+    const hashPassword = input.password
     dispatch(createCustomer({ username: input.username, email: input.email }));
     await dispatch(createUserFromAdmin({
       username: input.username,

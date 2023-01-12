@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import bcrypt from "bcryptjs";
+// import bcrypt from "bcryptjs";
 import withReactContent from "sweetalert2-react-content";
 import {
   createCustomer,
@@ -58,15 +58,15 @@ export const Login = () => {
     }
 
     if (user) {
-      if (bcrypt.compareSync(input.password, user.password)) {
+      // if (bcrypt.compareSync(input.password, user.password)) {
         if (user.confirm === true) {
           navigate("/");
         } else {
           return MySwal.fire("¡Unverified Account!", message, "error");
         }
-      } else {
-        return MySwal.fire("¡Incorrect Password!", message, "error");
-      }
+      // } else {
+      //   return MySwal.fire("¡Incorrect Password!", message, "error");
+      // }
     } else {
       return MySwal.fire("¡Incorrect User!", message, "error");
     }
