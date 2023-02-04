@@ -19,7 +19,7 @@ import DarkMode from "./components/DarkMode/DarkMode";
 import { UserRoutes } from "./components/protectionRoute/UserRoutes";
 import { AdminRoutes } from "./components/protectionRoute/AdminRoutes";
 import About from "./components/AboutUs/About";
-
+import "./App.css"
 
 
 

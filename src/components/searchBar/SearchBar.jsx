@@ -1,14 +1,8 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { AiOutlineSearch } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { getBooksByName, searchBooks } from "../../redux/actions";
-import { AiOutlineSearch } from "react-icons/ai"
-import s from './SearchBar.module.css'
-import Search from "@mui/icons-material/Search";
-import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
-import { styled, alpha } from '@mui/material/styles';
-import { Button } from "@mui/material";
+import s from './SearchBar.module.css';
 
 
 export default function SearchBar() {
@@ -26,7 +20,7 @@ export default function SearchBar() {
     setName("");
   }
 
-  console.log(name);
+  // console.log(name);
   const search_books = (e) => {
     let search = e.target.value;
     dispatch(searchBooks(search))

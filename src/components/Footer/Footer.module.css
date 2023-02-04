@@ -6,7 +6,7 @@
     padding-left: 2rem;
     padding-right: 2rem;
     align-items: center;
-    width: 100%;
+    /* width: 100vw; */
     justify-content: space-around;
     cursor: pointer;
     z-index: 999;

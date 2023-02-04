@@ -1,5 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
+import {
+  AutoStories,
+  CollectionsBookmark, Favorite, Home, Settings
+} from "@mui/icons-material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { Alert, Grid } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -10,37 +14,21 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import {
-  Favorite,
-  Settings,
-  AutoStories,
-  CollectionsBookmark,
-  Home
-} from "@mui/icons-material";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import {
-  getAllBooks,
-  getAllUsers,
-  disablePost,
-  deletePost,
-  getCategories,
-  getGenders,
-  getLanguages,
-  getAllAuthor,
-  getAllSaga,
-  getAllEditorial,
-} from "../../redux/actions";
-import MyProducts from "./MyProducts";
-import Account from "./Account";
-import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Reviews from "../reviews/Reviews";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  disablePost, getAllAuthor, getAllBooks, getAllEditorial, getAllSaga, getAllUsers, getCategories,
+  getGenders,
+  getLanguages
+} from "../../redux/actions";
 import Favorites from "../favorites/Favorites";
-import { Alert, Button, Dialog, DialogContentText, Grid } from "@mui/material";
-import { border, margin } from "@mui/system";
+import Reviews from "../reviews/Reviews";
+import Account from "./Account";
+import MyProducts from "./MyProducts";
 
 const drawerWidth = 240;
 
@@ -66,15 +54,15 @@ function Profile(props) {
 
   // Global States
   const allBooks = useSelector((state) => state.allbooks);
-  const loadBooks = useSelector((state) => state.books);
-  const allUsers = useSelector((state) => state.users);
-  const [open, setOpen] = useState(false);
+  // const loadBooks = useSelector((state) => state.books);
+  // const allUsers = useSelector((state) => state.users);
+  // const [open, setOpen] = useState(false);
   // Local States
   let session = JSON.parse(localStorage.getItem("session"));
   let aux = allBooks.filter((e) => e.sellerId === session[0].id);
 
-  let [productInput, setProductInput] = useState({});
-  const [advice, setAdvice] = useState("");
+  // let [productInput, setProductInput] = useState({});
+  // const [advice, setAdvice] = useState("");
 
 
   // Functions

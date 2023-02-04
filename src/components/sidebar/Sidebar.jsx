@@ -1,26 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks, filterPrice, orderBooks, getAllBooks } from "../../redux/actions";
-import Loader from "../loader/Loader";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { filterBooks, getAllAuthor, getAllEditorial, getAllSaga, getCategories, getGenders, getLanguages, orderBooks } from "../../redux/actions";
 import s1 from './Sidebar-1.module.css';
 import s2 from './Sidebar-2.module.css';
 
-import { AiOutlineClear } from 'react-icons/ai';
-import { FcClearFilters } from 'react-icons/fc';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 
-import Chip from '@mui/material/Chip';
-import Slider from '@mui/material/Slider';
-import { Button, Typography } from "@mui/material";
 import CancelTwoToneIcon from '@mui/icons-material/CancelTwoTone';
-import BackspaceTwoToneIcon from '@mui/icons-material/BackspaceTwoTone';
 import SendIcon from '@mui/icons-material/Send';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import { Button, Typography } from "@mui/material";
 
 
 export default function SideBar({vertical=true}) {
@@ -45,7 +33,7 @@ export default function SideBar({vertical=true}) {
 	const languages = useSelector(state => state.languages);
   const filters = useSelector(state => state.filters);
   // Local States
-  const [minState,setMinState]=useState("");
+  // const [minState,setMinState]=useState("");
   let [orderB, setOrderB] = useState('');
 
   

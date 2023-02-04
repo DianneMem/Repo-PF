@@ -44,7 +44,7 @@ export default function Detail() {
   const user = users.find((elm) => {
     return elm._id === detail.sellerId;
   });
-  console.log("usuariooo", user);
+    // console.log("usuariooo", user);
 
   const score =
     user &&
@@ -82,7 +82,7 @@ export default function Detail() {
         );
       }
 
-      console.log(getCart);
+      // console.log(getCart);
     } else {
       if (!localStorage.getItem("cart")) {
         localStorage.setItem("cart", "[]");

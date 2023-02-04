@@ -1,36 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  
+
   getAllBooks,
-  
-  setPage,
+
+  setPage
 } from "../../redux/actions";
 import Card from "../card/card";
-import Paginated from "../paginado/Paginated";
-import Loader from "../loader/Loader";
 import Header from "../header/Header";
+import Loader from "../loader/Loader";
+import Paginated from "../paginado/Paginated";
 import SideBar from "../sidebar/Sidebar";
 import s from "./home.module.css";
 
 
-import { Grid} from "@mui/material";
 
+import horyzontal_Henry from "../../assets/Henry-Horyzontal.png";
+import vertical_Henry from "../../assets/Henry.png";
 
-import vertical_Henry from "../../assets/Henry.png"
-import horyzontal_Henry from "../../assets/Henry-Horyzontal.png"
-import DarkMode from "../DarkMode/DarkMode";
-
+import { Button, Grid } from "@mui/material";
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Button, Grid, Box, CardMedia, Divider } from "@mui/material";
-import { Typography } from "@mui/material";
-import Stack from "@mui/joy/Stack";
-import { Favorite } from "@mui/icons-material";
 
-import Footer from "../Footer/Footer";
-import { Alert } from "@mui/material";
-import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
 import FilterListOffOutlinedIcon from '@mui/icons-material/FilterListOffOutlined';
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined';
+import { Alert } from "@mui/material";
+import Footer from "../Footer/Footer";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -65,7 +59,7 @@ export default function Home() {
      loadBooks = loadBooks.filter(e=>e.sellerId!==session[0].id)
     
   }
-  let currentPageGlobal = useSelector((state) => state.currentPage);
+  // let currentPageGlobal = useSelector((state) => state.currentPage);
 
 
   useEffect(() => {
@@ -81,7 +75,7 @@ export default function Home() {
   const indexOfLastBooks = currentPage * booksPerPage;
   const IndexOfFirstBooks = indexOfLastBooks - booksPerPage;
   const currentBooks = loadBooks.slice(IndexOfFirstBooks, indexOfLastBooks);
-  let pages = Math.ceil(loadBooks.length / booksPerPage);
+  // let pages = Math.ceil(loadBooks.length / booksPerPage);
   
   const [menu, setMenu] = useState(true);
   const xlMediaQuery = useMediaQuery('(min-width:1536px)');

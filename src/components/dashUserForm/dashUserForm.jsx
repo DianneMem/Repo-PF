@@ -36,8 +36,8 @@ email: user.email
 const [error, setError] = useState({});
 const [open, setOpen] = useState(false);
 
-if(open) console.log(input);
-if(open) console.log('formError', error);
+// if(open) console.log(input);
+// if(open) console.log('formError', error);
 
 const initialDataJson = JSON.stringify({
   username: user.username,
@@ -119,7 +119,7 @@ async function modifyUserById(){
 
 function validate(input){
   const error = {};
-  let RegEXP = /[`ª!@#$%^*-+\=\[\]{};"\\|,<>\/~]/;
+  let RegEXP = /[`ª!@#$%^*-+=[\]{};"\\|,<>/~]/;
   const userExists = users.filter(e => e.username.toLowerCase() !== user.username.toLowerCase() ).find((e) => e.username.toLowerCase() === input.username.toLowerCase());
   
   if (!input.username) {

@@ -1,36 +1,25 @@
-import React, { useEffect, useState } from "react";
-import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
+import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
-import jwt from "jwt-decode";
 import {
   Box,
   Button,
-  CardMedia,
-  Divider,
-  Grid,
+  CardMedia, Grid,
   List,
-  ListItem,
-  ListItemText,
-  Typography,
+  ListItem, Typography
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import { loadStripe } from "@stripe/stripe-js";
+import { styled } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-  AddressElement,
+  AddressElement, CardElement, Elements, useElements, useStripe
 } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import Header from "../header/Header";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import {
   addBuyerToProduct,
   addPurchases,
@@ -38,12 +27,9 @@ import {
   cartMailing,
   clearStorage,
   deleteStorageItemById,
-  disablePost,
-  findUserStripe,
-  getUsersDetail,
-  payMailing,
+  disablePost, getUsersDetail
 } from "../../redux/actions";
-import Loader from "../loader/Loader";
+import Header from "../header/Header";
 const stripePromise = loadStripe(
   "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
 );
@@ -95,7 +81,7 @@ const Item3 = styled(Paper)(({ theme }) => ({
 
 const CheckoutForm = () => {
   const isActive = useMediaQuery("(max-width:870px)");
-  const userState= useSelector(state=>state.userDetail)
+  // const userState= useSelector(state=>state.userDetail)
   const dispatch = useDispatch();
   const stripe = useStripe();
   const elements = useElements();
@@ -114,7 +100,7 @@ const CheckoutForm = () => {
   
   };
   
-  console.log(totalAmount);
+  // console.log(totalAmount);
 
   const [loading, setLoading] = useState(false);
   const handleSubmit = async (e, message) => {
@@ -129,10 +115,10 @@ const CheckoutForm = () => {
       setLoading(true);
 
       if (!error) {
-        console.log(paymentMethod);
+        // console.log(paymentMethod);
         const { id } = paymentMethod;
         let stripeId = JSON.parse(localStorage.getItem("stripe"));
-        console.log(stripeId[0].id);
+        // console.log(stripeId[0].id);
         try {
           const { data } = await axios.post(
             "https://flybooks.up.railway.app/api/checkout",
@@ -145,9 +131,9 @@ const CheckoutForm = () => {
           );
 
           let session = JSON.parse(localStorage.getItem("session"));
-          console.log(data.customer);
+          // console.log(data.customer);
           elements.getElement(CardElement).clear();
-          console.log("CardElement", CardElement);
+          // console.log("CardElement", CardElement);
           MySwal.fire("Thank You for your purchase!", message, "success");
           const date = new Date()
           const hour = [date.getHours(), date.getMinutes(), date.getSeconds()].join(':')
@@ -184,7 +170,7 @@ const CheckoutForm = () => {
      
     let products=[]
     products.push(getCart.map((e) =>e))
-            console.log(products);  
+            // console.log(products);  
       dispatch(cartMailing({
         username:session[0].username,
         email:session[0].email,
@@ -196,7 +182,7 @@ const CheckoutForm = () => {
           localStorage.setItem("cart", "[]");
           dispatch(clearStorage(session[0].id));
         } catch (error) {
-          console.log(error);
+          // console.log(error);
         }
         setLoading(false);
       }

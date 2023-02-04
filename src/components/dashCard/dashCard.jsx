@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { getAllBooks, disablePost, deletePost } from "../../redux/actions";
-import DashCardForm from '../dashCardForm/dashCardForm';
+import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { deletePost, disablePost, getAllBooks } from "../../redux/actions";
+import DashCardForm from '../dashCardForm/dashCardForm';
 
-import DialogTitle from '@mui/material/DialogTitle';
-import defaultImage from '../../assets/bookDefault.png';
-import s from './dashCard.module.css';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import defaultImage from '../../assets/bookDefault.png';
+import s from './dashCard.module.css';
 
 
 

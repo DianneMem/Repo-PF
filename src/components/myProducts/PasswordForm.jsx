@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
-import { getAllBooks, getAllUsers, disableUser, deleteUser, modifyUser } from "../../redux/actions";
 import bcrypt from "bcryptjs-react";
+import React, { useState } from 'react';
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { getAllUsers, modifyUser } from "../../redux/actions";
 
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
 
 
 
@@ -24,15 +24,15 @@ export default function PasswordForm({user}){
 const dispatch = useDispatch();
 const navigate = useNavigate();
 const MySwal = withReactContent(Swal);
-const users = useSelector((state) => state.users);
+// const users = useSelector((state) => state.users);
 
 // Local States
 const [input, setInput] = useState({});
 const [error, setError] = useState({});
 const [open, setOpen] = useState(false);
 
-if(open) console.log(input);
-if(open) console.log('formError', error);
+// if(open) console.log(input);
+// if(open) console.log('formError', error);
 
 const initialDataJson = JSON.stringify({
   oldPassword: '',
@@ -105,7 +105,7 @@ async function modifyUserById(){
 
 function validate(input){
   const error = {};
-  let RegEXP = /[`ª!@#$%^*-+\=\[\]{};"\\|,<>\/~]/;
+  let RegEXP = /[`ª!@#$%^*-+=[\]{};"\\|,<>/~]/;
   if (!input.address) {
     error.address = "Addres required";
   } else if (RegEXP.test(input.address)){

@@ -1,8 +1,4 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import { createCustomer, createUser, findUserStripe, getAllUsers } from "../../redux/actions";
-import { Google, LockClockOutlined, Send } from "@mui/icons-material";
+import { LockClockOutlined, Send } from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -11,9 +7,12 @@ import {
   CssBaseline,
   Grid,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { createCustomer, createUser, getAllUsers } from "../../redux/actions";
 
 export const Register = () => {
   const [errors, setError] = useState({});
@@ -31,7 +30,7 @@ export const Register = () => {
     password: "",
     confirmation: "",
   });
-  console.log(input);
+  // console.log(input);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,20 +58,20 @@ export const Register = () => {
     }
   };
 
-  const handleGoogle = () => {
-    dispatch(createCustomer());
+  // const handleGoogle = () => {
+  //   dispatch(createCustomer());
 
-  };
+  // };
 
   const handleUser = (e) => {
     setInputs({ ...input, [e.target.name]: e.target.value });
     setError(validate({ ...input, [e.target.name]: e.target.value }));
-    console.log(input);
+    // console.log(input);
   };
 
   function validate(input) {
     const errors = {};
-    let RegEXP = /[`ª!@#$%^*-+\=\[\]{};"\\|,<>\/~]/;
+    let RegEXP = /[`ª!@#$%^*-+=[\]{};"\\|,<>/~]/;
     if (!input.username) {
       errors.username = "Username required";
     } else if (RegEXP.test(input.username)) {
@@ -106,10 +105,10 @@ export const Register = () => {
       <Grid
         container
         component="main"
-        sx={{ height: "100vh", padding: 6 }}
+        sx={{ height: "100vh"}}
         className="texts-login"
       >
-        <Container component="main" maxWidth="md" sx={{ bgcolor: "#ebebeb", borderRadius: 2 }}>
+        <Container component="main" maxWidth="md" sx={{ bgcolor: "#ebebeb", borderRadius: 2,height:"100vh"}}>
           <CssBaseline />
           <Box
             sx={{
@@ -203,7 +202,7 @@ export const Register = () => {
                 Sign Up
               </Button>
 
-              <Button 
+              {/* <Button 
               variant="outlined" 
               fullWidth 
               sx={{ mb: 2, border: 1, color: "#013a63" }}
@@ -212,7 +211,7 @@ export const Register = () => {
               >
                 <Google />
                 <Typography sx={{ ml: 1, color: "#013a63" }}>Google</Typography>
-              </Button>
+              </Button> */}
 
               <Grid container justifyContent="flex-end">
                 <Grid item sx={{opacity: 0.7}}>

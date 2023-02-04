@@ -1,42 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getAllBooks, getAllUsers , disablePost, deletePost, getCategories,  getGenders, getLanguages, getAllAuthor, getAllSaga, getAllEditorial, filterBooks } from "../../redux/actions";
-import { Link } from "react-router-dom";
-import DashCard from "../dashCard/dashCard";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { filterBooks, getAllAuthor, getAllBooks, getAllEditorial, getAllSaga, getAllUsers, getCategories, getGenders, getLanguages } from "../../redux/actions";
 import CreatePost from "../createProduct/CreateProduct";
-import DashUserNew from "../dashUserNew/dashUserNew";
-import Paginated from "../paginado/Paginated";
-import Loader from "../loader/Loader";
-import Header from "../header/Header";
-import SideBar from "../sidebar/Sidebar";
+import DashCard from "../dashCard/dashCard";
 import DashUser from "../dashUser/dashUser";
-import {Register} from "../register/Register";
+import DashUserNew from "../dashUserNew/dashUserNew";
+import Header from "../header/Header";
+import Loader from "../loader/Loader";
+import Paginated from "../paginado/Paginated";
+import SideBar from "../sidebar/Sidebar";
 import s from "./dashboardAdmin.module.css";
 
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
+import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import CachedOutlinedIcon from '@mui/icons-material/CachedOutlined';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 
-import { FaUser } from 'react-icons/fa'
+import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import ReviewsOutlinedIcon from '@mui/icons-material/ReviewsOutlined';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import SellOutlinedIcon from '@mui/icons-material/SellOutlined';
-import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
-import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 
 export default function DashAdmin() {
   // Call Global States

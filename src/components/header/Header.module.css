@@ -14,9 +14,9 @@ color: var(--bs-text-light);
 display: flex;
 justify-content: space-between;
 padding-left: 2rem;
-padding-right: 2rem;
+/* padding-right: 2rem; */
 align-items: center;
-width: 100%;
+width: 100vw;
 padding: 0 !important;
 margin: 0;
 left: 0;
