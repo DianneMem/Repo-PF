@@ -19,7 +19,7 @@ export default function InfoBuy({Purchase}){
 const dispatch = useDispatch();
 useEffect(() => {
   dispatch(getUsersDetail(Purchase.sellerId));
-}, [dispatch]);
+});
 
 const allBooks = useSelector((state) => state.allbooks);
 const product = Purchase.productId;
@@ -35,7 +35,7 @@ if (allScores.length){
 
 const day = Purchase.date.split(' ');
 
-const buyer = Purchase.buyerId;
+// const buyer = Purchase.buyerId;
 const [open, setOpen] = useState(false);
 
 // Functions

@@ -153,7 +153,7 @@ const rootReducer = (state = initialState, { type, payload }) => {
 
       };
     case GET_MY_BOOKS:
-      console.log(state.myproductDetail);
+      // console.log(state.myproductDetail);
       return {
         ...state,
         myproductDetail: payload
@@ -341,8 +341,8 @@ const rootReducer = (state = initialState, { type, payload }) => {
         darkMode: !state.darkMode
       }
     case SEARCH_BOOKS:
-      console.log(state.books.length);
-      console.log(payload);
+      // console.log(state.books.length);
+      // console.log(payload);
 
       return {
         ...state,

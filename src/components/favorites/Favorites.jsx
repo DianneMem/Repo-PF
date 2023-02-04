@@ -1,24 +1,21 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addStorage,
   clearFavorites,
   deleteFavoriteItemById,
-  getUsersDetail,
+  getUsersDetail
 } from "../../redux/actions";
 
+import { Delete } from "@mui/icons-material";
+import Add from "@mui/icons-material/Add";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import Stack from "@mui/joy/Stack";
+import { Box, Button, CardMedia, Grid, Typography } from "@mui/material";
+import Alert from '@mui/material/Alert';
+// import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { useNavigate } from "react-router-dom";
-import Add from "@mui/icons-material/Add";
-import { Button, Grid, Box, CardMedia, Divider } from "@mui/material";
-import { Typography } from "@mui/material";
-import Stack from "@mui/joy/Stack";
-import { Delete} from "@mui/icons-material";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import Alert from '@mui/material/Alert';
 
 export default function Favorites() {
   const MySwal = withReactContent(Swal);
@@ -29,7 +26,7 @@ export default function Favorites() {
   let getCart = JSON.parse(localStorage.getItem("cart"));
   const dispatch = useDispatch();
   const usersDetail = useSelector((state) => state.userDetail);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   let favscurrent = JSON.parse(localStorage.getItem("favs"));
 
@@ -38,9 +35,9 @@ export default function Favorites() {
     let session = JSON.parse(localStorage.getItem("session"));
     let id = session[0].id;
     dispatch(getUsersDetail(id));
-  }, [handlerDeleteAll,deleteItem]);
+  }, );
 
-  console.log("detail", usersDetail);
+  // console.log("detail", usersDetail);
 
   // Loading SetTimeOut
 
@@ -52,7 +49,7 @@ export default function Favorites() {
     let userId = JSON.parse(localStorage.getItem("session"));
     if (userId) {
       let id = userId[0].id;
-      console.log(detail);
+      // console.log(detail);
       getCart.filter((e) => e._id === detail._id).length < 1
         ? getCart.push(detail)
         : MySwal.fire(
@@ -65,7 +62,7 @@ export default function Favorites() {
         dispatch(addStorage(id, detail));
       }
 
-      console.log(getCart);
+      // console.log(getCart);
     } else {
       if (!localStorage.getItem("cart")) {
         localStorage.setItem("cart", "[]");
@@ -110,7 +107,7 @@ export default function Favorites() {
 
   }
 
-  console.log(usersDetail);
+  // console.log(usersDetail);
   return (
     favscurrent.length ? 
     <Grid>
@@ -147,7 +144,7 @@ export default function Favorites() {
                   width: 220,
                   // height: "450%",
                   border: "dotted",
-                  border: 5,
+                  // border: ,
                   borderColor: "white",
                   borderRadius: 6,
                   marginBottom: 6,

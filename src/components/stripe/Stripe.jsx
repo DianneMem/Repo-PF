@@ -1,31 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-import { useSelector, useDispatch } from "react-redux";
-import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-  AddressElement,
-} from "@stripe/react-stripe-js";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import {
-  addBuyerToProduct,
-  addPurchases,
-  balanceProfile,
-  deleteStorageItemById,
-  disablePost,
-  getBooksDetails,
-  getUsersDetail,
-  payMailing,
-} from "../../redux/actions";
-import "./Stripe.css";
-import Header from "../header/Header";
-import Swal from "sweetalert2";
-import jwt from "jwt-decode";
-import withReactContent from "sweetalert2-react-content";
 import {
   Box,
   Button,
@@ -35,18 +9,38 @@ import {
   List,
   ListItem,
   ListItemText,
-  Typography,
+  Typography
 } from "@mui/material";
+import {
+  AddressElement, CardElement, Elements, useElements, useStripe
+} from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import {
+  addBuyerToProduct,
+  addPurchases,
+  balanceProfile,
+  deleteStorageItemById,
+  disablePost,
+  getBooksDetails,
+  getUsersDetail,
+  payMailing
+} from "../../redux/actions";
+import Header from "../header/Header";
+import "./Stripe.css";
 
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import { width } from "@mui/system";
+import { styled } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const stripePromise = loadStripe(
  "pk_test_51MEajtLJTt31yzza3WX4jHFtoY2chXZjf8JxyJdYL1PC4zY3WNWc3sf0a0kHToBWpf1PORn5UL5jZAnebi7EVczd00zXYRDt4g"
 );
-console.log(  process.env);
+// console.log(  process.env);
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -115,7 +109,7 @@ const CheckoutForm = () => {
 
 
         try {
-          const { data } = await axios.post(
+       await axios.post(
             "https://flybooks.up.railway.app/api/checkout",
             {
               id,
@@ -169,7 +163,7 @@ const CheckoutForm = () => {
           MySwal.fire("Thank You for your purchase!", message, "success");
           navigate("/");
         } catch (error) {
-          console.log(error);
+          // console.log(error);
         }
         setLoading(false);
       }
@@ -181,7 +175,7 @@ const CheckoutForm = () => {
       );
       navigate("/login");
     }
-    console.log(userState);
+    // console.log(userState);
   };
 
   return (
@@ -345,7 +339,7 @@ const CheckoutForm = () => {
                         onChange={(event) => {
                           if (event.complete) {
                             // Extract potentially complete address
-                            const address = event.value.address;
+                        
                           }
                         }}
                       />

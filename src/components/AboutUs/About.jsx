@@ -1,16 +1,15 @@
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import React from 'react';
-import s from './About.module.css';
-import { BsLinkedin, BsGithub, BsTwitter } from 'react-icons/bs';
-import Footer from '../Footer/Footer';
-import { Link } from 'react-router-dom';
+import { BsGithub, BsLinkedin } from 'react-icons/bs';
 import Gonza from '../../assets/Gonza.jpg';
 import Juampi from '../../assets/Juampi.jpg';
 import Karen from '../../assets/Karen.jpg';
 import Lucas from '../../assets/Lucas.jpg';
 import Toto from '../../assets/Toto.jpg';
 import Header from '../../components/header/Header.jsx';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import Footer from '../Footer/Footer';
+import s from './About.module.css';
 
 
 

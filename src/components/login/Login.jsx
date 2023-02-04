@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import jwt from "jwt-decode";
+// import jwt from "jwt-decode";
 import "./login.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import bcrypt from "bcryptjs-react";
-import Loader from "../loader/Loader";
+// import Loader from "../loader/Loader";
 
 import withReactContent from "sweetalert2-react-content";
 import {
-  createCustomer,
+  // createCustomer,
   findUserStripe,
   getAllUsers,
-  loginGoogle,
+  // loginGoogle,
   loginUser,
 } from "../../redux/actions";
 import {
@@ -32,7 +32,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Google, Send, Visibility, VisibilityOff } from "@mui/icons-material";
+// import { Google } from "@mui/icons-material";
+import {  Send, Visibility, VisibilityOff } from "@mui/icons-material";
 
 export const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -52,15 +53,6 @@ export const Login = () => {
   const user = users.find(
     (e) => e.username.toLowerCase() === input.username.toLowerCase()
   );
-
-  const result = [];
-  const userg = users.map(e => { 
-     if(e.google === true){
-      result.push(e);
-    }
-  });
-  const current = result[result.length -1];
-  
 
   const handleSubmit = async (e, message) => {
     e.preventDefault();
@@ -102,32 +94,27 @@ export const Login = () => {
 
   const handleUser = (e) => {
     setInputs({ ...input, [e.target.name]: e.target.value });
-    console.log(input);
+      // console.log(input);
   };
 
-  
-    // const num = user.length -1;
-    // const userfind = userg[num];
-  const handleGoogle = () => {
-    dispatch(createCustomer());
-    dispatch(findUserStripe(current.username));
-
-    dispatch(loginGoogle())
-    navigate("/")
+  // const handleGoogle = () => {
+  //   dispatch(createCustomer());
+  //   dispatch(findUserStripe());
     
-    // let cookie=jwt(document.cookie.split(";"))
-    // let hola=cookie.split(";")
-    // let chau= hola[0].split("jwt=")
+  //   let cookie=jwt(document.cookie.split(";"))
+  //   let hola=cookie.split(";")
+  //   let chau= hola[0].split("jwt=")
    
-    //   // if(cookie){
+  //     // if(cookie){
         
-    //   // }
-    // console.log(cookie);
-    //     localStorage.setItem("session","[]")
-    //     let aux=JSON.parse(localStorage.getItem("session"))
-    //     aux.push(chau[1])
-    //     localStorage.setItem("session",JSON.stringify(aux))
-  };
+  //     // }
+  //   console.log(cookie);
+  //       localStorage.setItem("session","[]")
+  //       let aux=JSON.parse(localStorage.getItem("session"))
+  //       aux.push(chau[1])
+  //       localStorage.setItem("session",JSON.stringify(aux))
+    
+  // };
 
 
 
@@ -226,16 +213,16 @@ export const Login = () => {
               >
                 Sign In
               </Button>
-              <Button 
+              {/* <Button 
               variant="outlined" 
               fullWidth 
               sx={{ mb: 2, border: 1, color: "#013a63" }}
-              // href="http://localhost:3001/google/signin"
+              href="http://localhost:3001/google/signin"
               onClick={(e) => handleGoogle(e)}
               >
                 <Google />
                 <Typography sx={{ ml: 1, color: "#013a63" }}>Google</Typography>
-              </Button>
+              </Button> */}
 
               <Grid container>
                 <Grid item xs sx={{ opacity: 0.7 }}>

@@ -1,24 +1,23 @@
-import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import SearchBar from "../searchBar/SearchBar";
-import logo from "../../assets/logo.PNG";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import MenuItem from "@mui/material/MenuItem";
-import Badge from '@mui/material/Badge';
-import { Button } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
 import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
+import MenuIcon from "@mui/icons-material/Menu";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import SupervisorAccountRoundedIcon from "@mui/icons-material/SupervisorAccountRounded";
+import { Button } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import logo from "../../assets/logo.PNG";
+import SearchBar from "../searchBar/SearchBar";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -58,7 +57,7 @@ export default function Header() {
               component="a"
               href="/"
               sx={{
-                mr: 2,
+                mr: 0,
                 display: { xs: "none", md: "flex" },
                 fontFamily: "monospace",
                 fontWeight: 700,

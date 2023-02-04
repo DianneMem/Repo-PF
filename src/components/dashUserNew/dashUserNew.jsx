@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import {  createCustomer, createUserFromAdmin, getAllUsers } from "../../redux/actions";
-import bcrypt from "bcryptjs-react";
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { LockClockOutlined, Pageview, Send } from '@mui/icons-material';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import FormControl from '@mui/material/FormControl';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import { Pageview } from '@mui/icons-material';
 import {
   Avatar,
   Box,
   Container,
   CssBaseline,
   Grid,
-  Typography,
+  Typography
 } from "@mui/material";
-import {  LockClockOutlined, Send } from "@mui/icons-material";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import FormControl from '@mui/material/FormControl';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import TextField from '@mui/material/TextField';
+import bcrypt from "bcryptjs-react";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { createCustomer, createUserFromAdmin, getAllUsers } from "../../redux/actions";
 
 
 
@@ -50,7 +49,7 @@ const [input, setInputs] = useState({
   confirmation: "",
   role:"user",
 });
-if(open) console.log(input);
+// if(open) console.log(input);
 
 
 // Functions
@@ -116,12 +115,12 @@ async function handleSubmit(e){
 function handleUser(e){
   setInputs({ ...input, [e.target.name]: e.target.value });
   setError(validate({ ...input, [e.target.name]: e.target.value }));
-  console.log(input);
+    // console.log(input);
 };
 
 function validate(input){
   const errors = {};
-  let RegEXP = /[`ª!@#$%^*-+\=\[\]{};"\\|,<>\/~]/;
+  let RegEXP = /[`ª!@#$%^*-+=[\]{};"\\|,<>/~]/;
   if (!input.username) {
     errors.username = "Username required";
   } else if (RegEXP.test(input.username)) {

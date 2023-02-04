@@ -615,11 +615,11 @@ export const clearFavorites = (id) => {
 export const getMyProducts = (id) => {
   return async (dispatch) => {
     try {
-      const pay = await axios.get(`${deploy}/profile/user/${id}/`)
+    await axios.get(`${deploy}/profile/user/${id}/`)
       return dispatch({
         type: GET_MY_PRODUCTS
       })
-      console.log(pay)
+
     } catch (e) {
       console.log(e);
     }
@@ -759,7 +759,7 @@ export function modifyPost(id, payload) {
 export function recoverPassword(payload) {
   return async function () {
     try {
-      let user = await axios.post(`${deploy}/local/recover-password`, payload);
+      await axios.post(`${deploy}/local/recover-password`, payload);
     } catch (error) {
       console.log(error);
     }

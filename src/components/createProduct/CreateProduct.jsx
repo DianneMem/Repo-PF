@@ -1,44 +1,32 @@
-import React from "react";
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  createPost,
-  getCategories,
-  getLanguages,
-  getGenders,
-  startUploadingFile,
-  clearImage,
-} from "../../redux/actions";
-import { spacing } from '@mui/system';
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../loader/Loader";
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-import { UploadOutlined } from "@mui/icons-material";
-import { useRef } from "react";
-import "./CreateProduct.css";
-import Header from "../header/Header";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import CreateProductPreview from "../createProductPreview/CreateProductPreview";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import { UploadOutlined } from "@mui/icons-material";
+import {
+  Box,
+  Button, Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField
+} from "@mui/material";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import {
+  clearImage, createPost,
+  getCategories, getGenders, getLanguages, startUploadingFile
+} from "../../redux/actions";
+import CreateProductPreview from "../createProductPreview/CreateProductPreview";
+import Header from "../header/Header";
+import "./CreateProduct.css";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -57,7 +45,7 @@ export default function CreatePost() {
   const [err, setErr] = useState({});
   const MySwal = withReactContent(Swal);
   const [order, SetOrder] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
   let username = JSON.parse(localStorage.getItem("session"));
   const isActive=useMediaQuery("(max-width:600px)")
@@ -77,7 +65,7 @@ export default function CreatePost() {
     seller: username[0].username,
     sellerId: username[0].id,
   });
-  console.log(input);
+  // console.log(input);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -171,8 +159,8 @@ export default function CreatePost() {
   function validate(input) {
     let fecha = new Date();
     let añoActual = fecha.getFullYear();
-    console.log(añoActual);
-    let RegEXP = /[`ª!@#$%^*_+\=\[\]{};"\\|,<>\/~]/;
+    // console.log(añoActual);
+    let RegEXP = /[`ª!@#$%^*_+=[\]{};"\\|,<>/~]/;
     let err = {};
     if (!input.title) {
       err.title = "· Title is required";
@@ -195,7 +183,7 @@ export default function CreatePost() {
     } else if (!input.price || input.price < 0) {
       err.price = "· Price input Error";
     }
-    console.log(err);
+    // console.log(err);
     SetOrder("");
     err.input = "· Input required";
     return err;

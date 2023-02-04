@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { getAllBooks, modifyPost } from "../../redux/actions";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import defaultImage from '../../assets/bookDefault.png';
+import { getAllBooks, modifyPost } from "../../redux/actions";
 
-import Modal from '@mui/material/Modal';
+import { Typography } from '@mui/material';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import Checkbox from '@mui/material/Checkbox';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
-import InputAdornment from '@mui/material/InputAdornment';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
-import { Typography } from '@mui/material';
+import InputLabel from '@mui/material/InputLabel';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
 
 
 
@@ -58,8 +55,8 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
   const [error, setError] = useState({});
   const [open, setOpen] = useState(false);
   
-  if(open) console.log(input);
-  if(open) console.log('formError', error);
+  // if(open) console.log(input);
+  // if(open) console.log('formError', error);
 
   const initialDataJson = JSON.stringify({
     title: title,
@@ -103,7 +100,7 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
   
   function validate(input){
     let actualYear = new Date().getFullYear();
-    let RegEXP = /[`ª!@#$%^*_+\=\[\]{};"\\|,<>\/~]/;
+    let RegEXP = /[`ª!@#$%^*_+=[\]{};"\\|,<>/~]/;
     let err = {};
     
     if (!input.title) {err.title = "· Title is required"} 
@@ -182,7 +179,7 @@ export default function DashCardForm({ id, title ,author, editorial, language, y
   
   async function modifyMUI(){
     const inputSend = input;
-    console.log('SEND', inputSend);
+    // console.log('SEND', inputSend); 
     await dispatch(modifyPost(id, inputSend));
     dispatch(getAllBooks());
     handleClose();

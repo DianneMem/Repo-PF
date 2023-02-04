@@ -1,33 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { deletePost, getAllBooks, modifyMyPosts, modifyPost } from "../../redux/actions";
-import ProductionQuantityLimitsIcon from "@mui/icons-material/ProductionQuantityLimits";
-import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
-import jwt from "jwt-decode";
 import {
   Box,
   Button,
   CardMedia,
   Dialog,
-  DialogContentText,
-  Divider,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  MenuItem,
+  DialogContentText, Grid, ListItem, MenuItem,
   Select,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import defaultImage from "../../assets/bookDefault.png";
+import { styled } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import defaultImage from "../../assets/bookDefault.png";
+import { deletePost, getAllBooks, modifyMyPosts, modifyPost } from "../../redux/actions";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -101,12 +90,12 @@ export default function MyProducts({
   const allCategories = useSelector((state) => state.categories);
   const allGenders = useSelector((state) => state.genders);
   const allLanguages = useSelector((state) => state.languages);
-  const allproducts = useSelector((state) => state.allbooks);
-  let session = JSON.parse(localStorage.getItem("session"));
-  let aux = allproducts.filter((e) => e.sellerId === session[0].id);
+  // const allproducts = useSelector((state) => state.allbooks);
+  // let session = JSON.parse(localStorage.getItem("session"));
+  // let aux = allproducts.filter((e) => e.sellerId === session[0].id);
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
-  console.log(open);
+  // console.log(open);
   // Local States
   const [isForm, setIsForm] = useState(false);
   const [input, setInput] = useState({
@@ -122,8 +111,8 @@ export default function MyProducts({
     gender: gender,
   });
   const [error, setError] = useState({});
-  if (isForm) console.log(input);
-  if (isForm) console.log("formError", error);
+  // if (isForm) console.log(input);
+  // if (isForm) console.log("formError", error);
 
   function switchForm(e) {
     e.preventDefault();
@@ -149,7 +138,7 @@ export default function MyProducts({
 
   function validate(input) {
     let actualYear = new Date().getFullYear();
-    let RegEXP = /[`ª!@#$%^*_+\=\[\]{};"\\|,<>\/~]/;
+    let RegEXP = /[`ª!@#$%^*_+=[\]{};"\\|,<>/~]/;
     let err = {};
 
     if (!input.title) {
@@ -878,7 +867,7 @@ export default function MyProducts({
                       alt="Book"
                     /> 
                     </Grid>
-                    {console.log(buyers.length)}
+                    {/* {console.log(buyers.length)} */}
                     {buyers.length<1?             
                     <Grid  item xs={1} sx={{ml:6,mt:2}}>  
                       {available ? (

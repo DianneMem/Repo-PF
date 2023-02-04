@@ -46,7 +46,7 @@ export default function Reviews() {
   });
   
  
-  if(open) console.log("input", input);
+  // if(open) console.log("input", input);
   
   
   

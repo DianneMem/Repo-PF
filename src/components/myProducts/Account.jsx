@@ -1,21 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { getUsersDetail } from "../../redux/actions";
 import PasswordForm from "./PasswordForm";
-import DefaultUser from "../../assets/user1.png"
 
+import { Box } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import AspectRatio from '@mui/joy/AspectRatio';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import { deepOrange, deepPurple } from '@mui/material/colors';
-import { Box } from '@mui/material';
 
 
 export default function Account() {
@@ -25,7 +18,7 @@ export default function Account() {
   const session = JSON.parse(localStorage.getItem("session"));
   useEffect(() => {
     dispatch(getUsersDetail(session[0].id));
-  }, [dispatch]);
+  }, );
   
   const user = useSelector((state) => state.userDetail[0]);
   let role ='';

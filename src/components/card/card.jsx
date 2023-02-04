@@ -1,24 +1,21 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { FiHeart } from "react-icons/fi";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import defaultImage from "../../assets/bookDefault.png";
+import { addFavorites, addStorage } from "../../redux/actions";
 import s from "./card.module.css";
-import { useDispatch } from "react-redux";
-import { addFavorites,addStorage } from "../../redux/actions";
 
-import { Button, Grid, Box, CardMedia, Divider } from "@mui/material";
-import { Typography } from "@mui/material";
 import { Favorite } from "@mui/icons-material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import Stack from "@mui/joy/Stack";
+import { Box, Button, CardMedia, Grid, Typography } from "@mui/material";
 
 
 
 export default function Card({ id, title, image, type, price, author, product }) {
   // Only First Mayus
-  let getCart = JSON.parse(localStorage.getItem("cart"));
+  // let getCart = JSON.parse(localStorage.getItem("cart"));
   let titlemod = title.toLowerCase().split(" ").join(" ");
   let mayus = title[0].toUpperCase();
   titlemod = mayus + titlemod.slice(1, titlemod.length);
@@ -82,7 +79,7 @@ export default function Card({ id, title, image, type, price, author, product })
     let userId = JSON.parse(localStorage.getItem("session"));
     if (userId) {
       let id = userId[0].id;
-      console.log(detail);
+      // console.log(detail);
 
       let getCart = JSON.parse(localStorage.getItem("cart"));
       localStorage.setItem("cart", JSON.stringify(getCart));
@@ -100,7 +97,7 @@ export default function Card({ id, title, image, type, price, author, product })
       }
       localStorage.setItem("cart", JSON.stringify(getCart))
 
-      console.log(getCart);
+      // console.log(getCart);
     } else {
       if (!localStorage.getItem("cart")) {
         localStorage.setItem("cart", "[]");
