@@ -31,6 +31,7 @@ export const SEARCH_BOOKS = "SEARCH_BOOKS";
 
 const localhost = "http://localhost:3001";
 const deploy = 'https://flybooks.up.railway.app'
+// const deploy = 'http://localhost:3001'
 
 
 export function searchBooks(payload) {
@@ -77,6 +78,19 @@ export function loginUser(payload) {
       }
     };
   }
+}
+export function loginGoogle() {
+    return async function (dispatch) {
+      try {
+        let token = await axios.get(`${deploy}/logingoogle/login-google`);
+        return dispatch({
+          type: GET_TOKEN,
+          payload: token.data
+        })
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
 }
 
 
